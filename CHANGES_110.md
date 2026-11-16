@@ -35,7 +35,7 @@ elenco non si mostrano numeri sbagliati.
 "guarda la porta", "torna il sorriso", "la giornata non è finita"; la serie dice "se ti va"; ai ragazzi niente frase sulla serie.
 Anche il "bentornato" non dice più "ti stava aspettando".
 
-7) **Statistiche anonime con un interruttore** in Profilo › Privacy ed età. Sono **sempre spente** per minori ed età non detta, e
+7) **Statistiche anonime con un interruttore** in Profilo › Privacy ed età. Sono **sempre spente** per chi è sotto l'età del consenso digitale del suo Paese (in Italia 14 anni) e per chi non ha detto l'età, e
 **prima della domanda sull'età non si conta niente**. Una frase nuova lo dice nell'informativa (14 lingue).
 
 8) **Riconoscimento delle frasi difficili unito al lavoro di sicurezza:** su frasi nuove mai viste prima (scritte apposta per

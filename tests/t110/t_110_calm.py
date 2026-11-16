@@ -21,6 +21,13 @@ async def main(b):
     tels = await T.ev(pg, "[...document.querySelectorAll('.v26sos a[href^=\"tel:\"]')].map((a) => a.getAttribute('href'))")
     T.check("scheda di aiuto: numeri da toccare (19696, 112, Telefono Amico)", "tel:19696" in tels and "tel:112" in tels and "tel:0223272327" in tels, tels)
     T.check("findahelpline resta testo", await T.ev(pg, "(document.querySelector('.v26sos') || {}).textContent.includes('findahelpline.com')"))
+    await T.close_layer(pg); await T.ev(pg, "layer.innerHTML=''; openChat(); 1"); await pg.wait_for_timeout(400)
+    await pg.fill("#chIn", "voglio morire"); await T.ev(pg, "document.getElementById('chForm').requestSubmit(); 1"); await pg.wait_for_timeout(2500)
+    ct = await T.ev(pg, "[...document.querySelectorAll('.cmsg.sos a[href^=\"tel:\"]')].map((a) => a.getAttribute('href'))")
+    T.check("chat: anche qui i numeri di aiuto si toccano per chiamare", "tel:19696" in ct and "tel:112" in ct, ct)
+    T.check("chat: findahelpline.com e' un link", await T.ev(pg, "!!document.querySelector('.cmsg.sos a[href=\"https://findahelpline.com\"]')"))
+    hgt = await T.ev(pg, "Math.round(document.querySelector('.cmsg.sos a[href^=\"tel:\"]').getBoundingClientRect().height)")
+    T.check("numeri da toccare alti almeno 48 px", hgt >= 48, hgt)
     T.check("nessun errore", not pg.errs, pg.errs[:3])
     await ctx.close()
 

@@ -250,7 +250,9 @@ function secSanitizeImport(st, trustHint) {
   if (typeof o.lang === "string" && !T[o.lang]) o.lang = "en";
   if (Array.isArray(o.goals)) { const seen = new Set(); o.goals = o.goals.filter((g) => !seen.has(g.id) && seen.add(g.id)); }
   secFixMeaning(o);
-  ["plusOn", "plusCheck", "plusSince", "dev"].forEach((k) => { delete o[k]; });
+  /* 1.0.10: l'eta' resta quella detta su QUESTO telefono (non arriva mai da un file o da un codice: le copie vere non la
+     contengono) e la coda delle statistiche non si importa */
+  ["plusOn", "plusCheck", "plusSince", "dev", "age", "v26q"].forEach((k) => { delete o[k]; });
   if (!trusted) { try { secStrict(o); } catch (e) { /* niente */ } }
   try { Object.defineProperty(o, "__secTrust", { value: trusted, enumerable: false, configurable: true }); } catch (e) { /* niente */ }
   secLastTrust = trusted;

@@ -79,11 +79,17 @@ document.addEventListener("click", (ev) => {
   const f = ageAfter; openAge(f); v110AgeWant = null;
   try { const m = document.getElementById("ageM"), y = document.getElementById("ageY"), g = document.getElementById("ageGo"); m.value = String(a.m); y.value = String(a.y); if (g) g.disabled = false; } catch (e) { /* niente */ }
 }, true);
+/* ripristino da file, codice o backup online: subito l'eta' di questo telefono (non si aspetta il controllo ogni 1,2 s) */
+function v110AgeKeep() { try { ageFromMirror(); } catch (e) { /* niente */ } }
+/* il "Si'" della domanda "Sostituire i progressi?" assegna lo stato dopo: si rilegge l'eta' subito dopo ogni tocco */
+document.addEventListener("click", () => { setTimeout(() => { try { if (S.age === undefined) ageFromMirror(); } catch (e) { /* niente */ } }, 0); });
+if (typeof restoreFrom === "function") { const _a = restoreFrom; restoreFrom = function (...a) { const r = _a.apply(this, a); v110AgeKeep(); return r; }; }
+if (typeof applyCloud === "function") { const _a = applyCloud; applyCloud = function (...a) { const r = _a.apply(this, a); v110AgeKeep(); return r; }; }
 /* scheda "La tua eta'" nel Profilo: chi l'ha detta legge anche che non si cambia piu' */
 if (typeof psAgeCard === "function") {
   const _psAgeCardV110 = psAgeCard;
   psAgeCard = function (...a) {
     const h = _psAgeCardV110.apply(this, a); if (!h || !S.age || S.age.skip || !S.age.y) return h;
-    return h.replace(/<\/div>$/, `<p class="small muted v110agelock">${esc(v110AgeT()[6])}</p></div>`);
+    return h.replace(/(<div class="card stack-s psage">[\s\S]*?)(<\/div>)/, `$1<p class="small muted v110agelock">${esc(v110AgeT()[6])}</p>$2`);
   };
 }

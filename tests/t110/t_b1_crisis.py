@@ -55,6 +55,18 @@ async def main(b):
     T.check("livello gentile: 'ho paura di morire' / 'ich hasse mein leben' = 1; 'my grandpa died' e frase normale = 0", soft == [1, 0, 1, 0], soft)
     # inglese in piu' in ogni lingua
     T.check("frase inglese di crisi riconosciuta anche con l'app in italiano", await T.ev(pg, "crisisLevel('I want to kill myself', 'it')") == 2)
+    # critica indipendente 1.0.10: frasi nuove mai viste, inglese con l'app in un'altra lingua, falsi allarmi
+    CR = [("it", "i dont want to live anymore", 2), ("it", "kms", 2), ("it", "i wish i was dead", 2), ("es", "i want to end it all", 2),
+          ("de", "ich bringe mich morgen um", 2), ("de", "ich bringe mich bald um", 2), ("it", "non ho più motivi per vivere", 2),
+          ("it", "basta non voglio più esserci", 2), ("it", "oggi mi sono rifatta i tagli sulle gambe", 2), ("en", "i keep cutting my arms", 2),
+          ("en", "no one would care if i disappeared", 2), ("tr", "kendimi yine kestim", 2), ("ko", "다시는 안 깨어났으면 좋겠어", 2),
+          ("ja", "薬を30錠飲んだ", 2), ("zh", "我吃了30片安眠药", 2), ("zht", "我吃了30顆安眠藥", 2),
+          ("zh", "你去死吧", 0), ("zht", "你去死吧", 0), ("zh", "我们做个了断吧", 0), ("it", "mi ha fatto morire quel video", 0),
+          ("de", "ich bringe mich um den schlaf", 0), ("de", "die katze ist süß", 0), ("nl", "ik vind die film leuk", 0),
+          ("it", "ho tanti motivi per vivere", 0), ("it", "ci voglio più esserci a quella festa", 0), ("zh", "我吃了30片饼干", 0)]
+    got = await T.ev(pg, "(" + json.dumps(CR) + ").map(([l, x]) => crisisLevel(x, l))")
+    bad = [(c, g) for c, g in zip(CR, got) if g != c[2]]
+    T.check(f"critica 1.0.10: {len(CR) - len(bad)}/{len(CR)} frasi nuove e falsi allarmi giusti", not bad, bad)
     await ctx.close()
     # chat: risposta con i numeri, gentile, normale
     ctx, pg = await T.page(b, T.base_state("it"), age="adult", lang="it-IT", tz="Europe/Rome")

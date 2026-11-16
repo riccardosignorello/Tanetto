@@ -50,9 +50,25 @@ async def main(b):
         st3 = await T.ev(pg, "[S.age && S.age.y, S.age && S.age.m, ageBand(), !!document.querySelector('.agebox'), JSON.parse(localStorage.getItem('tanetto-eta')).y]")
         T.check(f"eta' {lang}: 'Si'' salva e chiude", st3 == [1991, 5, "adult", False, 1991], st3)
         h = await T.ev(pg, "psAgeCard()")
-        T.check(f"eta' {lang}: nel Profilo niente pulsante per cambiarla e la frase 'non si cambia piu''", "psAge\"" not in h and "v110agelock" in h, h[:300])
+        loc_ = await T.ev(pg, "(() => { const d = document.createElement('div'); d.innerHTML = psAgeCard(); return [!!d.querySelector('.psage .v110agelock'), !!d.querySelector('.psstats .v110agelock'), d.querySelectorAll('.v110agelock').length]; })()")
+        T.check(f"eta' {lang}: nel Profilo niente pulsante per cambiarla e la frase 'non si cambia piu'' dentro la scheda dell'eta'", "psAge\"" not in h and loc_ == [True, False, 1], [loc_, h[:200]])
         T.check(f"eta' {lang}: nessun errore", not pg.errs, pg.errs[:3])
         await ctx.close()
+    # l'eta' non arriva mai da un codice di trasferimento o da un file modificato (critica 1.0.10, punto 2)
+    ctx, pg = await T.page(b, T.base_state("it"), age="child", lang="it-IT")
+    await T.close_layer(pg)
+    r = await T.ev(pg, """(async () => { const st = JSON.parse(JSON.stringify(S)); st.age = { y: 1990, m: 1 }; st.v26q = ['/x'];
+      const code = 'TANETTO0:' + btoa(unescape(encodeURIComponent(JSON.stringify({ app: 'tanetto', v: 1, state: st }))));
+      const got = await unpackState(code); const had = got && ('age' in got); restoreFrom(got);
+      const y = document.querySelector('#rsYes, [data-restore], .box .btn'); if (y) y.click();
+      await new Promise((r) => setTimeout(r, 300)); return [had, S.age && S.age.y, ageBand(), JSON.parse(localStorage.getItem('tanetto-eta')).y, !!S.v26q]; })()""")
+    T.check("codice di trasferimento con un'eta' inventata: l'eta' resta quella del telefono (bambino)", r[0] is False and r[1] == 2017 and r[2] == "child" and r[3] == 2017 and r[4] is False, r)
+    await ctx.close()
+    ctx, pg = await T.page(b, T.base_state("it", age={"y": 1990, "m": 1}), age="child", lang="it-IT")
+    await T.close_layer(pg)
+    r = await T.ev(pg, "[S.age && S.age.y, ageBand()]")
+    T.check("stato salvato con un'eta' diversa dalla copia locale: vince la copia locale", r == [2017, "child"], r)
+    await ctx.close()
     # "Preferisco non dirlo": nessuna conferma, protezioni da bambino
     ctx, pg = await T.page(b, T.base_state("it"), age="none", lang="it-IT")
     await T.close_layer(pg); await T.ev(pg, "openAge(); 1"); await pg.wait_for_timeout(300); await pg.click("#ageSkip"); await pg.wait_for_timeout(400)

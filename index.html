@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-Sqq5OmcYrqbhMcdGR/RTL1aKSBnwnSi+YMA4mTAwYX0=' 'unsafe-eval' https://apis.google.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.goatcounter.com; media-src 'self' data: blob:; connect-src 'self' data: blob: https://*.googleapis.com https://tanettoapp-pet.firebaseapp.com https://*.goatcounter.com; frame-src https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-Lptx5GeIXDxE4trDgsaYzgNzs7E1wVibw6rK/oFPEVA=' 'unsafe-eval' https://apis.google.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.goatcounter.com; media-src 'self' data: blob:; connect-src 'self' data: blob: https://*.googleapis.com https://tanettoapp-pet.firebaseapp.com https://*.goatcounter.com; frame-src https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#F4EFE6">
 <title>Tanetto — a tiny pet for your self-care habits (free app)</title>
@@ -3184,6 +3184,11 @@ html.firstgoal .goal .tick::after { animation-iteration-count: 6; }
 .v26psplit { display: flex; flex-direction: column; gap: 6px; } .v26psplit p { margin: 0; }
 /* 1.0.10 (A-10): nel livello nuovo i coriandoli passano dietro al testo e ai pulsanti (prima coprivano "Condividi") */
 .levelup .box > .fx { z-index: 0; }
+
+/* 1.0.10: numeri di aiuto da toccare (scheda di aiuto e chat): stesso colore del testo, sottolineati, area di tocco 48 px */
+.v26sos a, .cmsg.sos a { color: inherit; text-decoration: underline; text-underline-offset: 3px; display: inline-block; min-height: 48px; line-height: 48px; padding: 0 2px; }
+/* conferma dell'eta': "Correggi" alto almeno 48 px */
+#ageFix { min-height: 48px; }
 
 </style>
 
@@ -22722,7 +22727,7 @@ const V24 = {
     pCtrl: "Titolare del trattamento: Snugbloom Studio – Riccardo Giuseppe Signorello, Italia. Contatto: {email}.",
     pStats: "Statistiche anonime: per capire se l'app è utile contiamo, in forma aggregata, alcune azioni, per esempio quante volte l'app viene aperta, se viene usata nei giorni successivi o quali parti vengono usate (come il negozio o i giochi), e riceviamo segnalazioni anonime degli errori (solo il tipo di errore, mai quello che scrivi). Usiamo GoatCounter, un servizio di statistiche che non usa cookie e non crea profili, gestito dall'Irlanda con i dati su server nell'Unione Europea (Finlandia e Germania). Per inviare il conteggio il dispositivo si collega al servizio, che riceve tecnicamente l'indirizzo IP senza conservarlo in forma identificabile. Base giuridica: legittimo interesse a migliorare l'app (art. 6, par. 1, lett. f del GDPR).",
     pCookie: ["serve solo a far funzionare l'app ed è", "serve solo a far funzionare l'app (e a non contare due volte le statistiche) ed è"],
-    pKids: " Negli Stati Uniti Tanetto non raccoglie informazioni personali dai bambini sotto i 13 anni: gli unici servizi che ricevono un identificativo tecnico sono GoatCounter (l'indirizzo IP, solo per contare e senza conservarlo) e Google AdMob (pubblicità adatta ai bambini, non personalizzata e senza l'ID pubblicità). Genitori e tutori possono scrivere a {email} per qualsiasi domanda o richiesta.",
+    pKids: " Negli Stati Uniti Tanetto non raccoglie informazioni personali dai bambini sotto i 13 anni: l'unico servizio che riceve un identificativo tecnico è Google AdMob (pubblicità adatta ai bambini, non personalizzata e senza l'ID pubblicità), e per loro le statistiche anonime sono sempre spente. Genitori e tutori possono scrivere a {email} per qualsiasi domanda o richiesta.",
     pPaths: [["Profilo › Account e backup › Gestisci account", "Profilo › Account e dati › Gestisci account"], ["Profilo › Scelte sulla pubblicità", "Profilo › Privacy ed età › Scelte sulla pubblicità"]],
     webP: ["(Altro › Ricomincia da capo)", "(Profilo › Account e dati › Ricomincia da capo)"],
     webNo: "Non riesci ad accedere? Scrivi a {email} dall'indirizzo e-mail dell'account: elimineremo l'account e il suo backup entro 30 giorni."
@@ -22732,7 +22737,7 @@ const V24 = {
     pCtrl: "Data controller: Snugbloom Studio – Riccardo Giuseppe Signorello, Italy. Contact: {email}.",
     pStats: "Anonymous statistics: to understand whether the app is useful, we count some actions in aggregate form, for example how often the app is opened, whether it's used on the following days or which parts are used (such as the shop or the games), and we receive anonymous error reports (only the type of error, never what you write). We use GoatCounter, a statistics service with no cookies and no profiles, run from Ireland with data on servers in the European Union (Finland and Germany). To send the count, the device connects to the service, which technically receives the IP address without storing it in an identifiable way. Legal basis: legitimate interest in improving the app (Article 6(1)(f) GDPR / UK GDPR).",
     pCookie: ["is used only to make the app work and is", "is used only to make the app work (and to avoid counting statistics twice) and is"],
-    pKids: " In the United States, Tanetto does not collect personal information from children under 13: the only services that receive a technical identifier are GoatCounter (the IP address, only to count and not stored) and Google AdMob (child-appropriate ads that are not personalised, without the advertising ID). Parents and guardians can write to {email} with any question or request.",
+    pKids: " In the United States, Tanetto does not collect personal information from children under 13: the only service that receives a technical identifier is Google AdMob (child-appropriate ads that are not personalised, without the advertising ID), and anonymous statistics are always off for them. Parents and guardians can write to {email} with any question or request.",
     pPaths: [["Profile › Account and backup › Manage account", "Profile › Account and data › Manage account"], ["Profile › Ad choices", "Profile › Privacy and age › Ad choices"]],
     webP: ["(More › Start over)", "(Profile › Account and data › Start over)"],
     webNo: "Can't sign in? Write to {email} from the account's email address: we will delete the account and its backup within 30 days."
@@ -22742,7 +22747,7 @@ const V24 = {
     pCtrl: "Verantwortlicher: Snugbloom Studio – Riccardo Giuseppe Signorello, Italien. Kontakt: {email}.",
     pStats: "Anonyme Statistik: Um zu verstehen, ob die App hilft, zählen wir zusammengefasst einige Aktionen, zum Beispiel wie oft die App geöffnet wird, ob sie an den Folgetagen genutzt wird oder welche Bereiche genutzt werden (etwa der Shop oder die Spiele), und wir erhalten anonyme Fehlerberichte (nur die Art des Fehlers, nie das, was du schreibst). Wir nutzen GoatCounter, einen Statistikdienst ohne Cookies und ohne Profile, betrieben von Irland aus, mit Daten auf Servern in der Europäischen Union (Finnland und Deutschland). Zum Senden der Zählung verbindet sich das Gerät mit dem Dienst, der dabei technisch die IP-Adresse erhält, sie aber nicht identifizierbar speichert. Rechtsgrundlage: berechtigtes Interesse an der Verbesserung der App (Art. 6 Abs. 1 lit. f DSGVO).",
     pCookie: ["dient nur dem Funktionieren der App und ist", "dient nur dem Funktionieren der App (und dazu, die Statistik nicht doppelt zu zählen) und ist"],
-    pKids: " In den USA erhebt Tanetto von Kindern unter 13 Jahren keine personenbezogenen Daten: Nur zwei Dienste erhalten eine technische Kennung, GoatCounter (die IP-Adresse, nur zum Zählen und ohne sie zu speichern) und Google AdMob (kindgerechte, nicht personalisierte Werbung ohne Werbe-ID). Eltern und Erziehungsberechtigte können sich mit jeder Frage oder Bitte an {email} wenden.",
+    pKids: " In den USA erhebt Tanetto von Kindern unter 13 Jahren keine personenbezogenen Daten: Nur ein Dienst erhält eine technische Kennung, Google AdMob (kindgerechte, nicht personalisierte Werbung ohne Werbe-ID), und die anonymen Statistiken sind für sie immer ausgeschaltet. Eltern und Erziehungsberechtigte können sich mit jeder Frage oder Bitte an {email} wenden.",
     pPaths: [["Profil › Konto und Backup › Konto verwalten", "Profil › Konto und Daten › Konto verwalten"], ["Profil › Werbe-Einstellungen", "Profil › Datenschutz und Alter › Werbe-Einstellungen"]],
     webP: ["(Mehr › Von vorne beginnen)", "(Profil › Konto und Daten › Von vorne beginnen)"],
     webNo: "Du kannst dich nicht anmelden? Schreib von der E-Mail-Adresse des Kontos an {email}: Wir löschen das Konto und sein Backup innerhalb von 30 Tagen."
@@ -22752,7 +22757,7 @@ const V24 = {
     pCtrl: "Responsable del tratamiento: Snugbloom Studio – Riccardo Giuseppe Signorello, Italia. Contacto: {email}.",
     pStats: "Estadísticas anónimas: para saber si la app es útil contamos, de forma agregada, algunas acciones, por ejemplo cuántas veces se abre la app, si se usa en los días siguientes o qué partes se usan (como la tienda o los juegos), y recibimos informes anónimos de errores (solo el tipo de error, nunca lo que escribes). Usamos GoatCounter, un servicio de estadísticas sin cookies que no crea perfiles, gestionado desde Irlanda y con los datos en servidores de la Unión Europea (Finlandia y Alemania). Para enviar el recuento, el dispositivo se conecta al servicio, que recibe técnicamente la dirección IP sin guardarla de forma identificable. Base jurídica: interés legítimo en mejorar la app (art. 6.1.f del RGPD).",
     pCookie: ["solo sirve para que la app funcione y es", "solo sirve para que la app funcione (y para no contar dos veces las estadísticas) y es"],
-    pKids: " En Estados Unidos, Tanetto no recoge información personal de menores de 13 años: los únicos servicios que reciben un identificador técnico son GoatCounter (la dirección IP, solo para contar y sin guardarla) y Google AdMob (anuncios adecuados para niños, no personalizados y sin el ID de publicidad). Madres, padres y tutores pueden escribir a {email} con cualquier pregunta o solicitud.",
+    pKids: " En Estados Unidos, Tanetto no recoge información personal de menores de 13 años: el único servicio que recibe un identificador técnico es Google AdMob (anuncios adecuados para niños, no personalizados y sin el ID de publicidad), y para ellos las estadísticas anónimas están siempre desactivadas. Madres, padres y tutores pueden escribir a {email} con cualquier pregunta o solicitud.",
     pPaths: [["Perfil › Cuenta y copia de seguridad › Gestionar cuenta", "Perfil › Cuenta y datos › Gestionar cuenta"], ["Perfil › Opciones de publicidad", "Perfil › Privacidad y edad › Opciones de publicidad"]],
     webP: ["(Más › Empezar de nuevo)", "(Perfil › Cuenta y datos › Empezar de nuevo)"],
     webNo: "¿No puedes iniciar sesión? Escribe a {email} desde la dirección de correo de la cuenta: eliminaremos la cuenta y su copia en un plazo de 30 días."
@@ -22762,7 +22767,7 @@ const V24 = {
     pCtrl: "Responsable du traitement : Snugbloom Studio – Riccardo Giuseppe Signorello, Italie. Contact : {email}.",
     pStats: "Statistiques anonymes : pour savoir si l'app est utile, nous comptons de façon agrégée certaines actions, par exemple combien de fois l'app est ouverte, si elle est utilisée les jours suivants ou quelles parties sont utilisées (comme la boutique ou les jeux), et nous recevons des rapports d'erreur anonymes (seulement le type d'erreur, jamais ce que tu écris). Nous utilisons GoatCounter, un service de statistiques sans cookies et sans profilage, géré depuis l'Irlande, avec des données sur des serveurs dans l'Union européenne (Finlande et Allemagne). Pour envoyer le comptage, l'appareil se connecte au service, qui reçoit techniquement l'adresse IP sans la conserver de façon identifiable. Base légale : intérêt légitime à améliorer l'app (art. 6, par. 1, point f du RGPD).",
     pCookie: ["sert uniquement au fonctionnement de l'app et est", "sert uniquement au fonctionnement de l'app (et à ne pas compter deux fois les statistiques) et est"],
-    pKids: " Aux États-Unis, Tanetto ne collecte aucune information personnelle auprès des enfants de moins de 13 ans : les seuls services qui reçoivent un identifiant technique sont GoatCounter (l'adresse IP, uniquement pour compter et sans la conserver) et Google AdMob (des publicités adaptées aux enfants, non personnalisées et sans l'identifiant publicitaire). Les parents et tuteurs peuvent écrire à {email} pour toute question ou demande.",
+    pKids: " Aux États-Unis, Tanetto ne collecte aucune information personnelle auprès des enfants de moins de 13 ans : le seul service qui reçoit un identifiant technique est Google AdMob (des publicités adaptées aux enfants, non personnalisées et sans l'identifiant publicitaire), et les statistiques anonymes sont toujours désactivées pour eux. Les parents et tuteurs peuvent écrire à {email} pour toute question ou demande.",
     pPaths: [["Profil › Compte et sauvegarde › Gérer le compte", "Profil › Compte et données › Gérer le compte"], ["Profil › Choix publicitaires", "Profil › Confidentialité et âge › Choix publicitaires"]],
     webP: ["(Plus › Tout recommencer)", "(Profil › Compte et données › Tout recommencer)"],
     webNo: "Tu n'arrives pas à te connecter ? Écris à {email} depuis l'adresse e-mail du compte : nous supprimerons le compte et sa sauvegarde dans un délai de 30 jours."
@@ -22772,7 +22777,7 @@ const V24 = {
     pCtrl: "Controlador dos dados: Snugbloom Studio – Riccardo Giuseppe Signorello, Itália. Contato: {email}.",
     pStats: "Estatísticas anônimas: para entender se o app é útil, contamos de forma agregada algumas ações, por exemplo quantas vezes o app é aberto, se é usado nos dias seguintes ou quais partes são usadas (como a loja ou os jogos), e recebemos relatórios de erro anônimos (só o tipo de erro, nunca o que você escreve). Usamos o GoatCounter, um serviço de estatísticas sem cookies e sem perfis, operado a partir da Irlanda, com os dados em servidores na União Europeia (Finlândia e Alemanha). Para enviar a contagem, o aparelho se conecta ao serviço, que recebe tecnicamente o endereço IP sem guardá-lo de forma identificável. Base legal: legítimo interesse em melhorar o app (art. 7º, IX da LGPD e art. 6º, 1, f do GDPR europeu).",
     pCookie: ["serve só para o app funcionar e é", "serve só para o app funcionar (e para não contar as estatísticas duas vezes) e é"],
-    pKids: " Nos Estados Unidos, o Tanetto não coleta informações pessoais de crianças menores de 13 anos: os únicos serviços que recebem um identificador técnico são o GoatCounter (o endereço IP, só para contar e sem guardá-lo) e o Google AdMob (anúncios adequados para crianças, não personalizados e sem o ID de publicidade). Pais, mães e responsáveis podem escrever para {email} com qualquer dúvida ou pedido.",
+    pKids: " Nos Estados Unidos, o Tanetto não coleta informações pessoais de crianças menores de 13 anos: o único serviço que recebe um identificador técnico é o Google AdMob (anúncios adequados para crianças, não personalizados e sem o ID de publicidade), e para elas as estatísticas anônimas ficam sempre desligadas. Pais, mães e responsáveis podem escrever para {email} com qualquer dúvida ou pedido.",
     pPaths: [["Perfil › Conta e backup › Gerenciar conta", "Perfil › Conta e dados › Gerenciar conta"], ["Perfil › Escolhas de publicidade", "Perfil › Privacidade e idade › Escolhas de publicidade"]],
     webP: ["(Mais › Começar de novo)", "(Perfil › Conta e dados › Começar de novo)"],
     webNo: "Não consegue entrar? Escreva para {email} usando o e-mail da conta: vamos excluir a conta e o backup dela em até 30 dias."
@@ -22782,7 +22787,7 @@ const V24 = {
     pCtrl: "データ管理者：Snugbloom Studio – Riccardo Giuseppe Signorello（イタリア）。連絡先：{email}。",
     pStats: "匿名の統計：アプリが役に立っているかを知るため、アプリが開かれた回数、翌日以降も使われているか、どの機能が使われているか（ショップやゲームなど）といった一部の操作を集計した形で数えています。また、匿名のエラー報告（エラーの種類だけで、あなたが書いた内容は含みません）を受け取ります。Cookieもプロフィールも使わない統計サービスGoatCounterを利用しています。運営はアイルランドからで、データは欧州連合内（フィンランドとドイツ）のサーバーに保存されます。集計を送るために端末はこのサービスに接続し、サービスは技術的にIPアドレスを受け取りますが、個人を特定できる形では保存しません。法的根拠：アプリを改善するための正当な利益（GDPR/英国GDPR第6条1項（f））。",
     pCookie: ["ローカルストレージはアプリを動かすためだけに使われ、", "ローカルストレージはアプリを動かすため（と、統計を二重に数えないため）だけに使われ、"],
-    pKids: "米国では、Tanettoは13歳未満の子どもから個人情報を収集しません。技術的な識別子を受け取るのは、GoatCounter（数えるためだけのIPアドレスで、保存されません）とGoogle AdMob（子ども向けでパーソナライズされない広告で、広告IDは使いません）だけです。保護者の方は、ご質問やご依頼があれば{email}までご連絡ください。",
+    pKids: "米国では、Tanettoは13歳未満の子どもから個人情報を収集しません。技術的な識別子を受け取るのはGoogle AdMob（子ども向けでパーソナライズされない広告で、広告IDは使いません）だけで、匿名の統計は常にオフです。保護者の方は、ご質問やご依頼があれば{email}までご連絡ください。",
     pPaths: [["マイページ › アカウントとバックアップ › アカウントの管理", "マイページ › アカウントとデータ › アカウントの管理"], ["マイページ › 広告の設定", "マイページ › プライバシーと年齢 › 広告の設定"]],
     webP: ["（その他 › 最初からやり直す）", "（マイページ › アカウントとデータ › 最初からやり直す）"],
     webNo: "ログインできない場合は、アカウントのメールアドレスから {email} までご連絡ください。30日以内にアカウントとバックアップを削除します。"
@@ -22792,7 +22797,7 @@ const V24 = {
     pCtrl: "개인정보 처리자: Snugbloom Studio – Riccardo Giuseppe Signorello(이탈리아). 연락처: {email}.",
     pStats: "익명 통계: 앱이 유용한지 알기 위해 일부 동작의 횟수를 집계해요. 예를 들어 앱이 얼마나 자주 열리는지, 다음 날에도 사용되는지, 어떤 기능(상점이나 게임 등)이 쓰이는지 등이에요. 익명 오류 보고도 받아요(오류 종류만 받고, 사용자가 쓴 내용은 절대 받지 않아요). 쿠키와 프로필을 사용하지 않는 통계 서비스 GoatCounter를 이용해요. 이 서비스는 아일랜드에서 운영되며 데이터는 유럽연합(핀란드와 독일)의 서버에 저장돼요. 집계를 보내기 위해 기기가 이 서비스에 연결되며, 서비스는 기술적으로 IP 주소를 받지만 식별 가능한 방식으로 저장하지 않아요. 법적 근거: 앱 개선에 대한 정당한 이익(GDPR / UK GDPR 제6조 제1항 (f)호).",
     pCookie: ["로컬 스토리지는 앱 작동을 위해서만 쓰이며", "로컬 스토리지는 앱 작동을 위해서만(그리고 통계를 두 번 세지 않기 위해서만) 쓰이며"],
-    pKids: " 미국에서 Tanetto는 만 13세 미만 어린이의 개인정보를 수집하지 않아요. 기술적인 식별 정보를 받는 서비스는 GoatCounter(집계용 IP 주소만, 저장하지 않음)와 Google AdMob(어린이에게 맞는 비맞춤형 광고, 광고 ID 없이)뿐이에요. 부모님과 보호자는 궁금한 점이나 요청이 있으면 {email}로 연락해 주세요.",
+    pKids: " 미국에서 Tanetto는 만 13세 미만 어린이의 개인정보를 수집하지 않아요. 기술적인 식별 정보를 받는 서비스는 Google AdMob(어린이에게 맞는 비맞춤형 광고, 광고 ID 없이)뿐이고, 익명 통계는 항상 꺼져 있어요. 부모님과 보호자는 궁금한 점이나 요청이 있으면 {email}로 연락해 주세요.",
     pPaths: [["프로필 › 계정 및 백업 › 계정 관리", "프로필 › 계정 및 데이터 › 계정 관리"], ["프로필 › 광고 선택", "프로필 › 개인정보와 나이 › 광고 선택"]],
     webP: ["(더 보기 › 처음부터 다시)", "(프로필 › 계정 및 데이터 › 처음부터 다시)"],
     webNo: "로그인할 수 없나요? 계정의 이메일 주소로 {email}에 연락해 주세요. 30일 이내에 계정과 백업을 삭제해 드려요."
@@ -22802,7 +22807,7 @@ const V24 = {
     pCtrl: "数据控制者：Snugbloom Studio – Riccardo Giuseppe Signorello（意大利）。联系方式：{email}。",
     pStats: "匿名统计：为了了解应用是否有用，我们会以汇总形式统计部分操作，例如应用被打开的频率、之后几天是否还在使用，或使用了哪些功能（比如商店或小游戏），我们还会收到匿名的错误报告（只有错误类型，绝不包含你写的内容）。我们使用 GoatCounter，这是一项不使用 Cookie、不建立用户画像的统计服务，由爱尔兰运营，数据存放在欧盟境内（芬兰和德国）的服务器上。为了发送统计数据，设备会连接到该服务，该服务在技术上会接收到 IP 地址，但不会以可识别身份的方式存储。法律依据：改进应用的正当利益（GDPR / 英国 GDPR 第 6(1)(f) 条）。",
     pCookie: ["本地存储仅用于让应用正常运行，", "本地存储仅用于让应用正常运行（以及避免重复统计），"],
-    pKids: "在美国，Tanetto 不会收集 13 岁以下儿童的个人信息：只有 GoatCounter（仅为计数而接收的 IP 地址，不会保存）和 Google AdMob（适合儿童、非个性化、不使用广告 ID 的广告）会收到技术标识。家长和监护人如有任何问题或请求，可以写信到 {email}。",
+    pKids: "在美国，Tanetto 不会收集 13 岁以下儿童的个人信息：只有 Google AdMob（适合儿童、非个性化、不使用广告 ID 的广告）会收到技术标识，匿名统计对他们始终关闭。家长和监护人如有任何问题或请求，可以写信到 {email}。",
     pPaths: [["我的 › 账号与备份 › 管理账号", "我的 › 账号与数据 › 管理账号"], ["我的 › 广告选择", "我的 › 隐私与年龄 › 广告选择"]],
     webP: ["（更多 › 重新开始）", "（我的 › 账号与数据 › 重新开始）"],
     webNo: "无法登录？请用该账号的邮箱写信到 {email}：我们会在 30 天内删除账号及其备份。"
@@ -22812,7 +22817,7 @@ const V24 = {
     pCtrl: "資料控管者：Snugbloom Studio – Riccardo Giuseppe Signorello（義大利）。聯絡方式：{email}。",
     pStats: "匿名統計：為了了解這個 App 是否有用，我們會以彙總形式統計部分操作，例如 App 被開啟的頻率、之後幾天是否繼續使用，或使用了哪些功能（像是商店或小遊戲），我們也會收到匿名的錯誤報告（只有錯誤類型，絕不包含你寫的內容）。我們使用 GoatCounter，這是一個不使用 Cookie、不建立個人檔案的統計服務，由愛爾蘭營運，資料存放在歐盟境內（芬蘭和德國）的伺服器上。為了傳送統計資料，裝置會連線到該服務，服務在技術上會接收到 IP 位址，但不會以可識別個人的方式儲存。法律依據：改善 App 的正當利益（GDPR / 英國 GDPR 第 6 條第 1 項第 f 款）。",
     pCookie: ["本機儲存空間僅用於讓 App 正常運作，", "本機儲存空間僅用於讓 App 正常運作（以及避免重複統計），"],
-    pKids: "在美國，Tanetto 不會蒐集 13 歲以下兒童的個人資訊：只有 GoatCounter（僅為計數而接收的 IP 位址，不會保存）和 Google AdMob（適合兒童、非個人化、不使用廣告 ID 的廣告）會收到技術識別碼。家長和監護人如有任何問題或請求，可以寫信到 {email}。",
+    pKids: "在美國，Tanetto 不會蒐集 13 歲以下兒童的個人資訊：只有 Google AdMob（適合兒童、非個人化、不使用廣告 ID 的廣告）會收到技術識別碼，匿名統計對他們始終關閉。家長和監護人如有任何問題或請求，可以寫信到 {email}。",
     pPaths: [["我的 › 帳號與備份 › 管理帳號", "我的 › 帳號與資料 › 管理帳號"], ["我的 › 廣告選擇", "我的 › 隱私與年齡 › 廣告選擇"]],
     webP: ["（更多 › 重新開始）", "（我的 › 帳號與資料 › 重新開始）"],
     webNo: "無法登入？請用該帳號的電子郵件寫信到 {email}：我們會在 30 天內刪除帳號及其備份。"
@@ -22822,7 +22827,7 @@ const V24 = {
     pCtrl: "Ответственный за обработку данных: Snugbloom Studio – Riccardo Giuseppe Signorello, Италия. Контакт: {email}.",
     pStats: "Анонимная статистика: чтобы понять, полезно ли приложение, мы подсчитываем некоторые действия в обобщённом виде, например как часто открывается приложение, используется ли оно в последующие дни или какие разделы открывают (например, магазин или игры), а также получаем анонимные отчёты об ошибках (только вид ошибки, никогда не то, что ты пишешь). Мы используем GoatCounter, сервис статистики без cookie и без профилей; он работает из Ирландии, а данные хранятся на серверах в Европейском союзе (Финляндия и Германия). Чтобы передать подсчёт, устройство подключается к сервису, который технически получает IP-адрес, но не хранит его в виде, позволяющем установить личность. Правовое основание: законный интерес в улучшении приложения (статья 6(1)(f) GDPR / UK GDPR).",
     pCookie: ["используется только для работы приложения и является", "используется только для работы приложения (и чтобы не считать статистику дважды) и является"],
-    pKids: " В США Tanetto не собирает личную информацию детей младше 13 лет: технический идентификатор получают только GoatCounter (IP-адрес, только для подсчёта и без хранения) и Google AdMob (подходящая детям неперсонализированная реклама без рекламного идентификатора). Родители и опекуны могут написать на {email} с любым вопросом или просьбой.",
+    pKids: " В США Tanetto не собирает личную информацию детей младше 13 лет: технический идентификатор получает только Google AdMob (подходящая детям неперсонализированная реклама без рекламного идентификатора), а анонимная статистика для них всегда выключена. Родители и опекуны могут написать на {email} с любым вопросом или просьбой.",
     pPaths: [["«Профиль» › «Аккаунт и резервная копия» › «Управление аккаунтом»", "«Профиль» › «Аккаунт и данные» › «Управление аккаунтом»"], ["«Профиль» › «Настройки рекламы»", "«Профиль» › «Приватность и возраст» › «Настройки рекламы»"], ["Tanì: это игровые монетки, а не настоящие деньги;", "Tanì нельзя обменять на деньги: это просто игровые монетки."]],
     webP: ["(«Ещё» › «Начать заново»)", "(«Профиль» › «Аккаунт и данные» › «Начать заново»)"],
     webNo: "Не получается войти? Напиши на {email} с адреса почты этого аккаунта: мы удалим аккаунт и его копию в течение 30 дней."
@@ -22832,7 +22837,7 @@ const V24 = {
     pCtrl: "Administrator danych: Snugbloom Studio – Riccardo Giuseppe Signorello, Włochy. Kontakt: {email}.",
     pStats: "Anonimowe statystyki: aby sprawdzić, czy aplikacja jest przydatna, liczymy niektóre działania w formie zbiorczej, na przykład jak często aplikacja jest otwierana, czy jest używana w kolejnych dniach albo z których części się korzysta (np. ze sklepu lub gier), a także otrzymujemy anonimowe raporty o błędach (tylko rodzaj błędu, nigdy to, co piszesz). Korzystamy z GoatCounter, usługi statystycznej bez plików cookie i bez profili, prowadzonej z Irlandii, z danymi na serwerach w Unii Europejskiej (Finlandia i Niemcy). Aby przesłać licznik, urządzenie łączy się z usługą, która technicznie otrzymuje adres IP, ale nie przechowuje go w sposób umożliwiający identyfikację. Podstawa prawna: prawnie uzasadniony interes polegający na ulepszaniu aplikacji (art. 6 ust. 1 lit. f RODO).",
     pCookie: ["służy wyłącznie do działania aplikacji i jest", "służy wyłącznie do działania aplikacji (i do tego, by nie liczyć statystyk dwa razy) i jest"],
-    pKids: " W Stanach Zjednoczonych Tanetto nie zbiera danych osobowych dzieci poniżej 13 lat: techniczny identyfikator otrzymują tylko GoatCounter (adres IP, wyłącznie do liczenia i bez przechowywania) oraz Google AdMob (reklamy odpowiednie dla dzieci, niespersonalizowane i bez identyfikatora reklamowego). Rodzice i opiekunowie mogą pisać na adres {email} z każdym pytaniem lub prośbą.",
+    pKids: " W Stanach Zjednoczonych Tanetto nie zbiera danych osobowych dzieci poniżej 13 lat: techniczny identyfikator otrzymuje tylko Google AdMob (reklamy odpowiednie dla dzieci, niespersonalizowane i bez identyfikatora reklamowego), a anonimowe statystyki są dla nich zawsze wyłączone. Rodzice i opiekunowie mogą pisać na adres {email} z każdym pytaniem lub prośbą.",
     pPaths: [["Profil › Konto i kopia zapasowa › Zarządzaj kontem", "Profil › Konto i dane › Zarządzaj kontem"], ["Profil › Ustawienia reklam", "Profil › Prywatność i wiek › Ustawienia reklam"]],
     webP: ["(Więcej › Zacznij od nowa)", "(Profil › Konto i dane › Zacznij od nowa)"],
     webNo: "Nie możesz się zalogować? Napisz na {email} z adresu e-mail konta: usuniemy konto i jego kopię w ciągu 30 dni."
@@ -22842,7 +22847,7 @@ const V24 = {
     pCtrl: "Verwerkingsverantwoordelijke: Snugbloom Studio – Riccardo Giuseppe Signorello, Italië. Contact: {email}.",
     pStats: "Anonieme statistieken: om te begrijpen of de app nuttig is, tellen we sommige acties in geaggregeerde vorm, bijvoorbeeld hoe vaak de app wordt geopend, of hij de dagen erna wordt gebruikt of welke onderdelen worden gebruikt (zoals de winkel of de spelletjes), en we ontvangen anonieme foutmeldingen (alleen het soort fout, nooit wat jij schrijft). We gebruiken GoatCounter, een statistiekdienst zonder cookies en zonder profielen, beheerd vanuit Ierland, met gegevens op servers in de Europese Unie (Finland en Duitsland). Om de telling te versturen maakt het apparaat verbinding met de dienst, die technisch gezien het IP-adres ontvangt zonder het op een herleidbare manier op te slaan. Rechtsgrond: gerechtvaardigd belang bij het verbeteren van de app (artikel 6, lid 1, onder f AVG).",
     pCookie: ["wordt alleen gebruikt om de app te laten werken en is", "wordt alleen gebruikt om de app te laten werken (en om statistieken niet dubbel te tellen) en is"],
-    pKids: " In de Verenigde Staten verzamelt Tanetto geen persoonsgegevens van kinderen onder de 13: alleen GoatCounter (het IP-adres, alleen om te tellen en zonder het te bewaren) en Google AdMob (niet-gepersonaliseerde advertenties die geschikt zijn voor kinderen, zonder advertentie-ID) ontvangen een technische identificatie. Ouders en voogden kunnen met elke vraag of elk verzoek schrijven naar {email}.",
+    pKids: " In de Verenigde Staten verzamelt Tanetto geen persoonsgegevens van kinderen onder de 13: alleen Google AdMob (niet-gepersonaliseerde advertenties die geschikt zijn voor kinderen, zonder advertentie-ID) ontvangt een technische identificatie, en de anonieme statistieken staan voor hen altijd uit. Ouders en voogden kunnen met elke vraag of elk verzoek schrijven naar {email}.",
     pPaths: [["Profiel › Account en back-up › Account beheren", "Profiel › Account en gegevens › Account beheren"], ["Profiel › Advertentiekeuzes", "Profiel › Privacy en leeftijd › Advertentiekeuzes"]],
     webP: ["(Meer › Opnieuw beginnen)", "(Profiel › Account en gegevens › Opnieuw beginnen)"],
     webNo: "Lukt inloggen niet? Schrijf vanaf het e-mailadres van het account naar {email}: we verwijderen het account en de back-up binnen 30 dagen."
@@ -22852,7 +22857,7 @@ const V24 = {
     pCtrl: "Veri sorumlusu: Snugbloom Studio – Riccardo Giuseppe Signorello, İtalya. İletişim: {email}.",
     pStats: "Anonim istatistikler: uygulamanın işe yarayıp yaramadığını anlamak için bazı işlemleri toplu olarak sayarız; örneğin uygulamanın ne sıklıkla açıldığını, sonraki günlerde kullanılıp kullanılmadığını ya da hangi bölümlerin (mağaza veya oyunlar gibi) kullanıldığını. Ayrıca anonim hata raporları alırız (yalnızca hatanın türü, yazdıkların asla). Çerez ve profil kullanmayan bir istatistik hizmeti olan GoatCounter'ı kullanırız; hizmet İrlanda'dan yönetilir ve veriler Avrupa Birliği'ndeki (Finlandiya ve Almanya) sunucularda tutulur. Sayımı göndermek için cihaz bu hizmete bağlanır; hizmet teknik olarak IP adresini alır ancak onu kimliği belirlenebilir şekilde saklamaz. Hukuki dayanak: uygulamayı geliştirmeye yönelik meşru menfaat (GDPR / UK GDPR madde 6(1)(f)).",
     pCookie: ["yalnızca uygulamanın çalışması için kullanılır ve", "yalnızca uygulamanın çalışması (ve istatistiklerin iki kez sayılmaması) için kullanılır ve"],
-    pKids: " ABD'de Tanetto, 13 yaşından küçük çocuklardan kişisel bilgi toplamaz: teknik bir tanımlayıcı alan hizmetler yalnızca GoatCounter (yalnızca saymak için IP adresi, saklanmaz) ve Google AdMob'dur (çocuklara uygun, kişiselleştirilmemiş, reklam kimliği kullanılmayan reklamlar). Ebeveynler ve vasiler her türlü soru veya talep için {email} adresine yazabilir.",
+    pKids: " ABD'de Tanetto, 13 yaşından küçük çocuklardan kişisel bilgi toplamaz: teknik bir tanımlayıcı alan tek hizmet Google AdMob'dur (çocuklara uygun, kişiselleştirilmemiş, reklam kimliği kullanılmayan reklamlar) ve anonim istatistikler onlar için her zaman kapalıdır. Ebeveynler ve vasiler her türlü soru veya talep için {email} adresine yazabilir.",
     pPaths: [["Profil › Hesap ve yedek › Hesabı yönet", "Profil › Hesap ve veriler › Hesabı yönet"], ["Profil › Reklam tercihleri", "Profil › Gizlilik ve yaş › Reklam tercihleri"]],
     webP: ["(Diğer › Baştan başla)", "(Profil › Hesap ve veriler › Baştan başla)"],
     webNo: "Giriş yapamıyor musun? Hesabın e-posta adresinden {email} adresine yaz: hesabı ve yedeğini 30 gün içinde sileriz."
@@ -23135,6 +23140,33 @@ if (V26_MISS.length) throw new Error("1.0.10 testi: manca " + V26_MISS.join(", "
 /* G1-07: il terzo "bentornato" non dice piu' "ti stava aspettando" */
 Object.keys(V26T).forEach((l) => { const t = T[l]; if (t && t.v12 && Array.isArray(t.v12.backP) && t.v12.backP.length > 2) { const s2 = V26T[l].wb.backP2; t.v12.backP[2] = (n) => s2.split("{n}").join(n); } });
 if (V26_MISS.length) throw new Error("1.0.10 testi: manca " + V26_MISS.join(", "));
+
+/* =================== 1.0.10 (110): informativa, backup automatico di Android ===================
+   La parte "Quali dati" dice che i dati restano sul telefono: e' vero, ma se nel telefono e' acceso il backup di Android
+   (data_extraction_rules.xml lo permette, per non perdere i progressi cambiando telefono) Google ne tiene una copia
+   cifrata nell'account Google della persona. Lo si dice, in 14 lingue (critica indipendente 1.0.10, punto 11). */
+const V110_BACKUP = {
+  it: " Se sul telefono è attivo il backup di Android, una copia cifrata di questi dati (compresa l'età) finisce anche nel backup del tuo account Google, come per tutte le app: la gestisce Google e puoi spegnerla dalle impostazioni del telefono.",
+  en: " If Android backup is turned on on your phone, an encrypted copy of this data (including your age) is also kept in your Google account's backup, as for every app: Google manages it and you can turn it off in your phone's settings.",
+  de: " Wenn auf deinem Handy die Android-Sicherung eingeschaltet ist, landet eine verschlüsselte Kopie dieser Daten (auch dein Alter) wie bei jeder App in der Sicherung deines Google-Kontos: Google verwaltet sie, und du kannst sie in den Einstellungen deines Handys ausschalten.",
+  es: " Si en tu teléfono está activada la copia de seguridad de Android, una copia cifrada de estos datos (incluida tu edad) también se guarda en la copia de seguridad de tu cuenta de Google, como con todas las apps: la gestiona Google y puedes desactivarla en los ajustes del teléfono.",
+  fr: " Si la sauvegarde Android est activée sur ton téléphone, une copie chiffrée de ces données (y compris ton âge) est aussi conservée dans la sauvegarde de ton compte Google, comme pour toutes les apps : Google la gère et tu peux la désactiver dans les réglages du téléphone.",
+  pt: " Se o backup do Android estiver ativado no seu celular, uma cópia criptografada desses dados (incluindo sua idade) também fica no backup da sua conta Google, como acontece com todos os apps: quem cuida dela é o Google, e você pode desativá-la nas configurações do celular.",
+  ja: "スマートフォンでAndroidのバックアップがオンになっている場合、ほかのアプリと同じように、これらのデータ（年齢を含む）の暗号化されたコピーがGoogleアカウントのバックアップにも保存されます。管理はGoogleが行い、スマートフォンの設定からオフにできます。",
+  ko: " 휴대폰에서 Android 백업이 켜져 있으면, 다른 앱과 마찬가지로 이 데이터(나이 포함)의 암호화된 사본이 Google 계정 백업에도 저장돼요. Google이 관리하며 휴대폰 설정에서 끌 수 있어요.",
+  zh: "如果你的手机开启了 Android 备份，这些数据（包括年龄）的加密副本也会像所有应用一样保存在你的 Google 账号备份中：由 Google 管理，你可以在手机设置中关闭。",
+  zht: "如果你的手機開啟了 Android 備份，這些資料（包括年齡）的加密副本也會像所有 App 一樣儲存在你的 Google 帳戶備份中：由 Google 管理，你可以在手機設定中關閉。",
+  ru: " Если на телефоне включено резервное копирование Android, зашифрованная копия этих данных (включая возраст), как и у всех приложений, хранится и в резервной копии твоего аккаунта Google: ею управляет Google, и её можно отключить в настройках телефона.",
+  pl: " Jeśli w telefonie jest włączona kopia zapasowa Androida, zaszyfrowana kopia tych danych (także wieku), jak w przypadku każdej aplikacji, trafia też do kopii zapasowej Twojego konta Google: zarządza nią Google, a wyłączyć ją możesz w ustawieniach telefonu.",
+  nl: " Als Android-back-up op je telefoon aanstaat, wordt een versleutelde kopie van deze gegevens (ook je leeftijd), zoals bij elke app, ook bewaard in de back-up van je Google-account: Google beheert die en je kunt hem uitzetten in de instellingen van je telefoon.",
+  tr: " Telefonunda Android yedeklemesi açıksa, bu verilerin (yaşın dahil) şifreli bir kopyası, tüm uygulamalarda olduğu gibi Google hesabının yedeğinde de saklanır: Google yönetir ve telefonunun ayarlarından kapatabilirsin."
+};
+Object.keys(V110_BACKUP).forEach((l) => {
+  const t = T[l]; const P = t && t.privDoc; if (!P || P.v110) return;
+  /* P[0] = in breve, P[1] = titolare, P[2] = "Quali dati" */
+  if (typeof P[2] === "string" && !P[2].includes(V110_BACKUP[l].trim().slice(0, 20))) P[2] = P[2] + V110_BACKUP[l];
+  P.v110 = 1;
+});
 
 /* 1.0.10 (G-06 / H-15): con l'app in secondo piano (Android tiene vivi i timer della WebView) i controlli ripetuti ogni
    pochi secondi non lavorano piu': tornano da soli quando l'app e' di nuovo visibile (ogni controllo ha anche il suo
@@ -41313,7 +41345,9 @@ function secSanitizeImport(st, trustHint) {
   if (typeof o.lang === "string" && !T[o.lang]) o.lang = "en";
   if (Array.isArray(o.goals)) { const seen = new Set(); o.goals = o.goals.filter((g) => !seen.has(g.id) && seen.add(g.id)); }
   secFixMeaning(o);
-  ["plusOn", "plusCheck", "plusSince", "dev"].forEach((k) => { delete o[k]; });
+  /* 1.0.10: l'eta' resta quella detta su QUESTO telefono (non arriva mai da un file o da un codice: le copie vere non la
+     contengono) e la coda delle statistiche non si importa */
+  ["plusOn", "plusCheck", "plusSince", "dev", "age", "v26q"].forEach((k) => { delete o[k]; });
   if (!trusted) { try { secStrict(o); } catch (e) { /* niente */ } }
   try { Object.defineProperty(o, "__secTrust", { value: trusted, enumerable: false, configurable: true }); } catch (e) { /* niente */ }
   secLastTrust = trusted;
@@ -42563,7 +42597,10 @@ const ageHidden = (fn) => function (...a) {
 };
 if (typeof packState === "function") packState = ageHidden(packState);
 if (typeof saveBackup === "function") saveBackup = ageHidden(saveBackup);
-if (S.age !== undefined) ageMirror(S.age); else ageFromMirror();
+/* 1.0.10: la copia locale vince sempre (l'eta' non si cambia piu': uno stato modificato non la sovrascrive) */
+(() => { let m = null; try { m = JSON.parse(localStorage.getItem(AGE_KEY) || "null"); } catch (e) { m = null; }
+  const ok = m && typeof m === "object" && (m.skip === true || (Number.isInteger(m.y) && Number.isInteger(m.m) && m.m >= 1 && m.m <= 12));
+  if (ok) { if (JSON.stringify(S.age) !== JSON.stringify(m)) { S.age = m; save(); } } else if (S.age !== undefined) ageMirror(S.age); })();
 
 /* ---------- account e backup online: solo per gli adulti ---------- */
 function ageCloudStop() {
@@ -44457,19 +44494,19 @@ const SF110_ALL = { S: ["suicid", "kill myself", "want to die", "wanna die", "en
   SG: ["suicide squad", "prevention", "awareness", "documentary", "documentario", "dokumentation"] };
 const SF110_K = {
   it: {
-    S: ["suicid", "suicidarmi", "uccidermi", "ammazzarmi", "togliermi la vita", "non voglio piu vivere", "nn voglio piu vivere", "non voglio vivere", "voglio morire", "voglio morir", "voglio morie", "vorrei morire", "vorrei essere mort", "voglio essere mort", "preferirei essere mort", "meglio se fossi mort", "meglio morto", "meglio morta", "farmi del male", "mi faccio del male", "autolesion", "non ha senso vivere", "non ha piu senso vivere", "vivere non ha senso", "non vale la pena vivere", "mi voglio ammazzare", "mi voglio uccidere", "voglio ammazzarmi", "voglio uccidermi", "mi ammazzo|$", "mi uccido|$", "tagliarmi le vene", "mi taglio le vene", "mi taglio i polsi", "tagliarmi i polsi", "mi taglio le braccia", "tagliarmi le braccia", "mi taglio di nuovo", "vorrei non esistere", "non voglio piu esistere", "non voglio esistere", "vorrei sparire per sempre", "voglio sparire per sempre", "sparire per sempre", "meglio se non ci fossi", "se non ci fossi piu", "starebbero meglio senza di me", "stanno meglio senza di me", "non ce la faccio piu a vivere", "non voglio piu stare al mondo", "farla finita con la vita", "voglio farla finita|$", "impiccarmi", "mi impicco", "mi voglio impiccare", "non voglio piu svegliarmi", "vorrei non svegliarmi piu", "togliere la vita", "se morissi", "sentirebbe la mia mancanza", "nessuno sentirebbe la mia mancanza", "voglio solo morire", "voglio davvero morire", "voglio tanto morire", "voglio proprio morire", "vorrei solo morire", "vorrei tanto morire", "non ho piu voglia di vivere", "non ho voglia di vivere", "nn ho piu voglia di vivere", "stanca di vivere", "stanco di vivere", "buttarmi dalla finestra", "mi butto dalla finestra", "buttarmi dal balcone", "mi butto dal balcone", "mi butto dal ponte", "buttarmi dal ponte", "buttarmi sotto un treno", "mi butto sotto un treno", "mi voglio buttare dal", "tutte le pastiglie", "tutte le pillole", "voglio mori|", "vogliomorire", "non fossi mai nat", "non svegliarmi piu", "voglia di farmi male", "voglia di farmi del male", "la faccio finita$", "faccio finita$", "pastiglie di mia madre", "pillole di mia madre", "pastiglie di mia mamma", "pillole di mia mamma", "ingoiato tutte le"],
+    S: ["nessun motivo per vivere", "non ho piu motivi per vivere", "non ho motivi per vivere", "non ho piu un motivo per vivere", "non ho un motivo per vivere", "non ce piu un motivo per vivere", "non voglio piu esserci", "nn voglio piu esserci", "rifatta i tagli", "rifatto i tagli", "tagli sulle braccia", "tagli sui polsi", "suicid", "suicidarmi", "uccidermi", "ammazzarmi", "togliermi la vita", "non voglio piu vivere", "nn voglio piu vivere", "non voglio vivere", "voglio morire", "voglio morir", "voglio morie", "vorrei morire", "vorrei essere mort", "voglio essere mort", "preferirei essere mort", "meglio se fossi mort", "meglio morto", "meglio morta", "farmi del male", "mi faccio del male", "autolesion", "non ha senso vivere", "non ha piu senso vivere", "vivere non ha senso", "non vale la pena vivere", "mi voglio ammazzare", "mi voglio uccidere", "voglio ammazzarmi", "voglio uccidermi", "mi ammazzo|$", "mi uccido|$", "tagliarmi le vene", "mi taglio le vene", "mi taglio i polsi", "tagliarmi i polsi", "mi taglio le braccia", "tagliarmi le braccia", "mi taglio di nuovo", "vorrei non esistere", "non voglio piu esistere", "non voglio esistere", "vorrei sparire per sempre", "voglio sparire per sempre", "sparire per sempre", "meglio se non ci fossi", "se non ci fossi piu", "starebbero meglio senza di me", "stanno meglio senza di me", "non ce la faccio piu a vivere", "non voglio piu stare al mondo", "farla finita con la vita", "voglio farla finita|$", "impiccarmi", "mi impicco", "mi voglio impiccare", "non voglio piu svegliarmi", "vorrei non svegliarmi piu", "togliere la vita", "se morissi", "sentirebbe la mia mancanza", "nessuno sentirebbe la mia mancanza", "voglio solo morire", "voglio davvero morire", "voglio tanto morire", "voglio proprio morire", "vorrei solo morire", "vorrei tanto morire", "non ho piu voglia di vivere", "non ho voglia di vivere", "nn ho piu voglia di vivere", "stanca di vivere", "stanco di vivere", "buttarmi dalla finestra", "mi butto dalla finestra", "buttarmi dal balcone", "mi butto dal balcone", "mi butto dal ponte", "buttarmi dal ponte", "buttarmi sotto un treno", "mi butto sotto un treno", "mi voglio buttare dal", "tutte le pastiglie", "tutte le pillole", "voglio mori|", "vogliomorire", "non fossi mai nat", "non svegliarmi piu", "voglia di farmi male", "voglia di farmi del male", "la faccio finita$", "faccio finita$", "pastiglie di mia madre", "pillole di mia madre", "pastiglie di mia mamma", "pillole di mia mamma", "ingoiato tutte le"],
     W: ["farla finita", "mi taglio", "tagliarmi", "mi sono tagliat", "mi ammazzo", "mi uccido", "mi sono fatto del male", "mi sono fatta del male", "faccio finita", "buttarmi dal", "buttarmi giu dal", "buttarmi sotto", "mi butto dal", "mi butto giu dal", "mi butto sotto", "mi voglio buttare", "mi sn tagliat", "mi sn fatt"],
     G: ["di fame", "di noia", "dal sonno", "dal caldo", "di caldo", "di freddo", "capelli", "frangia", "unghie", "barba", "per sbaglio", "dito", "cucinando", "giocando", "cadendo", "a calcio", "con la carta", "verdura", "pane", "con il coltello del pane", "trampolino", "piscina", "scivolo", "tuffo", "finita con i|", "finita con gli|", "finita con le|", "finita con il|", "finita con lo|", "finita con i compiti", "finita con i dolci", "finita con quest", "finita con la scuola", "dottor", "medico", "dottore", "per la tosse", "mal di testa", "vitamin", "antibiotic", "prescritt", "pediatra", "caduta", "caduto", "bici", "bicchiere", "vetro", "insalata", "sbucciando", "cucinavo", "pallavolo", "palestra", "che mangiare", "sbucciat", "mela", "coltello"],
     F: ["morire|", "voglio sparire", "vorrei sparire", "voglio scomparire", "vorrei scomparire", "odio la mia vita", "odio vivere", "lettere di addio", "lettera di addio", "lettera d addio", "non mi servono piu", "comprato una corda", "comprato le lamette", "ultimo messaggio grazie di tutto", "ultimo messaggio ~ grazie di tutto", "addormentarmi ~ per sempre", "dormire per sempre"],
-    FG: ["da morire", "di fame", "dal ridere", "di noia", "dal sonno", "di caldo", "di freddo", "dalla voglia", "dalla vergogna", "vergogna", "sotto le coperte", "telefono", "batteria", "maestra", "pensione", "trasloco", "corda per saltare", "barba"],
+    FG: ["fatto morire", "fa morire", "fanno morire", "da morire", "di fame", "dal ridere", "di noia", "dal sonno", "di caldo", "di freddo", "dalla voglia", "dalla vergogna", "vergogna", "sotto le coperte", "telefono", "batteria", "maestra", "pensione", "trasloco", "corda per saltare", "barba"],
     SG: ["dalla vergogna", "di vergogna", "film", "parlavamo di", "abbiamo parlato di", "vivere con mia|", "vivere con mio|", "vivere con i miei", "vivere con papa|", "vivere con mamma|", "vivere in questa citta", "vivere qui"],
     LG: ["dal ridere", "dalle risate", "a forza di ridere"],
     N: ["non voglio morire", "non vorrei morire", "non voglio mica morire", "non sono suicida", "non mi ucciderei mai", "non mi farei mai del male"],
   },
   en: {
-    S: ["keep hurting myself", "hurting myself on purpose", "suicid", "kill myself", "killing myself", "end my life", "ending my life", "take my own life", "take my life", "want to die", "wanna die", "wan to die", "want to be dead", "wanna be dead", "wish i was dead", "wish i were dead", "wish i could die", "dont want to live", "dont wanna live", "do not want to live", "dont want to be alive", "dont wanna be alive", "no reason to live", "nothing to live for", "better off without me", "better off dead", "cant go on anymore", "cant go on like this", "cannot go on anymore", "kms|", "unalive myself", "want to disappear forever", "self harm", "selfharm", "harm myself", "hang myself", "dont want to exist", "wish i didnt exist", "wish i was never born", "wish i had never been born", "end it all$", "going to hurt myself", "gonna hurt myself", "want to hurt myself", "wanna hurt myself", "cut myself on purpose", "keep cutting myself", "cutting myself again", "nobody would care if i died", "no one would care if i died", "nobody would miss me", "no one would miss me", "point in living", "point of living", "thinking about ending it", "ending it all", "not worth living", "isnt worth living", "and never wake up", "never wake up again", "want to never wake up", "kill my self", "kil myself", "kil my self", "wish i wasnt alive", "wish i werent alive", "wish i wasnt here", "better without me", "tired of living", "tired of being alive", "done with life", "done with living", "take all my pills", "all my pills", "overdose", "jump off a bridge", "jump off the roof", "unalive", "stop existing", "wnat to die", "want to just die", "want to really die", "wanna just die", "wanna really die", "kys me|", "disappear and never come back", "dont want to be alive anymore", "dont wanna be alive anymore", "my moms pills", "my mums pills", "my dads pills", "swallowed all the pills", "swallowed all my pills", "took all of my moms"],
-    W: ["hurting myself", "hurt myself", "cut myself", "cutting myself", "end it all", "want to dye", "cant go on$", "cannot go on$", "can not go on$", "want to end it all", "wanna end it all", "dont want to be here anymore", "want to end it|", "wanna end it|", "end it$", "life isnt worth it", "life is not worth it", "cut again", "cutting again", "going to jump$", "gonna jump$", "disappear forever", "dont want to wake up", "dont wanna wake up"],
-    G: ["for a pizza", "playing", "football", "soccer", "while cooking", "cooking", "by accident", "accidentally", "dying to", "phone", "battery", "hair", "shaving", "paper", "knife", "onion", "bread", "sandwich", "the video", "this video", "the movie", "the show", "with a big party", "laughing", "for a burger", "of boredom", "of hunger", "starving", "with a party", "pool", "trampoline", "diving board", "doctor", "prescri", "allergy", "headache", "vitamin", "antibiotic", "for my", "like the", "as prescribed", "nurse", "fell", "fall off", "tripped", "bike", "skate", "glass", "salad", "chopping", "knee", "ankle", "hungry", "if i fail", "test", "exam", "plant", "grandpa", "grandma", "doctors said", "with my", "with him", "with her", "boyfriend", "girlfriend", "relationship", "into this book", "into a book", "early", "for school", "alarm", "at 6", "at 7", "marathon", "with a movie"],
+    S: ["cutting my arms", "cut my wrists", "cutting my wrists", "no one would care if i", "nobody would care if i", "no one would care if i disappeared", "keep hurting myself", "hurting myself on purpose", "suicid", "kill myself", "killing myself", "end my life", "ending my life", "take my own life", "take my life", "want to die", "wanna die", "wan to die", "want to be dead", "wanna be dead", "wish i was dead", "wish i were dead", "wish i could die", "dont want to live", "dont wanna live", "do not want to live", "dont want to be alive", "dont wanna be alive", "no reason to live", "nothing to live for", "better off without me", "better off dead", "cant go on anymore", "cant go on like this", "cannot go on anymore", "kms|", "unalive myself", "want to disappear forever", "self harm", "selfharm", "harm myself", "hang myself", "dont want to exist", "wish i didnt exist", "wish i was never born", "wish i had never been born", "end it all$", "going to hurt myself", "gonna hurt myself", "want to hurt myself", "wanna hurt myself", "cut myself on purpose", "keep cutting myself", "cutting myself again", "nobody would care if i died", "no one would care if i died", "nobody would miss me", "no one would miss me", "point in living", "point of living", "thinking about ending it", "ending it all", "not worth living", "isnt worth living", "and never wake up", "never wake up again", "want to never wake up", "kill my self", "kil myself", "kil my self", "wish i wasnt alive", "wish i werent alive", "wish i wasnt here", "better without me", "tired of living", "tired of being alive", "done with life", "done with living", "take all my pills", "all my pills", "overdose", "jump off a bridge", "jump off the roof", "unalive", "stop existing", "wnat to die", "want to just die", "want to really die", "wanna just die", "wanna really die", "kys me|", "disappear and never come back", "dont want to be alive anymore", "dont wanna be alive anymore", "my moms pills", "my mums pills", "my dads pills", "swallowed all the pills", "swallowed all my pills", "took all of my moms"],
+    W: ["cut my arms", "hurting myself", "hurt myself", "cut myself", "cutting myself", "end it all", "want to dye", "cant go on$", "cannot go on$", "can not go on$", "want to end it all", "wanna end it all", "dont want to be here anymore", "want to end it|", "wanna end it|", "end it$", "life isnt worth it", "life is not worth it", "cut again", "cutting again", "going to jump$", "gonna jump$", "disappear forever", "dont want to wake up", "dont wanna wake up"],
+    G: ["bush", "bushes", "thorn", "fence", "branch", "roses", "for a pizza", "playing", "football", "soccer", "while cooking", "cooking", "by accident", "accidentally", "dying to", "phone", "battery", "hair", "shaving", "paper", "knife", "onion", "bread", "sandwich", "the video", "this video", "the movie", "the show", "with a big party", "laughing", "for a burger", "of boredom", "of hunger", "starving", "with a party", "pool", "trampoline", "diving board", "doctor", "prescri", "allergy", "headache", "vitamin", "antibiotic", "for my", "like the", "as prescribed", "nurse", "fell", "fall off", "tripped", "bike", "skate", "glass", "salad", "chopping", "knee", "ankle", "hungry", "if i fail", "test", "exam", "plant", "grandpa", "grandma", "doctors said", "with my", "with him", "with her", "boyfriend", "girlfriend", "relationship", "into this book", "into a book", "early", "for school", "alarm", "at 6", "at 7", "marathon", "with a movie"],
     F: ["die|", "want to disappear", "wanna disappear", "wish i could disappear", "hate my life", "hate being alive", "goodbye letters", "goodbye letter", "gave away all my", "wont need it anymore", "bought a rope", "rope ready", "my last message thank you for everything", "last message thank you", "last message ~ thank you for everything", "last message ~ thanks for everything", "want it all to stop", "want everything to stop"],
     FG: ["die for", "to die for", "dying to", "of boredom", "laugh", "phone", "battery", "plant", "game", "dye", "hair", "character", "level", "in minecraft", "in the game", "teacher", "retire", "moving", "jump rope", "skipping rope"],
     SG: ["of embarrassment", "embarrass", "squad", "prevention", "awareness", "movie", "film", "book about", "song", "lyrics", "character", "in the game", "live with my", "live with them|", "live with her|", "live with him|", "live in this city", "live in this town", "live in this house", "live in this country", "live here", "live there"],
@@ -44477,9 +44514,9 @@ const SF110_K = {
     N: ["dont want to die", "do not want to die", "dont wanna die", "never want to die", "not want to die", "afraid to die", "scared to die", "dont want to hurt myself", "scared of dying", "afraid of dying", "not suicidal", "never kill myself", "never hurt myself", "no plans to"],
   },
   de: {
-    S: ["suizid", "selbstmord", "mich umbring", "mich toten", "mich selbst toten", "will sterben", "mochte sterben", "moechte sterben", "sterben will", "sterben mochte", "sterben moechte", "will tot sein", "mochte tot sein", "moechte tot sein", "waere ich tot", "ware ich tot", "waere lieber tot", "ware lieber tot", "waer ich tot", "nicht mehr leben", "nich mehr leben", "nimmer leben", "lebensmude", "lebensmuede", "mir das leben nehmen", "das leben nehmen", "mein leben beenden", "selbstverletz", "ritze mich", "mich ritzen", "mir weh tun", "mir wehtun", "mir was antun", "mir etwas antun", "tu mir was an", "tu mir etwas an", "tue mir was an", "kein grund zu leben", "keinen grund zu leben", "keinen sinn mehr zu leben", "will nicht mehr da sein", "mochte nicht mehr da sein", "moechte nicht mehr da sein", "nicht mehr da sein will", "halte das leben nicht mehr aus", "das leben nicht mehr aus", "will nicht mehr aufwachen", "mich aufhangen", "mich aufhaengen", "von der brucke springen", "von der bruecke springen", "ohne mich besser dran", "ohne mich besser", "will einfach nur sterben", "bringe mich um$", "bring mich um$", "ich waere tot", "ich ware tot", "liebsten war ich tot", "liebsten ware ich tot", "liebsten waere ich tot", "liebsten tot", "keinen bock mehr zu leben", "keine lust mehr zu leben", "ritz mich", "keiner wurde mich vermissen", "niemand wurde mich vermissen", "will ~ nicht mehr aufwachen", "will einfach sterben", "will nur noch sterben", "will einfach nur noch sterben", "will nur sterben", "will echt sterben", "will wirklich sterben", "mochte einfach sterben", "mochte nur noch sterben", "liebsten wurde ich sterben", "liebsten wuerde ich sterben", "geritzt", "besser dran ohne mich", "besser ohne mich", "pulsadern", "leid zu leben", "nicht mehr existieren", "bring mich heute um$", "spring von der brucke", "springe von der brucke", "spring vom dach", "vom hochhaus", "keinen bock mehr auf leben", "kein bock mehr auf leben", "keine lust mehr auf leben", "wenn ich tot war", "wenn ich tot ware", "wenn ich tot waere", "wenn ich nicht mehr da war", "will dass alles aufhort", "mochte dass alles aufhort", "mich vor den zug", "mich vor einen zug", "nie wieder aufwachen", "nie mehr aufwachen", "tabletten meiner mutter", "mamas tabletten", "alle tabletten geschluckt"],
+    S: ["mich ~ umbringen", "suizid", "selbstmord", "mich umbring", "mich toten", "mich selbst toten", "will sterben", "mochte sterben", "moechte sterben", "sterben will", "sterben mochte", "sterben moechte", "will tot sein", "mochte tot sein", "moechte tot sein", "waere ich tot", "ware ich tot", "waere lieber tot", "ware lieber tot", "waer ich tot", "nicht mehr leben", "nich mehr leben", "nimmer leben", "lebensmude", "lebensmuede", "mir das leben nehmen", "das leben nehmen", "mein leben beenden", "selbstverletz", "ritze mich", "mich ritzen", "mir weh tun", "mir wehtun", "mir was antun", "mir etwas antun", "tu mir was an", "tu mir etwas an", "tue mir was an", "kein grund zu leben", "keinen grund zu leben", "keinen sinn mehr zu leben", "will nicht mehr da sein", "mochte nicht mehr da sein", "moechte nicht mehr da sein", "nicht mehr da sein will", "halte das leben nicht mehr aus", "das leben nicht mehr aus", "will nicht mehr aufwachen", "mich aufhangen", "mich aufhaengen", "von der brucke springen", "von der bruecke springen", "ohne mich besser dran", "ohne mich besser", "will einfach nur sterben", "bringe mich um$", "bring mich um$", "ich waere tot", "ich ware tot", "liebsten war ich tot", "liebsten ware ich tot", "liebsten waere ich tot", "liebsten tot", "keinen bock mehr zu leben", "keine lust mehr zu leben", "ritz mich", "keiner wurde mich vermissen", "niemand wurde mich vermissen", "will ~ nicht mehr aufwachen", "will einfach sterben", "will nur noch sterben", "will einfach nur noch sterben", "will nur sterben", "will echt sterben", "will wirklich sterben", "mochte einfach sterben", "mochte nur noch sterben", "liebsten wurde ich sterben", "liebsten wuerde ich sterben", "geritzt", "besser dran ohne mich", "besser ohne mich", "pulsadern", "leid zu leben", "nicht mehr existieren", "bring mich heute um$", "spring von der brucke", "springe von der brucke", "spring vom dach", "vom hochhaus", "keinen bock mehr auf leben", "kein bock mehr auf leben", "keine lust mehr auf leben", "wenn ich tot war", "wenn ich tot ware", "wenn ich tot waere", "wenn ich nicht mehr da war", "will dass alles aufhort", "mochte dass alles aufhort", "mich vor den zug", "mich vor einen zug", "nie wieder aufwachen", "nie mehr aufwachen", "tabletten meiner mutter", "mamas tabletten", "alle tabletten geschluckt"],
     W: ["bring mich um", "bringe mich um", "alles beenden", "schluss mit allem", "will nicht mehr$", "ich war tot", "war ich tot", "mich verletzen", "spring von der", "springe von der", "bring ich mich um", "bringe ich mich um"],
-    G: ["lach mich", "vor hunger", "vor langeweile", "haare", "fussball", "wasser", "sprungbrett", "schaukel", "mauer", "beim sport", "beim spielen", "beim kochen", "finger", "arzt", "arztin", "kopfschmerz", "verschrieben", "vitamin", "antibiotik", "pool", "trampolin"],
+    G: ["um den", "um die", "um das", "um meine", "um meinen", "um mein", "um zu", "uhr", "um acht", "um neun", "lach mich", "vor hunger", "vor langeweile", "haare", "fussball", "wasser", "sprungbrett", "schaukel", "mauer", "beim sport", "beim spielen", "beim kochen", "finger", "arzt", "arztin", "kopfschmerz", "verschrieben", "vitamin", "antibiotik", "pool", "trampolin"],
     F: ["sterben|", "will verschwinden", "mochte verschwinden", "moechte verschwinden", "hasse mein leben", "abschiedsbrief", "seil gekauft", "brauche ich nicht mehr", "letzte nachricht ~ danke fur alles", "letzte nachricht ~ danke fuer alles", "sachen verschenkt", "brauch die eh nicht mehr", "seil besorgt"],
     FG: ["vor lachen", "vor hunger", "vor langeweile", "vor scham", "vor angst", "vor hitze", "vor kalte", "spiel", "zum sterben", "handy", "akku", "rente", "lehrerin", "springseil", "umzug"],
     SG: ["vor scham", "film"],
@@ -44547,7 +44584,7 @@ const SF110_K = {
     N: ["wil niet dood", "wil niet sterven", "bang om dood te gaan", "niet suicidaal"],
   },
   tr: {
-    S: ["intihar", "kendimi oldur", "kendimi asaca", "kendimi asmak", "kendimi kopruden", "kendimi asagi at", "camdan atla", "balkondan atla", "kendime zarar", "kendimi kes", "kendimi yarala", "bilegimi kes", "bileklerimi kes", "olmek isti", "olmek isterim", "olesim var", "olup gitmek", "olup gitsem", "yasamak istemi", "yasamak istemiyom", "yasamaya devam etmek istemi", "yasamanin anlami yok", "yasamak icin bir neden", "hayatima son", "hayatimi bitir", "canima kiy", "her seye son", "kendimi yok etmek", "yok olmak istiyorum", "keske hic dogmasaydim", "dunyadan gitmek", "keske olsem", "olsem kurtulur", "keske olseydim", "kimse beni ozlemez", "kimse beni ozlemeyecek", "bensiz daha iyi", "bir daha uyanmak istemi", "olmek isted", "yasamaktan bikt", "yasamaktan sikil", "annemin haplarini", "annemin butun hap", "olursem herkes daha iyi", "olursem herkes daha mutlu"],
+    S: ["kendimi yine kes", "kendimi kestim", "kendimi kesiyorum", "intihar", "kendimi oldur", "kendimi asaca", "kendimi asmak", "kendimi kopruden", "kendimi asagi at", "camdan atla", "balkondan atla", "kendime zarar", "kendimi kes", "kendimi yarala", "bilegimi kes", "bileklerimi kes", "olmek isti", "olmek isterim", "olesim var", "olup gitmek", "olup gitsem", "yasamak istemi", "yasamak istemiyom", "yasamaya devam etmek istemi", "yasamanin anlami yok", "yasamak icin bir neden", "hayatima son", "hayatimi bitir", "canima kiy", "her seye son", "kendimi yok etmek", "yok olmak istiyorum", "keske hic dogmasaydim", "dunyadan gitmek", "keske olsem", "olsem kurtulur", "keske olseydim", "kimse beni ozlemez", "kimse beni ozlemeyecek", "bensiz daha iyi", "bir daha uyanmak istemi", "olmek isted", "yasamaktan bikt", "yasamaktan sikil", "annemin haplarini", "annemin butun hap", "olursem herkes daha iyi", "olursem herkes daha mutlu"],
     W: ["olsem", "jilet", "her seyi bitirmek"],
     G: ["orada", "gibi", "tatil", "odev", "doktor", "bas agrisi", "hastayim", "vitamin", "antibiyotik", "denize", "suya", "havuza"],
     F: ["olmek|", "kaybolmak istiyorum", "hayatimdan nefret", "ip aldim", "son mesajim ~ tesekkur", "veda mektup", "esyalarimi dagittim"],
@@ -44566,7 +44603,7 @@ const SF110_K = {
     N: ["死にたくない", "しにたくない", "自殺なんてしない"],
   },
   ko: {
-    S: ["죽고 싶", "죽고싶", "죽고 시퍼", "죽고시퍼", "주꼬싶", "죽어버리", "죽어 버리", "죽어야겠", "차라리 죽", "자살", "자해", "사라지고 싶", "사라지고싶", "없어지고 싶", "없어지고싶", "사라져버리고", "사라져 버리고", "살기 싫", "살기싫", "살고 싶지 않", "살고싶지 않", "살고 싶지않", "살고싶지않", "그만 살", "더 살기 싫", "살 이유", "살아야 할 이유", "살아갈 이유", "삶을 끝", "인생 끝내", "다 끝내고 싶", "목숨을 끊", "목숨 끊", "극단적 선택", "극단적인 선택", "손목 긋", "손목을 긋", "손목 그", "뛰어내리", "뛰어 내리", "나를 해치", "날 해치", "내 몸에 상처", "몸에 상처를", "칼로 그", "suicide", "kill myself", "나 없으면 다들", "나 없으면 모두", "나 없어도 다들", "유서", "약을 많이 먹", "약을 한꺼번에", "수면제를 많이", "알약을 많이", "약을 다 먹", "영원히 안 깨어", "다시 안 깨어났으면"],
+    S: ["안 깨어났으면", "깨어나지 않았으면", "안 깨어나고 싶", "죽고 싶", "죽고싶", "죽고 시퍼", "죽고시퍼", "주꼬싶", "죽어버리", "죽어 버리", "죽어야겠", "차라리 죽", "자살", "자해", "사라지고 싶", "사라지고싶", "없어지고 싶", "없어지고싶", "사라져버리고", "사라져 버리고", "살기 싫", "살기싫", "살고 싶지 않", "살고싶지 않", "살고 싶지않", "살고싶지않", "그만 살", "더 살기 싫", "살 이유", "살아야 할 이유", "살아갈 이유", "삶을 끝", "인생 끝내", "다 끝내고 싶", "목숨을 끊", "목숨 끊", "극단적 선택", "극단적인 선택", "손목 긋", "손목을 긋", "손목 그", "뛰어내리", "뛰어 내리", "나를 해치", "날 해치", "내 몸에 상처", "몸에 상처를", "칼로 그", "suicide", "kill myself", "나 없으면 다들", "나 없으면 모두", "나 없어도 다들", "유서", "약을 많이 먹", "약을 한꺼번에", "수면제를 많이", "알약을 많이", "약을 다 먹", "영원히 안 깨어", "다시 안 깨어났으면"],
     W: ["그냥 죽", "목 매", "목매", "죽을래", "끝내고 싶어", "끝낼 거", "죽을 거", "죽을거", "뛰어내릴까"],
     G: ["웃겨", "배고파", "죽 먹", "더워", "추워", "목 매일", "목매일"],
     F: ["죽다", "죽는", "죽음", "밧줄을 샀", "마지막 메시지 ~ 고마", "밧줄 샀", "물건 다 나눠줬"],
@@ -44575,18 +44612,18 @@ const SF110_K = {
     N: ["죽고 싶지 않", "죽고싶지 않", "죽고 싶지않", "죽고싶지않", "죽기 싫", "자살 안 해", "자살 안해"],
   },
   zh: {
-    S: ["自杀", "不想活", "活不下去", "轻生", "自残", "自伤", "伤害自己", "伤害我自己", "自我伤害", "割腕", "寻死", "结束生命", "结束自己", "了结自己", "了断", "死了算了", "不如死了", "去死", "想去死", "活着没意思", "活着没有意思", "活着没有意义", "没有活下去的理由", "不想活下去", "想消失", "自尽", "kill myself", "suicide", "一了百了", "没有我大家", "不想再醒来", "割了自己", "药全吃了", "把药全吃", "我死了大家", "再也不醒", "遗书", "结束这一切", "吃了很多药", "吃了一堆药", "吃了好多药", "一整瓶药", "整瓶安眠药", "很多安眠药", "吞了很多药", "再也不要醒"],
-    W: ["想死", "好想死", "跳楼"],
-    G: ["想死你", "笑死", "饿死", "热死", "累死", "冷死", "尴尬", "丢脸", "跳楼价", "跳楼大甩卖"],
+    S: ["了断自己", "我去死", "我想死了算了", "自杀", "不想活", "活不下去", "轻生", "自残", "自伤", "伤害自己", "伤害我自己", "自我伤害", "割腕", "寻死", "结束生命", "结束自己", "了结自己", "死了算了", "不如死了", "想去死", "活着没意思", "活着没有意思", "活着没有意义", "没有活下去的理由", "不想活下去", "想消失", "自尽", "kill myself", "suicide", "一了百了", "没有我大家", "不想再醒来", "割了自己", "药全吃了", "把药全吃", "我死了大家", "再也不醒", "遗书", "结束这一切", "吃了很多药", "吃了一堆药", "吃了好多药", "一整瓶药", "整瓶安眠药", "很多安眠药", "吞了很多药", "再也不要醒"],
+    W: ["去死", "想死", "好想死", "跳楼"],
+    G: ["你去死", "你给我去死", "他去死", "她去死", "你们去死", "你怎么不去死", "去死吧你", "想死你", "笑死", "饿死", "热死", "累死", "冷死", "尴尬", "丢脸", "跳楼价", "跳楼大甩卖"],
     F: ["死亡", "买了绳子", "最后一条消息 ~ 谢谢", "买好绳子", "东西都送人"],
     FG: ["游戏", "历史", "跳绳"],
     SG: ["尴尬", "丢脸", "电影"],
     N: ["不想死", "怕死", "不会自杀"],
   },
   zht: {
-    S: ["想去死", "自我傷害", "自殺", "自杀", "不想活", "活不下去", "活著好累", "活著沒意義", "活著沒有意義", "活著沒意思", "活著沒有意思", "沒有活下去的理由", "輕生", "尋死", "結束生命", "結束自己", "了結自己", "一了百了", "消失算了", "想消失", "不想存在", "割腕", "自殘", "自残", "傷害自己", "傷害我自己", "殺了自己", "殺死自己", "想離開這個世界", "不如死了", "自盡", "去死", "kill myself", "suicide", "沒有我大家", "不想再醒來", "割了自己", "藥全吃了", "把藥全吃", "我死了大家", "再也不醒", "遺書", "結束這一切", "吃了很多藥", "吃了一堆藥", "吃了好多藥", "一整瓶藥", "整瓶安眠藥", "很多安眠藥", "吞了很多藥", "再也不要醒"],
-    W: ["想死", "好想死", "跳樓"],
-    G: ["想死你", "笑死", "餓死", "熱死", "累死", "冷死", "尷尬", "丟臉", "跳樓價", "跳樓大拍賣"],
+    S: ["了斷自己", "我去死", "想去死", "自我傷害", "自殺", "自杀", "不想活", "活不下去", "活著好累", "活著沒意義", "活著沒有意義", "活著沒意思", "活著沒有意思", "沒有活下去的理由", "輕生", "尋死", "結束生命", "結束自己", "了結自己", "一了百了", "消失算了", "想消失", "不想存在", "割腕", "自殘", "自残", "傷害自己", "傷害我自己", "殺了自己", "殺死自己", "想離開這個世界", "不如死了", "自盡", "kill myself", "suicide", "沒有我大家", "不想再醒來", "割了自己", "藥全吃了", "把藥全吃", "我死了大家", "再也不醒", "遺書", "結束這一切", "吃了很多藥", "吃了一堆藥", "吃了好多藥", "一整瓶藥", "整瓶安眠藥", "很多安眠藥", "吞了很多藥", "再也不要醒"],
+    W: ["去死", "想死", "好想死", "跳樓"],
+    G: ["你去死", "你給我去死", "他去死", "她去死", "你們去死", "你怎麼不去死", "去死吧你", "想死你", "笑死", "餓死", "熱死", "累死", "冷死", "尷尬", "丟臉", "跳樓價", "跳樓大拍賣"],
     F: ["死亡", "買了繩子", "最後一則訊息 ~ 謝謝", "買好繩子", "東西都送人"],
     FG: ["遊戲", "歷史", "跳繩"],
     SG: ["尷尬", "丟臉", "電影"],
@@ -44611,7 +44648,7 @@ const SF110_GEN = {
       [["nobody", "no one", "noone"], ["would miss me", "would notice if i", "would care if i died", "would care if i was gone", "would even notice"]], [["better off", "happier", "better"], ["without me", "if i was gone", "if i were gone", "if i wasnt here", "if i died", "if i was dead", "if i were dead", "if i die"]],
       [["tired of", "sick of", "done with"], ["living|", "life|", "being alive", "existing"]], [["end it", "end everything", "end my life", "kill myself"], ["tonight", "today", "now", "soon"]]],
     NX: [[["dont want to", "do not want to", "dont wanna", "never want to", "not going to", "not gonna", "scared to", "afraid to", "wont", "would never", "will never", "never", "no plans to"], ["die|", "kill myself", "hurt myself", "cut myself", "end it|"]]] },
-  de: { SX: [[["will", "mochte", "moechte", "werde", "wurde gerne", "wuerde gerne", "denke daran", "plane", "habe vor", "hab vor", "am liebsten"], ["sterben|", "mich umbringen", "mich toten", "mich umzubringen", "mir das leben nehmen", "tot sein|", "nicht mehr leben", "nicht mehr aufwachen", "mich ritzen", "mir was antun", "mir etwas antun", "fur immer verschwinden", "einschlafen und nicht mehr aufwachen"]],
+  de: { SX: [[["bring mich", "bringe mich", "bring ich mich", "bringe ich mich"], ["um|"]], [["will", "mochte", "moechte", "werde", "wurde gerne", "wuerde gerne", "denke daran", "plane", "habe vor", "hab vor", "am liebsten"], ["sterben|", "mich umbringen", "mich toten", "mich umzubringen", "mir das leben nehmen", "tot sein|", "nicht mehr leben", "nicht mehr aufwachen", "mich ritzen", "mir was antun", "mir etwas antun", "fur immer verschwinden", "einschlafen und nicht mehr aufwachen"]],
       [["zu viele", "viel zu viele", "eine ganze packung", "ganze packung", "haufen", "eine packung", "die ganzen", "ganze"], ["tabletten", "pillen", "medikamente", "schlaftabletten"]],
       [["spring", "springe", "springen", "sturze", "sturz", "werfe mich", "werf mich"], ["brucke", "dach", "hochhaus", "fenster", "zug", "balkon", "klippe"]],
       [["keiner", "niemand"], ["vermissen", "merken", "auffallen"]], [["alle", "jeder"], ["besser ohne mich", "besser dran ohne mich", "glucklicher ohne mich"]],
@@ -44687,6 +44724,12 @@ function sf110Level(raw, lang) {
   const l = SF110_K[lang || S.lang] ? (lang || S.lang) : "en";
   let best = sf110Level1(s, l, false); if (best === 2) return 2;
   for (const p of s.split(SF110_SPLIT[l])) { if (p && p.trim() && p.trim() !== s.trim()) { best = Math.max(best, sf110Level1(p, l, true)); if (best === 2) break; } }
+  /* l'inglese vale sempre in aggiunta (molti ragazzi scrivono in inglese con l'app in un'altra lingua): conta solo il livello
+     forte, perche' le parole lievi inglesi ("die") sono parole comuni in altre lingue (articolo tedesco e olandese) */
+  if (best < 2 && l !== "en") {
+    if (sf110Level1(s, "en", false) === 2) return 2;
+    for (const p of s.split(SF110_SPLIT.en)) { if (p && p.trim() && p.trim() !== s.trim() && sf110Level1(p, "en", true) === 2) return 2; }
+  }
   return best;
 }
 function sf110Level1(txt, l, part) {
@@ -44704,6 +44747,8 @@ function sf110Level1(txt, l, part) {
   if ((K.S || []).concat(SF110_ALL.S).some(sHit)) return lg() ? 0 : sg() ? 1 : 2;
   /* forte generato e debole: un segno "G" vicino (capelli, cucinando, telefono...) lo spegne */
   /* "ho preso 30 pillole": un numero grande vicino a pillole/compresse */
+  /* cinese, giapponese, coreano: "30錠", "30片安眠药", "약 30알" (numero grande e un farmaco nella frase) */
+  if (ms.some((m) => /([2-9]\d|\d{3})\s*(錠|粒|片|顆|颗|알|개)/u.test(m) && /(药|藥|薬|錠|安眠|睡眠|약)/u.test(m))) return 2;
   if (ms.some((m) => /(^|\s)([2-9]\d|\d{3})\s+(\S+\s+)?(pills|tablets|pillole|pastiglie|compresse|pastillas|cachets|comprimes|comprimidos|tabletten|pillen|таблет|tabletek|tabletki|hap|ilac)/u.test(m))) return 2;
   /* forte generato e debole: un segno "G" vicino (capelli, cucinando, telefono...) lo spegne. Nelle parti di frase no
      (il segno puo' stare nella parte accanto: "stavo cucinando e mi sono tagliata"), tranne le frasi deboli "a fine frase" ($) */
@@ -44749,7 +44794,7 @@ const SF110_HL = {
   PT: { L: ["pt"], E: "112", h: [{ n: "Linha Nacional de Prevenção do Suicídio", t: "1411" }, { n: "SOS Criança", t: "116 111", y: 1 }] },
   BR: { L: ["pt"], E: "192", h: [{ n: "CVV, Centro de Valorização da Vida", t: "188" }] },
   MX: { L: ["es"], E: "911", h: [{ n: "Línea de la Vida", t: "800 911 2000" }] },
-  AR: { L: ["es"], E: "911", h: [{ n: "Centro de Asistencia al Suicida", t: "135 · 0800 345 1435" }] },
+  AR: { L: ["es"], E: "911", h: [{ n: "Centro de Asistencia al Suicida", t: "0800 345 1435" }, { n: "Centro de Asistencia al Suicida (Buenos Aires)", t: "135" }] },
   CL: { L: ["es"], E: "131", h: [{ n: "Línea de prevención del suicidio", t: "*4141" }] },
   US: { L: ["en"], E: "911", h: [{ n: "988 Lifeline", t: "988" }] },
   CA: { L: ["en", "fr"], E: "911", h: [{ n: "9-8-8", t: "988" }, { n: { en: "Kids Help Phone", fr: "Jeunesse, J'écoute" }, t: "1-800-668-6868", y: 1 }] },
@@ -44822,6 +44867,7 @@ if (typeof nq20busy === "function") { const _a = nq20busy; nq20busy = function (
 /* nella scheda di aiuto i numeri si possono toccare per chiamare (tel:), numero per numero */
 function sf110TelHtml(l) {
   const i = Math.max(l.lastIndexOf(": "), l.lastIndexOf("\u00a0: ")); const cut = i < 0 ? -1 : l.indexOf(": ", i) + 2;
+  if (cut >= 2 && /^\s*findahelpline\.com\s*$/.test(l.slice(cut))) return esc(l.slice(0, cut)) + `<a href="https://findahelpline.com" target="_blank" rel="noopener">findahelpline.com</a>`;
   if (cut < 2 || !/\d/.test(l.slice(cut))) return esc(l);
   return esc(l.slice(0, cut)) + l.slice(cut).split(" · ").map((n) => { const d = n.replace(/[^\d*#+]/g, ""); return d ? `<a href="tel:${esc(d)}">${esc(n)}</a>` : esc(n); }).join(" · ");
 }
@@ -44829,8 +44875,18 @@ if (typeof v26HelpSheet === "function") {
   const _a = v26HelpSheet;
   v26HelpSheet = function (...a) {
     sf110Hush(); const r = _a.apply(this, a);
+    try { const tt = document.getElementById("toast"); if (tt && layer.querySelector(".v26sos")) tt.hidden = true; } catch (e) { /* niente */ } /* il "Salvato" non copre i pulsanti */
     try { layer.querySelectorAll(".v26sos p > strong").forEach((x) => { if (!x.querySelector("a")) x.innerHTML = sf110TelHtml(x.textContent); }); } catch (e) { /* niente */ }
     return r;
+  };
+}
+/* anche nella chat i numeri di aiuto si toccano per chiamare */
+if (typeof chatBubbles === "function") {
+  const _a = chatBubbles;
+  chatBubbles = function (...a) {
+    let h = _a.apply(this, a);
+    try { chatLog.forEach((m) => (m.lines || []).forEach((l) => { h = h.split(`<p><strong>${l}</strong></p>`).join(`<p><strong>${sf110TelHtml(l)}</strong></p>`); })); } catch (e) { /* niente */ }
+    return h;
   };
 }
 
@@ -44915,12 +44971,18 @@ document.addEventListener("click", (ev) => {
   const f = ageAfter; openAge(f); v110AgeWant = null;
   try { const m = document.getElementById("ageM"), y = document.getElementById("ageY"), g = document.getElementById("ageGo"); m.value = String(a.m); y.value = String(a.y); if (g) g.disabled = false; } catch (e) { /* niente */ }
 }, true);
+/* ripristino da file, codice o backup online: subito l'eta' di questo telefono (non si aspetta il controllo ogni 1,2 s) */
+function v110AgeKeep() { try { ageFromMirror(); } catch (e) { /* niente */ } }
+/* il "Si'" della domanda "Sostituire i progressi?" assegna lo stato dopo: si rilegge l'eta' subito dopo ogni tocco */
+document.addEventListener("click", () => { setTimeout(() => { try { if (S.age === undefined) ageFromMirror(); } catch (e) { /* niente */ } }, 0); });
+if (typeof restoreFrom === "function") { const _a = restoreFrom; restoreFrom = function (...a) { const r = _a.apply(this, a); v110AgeKeep(); return r; }; }
+if (typeof applyCloud === "function") { const _a = applyCloud; applyCloud = function (...a) { const r = _a.apply(this, a); v110AgeKeep(); return r; }; }
 /* scheda "La tua eta'" nel Profilo: chi l'ha detta legge anche che non si cambia piu' */
 if (typeof psAgeCard === "function") {
   const _psAgeCardV110 = psAgeCard;
   psAgeCard = function (...a) {
     const h = _psAgeCardV110.apply(this, a); if (!h || !S.age || S.age.skip || !S.age.y) return h;
-    return h.replace(/<\/div>$/, `<p class="small muted v110agelock">${esc(v110AgeT()[6])}</p></div>`);
+    return h.replace(/(<div class="card stack-s psage">[\s\S]*?)(<\/div>)/, `$1<p class="small muted v110agelock">${esc(v110AgeT()[6])}</p>$2`);
   };
 }
 

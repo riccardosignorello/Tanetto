@@ -139,7 +139,10 @@ const ageHidden = (fn) => function (...a) {
 };
 if (typeof packState === "function") packState = ageHidden(packState);
 if (typeof saveBackup === "function") saveBackup = ageHidden(saveBackup);
-if (S.age !== undefined) ageMirror(S.age); else ageFromMirror();
+/* 1.0.10: la copia locale vince sempre (l'eta' non si cambia piu': uno stato modificato non la sovrascrive) */
+(() => { let m = null; try { m = JSON.parse(localStorage.getItem(AGE_KEY) || "null"); } catch (e) { m = null; }
+  const ok = m && typeof m === "object" && (m.skip === true || (Number.isInteger(m.y) && Number.isInteger(m.m) && m.m >= 1 && m.m <= 12));
+  if (ok) { if (JSON.stringify(S.age) !== JSON.stringify(m)) { S.age = m; save(); } } else if (S.age !== undefined) ageMirror(S.age); })();
 
 /* ---------- account e backup online: solo per gli adulti ---------- */
 function ageCloudStop() {
