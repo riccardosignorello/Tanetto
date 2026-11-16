@@ -21,21 +21,11 @@ function v110Redesign() {
   if (!document.documentElement.classList.contains("v110x")) return;
   const app = document.getElementById("app"); if (!app) return; const w = v2t();
   if (tab === "today") {
-    /* la scena con il saluto dentro */
-    const rw = app.querySelector(".stack > .roomwrap"); const gr = app.querySelector(".stack > h1.greet");
-    if (rw && !rw.classList.contains("full")) { rw.classList.add("v110hero"); if (gr) rw.insertBefore(gr, rw.firstChild); }
-    /* riepilogo del giorno: anello con gli obiettivi fatti */
-    const ne = app.querySelector("#nvEnergy");
-    if (ne && !ne.querySelector(".v2r")) {
-      let dn = 0, n = 0; try { const st = nav20energyInfo(); dn = st.why === "used" ? 0 : st.dn || 0; n = st.n || 0; } catch (e) { /* niente */ }
-      const tg = todayGoals(); const done = tg.filter((g) => S.done.includes(g)).length; const tot = tg.length || n;
-      ne.classList.add("v2ring"); ne.insertAdjacentHTML("afterbegin", `<div class="v2r" style="--p:${tot ? Math.round((done / tot) * 100) : 0}" aria-hidden="true"><span><b>${done}/${tot}</b><small>${esc(w.goals)}</small></span></div>`);
-    }
     const h2 = app.querySelector(".sec h2"); const g = app.querySelectorAll(".goals .goal");
     if (h2 && g.length && !h2.querySelector(".v110cnt")) { const d = app.querySelectorAll('.goals .goal[aria-pressed="true"]').length; h2.insertAdjacentHTML("beforeend", `<span class="v110cnt">${d}/${g.length}</span>`); }
   }
-  /* Viaggi: album di cartoline */
-  app.querySelectorAll(".stack-s").forEach((s) => { if (s.querySelector(":scope > .dest")) s.classList.add("v110grid"); });
+  /* Viaggi: percorso a tappe */
+  app.querySelectorAll(".stack-s").forEach((s) => { if (s.querySelector(":scope > .dest")) s.classList.add("v110path"); });
   /* Profilo: il compagno sul palco, livello e numeri; "Invita un amico" in vista (solo se l'invito esiste per questa eta') */
   const pc = app.querySelector(".profcard");
   if (pc && !pc.classList.contains("v2stage")) {

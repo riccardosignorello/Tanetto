@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-pwj91OHGX6CMPtMz/MJtnDSgquha1I1gV/nSjZlyG7k=' 'unsafe-eval' https://apis.google.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.goatcounter.com; media-src 'self' data: blob:; connect-src 'self' data: blob: https://*.googleapis.com https://tanettoapp-pet.firebaseapp.com https://*.goatcounter.com; frame-src https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-LANhDDY3TRiOWLqachoAqiHeYyd/Ua0RLfkhvlsjSiw=' 'unsafe-eval' https://apis.google.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.goatcounter.com; media-src 'self' data: blob:; connect-src 'self' data: blob: https://*.googleapis.com https://tanettoapp-pet.firebaseapp.com https://*.goatcounter.com; frame-src https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#F4EFE6">
 <title>Tanetto — a tiny pet for your self-care habits (free app)</title>
@@ -3416,130 +3416,100 @@ html.bigtext #app .v110pack.v110pack i:nth-child(n) { height: 36px; }
 :root[lang^="zh"] { --font-display: "Noto Sans SC", "Noto Sans TC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif; --font-body: "Noto Sans SC", "Noto Sans TC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif; }
 :root[lang^="zh-TW"], :root[lang^="zh-Hant"], :root[lang^="zh-HK"] { --font-display: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif; --font-body: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif; }
 
-/* ===== 1.0.10 — NUOVO ASPETTO (proposta 2, attiva con html.v110x) =====
-   Idea: Tanetto come un piccolo mondo da sfogliare. Casa = la scena del compagno che sfuma nella pagina, con il
-   riepilogo del giorno in un anello; obiettivi come schede colorate della loro categoria. Viaggi = un album di cartoline
-   vere (bordo bianco, francobollo, titolo scritto a mano). Profilo = il compagno su un piccolo palco, con livello e numeri.
-   Materiale: riquadri morbidi "di argilla" (luce in alto, ombra sotto), vetro sopra la scena. */
-
-html.v110x { --v2-r: 26px; --v2-sh: 0 1px 0 rgba(255, 255, 255, .75) inset, 0 2px 4px rgba(80, 55, 25, .06), 0 16px 30px -18px rgba(80, 55, 25, .42); }
-:root.v110x[data-theme="dark"] { --v2-sh: 0 1px 0 rgba(255, 255, 255, .05) inset, 0 16px 30px -16px rgba(0, 0, 0, .9); }
-@media (prefers-color-scheme: dark) { :root.v110x:not([data-theme="light"]) { --v2-sh: 0 1px 0 rgba(255, 255, 255, .05) inset, 0 16px 30px -16px rgba(0, 0, 0, .9); } }
-html.v110x body .card, html.v110x #app .goal, html.v110x #app .nven, html.v110x #app .tr20st, html.v110x #app .albumbtn, html.v110x #app .nvpass { border-radius: var(--v2-r); box-shadow: var(--v2-sh); }
-html.v110x #app .stack > h1:not(.greet):not(.psubt) { font-size: 32px; letter-spacing: -.3px; margin-top: 4px; }
-html.v110x #app .stack > h2, html.v110x #app .sec h2 { font-size: 22px; letter-spacing: -.2px; }
+/* ===== 1.0.10 — NUOVO ASPETTO (proposta 3, attiva con html.v110x) =====
+   Ispirazione: il linguaggio "a pezzi grossi" delle app di abitudini piu' amate (bottoni e riquadri spessi con il bordo
+   inferiore in rilievo, colori pieni, niente vetro ne' ombre sfocate), il percorso a tappe per i viaggi, le tessere grandi
+   da toccare per gli obiettivi. Stessi colori caldi di Tanetto e stessa stanza 3D: cambia la forma, non l'anima. */
+html.v110x { --k-line: color-mix(in srgb, var(--line) 85%, #8a7a66); --k-edge: color-mix(in srgb, var(--line) 55%, #6b5b48); }
+:root.v110x[data-theme="dark"] { --k-line: #3d362e; --k-edge: #14110e; }
+@media (prefers-color-scheme: dark) { :root.v110x:not([data-theme="light"]) { --k-line: #3d362e; --k-edge: #14110e; } }
+/* riquadri "in rilievo": bordo chiaro e bordo inferiore spesso, nessuna ombra sfocata */
+html.v110x body #app .card, html.v110x #app .nven, html.v110x #app .tr20st, html.v110x #app .albumbtn, html.v110x #app .nvpass, html.v110x #app .pluscard, html.v110x #app .pmenu {
+  border-radius: 22px; box-shadow: none; border: 2px solid var(--k-line); border-bottom-width: 6px; border-bottom-color: var(--k-edge); }
+html.v110x #app .pluscard { border-color: #E8B94E; border-bottom-color: #C48A1E; }
+html.v110x #app .stack > h1:not(.greet):not(.psubt) { font-size: 32px; font-weight: 700; letter-spacing: -.3px; }
+html.v110x #app .stack > h2, html.v110x #app .sec h2 { font-size: 22px; font-weight: 700; }
+/* pulsanti in rilievo */
+html.v110x #app .btn:not(.link):not(.ghost) { box-shadow: 0 5px 0 color-mix(in srgb, var(--accent) 62%, #000); border-radius: 18px; transition: transform .08s cubic-bezier(.33, 1, .68, 1), box-shadow .08s cubic-bezier(.33, 1, .68, 1); }
+html.v110x #app .btn:not(.link):not(.ghost):active { transform: translateY(4px); box-shadow: 0 1px 0 color-mix(in srgb, var(--accent) 62%, #000); }
+html.v110x #app .btn.ghost { border-radius: 18px; border: 2px solid var(--k-line); border-bottom-width: 5px; }
 
 /* ---------------- CASA ---------------- */
-/* barra in alto: capsule di vetro sopra la scena */
-html.v110x[data-v110tab="today"] #app .top { position: relative; z-index: 5; gap: 8px; }
-html.v110x[data-v110tab="today"] #app .top > button { background: color-mix(in srgb, var(--paper) 78%, transparent); backdrop-filter: blur(12px) saturate(1.4); -webkit-backdrop-filter: blur(12px) saturate(1.4);
-  box-shadow: 0 6px 16px -10px rgba(40, 25, 10, .5), inset 0 0 0 1px rgba(255, 255, 255, .5); border-radius: 999px; }
-html.v110x[data-v110tab="today"] #app .top .namebtn { padding: 6px 14px; min-height: 40px; color: var(--ink); }
-/* la scena: da bordo a bordo, sale sotto la barra e sfuma nella pagina */
-html.v110x[data-v110tab="today"] #app .roomwrap.v110hero { margin: -64px -16px 0; position: relative; }
-html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .room { border-radius: 0; aspect-ratio: 360 / 352; box-shadow: none;
-  -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 74%, rgba(0, 0, 0, .55) 88%, transparent 100%); mask-image: linear-gradient(to bottom, #000 0, #000 74%, rgba(0, 0, 0, .55) 88%, transparent 100%); }
-html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .fullbtn { top: 70px; bottom: auto; right: 16px; z-index: 4; }
-/* saluto: etichetta di vetro in alto a sinistra, sopra la parete (mai sopra il compagno) */
-html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .greet { position: absolute; z-index: 3; left: 16px; top: 70px; margin: 0; pointer-events: none; padding: 8px 14px 9px; border-radius: 18px;
-  background: color-mix(in srgb, var(--paper) 80%, transparent); backdrop-filter: blur(12px) saturate(1.3); -webkit-backdrop-filter: blur(12px) saturate(1.3); box-shadow: 0 8px 20px -12px rgba(40, 25, 10, .5), inset 0 0 0 1px rgba(255, 255, 255, .5); }
-html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .greet .gd { display: block; font-size: 12.5px; font-weight: 700; color: var(--muted); }
-html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .greet .gw { display: block; font-size: 24px; line-height: 1.1; color: var(--ink); }
-/* il fumetto a destra del compagno, con la punta verso di lui */
-html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .bubble { position: absolute; z-index: 4; top: 40%; right: 12px; left: auto; margin: 0; max-width: 42%; font-size: 14px; padding: 8px 12px; border-radius: 18px 18px 18px 6px; box-shadow: 0 10px 22px -12px rgba(40, 25, 10, .5); }
-html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .bubble::before, html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .bubble::after { display: none; }
-/* azioni: bottoni rotondi di vetro sulla linea dove la scena finisce */
-html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .actions { position: relative; z-index: 4; width: calc(100% - 24px); margin: -78px 12px 0; gap: 4px; }
-html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .act { background: transparent; box-shadow: none; min-height: 72px; gap: 5px; font-weight: 700; }
-html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .act .aci { width: 50px; height: 50px; border-radius: 50%; background: color-mix(in srgb, var(--paper) 86%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 8px 18px -10px rgba(40, 25, 10, .55), inset 0 0 0 1px rgba(255, 255, 255, .6); transition: transform .2s cubic-bezier(.3, 1.6, .5, 1); }
-html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .act .aci svg { width: 24px; height: 24px; }
-html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .act:active .aci { transform: scale(.9); }
-/* riepilogo del giorno: anello + zaino */
-html.v110x #app .nven.v2ring { display: grid; grid-template-columns: 92px minmax(0, 1fr); column-gap: 14px; align-items: center; padding: 16px; margin-top: 6px; }
-html.v110x #app .nven.v2ring > * { grid-column: 2; }
-html.v110x #app .nven.v2ring .v2r { grid-column: 1; grid-row: 1 / span 4; width: 92px; height: 92px; border-radius: 50%; display: grid; place-items: center; align-self: center;
-  background: conic-gradient(var(--v110c, var(--accent)) calc(var(--p, 0) * 1%), color-mix(in srgb, var(--v110c, var(--accent)) 14%, var(--paper-2)) 0); position: relative; }
-html.v110x #app .nven.v2ring .v2r::before { content: ""; position: absolute; inset: 9px; border-radius: 50%; background: var(--paper); box-shadow: inset 0 2px 6px rgba(80, 55, 25, .12); }
-html.v110x #app .nven.v2ring .v2r b { position: relative; font-family: var(--font-display); font-size: 26px; line-height: 1; color: var(--ink); }
-html.v110x #app .nven.v2ring .v2r small { position: relative; display: block; font-size: 11.5px; color: var(--muted); font-weight: 700; text-align: center; margin-top: 2px; }
-html.v110x #app .nven.v2ring .v2r span { display: grid; justify-items: center; }
-html.v110x #app .nven.v2ring .nvenrow { flex-wrap: wrap; gap: 8px; }
-html.v110x #app .nven.v2ring .nvenrow .btn { flex: 1 1 100%; }
-/* obiettivi: schede del colore della loro categoria */
-html.v110x #app .goals { gap: 10px; }
-html.v110x #app .goal { min-height: 76px; padding: 12px 14px 12px 12px; gap: 14px; background: linear-gradient(100deg, color-mix(in srgb, var(--cc) 14%, var(--paper)) 0%, var(--paper) 62%); }
-html.v110x #app .goal .cat { width: 50px; height: 50px; border-radius: 16px; box-shadow: inset 0 -4px 0 rgba(0, 0, 0, .14), 0 8px 14px -10px var(--cc); }
-html.v110x #app .goal .cat svg { width: 26px; height: 26px; }
-html.v110x #app .goal .txt b { font-size: 17px; font-weight: 700; }
-html.v110x #app .goal .tick { width: 44px; height: 44px; border-width: 3px; border-color: color-mix(in srgb, var(--cc) 45%, var(--line)); }
-html.v110x #app .goal[aria-pressed="true"] { background: color-mix(in srgb, var(--cc) 10%, var(--paper)); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--cc) 30%, transparent); }
-html.v110x #app .goal[aria-pressed="true"] .tick { background: var(--cc); border-color: var(--cc); color: #fff; }
-html.v110x #app .goal[aria-pressed="true"] .txt b { text-decoration-thickness: 1.5px; text-decoration-color: color-mix(in srgb, var(--cc) 70%, transparent); }
-html.v110x #app .sec h2 .v110cnt { display: inline-grid; place-items: center; min-width: 40px; height: 28px; padding: 0 10px; margin-left: 10px; border-radius: 999px; font-size: 15px; vertical-align: 3px; background: var(--v110c-s); color: var(--v110c); }
+html.v110x[data-v110tab="today"] #app .room { border-radius: 26px; box-shadow: none; border: 3px solid var(--k-line); border-bottom-width: 8px; border-bottom-color: var(--k-edge); }
+html.v110x #app .actions { gap: 8px; }
+html.v110x #app .act { border-radius: 20px; box-shadow: none; border: 2px solid var(--k-line); border-bottom-width: 5px; border-bottom-color: var(--k-edge); min-height: 74px; transition: transform .08s cubic-bezier(.33, 1, .68, 1); }
+html.v110x #app .act:active { transform: translateY(3px); border-bottom-width: 2px; }
+html.v110x #app .act .aci { width: 40px; height: 40px; border-radius: 14px; }
+/* obiettivi: tessere grandi a due colonne, del colore della categoria */
+html.v110x #app .goals { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+html.v110x #app .goals > li { display: flex; }
+html.v110x #app .goal { flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 10px; min-height: 140px; padding: 14px 14px 12px; position: relative; border-radius: 22px; box-shadow: none;
+  background: color-mix(in srgb, var(--cc) 16%, var(--paper)); border: 2px solid color-mix(in srgb, var(--cc) 45%, var(--paper)); border-bottom: 6px solid color-mix(in srgb, var(--cc) 75%, #000 10%); transition: transform .08s cubic-bezier(.33, 1, .68, 1); }
+html.v110x #app .goal:active { transform: translateY(4px); border-bottom-width: 2px; }
+html.v110x #app .goal .cat { width: 52px; height: 52px; border-radius: 17px; box-shadow: inset 0 -4px 0 rgba(0, 0, 0, .15); }
+html.v110x #app .goal .cat svg { width: 28px; height: 28px; }
+html.v110x #app .goal .txt { width: 100%; }
+html.v110x #app .goal .txt b { font-size: 16px; font-weight: 700; line-height: 1.25; color: var(--ink); }
+html.v110x #app .goal .tick { position: absolute; top: 12px; right: 12px; width: 34px; height: 34px; border-width: 3px; border-color: color-mix(in srgb, var(--cc) 55%, var(--line)); background: var(--paper); }
+html.v110x #app .goal[aria-pressed="true"] { background: color-mix(in srgb, var(--cc) 34%, var(--paper)); }
+html.v110x #app .goal[aria-pressed="true"] .tick { background: var(--accent); border-color: var(--accent); color: #fff; }
+html.v110x #app .goal[aria-pressed="true"] .txt b { color: var(--ink); text-decoration-thickness: 2px; }
+html.v110x #app .sec h2 .v110cnt { display: inline-grid; place-items: center; min-width: 42px; height: 28px; padding: 0 10px; margin-left: 10px; border-radius: 10px; font-size: 15px; vertical-align: 3px; background: var(--accent); color: var(--on-accent); }
 
-/* ---------------- VIAGGI: album di cartoline ---------------- */
-html.v110x #app .v110grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 12px; }
-html.v110x #app .v110grid > .dest { display: block; position: relative; padding: 8px 8px 12px; border-radius: 6px; background: #FFFDF8; text-align: left; color: #2F2A26;
-  box-shadow: 0 1px 0 rgba(255, 255, 255, .8) inset, 0 3px 6px rgba(80, 55, 25, .10), 0 18px 28px -18px rgba(80, 55, 25, .55); transition: transform .25s cubic-bezier(.3, 1.6, .5, 1); }
-html.v110x #app .v110grid > .dest:nth-child(4n+1) { rotate: -1.2deg; } html.v110x #app .v110grid > .dest:nth-child(4n+2) { rotate: 1deg; }
-html.v110x #app .v110grid > .dest:nth-child(4n+3) { rotate: .8deg; } html.v110x #app .v110grid > .dest:nth-child(4n) { rotate: -.9deg; }
-html.v110x #app .v110grid > .dest:active { transform: scale(.97); }
-html.v110x #app .v110grid > .dest .pc { display: block; width: 100%; margin: 0; aspect-ratio: 4 / 3; border-radius: 2px; box-shadow: none; overflow: hidden; }
-html.v110x #app .v110grid > .dest .pc::after { content: ""; position: absolute; top: 14px; right: 14px; width: 26px; height: 30px; border-radius: 3px;
-  background: radial-gradient(circle at 50% 42%, #E9A23B 0 6px, transparent 7px), #FFF7EA; outline: 2px dashed rgba(201, 141, 60, .55); outline-offset: -4px; box-shadow: 0 2px 4px rgba(0, 0, 0, .18); }
-html.v110x #app .v110grid > .dest .meta { display: block; padding: 8px 4px 0; }
-html.v110x #app .v110grid > .dest .meta b { display: block; font-family: "Caveat", var(--font-display); font-size: 23px; line-height: 1.05; font-weight: 700; color: #2F2A26; }
-html.v110x #app .v110grid > .dest .meta .small { display: block; margin-top: 4px; font-size: 12.5px; color: #6E655D; }
-html.v110x #app .v110grid > .dest .meta .tr20tag { display: inline-block; margin-top: 6px; font-size: 11.5px; border-radius: 999px; padding: 3px 8px; }
-html.v110x #app .v110grid > .dest.locked { opacity: 1; }
-html.v110x #app .v110grid > .dest.locked .pc { filter: saturate(.25) brightness(1.08); }
-html.v110x #app .v110grid > .dest.locked .pc::after { background: radial-gradient(circle at 50% 42%, #9C928A 0 6px, transparent 7px), #F3EFE9; outline-color: rgba(120, 110, 100, .45); }
-:root.v110x[data-theme="dark"] #app .v110grid > .dest { background: #F6F0E4; }
-@media (prefers-color-scheme: dark) { :root.v110x:not([data-theme="light"]) #app .v110grid > .dest { background: #F6F0E4; } }
-html.v110x #app .tr20st { padding: 18px; }
+/* ---------------- VIAGGI: il percorso a tappe ---------------- */
+html.v110x #app .v110path { display: flex; flex-direction: column; gap: 4px; position: relative; padding: 8px 0 4px; }
+html.v110x #app .v110path::before { content: ""; position: absolute; top: 40px; bottom: 60px; left: 50%; width: 0; border-left: 5px dotted color-mix(in srgb, var(--v110c, var(--accent)) 45%, var(--line)); translate: -2px 0; }
+html.v110x #app .v110path > .dest { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; gap: 8px; width: 58%; padding: 0; background: none; box-shadow: none; border: 0; text-align: center; position: relative; z-index: 1; }
+html.v110x #app .v110path > .dest:nth-child(odd) { align-self: flex-start; }
+html.v110x #app .v110path > .dest:nth-child(even) { align-self: flex-end; }
+html.v110x #app .v110path > .dest .pc { width: 132px; height: 132px; margin: 0; aspect-ratio: 1; border-radius: 50%; border: 5px solid #fff; box-shadow: 0 7px 0 var(--k-edge); overflow: hidden; transition: transform .1s cubic-bezier(.33, 1, .68, 1); }
+html.v110x #app .v110path > .dest .pc svg { width: 100%; height: 100%; }
+html.v110x #app .v110path > .dest:active .pc { transform: translateY(4px); box-shadow: 0 3px 0 var(--k-edge); }
+html.v110x #app .v110path > .dest .meta { display: grid; justify-items: center; gap: 3px; background: var(--paper); border: 2px solid var(--k-line); border-bottom-width: 4px; border-radius: 14px; padding: 6px 10px 7px; max-width: 100%; }
+html.v110x #app .v110path > .dest .meta b { font-size: 15.5px; line-height: 1.2; }
+html.v110x #app .v110path > .dest .meta .small { font-size: 12.5px; }
+html.v110x #app .v110path > .dest .meta .tr20tag { font-size: 11.5px; border-radius: 999px; padding: 2px 8px; }
+html.v110x #app .v110path > .dest.locked .pc { filter: grayscale(.9) brightness(1.05); }
+html.v110x #app .v110path > .dest[aria-pressed="true"] .pc { border-color: var(--sun); box-shadow: 0 7px 0 color-mix(in srgb, var(--sun) 65%, #000), 0 0 0 6px color-mix(in srgb, var(--sun) 35%, transparent); }
 
-/* ---------------- PROFILO: il compagno sul palco ---------------- */
+/* ---------------- PROFILO ---------------- */
 html.v110x #app .profcard.v2stage { padding: 0 0 16px; overflow: hidden; text-align: center; gap: 0; }
-html.v110x #app .profcard.v2stage .pfrow { display: grid; justify-items: center; gap: 6px; padding: 22px 16px 4px; position: relative;
-  background: radial-gradient(120% 80% at 50% 0%, var(--v110c-s, var(--accent-soft)) 0%, color-mix(in srgb, var(--v110c-s, var(--accent-soft)) 30%, var(--paper)) 55%, var(--paper) 100%); }
-html.v110x #app .profcard.v2stage .pfpet { width: 132px; height: 132px; display: grid; place-items: center; border-radius: 50%; background: radial-gradient(circle at 50% 70%, rgba(255, 255, 255, .85), rgba(255, 255, 255, 0) 68%); }
-html.v110x #app .profcard.v2stage .pfpet svg, html.v110x #app .profcard.v2stage .pfpet img { width: 124px; height: 124px; }
-html.v110x #app .profcard.v2stage .pftx h2 { font-size: 30px; }
-html.v110x #app .profcard.v2stage .v2lv { margin: 6px 18px 0; text-align: left; }
-html.v110x #app .profcard.v2stage .v2lv .v2lvh { display: flex; justify-content: space-between; font-size: 13.5px; font-weight: 700; color: var(--muted); }
+html.v110x #app .profcard.v2stage .pfrow { display: grid; justify-items: center; gap: 4px; padding: 20px 16px 8px; background: var(--v110c-s, var(--accent-soft)); border-bottom: 2px solid var(--k-line); }
+html.v110x #app .profcard.v2stage .pfpet { width: 120px; height: 120px; display: grid; place-items: center; border-radius: 50%; background: var(--paper); border: 4px solid #fff; box-shadow: 0 6px 0 color-mix(in srgb, var(--v110c, var(--accent)) 45%, var(--k-edge)); }
+html.v110x #app .profcard.v2stage .pfpet svg, html.v110x #app .profcard.v2stage .pfpet img { width: 104px; height: 104px; }
+html.v110x #app .profcard.v2stage .pftx h2 { font-size: 30px; font-weight: 700; }
+html.v110x #app .profcard.v2stage .v2lv { margin: 14px 18px 0; text-align: left; }
+html.v110x #app .profcard.v2stage .v2lv .v2lvh { display: flex; justify-content: space-between; font-size: 14px; font-weight: 700; color: var(--muted); }
 html.v110x #app .profcard.v2stage .v2lv .v2lvh b { color: var(--ink); }
-html.v110x #app .profcard.v2stage .v2lv .v2bar { height: 10px; border-radius: 999px; background: var(--paper-2); margin-top: 6px; overflow: hidden; box-shadow: inset 0 1px 2px rgba(80, 55, 25, .15); }
-html.v110x #app .profcard.v2stage .v2lv .v2bar i { display: block; height: 100%; width: calc(var(--p, 0) * 1%); border-radius: 999px; background: linear-gradient(90deg, var(--v110c, var(--accent)), color-mix(in srgb, var(--v110c, var(--accent)) 70%, #fff)); }
+html.v110x #app .profcard.v2stage .v2lv .v2bar { height: 16px; border-radius: 999px; background: var(--paper-2); margin-top: 6px; overflow: hidden; border: 2px solid var(--k-line); }
+html.v110x #app .profcard.v2stage .v2lv .v2bar i { display: block; height: 100%; width: max(10px, calc(var(--p, 0) * 1%)); border-radius: 999px; background: var(--sun); box-shadow: inset 0 -3px 0 rgba(0, 0, 0, .12), inset 0 3px 0 rgba(255, 255, 255, .35); }
 html.v110x #app .profcard.v2stage .v2stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 14px 16px 0; }
-html.v110x #app .profcard.v2stage .v2stats > div { background: var(--paper-2); border-radius: 18px; padding: 10px 6px; display: grid; justify-items: center; gap: 2px; }
-html.v110x #app .profcard.v2stage .v2stats b { font-family: var(--font-display); font-size: 22px; line-height: 1.1; color: var(--ink); }
+html.v110x #app .profcard.v2stage .v2stats > div { border: 2px solid var(--k-line); border-bottom-width: 5px; border-radius: 16px; padding: 10px 6px; display: grid; justify-items: center; gap: 2px; }
+html.v110x #app .profcard.v2stage .v2stats b { font-size: 22px; line-height: 1.1; color: var(--ink); font-family: var(--font-display); }
 html.v110x #app .profcard.v2stage .v2stats small { font-size: 12px; color: var(--muted); font-weight: 700; text-align: center; }
 html.v110x #app .profcard.v2stage .pfbtns { justify-content: center; margin: 12px 16px 0; }
-html.v110x #app .v2invite { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 14px; align-items: center; padding: 16px; text-align: left; width: 100%; border: 0; color: var(--ink);
-  background: linear-gradient(120deg, color-mix(in srgb, #F2A0BC 28%, var(--paper)) 0%, var(--paper) 75%); }
-html.v110x #app .v2invite .v2ii { width: 56px; height: 56px; border-radius: 18px; display: grid; place-items: center; background: #E7799F; color: #fff; box-shadow: inset 0 -4px 0 rgba(0, 0, 0, .14), 0 10px 18px -10px #E7799F; }
-html.v110x #app .v2invite .v2ii svg { width: 28px; height: 28px; }
-html.v110x #app .v2invite b { display: block; font-family: var(--font-display); font-size: 19px; }
-html.v110x #app .v2invite small { display: block; color: var(--muted); font-size: 14px; margin-top: 2px; }
-html.v110x #app .pluscard { border-radius: var(--v2-r); position: relative; overflow: hidden; }
-html.v110x #app .pluscard::after { content: ""; position: absolute; inset: 0; background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, .55) 50%, transparent 60%); translate: -100% 0; animation: v2shine 5.5s cubic-bezier(.65, 0, .35, 1) 1.2s infinite; pointer-events: none; }
-@keyframes v2shine { 0%, 70% { translate: -100% 0; } 100% { translate: 100% 0; } }
+html.v110x #app .v2invite { display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 14px; align-items: center; padding: 14px 16px; text-align: left; width: 100%; color: #fff; border-radius: 22px;
+  background: #C2557D; border: 0; border-bottom: 6px solid #8E3657; transition: transform .08s cubic-bezier(.33, 1, .68, 1); }
+html.v110x #app .v2invite:active { transform: translateY(4px); border-bottom-width: 2px; }
+html.v110x #app .v2invite .v2ii { width: 58px; height: 58px; border-radius: 18px; display: grid; place-items: center; background: rgba(255, 255, 255, .22); color: #fff; }
+html.v110x #app .v2invite .v2ii svg { width: 30px; height: 30px; }
+html.v110x #app .v2invite b { display: block; font-family: var(--font-display); font-size: 20px; color: #fff; }
+html.v110x #app .v2invite small { display: block; color: #fff; font-size: 14px; margin-top: 2px; }
+html.v110x #app .pmenu { padding: 4px 0; }
 html.v110x #app .pmenu .prow { min-height: 72px; }
-html.v110x #app .pmenu .prico { width: 46px; height: 46px; border-radius: 15px; }
+html.v110x #app .pmenu .prico { width: 46px; height: 46px; border-radius: 15px; box-shadow: inset 0 -4px 0 rgba(0, 0, 0, .14); }
 
-/* schermi stretti e testo grande */
 @media (max-width: 360px) {
   html.v110x #app .stack > h1:not(.greet):not(.psubt) { font-size: 27px; }
-  html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .greet .gw { font-size: 28px; }
-  html.v110x #app .nven.v2ring { grid-template-columns: 76px minmax(0, 1fr); }
-  html.v110x #app .nven.v2ring .v2r { width: 76px; height: 76px; }
-  html.v110x #app .v110grid { gap: 12px 8px; }
-  html.v110x #app .v110grid > .dest .meta b { font-size: 20px; }
+  html.v110x #app .goals { gap: 8px; }
+  html.v110x #app .goal { min-height: 128px; padding: 12px 10px 10px; }
+  html.v110x #app .goal .txt b { font-size: 15px; }
+  html.v110x #app .v110path > .dest { width: 70%; }
+  html.v110x #app .v110path > .dest .pc { width: 112px; height: 112px; }
 }
-html.calm.v110x #app .pluscard::after, html.lite.v110x #app .pluscard::after { animation: none; display: none; }
-html.v110x #app .v110grid > .dest .meta .tr20tag { background: #FBE7C4; color: #6E4410; }
-html.v110x #app .v110grid > .dest .meta .tr20tag.off { background: #EFE8DD; color: #5E564F; }
+html.v110x #app .v110path > .dest .pc svg { transform: scale(1.42); }
+html.v110x #app .v110path > .dest + .dest { margin-top: -64px; }
+@media (max-width: 360px) { html.v110x #app .v110path > .dest + .dest { margin-top: -40px; } }
 
 </style>
 
@@ -46569,21 +46539,11 @@ function v110Redesign() {
   if (!document.documentElement.classList.contains("v110x")) return;
   const app = document.getElementById("app"); if (!app) return; const w = v2t();
   if (tab === "today") {
-    /* la scena con il saluto dentro */
-    const rw = app.querySelector(".stack > .roomwrap"); const gr = app.querySelector(".stack > h1.greet");
-    if (rw && !rw.classList.contains("full")) { rw.classList.add("v110hero"); if (gr) rw.insertBefore(gr, rw.firstChild); }
-    /* riepilogo del giorno: anello con gli obiettivi fatti */
-    const ne = app.querySelector("#nvEnergy");
-    if (ne && !ne.querySelector(".v2r")) {
-      let dn = 0, n = 0; try { const st = nav20energyInfo(); dn = st.why === "used" ? 0 : st.dn || 0; n = st.n || 0; } catch (e) { /* niente */ }
-      const tg = todayGoals(); const done = tg.filter((g) => S.done.includes(g)).length; const tot = tg.length || n;
-      ne.classList.add("v2ring"); ne.insertAdjacentHTML("afterbegin", `<div class="v2r" style="--p:${tot ? Math.round((done / tot) * 100) : 0}" aria-hidden="true"><span><b>${done}/${tot}</b><small>${esc(w.goals)}</small></span></div>`);
-    }
     const h2 = app.querySelector(".sec h2"); const g = app.querySelectorAll(".goals .goal");
     if (h2 && g.length && !h2.querySelector(".v110cnt")) { const d = app.querySelectorAll('.goals .goal[aria-pressed="true"]').length; h2.insertAdjacentHTML("beforeend", `<span class="v110cnt">${d}/${g.length}</span>`); }
   }
-  /* Viaggi: album di cartoline */
-  app.querySelectorAll(".stack-s").forEach((s) => { if (s.querySelector(":scope > .dest")) s.classList.add("v110grid"); });
+  /* Viaggi: percorso a tappe */
+  app.querySelectorAll(".stack-s").forEach((s) => { if (s.querySelector(":scope > .dest")) s.classList.add("v110path"); });
   /* Profilo: il compagno sul palco, livello e numeri; "Invita un amico" in vista (solo se l'invito esiste per questa eta') */
   const pc = app.querySelector(".profcard");
   if (pc && !pc.classList.contains("v2stage")) {
