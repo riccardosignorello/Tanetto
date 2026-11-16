@@ -32,6 +32,8 @@ P = [
     ("fix109/suites/p2b/t3.py", 'min(r["xv"]) == 68000 and max(r["xv"]) == 80000', 'min(r["xv"]) == 54000 and max(r["xv"]) == 63000', "prezzi Introvabili 1.0.10"),
     ("fix109/suites/p2b/t3.py", '"Hai 120 di 68.000 Tanì" in r["furn"][1]', '"Hai 120 di 54.000 Tanì" in r["furn"][1]', "prezzi Introvabili 1.0.10"),
     ("fix109/suites/p2b/t3.py", 'r3["own"] and r3["s"] == 7000 and', 'r3["own"] and r3["s"] == 21000 and', "prezzi Introvabili 1.0.10"),
+    # la prima pagina della galleria (it 320) arriva prima che la pubblicita' sia pronta (avvio a freddo): si aspetta il pulsante
+    ("fix109/tfix_d.py", 'await pg.wait_for_timeout(900); await shot(pg, f"d/{t}_adgift")', 'await pg.wait_for_timeout(900); await pg.wait_for_function("!!document.querySelector(\\".adbtn\\")", timeout=8000); await ev(pg, "const g = document.getElementById(\\\'adGift\\\'); g && g.scrollIntoView({block:\\\'center\\\'}); 1"); await pg.wait_for_timeout(400); await shot(pg, f"d/{t}_adgift")', "attesa del pulsante del video"),
 ]
 bad = 0
 for f, old, new, why in P:
