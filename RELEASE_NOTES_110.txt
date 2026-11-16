@@ -1,4 +1,4 @@
-Tanetto 1.0.11 (versionCode 111) - release notes for Google Play ("What's new")
+Tanetto 1.0.10 (versionCode 110) - release notes for Google Play ("What's new")
 Limit: 500 characters per language. English 478, Italian 496 characters.
 
 <en-GB>
