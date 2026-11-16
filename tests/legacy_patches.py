@@ -17,6 +17,8 @@ P = [
     ("p2b/t4.py", 'await pg.click("#ageGo");', 'await pg.click("#ageGo"); await pg.wait_for_timeout(250); await pg.evaluate("(() => { const b = document.getElementById(`ageOk`); if (b) b.click(); })()");', "eta\' con conferma (G2-10, 16/11/2026)"),
     ("fix109/suites/p2b/t4.py", 'await pg.click("#ageGo");', 'await pg.click("#ageGo"); await pg.wait_for_timeout(250); await pg.evaluate("(() => { const b = document.getElementById(`ageOk`); if (b) b.click(); })()");', "eta\' con conferma (G2-10, 16/11/2026)"),
     ("p2c/t5.py", 'await pg.click("#ageGo");', 'await pg.click("#ageGo"); await pg.wait_for_timeout(250); await pg.evaluate("(() => { const b = document.getElementById(`ageOk`); if (b) b.click(); })()");', "eta\' con conferma (G2-10, 16/11/2026)"),
+    # 1.0.10 (critica 1.0.10, punto 10): il paragrafo dei bambini nomina solo AdMob (statistiche sempre spente per loro)
+    ("fix109/tfix_a.py", 'pv.count("GoatCounter") >= 28 and', 'pv.count("GoatCounter") >= 14 and', "bambini: solo AdMob"),
 ]
 bad = 0
 for f, old, new, why in P:
