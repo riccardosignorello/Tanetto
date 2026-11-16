@@ -47,6 +47,9 @@ P = [
     ("fix109/t38run5/t38_trips.py", '"Germo può fare una gita breve!" in cta and "Scegli la gita" in cta', '"Germo può fare una gita breve!" in cta and "Scegli il viaggio" in cta', "un solo nome per scegli un viaggio (C-22)"),
     # 1.0.10 (E-04): dopo "Non ora" 5 giorni di pausa (prima 2): al secondo giorno ancora niente offerta
     ("fix109/t38run5/t38_nav.py", 'check("Dopo \'Non ora\' almeno 2 giorni di pausa", due == [False, True], due)', 'check("Dopo \'Non ora\' almeno 5 giorni di pausa (E-04)", due == [False, False], due)', "pausa di 5 giorni tra le offerte di Plus"),
+    # 1.0.10 (recensioni, 16/11/2026 sera): su Plus la riga "Plus only adds extras: everything that's free without Plus stays free"
+    ("p1/t109.py", 'check("monthly plan (no offer): no trial text at all", "free" not in t.lower() and', 'check("monthly plan (no offer): no trial text at all", "free" not in t.lower().replace("everything that\'s free without plus stays free", "") and', "riga di fiducia su Plus"),
+    ("p1/t109.py", 'check("no trial offer from Play (e.g. already used): every trial text hidden", "free" not in t.lower() and', 'check("no trial offer from Play (e.g. already used): every trial text hidden", "free" not in t.lower().replace("everything that\'s free without plus stays free", "") and', "riga di fiducia su Plus"),
 ]
 bad = 0
 for f, old, new, why in P:

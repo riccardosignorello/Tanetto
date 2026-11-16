@@ -157,12 +157,38 @@ molto grande il titolo di una finestra non esce più dall'alto; le liste lunghe 
 7) **Condizioni d'uso** aggiornate in 14 lingue (diritti del consumatore, minori, contenuti digitali, legge italiana).
 
 8) **"Condividi il tuo Germo":** dalla foto della stanza si sceglie **Foto** o **Storia** (1080x1920, pronta per TikTok e
-Instagram, con nome, frase e "Tanetto"). Il testo condiviso ha il link di Google Play con l'origine **share_germo** (così in
-Play Console si vede quante installazioni arrivano dalle condivisioni) e gli hashtag **#tanettoapp #germo**. Solo **dai 13
-anni**; il nome scelto dall'utente compare **solo per gli adulti** (per i ragazzi resta il nome di default).
+Instagram, con il nome del compagno, "Tanetto" e sotto "su Google Play", perché Instagram e TikTok spesso tolgono il testo).
+Il testo condiviso ha il link di Google Play con l'origine **share_germo** e la campagna **storia** o **foto** (così in Play
+Console si vede quante installazioni arrivano dalle condivisioni) e l'hashtag **#tanettoapp**. Solo **dai 13 anni**; il nome
+scelto dall'utente compare **solo dai 18 anni** (per i più giovani resta il nome normale, Germo, Ondi...). Per i bambini e per
+chi non ha detto l'età la condivisione resta quella di prima, senza link né hashtag.
 
-9) **"Valuta Tanetto su Google Play"** in Profilo, in 14 lingue: solo per gli adulti e solo nell'app Android.
+9) **"Valuta Tanetto su Google Play"** in Profilo, in 14 lingue: solo dai 18 anni e solo nell'app Android.
 
+10) **Plus più onesto (dalle recensioni di altre app del genere):** nella finestra di Plus la riga **"Plus aggiunge solo extra:
+tutto ciò che è gratis senza Plus resta gratis"** e, quando c'è la prova gratuita, **"Ti ricordiamo la fine della prova 2 giorni
+prima"**. E lo facciamo davvero: **notifica 2 giorni prima alle 10** (se le notifiche sono permesse) e **riquadro in Oggi**
+negli ultimi 2 giorni, con la data e il pulsante "Gestisci in Google Play". La data si calcola dall'ora d'acquisto data da
+Google; se la prova è già disdetta o Plus non è attivo, niente notifica e niente riquadro. Gli addebiti a sorpresa dopo la prova
+sono tra le lamentele più forti nelle recensioni di Finch.
+
+11) **Promemoria più umani:** dopo il saluto gentile del giorno 14 arrivano solo **due ultimi saluti, al giorno 30 e al giorno
+60** ("ti tiene il posto sul cuscino, anche solo per un saluto"), poi silenzio. **Dopo una frase difficile** nella chat o nel
+diario, i promemoria già programmati diventano solo frasi di compagnia (nessun obiettivo da fare) fino alla prossima apertura.
+
+
+12) **Menu in basso rifatto:** ora è una barra sospesa con angoli tondi, vetro sfocato e ombra morbida; ogni scheda ha il suo
+colore quando è attiva (Casa verde, Viaggi cielo, Negozio arancio, Diario lilla, Profilo rosa), icone piene a due toni e un
+piccolo rimbalzo al tocco. Contrasto dei testi almeno 4,5:1 in chiaro e in scuro; a Natale e nelle Stagioni restano i loro
+colori.
+
+13) **Primo avvio più vivo:** luce morbida colorata che si muove piano sullo sfondo, il compagno scelto si solleva e fluttua,
+gli obiettivi scelti hanno la spunta con un piccolo scatto, pulsanti con ombra e pressione.
+
+14) **Guida iniziale fluida:** prima a ogni "Avanti" il velo si spegneva e si riaccendeva dopo quasi mezzo secondo (e a volte
+una seconda volta); ora c'è un solo velo e il cerchio scivola sul punto successivo, mentre il testo cambia in dissolvenza.
+
+Con "movimento ridotto" (impostazione dell'app o del telefono) niente animazioni continue.
 
 ## 6) Velocità e batteria
 
@@ -265,6 +291,14 @@ usa il Paese dell'account (serve un pagamento di quel Paese e si cambia al massi
 
 10) **"Unikat" in tedesco:** sì.
 
+11) **Titolo inglese dello Store (16/11 sera, "fai tu"):** "Tanetto: Habit Tracker & Pet" al posto di "Tanetto: Self-Care
+Habit Pet", che aveva la stessa forma del titolo di Finch. Già nel file della scheda; nelle 19 schede la lingua è detta nella
+prima frase della descrizione.
+
+12) **"Energia" diventa "Zaino" (16/11 sera, "fai tu"):** si fa nella **1.0.11**, subito dopo questa. Sono circa 500 testi in 14
+lingue più un disegno nuovo (uno zaino che si riempie di un oggetto per ogni obiettivo): fatti di corsa stanotte sarebbero
+sotto il 10 su 10.
+
 
 ## DA FARE IN PLAY CONSOLE (a mano)
 
@@ -274,7 +308,7 @@ usa il Paese dell'account (serve un pagamento di quel Paese e si cambia al massi
 2) **Sicurezza dei dati:** aggiungere che le **statistiche anonime** (GoatCounter) si possono spegnere e sono spente per i minori;
 elenco degli eventi contati: aperture, viaggio partito/tornato, livello raggiunto, video premio visto, acquisto nel negozio,
 notifica aperta, errore dell'app, **condivisione-storia, condivisione-foto, foto-storia, foto-classica,
-valuta-da-profilo** (nuovi nella 1.0.10). Nessun dato personale.
+valuta-da-profilo, prova-plus-promemoria** (nuovi nella 1.0.10). Nessun dato personale.
 
 3) **AdMob:** attivare il messaggio per gli **Stati USA** (privacy degli Stati) oltre a quello europeo.
 
@@ -309,5 +343,8 @@ l'accesso con Google e il widget: niente si deve bloccare.
 
 7) **Condividi il tuo Germo:** Profilo › foto della stanza › Storia › Condividi: deve aprirsi la scelta delle app con
 l'immagine verticale e il testo con il link; provare anche Foto.
+
+8) **Promemoria della prova di Plus:** con un account di prova delle licenze (Play Console › Impostazioni › Test delle licenze)
+avviare la prova: in Oggi non deve comparire niente subito; disdire da Google Play e riaprire l'app: nessun avviso.
 
 7) **Pagamenti di prova** con un account tester: prova di 7 giorni, disdetta, pacchetto di Tanì.
