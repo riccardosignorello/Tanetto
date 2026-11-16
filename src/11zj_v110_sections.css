@@ -1,0 +1,56 @@
+/* ===== 1.0.10 — tutte le sezioni piu' vive (16/11/2026, richiesta del proprietario: "ogni sezione dell'app rivista") =====
+   Ogni sezione prende il colore della sua scheda del menu: luce colorata in alto, icona accanto al titolo, selettori a
+   pillola colorati. Riquadri piu' profondi che entrano uno dopo l'altro quando si cambia sezione. Faccine dell'umore
+   colorate. Natale e Stagioni con i loro colori restano come prima per lo sfondo. */
+
+:root[data-v110tab="today"] { --v110c: var(--tb-today); --v110c-s: var(--tb-today-s); }
+:root[data-v110tab="trips"] { --v110c: var(--tb-trips); --v110c-s: var(--tb-trips-s); }
+:root[data-v110tab="home"] { --v110c: var(--tb-home); --v110c-s: var(--tb-home-s); }
+:root[data-v110tab="diary"] { --v110c: var(--tb-diary); --v110c-s: var(--tb-diary-s); }
+:root[data-v110tab="more"] { --v110c: var(--tb-more); --v110c-s: var(--tb-more-s); }
+
+/* 1) luce colorata in alto, del colore della sezione */
+:root[data-v110tab]:not([data-xmas]):not(.sea-stars):not(.sea-kites) body::before {
+  height: 420px;
+  background: radial-gradient(110% 100% at 50% 0%, color-mix(in srgb, var(--v110c-s) 90%, transparent) 0%, color-mix(in srgb, var(--v110c-s) 40%, transparent) 45%, transparent 75%);
+  transition: background .4s ease;
+}
+
+/* 2) icona della sezione accanto al titolo */
+.v110hic { display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 13px; margin-right: 10px; vertical-align: -7px;
+  background: var(--v110c-s, var(--accent-soft)); color: var(--v110c, var(--accent)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--v110c, var(--accent)) 20%, transparent), 0 6px 14px -10px var(--v110c, var(--accent)); }
+.v110hic svg { width: 23px; height: 23px; }
+.v110hic svg [data-v110f] { fill: currentColor; stroke: none; opacity: .24; }
+html.bigtext .v110hic { width: 44px; height: 44px; }
+
+/* 3) riquadri piu' profondi */
+html body .card { border-radius: 22px; box-shadow: 0 1px 0 rgba(255, 255, 255, .7) inset, 0 1px 2px rgba(80, 60, 30, .06), 0 12px 26px -16px rgba(80, 60, 30, .38); }
+:root[data-theme="dark"] body .card { box-shadow: 0 1px 0 rgba(255, 255, 255, .04) inset, 0 12px 26px -14px rgba(0, 0, 0, .85); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) body .card { box-shadow: 0 1px 0 rgba(255, 255, 255, .04) inset, 0 12px 26px -14px rgba(0, 0, 0, .85); } }
+
+/* 4) selettori a pillola nel colore della sezione */
+.tabsx { box-shadow: inset 0 1px 2px rgba(80, 60, 30, .08); }
+.tabsx button { transition: background-color .25s ease, color .25s ease, box-shadow .25s ease, transform .15s ease; }
+.tabsx button:active { transform: scale(.96); }
+:root[data-v110tab] .tabsx button[aria-selected="true"] { background: var(--paper); color: var(--v110c); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--v110c) 35%, transparent), var(--shadow); }
+
+/* 5) faccine dell'umore colorate (testo bianco sopra colori scuri: contrasto almeno 4,5:1) */
+.moods .mood { transition: transform .2s cubic-bezier(.3, 1.6, .5, 1), background-color .2s ease, color .2s ease; }
+.moods .mood:active { transform: scale(.94); }
+.moods .mood[data-mood="0"] { --mc: #4F6A8F; } .moods .mood[data-mood="1"] { --mc: #6A58A3; } .moods .mood[data-mood="2"] { --mc: #7E6420; }
+.moods .mood[data-mood="3"] { --mc: #3D7A39; } .moods .mood[data-mood="4"] { --mc: #A1406A; }
+.moods .mood[data-mood] { background: color-mix(in srgb, var(--mc) 12%, var(--paper)); color: var(--ink); }
+.moods .mood[data-mood] svg { color: var(--mc); }
+:root[data-theme="dark"] .moods .mood[data-mood] svg { color: color-mix(in srgb, var(--mc) 55%, #fff); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .moods .mood[data-mood] svg { color: color-mix(in srgb, var(--mc) 55%, #fff); } }
+.moods .mood[data-mood][aria-pressed="true"] { background: var(--mc); color: #fff; box-shadow: 0 8px 16px -10px var(--mc); transform: translateY(-2px); }
+.moods .mood[data-mood][aria-pressed="true"] svg { color: #fff; }
+
+/* 6) cambiando sezione i riquadri entrano uno dopo l'altro (solo il primo colpo d'occhio, al massimo 6) */
+#app.v110in .stack > :nth-child(-n+7) { animation: v110rise .36s cubic-bezier(.2, .8, .2, 1) both; animation-delay: calc(var(--v110i, 0) * 35ms); }
+@keyframes v110rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+/* movimento ridotto */
+html.calm #app.v110in .stack > *, html.lite #app.v110in .stack > * { animation: none; }
+html.calm .moods .mood[aria-pressed="true"], html.lite .moods .mood[aria-pressed="true"] { transform: none; }
+@media (prefers-reduced-motion: reduce) { #app.v110in .stack > * { animation: none !important; } }

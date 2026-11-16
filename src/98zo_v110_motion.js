@@ -76,3 +76,31 @@ showTutStep = function () {
   };
   requestAnimationFrame(tick);
 };
+
+/* ---------- 4) tutte le sezioni: colore della sezione, icona accanto al titolo, riquadri che entrano in fila ---------- */
+let v110LastTab = "";
+function v110Sections() {
+  const de = document.documentElement;
+  if (!S.pet || document.querySelector("#app .onbtop")) { delete de.dataset.v110tab; return; }
+  de.dataset.v110tab = tab;
+  /* icona della sezione accanto al titolo (Viaggi, Negozio, Diario, Profilo): la stessa del menu, con il fondo colorato */
+  if (tab !== "today") {
+    const h = document.querySelector("#app .stack > h1:not(.greet), #app .stack h1:not(.greet):not(.psubt)");
+    const src = document.querySelector(`#tabsIn .tab[data-tab="${tab}"] svg`);
+    if (h && src && !h.querySelector(".v110hic")) { const sv = src.cloneNode(true); sv.setAttribute("aria-hidden", "true"); h.insertAdjacentHTML("afterbegin", `<span class="v110hic" aria-hidden="true"></span>`); h.firstChild.appendChild(sv); }
+  }
+  /* cambiando sezione (non a ogni aggiornamento della pagina) i primi riquadri entrano uno dopo l'altro */
+  if (tab !== v110LastTab) {
+    const app = document.getElementById("app");
+    if (app && anim && v110LastTab) {
+      [...app.querySelectorAll(".stack > *")].slice(0, 7).forEach((x, i) => x.style.setProperty("--v110i", String(i)));
+      app.classList.remove("v110in"); void app.offsetWidth; app.classList.add("v110in");
+      clearTimeout(v110Sections.t); v110Sections.t = setTimeout(() => app.classList.remove("v110in"), 800);
+    }
+    v110LastTab = tab;
+  }
+}
+/* chi torna dopo 1, 7 e 30 giorni (conteggio anonimo, con le stesse regole delle altre statistiche: mai per i minori) */
+function v110Return() { try { if (!S.pet || typeof dayIndex !== "function") return; const d = dayIndex(); if (d === 1 || d === 7 || d === 30) trackOnce(`ritorno-g${d}`); } catch (e) { /* niente */ } }
+const _renderV110s = render;
+render = function (...a) { const r = _renderV110s.apply(this, a); try { v110Sections(); v110Return(); } catch (e) { /* niente */ } return r; };

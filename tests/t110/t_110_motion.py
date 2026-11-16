@@ -95,4 +95,24 @@ async def main(b):
     T.check("guida: Salta chiude e non torna", r == [99, 0], r)
     await ctx.close()
 
+    # 6) tutte le sezioni: colore della sezione, icona accanto al titolo, selettori e umore leggibili, niente scorrimento laterale
+    for scheme in ("light", "dark"):
+        for w in (412, 320):
+            ctx, pg = await T.page(b, T.base_state("it"), age="adult", lang="it-IT", native=True, scheme=scheme, w=w, h=800)
+            await T.close_layer(pg)
+            for tb in ("today", "trips", "home", "diary", "more"):
+                await T.ev(pg, f"tab = '{tb}'; render(); 1"); await pg.wait_for_timeout(500); await T.close_layer(pg)
+                r = await T.ev(pg, """(() => { const h = document.querySelector('#app .v110hic'); const hb = h ? h.parentElement.getBoundingClientRect() : null;
+                  return [document.documentElement.dataset.v110tab, !!h, hb ? hb.right <= innerWidth + 1 : true, document.documentElement.scrollWidth <= innerWidth]; })()""")
+                T.check(f"{scheme} {w}px {tb}: colore della sezione, icona al titolo {'no' if tb == 'today' else 'si'}, niente fuori schermo", r[0] == tb and r[1] == (tb != "today") and r[2] and r[3], r)
+            await T.ev(pg, "tab = 'diary'; render(); 1"); await pg.wait_for_timeout(400)
+            moods = await T.ev(pg, """(() => { const rgb = (s) => { const v = (s.match(/[\\d.]+/g) || []).slice(0, 3).map(Number); return s.startsWith('color(') ? v.map((x) => Math.round(x * 255)) : v; }; return [...document.querySelectorAll('.moods .mood[data-mood]')].map((m) => { m.style.transition = 'none'; m.setAttribute('aria-pressed', 'true'); const c = getComputedStyle(m); const o = [rgb(c.color), rgb(c.backgroundColor)]; m.setAttribute('aria-pressed', 'false'); const c2 = getComputedStyle(m); o.push(rgb(c2.color), rgb(c2.backgroundColor)); return o; }); })()""")
+            bad = [i for i, m in enumerate(moods) if ratio(m[0], m[1]) < 4.5 or ratio(m[2], m[3]) < 4.5]
+            T.check(f"{scheme} {w}px: faccine dell'umore leggibili scelte e non scelte (contrasto 4,5)", len(moods) == 5 and not bad, [bad, moods[:2]])
+            await T.ev(pg, "tab = 'home'; render(); 1"); await pg.wait_for_timeout(400)
+            sx = await T.ev(pg, """(() => { const rgb = (s) => { const v = (s.match(/[\\d.]+/g) || []).slice(0, 3).map(Number); return s.startsWith('color(') ? v.map((x) => Math.round(x * 255)) : v; }; const b = document.querySelector('.tabsx button[aria-selected="true"]'); if (!b) return null; b.style.transition = 'none'; const c = getComputedStyle(b); return [rgb(c.color), rgb(c.backgroundColor)]; })()""")
+            T.check(f"{scheme} {w}px: selettore del Negozio leggibile", sx is None or ratio(sx[0], sx[1]) >= 4.5, sx)
+            T.check(f"{scheme} {w}px sezioni: nessun errore", not pg.errs, pg.errs[:3])
+            await ctx.close()
+
 T.run(main)
