@@ -143,7 +143,7 @@ T.tr = {
       "Çok gururluyum!"
     ],
     ready: [
-      "Enerjim doldu! Beni bir maceraya gönderir misin?"
+      "Sırt çantam doldu! Beni bir maceraya gönderir misin?"
     ],
     free: [
       "Bugün plan yok. Hayal dünyasında bir yürüyüşe çıkalım mı?"
@@ -156,7 +156,7 @@ T.tr = {
     }
   },
   level: "Seviye",
-  energy: "Enerji",
+  energy: "Çanta",
   xpTo: (a, b) => `${a}/${b} puan`,
   todayT: "Bugünkü hedeflerin",
   edit: "Hedefleri düzenle",
@@ -167,7 +167,7 @@ T.tr = {
   restDone: "Dinlenme günü kaydedildi. Yarın görüşürüz!",
   freeT: "Bugün için planlanmış hedef yok",
   freeP: "Gününün tadını çıkar: serin güvende kalır. Günleri “Diğer” bölümünden değiştirebilirsin.",
-  ready: "Enerji dolu! Onu bir maceraya gönderebilirsin.",
+  ready: "Sırt çantası dolu! Onu bir maceraya gönderebilirsin.",
   goTrip: "Bir macera seç",
   awayT: (n) => `${n} macerada`,
   awayB: (d, t) => `${d} · dönüşe ${t}`,
@@ -189,10 +189,10 @@ T.tr = {
   unlocked: (d) => `Yeni rota: ${d}`,
   grow: (n) => `Bak, ${n} biraz değişti!`,
   tripsT: "Maceralar",
-  tripsP: "Enerji dolunca onu nereye göndereceğini seç. Bir kartpostal ve birkaç sürprizle dönecek.",
+  tripsP: "Sırt çantası dolunca onu nereye göndereceğini seç. Bir kartpostal ve birkaç sürprizle dönecek.",
   hours: (h) => h === 1 ? "1 saat" : `${h} saat`,
   lockedL: (l) => `Seviye ${l} gerekli`,
-  need: "Tam enerji gerekli: bugünkü hedeflerini tamamla.",
+  need: "Sırt çantası dolmalı: bugünkü hedeflerini tamamla.",
   depart: (d) => `Yola çık: ${d}`,
   albumT: "Kartpostal albümü",
   albumP: (a, b) => `${a}/${b} bulundu`,
@@ -552,8 +552,8 @@ T.tr = {
     "İşte {n}! Sevmek için dokun ya da parmağını sürükleyerek okşa.",
     "Her gün bir hediye var ve yarın yine gelirsen daha da büyüyor. Hadi aç!",
     "Buradan atıştırmalık verebilir, birlikte oynayabilir, konuşabilir, şekerlemeye yatırabilir ya da fotoğraf çekebilirsin.",
-    "Bunlar senin hedeflerin. Birini yapınca üstüne dokun: {n} enerji kazanır, sen de Tanì kazanırsın.",
-    "Enerjisi dolunca {n} maceraya çıkar. Aşağıda maceraları, evi, günlüğü ve ayarları bulursun."
+    "Bunlar senin hedeflerin. Birini yapınca üstüne dokun: {n} sırt çantasına bir şey koyar, sen de Tanì kazanırsın.",
+    "Sırt çantası dolunca {n} maceraya çıkar. Aşağıda maceraları, evi, günlüğü ve ayarları bulursun."
   ],
   tutNext: "İleri",
   tutSkip: "Atla",
@@ -731,15 +731,15 @@ T.tr = {
   guide: [
     [
       "Tanetto nasıl çalışır?",
-      "Kendine bakmak için küçük hedefler seçersin. Her birini tamamladığında arkadaşın enerji kazanır, sen de Tanì kazanırsın."
+      "Kendine bakmak için küçük hedefler seçersin. Her birini tamamladığında arkadaşının sırt çantasına bir şey koyar, Tanì de kazanırsın."
     ],
     [
       "Tanì ne işe yarar?",
       "Tanì ile evi süsler ve arkadaşının ne giyeceğini seçersin. Tanì'yi hedeflerle, hediyelerle, maceralarla ve oyunlarla kazanırsın."
     ],
     [
-      "Enerji nedir?",
-      "Bugünkü tüm hedeflerini tamamladığında enerji dolar ve arkadaşın bir maceraya çıkabilir. Bir kartpostalla geri döner."
+      "Sırt çantası nedir?",
+      "Bugünkü tüm hedeflerini tamamladığında sırt çantası dolar ve arkadaşın bir maceraya çıkabilir. Bir kartpostalla geri döner."
     ],
     [
       "Bir günü atlarsam ne olur?",
@@ -1196,7 +1196,7 @@ T.tr = {
         "Yumurtalar neden birbirine şaka yapmazmış? Sonra hepsi kırılırmış!"
       ],
       help: [
-        "Küçük hedefler seç ve her gün tamamla: ben enerji kazanırım, sen de ev için Tanì kazanırsın. Rehberin tamamını “Diğer” bölümünde bulursun.",
+        "Küçük hedefler seç ve her gün tamamla: sırt çantama bir şey koyarsın, ev için de Tanì kazanırsın. Rehberin tamamını “Diğer” bölümünde bulursun.",
         "Benimle oynayabilir, bana atıştırmalık verebilir, fotoğrafımı çekebilir ve beni maceralara gönderebilirsin. Odada tam ekranı da dene!"
       ],
       default: [

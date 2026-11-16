@@ -48,8 +48,8 @@ Object.assign(T.en, {
     "This is {n}! Tap to give a cuddle, or stroke by dragging your finger.",
     "There's a gift every day, and it gets bigger if you come back tomorrow. Open it!",
     "Here you can give a snack, play together, talk, put them down for a nap or take a photo.",
-    "These are your goals. When you've done one, tap it: {n} gets energy and you earn Tanì.",
-    "With full energy, {n} goes on an adventure. Down here you'll find adventures, home, journal and settings."
+    "These are your goals. Done one? Tap it: you pack something in {n}'s backpack and earn Tanì.",
+    "With a full backpack, {n} goes on an adventure. Down here you'll find adventures, home, journal and settings."
   ],
   tutNext: "Next", tutSkip: "Skip", tutDone: "Got it!",
   privT: "Privacy", privP: "Your companion, goals and journal stay on this device. If you create an account, we also save your email and a backup of your progress, only so you can get it back. To improve the app we count some actions anonymously and in aggregate (for example how often it's opened). Tanetto is not a medical tool and is for all ages: under the age of digital consent in your country (13 to 16, depending on where you live), ads are never personalised and the online backup isn't available.",

@@ -18,9 +18,9 @@ Object.assign(T.en, {
   summaryT: (n) => `${n}'s weekly recap`, summary: (g, best) => g ? `This week you completed ${g} goals. Your best day was ${best}. I'm so proud of you!` : "This week was a quiet one. That's okay: let's start again together, one step at a time.",
   legalT: "Guide and info", guideB: "How it works", privB: "Privacy policy", termsB: "Terms of use", healthB: "Health notice", creditsB: "Credits and licences", tutAgain: "Replay the welcome tour", ownerMissing: "[to be completed before publication]",
   guide: [
-    ["How does Tanetto work?", "You choose small goals to take care of yourself. Every time you complete one, your companion gets energy and you earn Tanì."],
+    ["How does Tanetto work?", "You choose small goals to take care of yourself. Every time you complete one, you pack something in your companion's backpack and earn Tanì."],
     ["What are Tanì for?", "With Tanì you decorate the home and choose what your companion wears. You earn them with goals, gifts, adventures and games."],
-    ["What's energy?", "When you complete all of today's goals, energy is full and your companion can go on an adventure. They come back with a postcard."],
+    ["What's the backpack?", "When you complete all of today's goals, the backpack is full and your companion can go on an adventure. They come back with a postcard."],
     ["And happiness?", "It goes up when you take care of yourself and do things together. It never drops on its own: nobody here will make you feel guilty."],
     ["What if I skip a day?", "No big deal. You can mark a rest day and your streak stays safe. The daily gift simply starts again from the beginning."],
     ["What are seasonal festivals?", "Each season, completing 20 goals wins a special hat for your companion."],

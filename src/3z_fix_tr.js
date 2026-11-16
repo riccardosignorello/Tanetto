@@ -3,7 +3,7 @@ T.tr.talk.pat[0] = "Hihi, sevilmek ne güzel!";
 T.tr.talk.cheer[0] = "Oldu! Harika.";
 T.tr.talk.cheer[2] = "Şimdiden enerjiyle doldum!";
 T.tr.talk.cheer[6] = "Seninle gurur duyuyorum!";
-T.tr.ready = "Enerji tam dolu! Arkadaşını bir maceraya gönderebilirsin.";
+T.tr.ready = "Sırt çantası tam dolu! Arkadaşını bir maceraya gönderebilirsin.";
 T.tr.depart = (d) => `Yolculuk başladı: ${d}`;
 T.tr.calT = "Bu ay";
 T.tr.moods[2] = "Fena değil";

@@ -18,9 +18,9 @@ Object.assign(T.pt, {
   summaryT: (n) => `O resumo de ${n}`, summary: (g, best) => g ? `Esta semana você completou ${g === 1 ? "1 meta" : `${g} metas`}. Seu melhor dia foi ${best}. Estou orgulhoso de você!` : "Esta semana foi tranquila. Tudo bem: vamos recomeçar juntos, um passo de cada vez.",
   legalT: "Guia e informações", guideB: "Como funciona", privB: "Política de privacidade", termsB: "Termos de uso", healthB: "Aviso de saúde", creditsB: "Créditos e licenças", tutAgain: "Rever o guia inicial", ownerMissing: "[a completar antes da publicação]",
   guide: [
-    ["Como o Tanetto funciona?", "Você escolhe pequenas metas para se cuidar. Cada vez que completa uma, seu companheiro ganha energia e você ganha Tanì."],
+    ["Como o Tanetto funciona?", "Você escolhe pequenas metas para se cuidar. Cada vez que completa uma, coloca algo na mochila do seu companheiro e ganha Tanì."],
     ["Para que servem os Tanì?", "Com os Tanì você decora a casinha e escolhe o que seu companheiro veste. Você ganha com metas, presentes, aventuras e jogos."],
-    ["O que é a energia?", "Quando você completa todas as metas do dia, a energia fica cheia e seu companheiro pode sair numa aventura. Ele volta com um cartão-postal."],
+    ["O que é a mochila?", "Quando você completa todas as metas do dia, a mochila fica cheia e seu companheiro pode sair numa aventura. Ele volta com um cartão-postal."],
     ["E a alegria?", "Ela sobe quando você se cuida e vocês fazem coisas juntos. Ela nunca cai sozinha: aqui ninguém vai te cobrar nada."],
     ["E se eu pular um dia?", "Sem problema. Você pode marcar um dia de descanso e sua sequência continua. O presente do dia simplesmente recomeça do início."],
     ["O que são as festas da estação?", "Em cada estação, completando 20 metas, você ganha um gorro especial para o seu companheiro."],

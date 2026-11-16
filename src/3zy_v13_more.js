@@ -11,14 +11,14 @@
   T.de.wk.reward = (t, p) => `Belohnung: ${t} Tanì und ${p} Fünkchen`;
   T.de.festa.P = "Festwoche: Fünkchen zählen doppelt!";
   T.de.plus.soonP = "Es kommt zusammen mit der App in die Stores. Wir haben dein Interesse notiert: Danke!";
-  T.de.v13 = { allT: "Alles geschafft für heute! 🎉", allP: (n) => `${n} hat volle Energie und ist bereit für ein Abenteuer!`, allB: "Abenteuer wählen", later: "Später", newTag: "Neu!" };
+  T.de.v13 = { allT: "Alles geschafft für heute! 🎉", allP: (n) => `${n} hat einen vollen Rucksack und ist bereit für ein Abenteuer!`, allB: "Abenteuer wählen", later: "Später", newTag: "Neu!" };
 
   /* es */
   Object.assign(T.es.season, { zero: "Temporada de los Fundadores", passi: (n) => n === 1 ? "1 Chispa" : `${n} Chispas`, next: (n) => n === 1 ? "1 Chispa más para la próxima etapa" : `${n} Chispas más para la próxima etapa`, how: "Ganas Chispas solo cuidándote: 10 por cada objetivo, 20 por cada día completo y 100 por cada reto semanal. En la semana de fiesta valen el doble." });
   T.es.wk.reward = (t, p) => `Premio: ${t} Tanì y ${p} Chispas`;
   T.es.festa.P = "Semana de fiesta: ¡las Chispas valen el doble!";
   T.es.plus.soonP = "Llegará con la app a las tiendas. Hemos registrado tu interés: ¡gracias!";
-  T.es.v13 = { allT: "¡Todo hecho por hoy! 🎉", allP: (n) => `¡${n} tiene la energía llena y ganas de aventura!`, allB: "Elige una aventura", later: "Más tarde", newTag: "¡Nuevo!" };
+  T.es.v13 = { allT: "¡Todo hecho por hoy! 🎉", allP: (n) => `¡${n} tiene la mochila llena y ganas de aventura!`, allB: "Elige una aventura", later: "Más tarde", newTag: "¡Nuevo!" };
   /* le frasi del compagno sono al maschile (orgulloso, mandarlo) */
   T.es.pets.ondi[1] = "Un cachorrito de nutria con una piedrita de la suerte.";
   T.es.pets.lumi[1] = "Una pequeña luciérnaga que brilla con cada paso tuyo."; /* critica fase 3: "bichito de luz" e' solo rioplatense; nel resto dell'app e' "luciérnaga" */
@@ -29,7 +29,7 @@
   T.fr.wk.reward = (t, p) => `Récompense : ${t} Tanì et ${p} Étincelles`;
   T.fr.festa.P = "Semaine de fête : les Étincelles comptent double !";
   T.fr.plus.soonP = "Il arrivera avec l'app sur les stores. Nous avons bien noté ton intérêt : merci !";
-  T.fr.v13 = { allT: "Tout est fait pour aujourd'hui ! 🎉", allP: (n) => `${n} a toute son énergie et a hâte de partir à l'aventure !`, allB: "Choisir une aventure", later: "Plus tard", newTag: "Nouveau !" };
+  T.fr.v13 = { allT: "Tout est fait pour aujourd'hui ! 🎉", allP: (n) => `Sac à dos plein : ${n} a hâte de partir à l'aventure !`, allB: "Choisir une aventure", later: "Plus tard", newTag: "Nouveau !" };
   /* les phrases du compagnon sont au masculin (il, fier) */
   T.fr.pets.ondi[1] = "Un bébé loutre avec un caillou porte-bonheur.";
   T.fr.pets.lumi[1] = "Un petit ver luisant qui brille à chacun de tes pas.";
@@ -39,7 +39,7 @@
   T.pt.wk.reward = (t, p) => `Prêmio: ${t} Tanì e ${p} Faíscas`;
   T.pt.festa.P = "Semana de festa: as Faíscas valem o dobro!";
   T.pt.plus.soonP = "Vai chegar com o app nas lojas. Anotamos o seu interesse: obrigado!";
-  T.pt.v13 = { allT: "Tudo feito por hoje! 🎉", allP: (n) => `${n} está com a energia cheia e quer viver uma aventura!`, allB: "Escolha uma aventura", later: "Mais tarde", newTag: "Novidade!" };
+  T.pt.v13 = { allT: "Tudo feito por hoje! 🎉", allP: (n) => `${n} está com a mochila cheia e quer viver uma aventura!`, allB: "Escolha uma aventura", later: "Mais tarde", newTag: "Novidade!" };
   /* as falas do companheiro são no masculino (ele, orgulhoso, mandá-lo) */
   T.pt.pets.ondi[1] = "Um filhote de lontra com uma pedrinha da sorte.";
   T.pt.pets.rufi[1] = "Um filhote de raposa, curioso e corajoso.";
@@ -49,35 +49,35 @@
   T.ja.wk.reward = (t, p) => `ごほうび：${t} Tanìと${p}キラ`;
   T.ja.festa.P = "お祭りの週：キラが2倍！";
   T.ja.plus.soonP = "ストア版アプリといっしょに登場します。興味を持ってくれたこと、ちゃんと記録しました。ありがとう！";
-  T.ja.v13 = { allT: "今日はぜんぶ達成！🎉", allP: (n) => `${n}はエネルギー満タン、冒険の準備ばっちり！`, allB: "冒険をえらぶ", later: "あとで", newTag: "NEW!" };
+  T.ja.v13 = { allT: "今日はぜんぶ達成！🎉", allP: (n) => `${n}はリュックがいっぱい、冒険の準備ばっちり！`, allB: "冒険をえらぶ", later: "あとで", newTag: "NEW!" };
 
   /* ko */
   Object.assign(T.ko.season, { zero: "창립 멤버 시즌", passi: (n) => `반짝이 ${n}개`, next: (n) => `다음 단계까지 반짝이 ${n}개 남았어요`, how: "반짝이는 나를 돌볼 때만 모을 수 있어요. 목표 하나에 10개, 하루 목표를 모두 해내면 20개, 주간 챌린지 하나에 100개. 축제 주간에는 두 배예요." });
   T.ko.wk.reward = (t, p) => `보상: ${t} Tanì + 반짝이 ${p}개`;
   T.ko.festa.P = "축제 주간: 반짝이가 두 배!";
   T.ko.plus.soonP = "앱이 스토어에 출시될 때 함께 나와요. 관심을 보내 준 걸 잘 기록해 두었어요. 고마워요!";
-  T.ko.v13 = { allT: "오늘 할 일을 모두 끝냈어요! 🎉", allP: (n) => `에너지 가득! ${n}, 모험 떠날 준비 완료!`, allB: "모험 고르기", later: "나중에", newTag: "NEW!" };
+  T.ko.v13 = { allT: "오늘 할 일을 모두 끝냈어요! 🎉", allP: (n) => `배낭이 가득! ${n}, 모험 떠날 준비 완료!`, allB: "모험 고르기", later: "나중에", newTag: "NEW!" };
 
   /* zh */
   Object.assign(T.zh.season, { zero: "创始季", passi: (n) => `${n} 火花`, next: (n) => `再得 ${n} 火花就到下一站`, how: "只有好好照顾自己才能获得火花：每完成 1 个目标得 10 火花，每完成一整天的目标得 20 火花，每完成 1 个每周挑战得 100 火花。庆典周期间火花翻倍。" });
   T.zh.wk.reward = (t, p) => `奖励：${t} Tanì 和 ${p} 火花`;
   T.zh.festa.P = "庆典周：火花翻倍！";
   T.zh.plus.soonP = "它会随应用一起登陆应用商店。我们已经记下你的关注啦，谢谢你！";
-  T.zh.v13 = { allT: "今天的都完成啦！🎉", allP: (n) => `${n} 能量满满，准备好去冒险啦！`, allB: "选择冒险", later: "稍后", newTag: "新！" };
+  T.zh.v13 = { allT: "今天的都完成啦！🎉", allP: (n) => `${n} 的背包装满了，准备好去冒险啦！`, allB: "选择冒险", later: "稍后", newTag: "新！" };
 
   /* zht (Taiwan) */
   Object.assign(T.zht.season, { zero: "創始季", passi: (n) => `${n} 火花`, next: (n) => `再得 ${n} 火花就到下一站`, how: "只有好好照顧自己才能獲得火花：每完成 1 個目標得 10 火花，每完成一整天的目標得 20 火花，每完成 1 個每週挑戰得 100 火花。祭典週期間火花加倍。" });
   T.zht.wk.reward = (t, p) => `獎勵：${t} Tanì 和 ${p} 火花`;
   T.zht.festa.P = "祭典週：火花加倍！";
   T.zht.plus.soonP = "會在 App 上架後推出。我們已經記下你的興趣了，謝謝你！";
-  T.zht.v13 = { allT: "今天全部完成囉！🎉", allP: (n) => `${n} 能量滿滿，準備好去冒險囉！`, allB: "選擇冒險", later: "稍後", newTag: "新！" };
+  T.zht.v13 = { allT: "今天全部完成囉！🎉", allP: (n) => `${n} 的背包裝滿了，準備好去冒險囉！`, allB: "選擇冒險", later: "稍後", newTag: "新！" };
 
   /* ru */
   Object.assign(T.ru.season, { zero: "Сезон основателей", passi: (n) => ruS(n), next: (n) => `Ещё ${ruS(n)} до следующего этапа`, how: "Искорки можно получить, только заботясь о себе: 10 за каждую цель, 20 за каждый полностью выполненный день, 100 за каждое испытание недели. В праздничную неделю искорки считаются вдвойне." });
   T.ru.wk.reward = (t, p) => `Награда: ${t} Tanì и ${ruS(p)}`;
   T.ru.festa.P = "Праздничная неделя: искорки считаются вдвойне!";
   T.ru.plus.soonP = "Он появится вместе с приложением в магазинах. Мы отметили твой интерес: спасибо!";
-  T.ru.v13 = { allT: "На сегодня всё сделано! 🎉", allP: (n) => `${n}: энергия на максимуме, можно отправляться в приключение!`, allB: "Выбрать приключение", later: "Позже", newTag: "Новое!" };
+  T.ru.v13 = { allT: "На сегодня всё сделано! 🎉", allP: (n) => `${n}: рюкзак полный, можно отправляться в приключение!`, allB: "Выбрать приключение", later: "Позже", newTag: "Новое!" };
   /* реплики питомца в мужском роде (он) */
   T.ru.pets.ondi[1] = "Выдрёнок со счастливым камешком.";
 
@@ -86,21 +86,21 @@
   T.pl.wk.reward = (t, p) => `Nagroda: ${t} Tanì i ${plS(p)}`;
   T.pl.festa.P = "Tydzień święta: Iskierki liczą się podwójnie!";
   T.pl.plus.soonP = "Pojawi się razem z aplikacją w sklepach. Odnotowaliśmy twoje zainteresowanie: dziękujemy!";
-  T.pl.v13 = { allT: "Wszystko na dziś zrobione! 🎉", allP: (n) => `${n} ma pełną energię i może ruszać na przygodę!`, allB: "Wybierz przygodę", later: "Później", newTag: "Nowość!" };
+  T.pl.v13 = { allT: "Wszystko na dziś zrobione! 🎉", allP: (n) => `${n} ma pełny plecak i może ruszać na przygodę!`, allB: "Wybierz przygodę", later: "Później", newTag: "Nowość!" };
 
   /* nl */
   Object.assign(T.nl.season, { zero: "Oprichtersseizoen", passi: (n) => n === 1 ? "1 Vonkje" : `${n} Vonkjes`, next: (n) => n === 1 ? "Nog 1 Vonkje tot de volgende etappe" : `Nog ${n} Vonkjes tot de volgende etappe`, how: "Je verdient Vonkjes alleen door goed voor jezelf te zorgen: 10 per doel, 20 per volledige dag, 100 per weekuitdaging. In de feestweek tellen ze dubbel." });
   T.nl.wk.reward = (t, p) => `Beloning: ${t} Tanì en ${p} Vonkjes`;
   T.nl.festa.P = "Feestweek: Vonkjes tellen dubbel!";
   T.nl.plus.soonP = "Het komt er zodra de app in de stores staat. We hebben je interesse genoteerd: dankjewel!";
-  T.nl.v13 = { allT: "Alles gedaan voor vandaag! 🎉", allP: (n) => `${n} zit vol energie en is klaar voor een avontuur!`, allB: "Kies een avontuur", later: "Later", newTag: "Nieuw!" };
+  T.nl.v13 = { allT: "Alles gedaan voor vandaag! 🎉", allP: (n) => `${n} heeft een volle rugzak en is klaar voor een avontuur!`, allB: "Kies een avontuur", later: "Later", newTag: "Nieuw!" };
 
   /* tr */
   Object.assign(T.tr.season, { zero: "Kurucular Sezonu", passi: (n) => `${n} Kıvılcım`, next: (n) => `Sonraki durağa ${n} Kıvılcım kaldı`, how: "Kıvılcımları sadece kendine bakarak kazanırsın: her hedef için 10, her tam gün için 20, her haftalık görev için 100. Şenlik haftasında iki kat değerlidirler." });
   T.tr.wk.reward = (t, p) => `Ödül: ${t} Tanì ve ${p} Kıvılcım`;
   T.tr.festa.P = "Şenlik haftası: Kıvılcımlar iki kat değerli!";
   T.tr.plus.soonP = "Uygulama mağazalarda yayınlandığında hazır olacak. İlgini not ettik: teşekkürler!";
-  T.tr.v13 = { allT: "Bugünlük her şey tamam! 🎉", allP: (n) => `${n} enerji dolu, maceraya hazır!`, allB: "Macera seç", later: "Sonra", newTag: "Yeni!" };
+  T.tr.v13 = { allT: "Bugünlük her şey tamam! 🎉", allP: (n) => `${n}: çanta dolu, maceraya hazır!`, allB: "Macera seç", later: "Sonra", newTag: "Yeni!" };
 })();
 /* "Stagione 0" diventa "Stagione dei Fondatori" anche nel distintivo */
 T.it.season.founderP = "Hai giocato la Stagione dei Fondatori: questo distintivo e la lanterna d'oro restano tuoi per sempre.";

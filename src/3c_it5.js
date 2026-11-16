@@ -18,9 +18,9 @@ Object.assign(T.it, {
   summaryT: (n) => `Il riassunto di ${n}`, summary: (g, best) => g ? `Questa settimana hai completato ${g} obiettivi. Il tuo giorno migliore è stato ${best}. Sono fiero di te!` : "Questa settimana è stata tranquilla. Va bene così: ripartiamo insieme, un passo alla volta.",
   legalT: "Guida e informazioni", guideB: "Come funziona", privB: "Informativa privacy", termsB: "Condizioni d'uso", healthB: "Avviso sanitario", creditsB: "Crediti e licenze", tutAgain: "Rivedi la guida iniziale", ownerMissing: "[da completare prima della pubblicazione]",
   guide: [
-    ["Come funziona Tanetto?", "Scegli piccoli obiettivi per prenderti cura di te. Ogni volta che ne completi uno, il tuo compagno prende energia e tu guadagni Tanì."],
+    ["Come funziona Tanetto?", "Scegli piccoli obiettivi per prenderti cura di te. Ogni volta che ne completi uno, metti una cosa nello zaino del tuo compagno e guadagni Tanì."],
     ["A cosa servono i Tanì?", "Con i Tanì arredi la casetta e scegli cosa indossa il compagno. Li guadagni con gli obiettivi, i regali, le avventure e i giochi."],
-    ["Cos'è l'energia?", "Quando completi tutti gli obiettivi del giorno l'energia è piena e il compagno può partire per un'avventura. Torna con una cartolina."],
+    ["Cos'è lo zaino?", "Quando completi tutti gli obiettivi del giorno lo zaino è pieno e il compagno può partire per un'avventura. Torna con una cartolina."],
     ["E la felicità?", "Sale quando ti prendi cura di te e fate cose insieme. Non scende mai da sola: qui nessuno ti fa sentire in colpa."],
     ["Cosa succede se salto un giorno?", "Niente di grave. Puoi segnare un giorno di riposo e la serie non si interrompe. Il regalo del giorno ricomincia semplicemente dal primo."],
     ["Cosa sono le feste di stagione?", "In ogni stagione, completando 20 obiettivi, vinci un cappello speciale per il tuo compagno."],

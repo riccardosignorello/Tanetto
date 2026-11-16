@@ -18,9 +18,9 @@ Object.assign(T.de, {
   summaryT: (n) => `Die Zusammenfassung von ${n}`, summary: (g, best) => g ? `Diese Woche hast du ${g} Ziele geschafft. Dein bester Tag war ${best}. Ich bin stolz auf dich!` : "Diese Woche war ruhig. Das ist in Ordnung: Wir starten zusammen neu, Schritt für Schritt.",
   legalT: "Hilfe und Infos", guideB: "So funktioniert's", privB: "Datenschutzerklärung", termsB: "Nutzungsbedingungen", healthB: "Gesundheitshinweis", creditsB: "Credits und Lizenzen", tutAgain: "Einführung nochmal ansehen", ownerMissing: "[vor der Veröffentlichung zu ergänzen]",
   guide: [
-    ["Wie funktioniert Tanetto?", "Wähle kleine Ziele, um für dich zu sorgen. Jedes Mal, wenn du eins schaffst, bekommt dein Begleiter Energie und du Tanì."],
+    ["Wie funktioniert Tanetto?", "Wähle kleine Ziele, um für dich zu sorgen. Für jedes geschaffte Ziel packst du etwas in den Rucksack deines Begleiters und bekommst Tanì."],
     ["Wofür sind die Tanì?", "Mit Tanì richtest du das Zuhause ein und wählst, was dein Begleiter trägt. Du bekommst sie durch Ziele, Geschenke, Abenteuer und Spiele."],
-    ["Was ist die Energie?", "Wenn du alle Ziele des Tages schaffst, ist die Energie voll und dein Begleiter kann auf ein Abenteuer gehen. Er kommt mit einer Postkarte zurück."],
+    ["Was ist der Rucksack?", "Wenn du alle Ziele des Tages schaffst, ist der Rucksack voll und dein Begleiter kann auf ein Abenteuer gehen. Er kommt mit einer Postkarte zurück."],
     ["Und die Freude?", "Sie steigt, wenn du für dich sorgst und ihr Dinge zusammen macht. Sie sinkt nie von allein: Hier macht dir niemand ein schlechtes Gewissen."],
     ["Was, wenn ich einen Tag auslasse?", "Nicht schlimm. Du kannst einen Ruhetag eintragen, und deine Serie bleibt bestehen. Das Tagesgeschenk fängt einfach wieder von vorne an."],
     ["Was sind die Jahreszeitenfeste?", "In jeder Jahreszeit gewinnst du mit 20 geschafften Zielen eine besondere Mütze für deinen Begleiter."],

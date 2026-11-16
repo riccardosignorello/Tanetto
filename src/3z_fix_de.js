@@ -1,6 +1,6 @@
 // Proofreading fixes for German (de): plurals with 1, "Ziel" vs "Reiseziel", grammar, natural phrasing, German quotation marks.
 T.de.unlocked = (d) => `Neues Reiseziel: ${d}`;
-T.de.tripsP = "Wenn die Energie voll ist, wähle ein Reiseziel. Er kommt mit einer Postkarte und ein paar Überraschungen zurück.";
+T.de.tripsP = "Wenn der Rucksack voll ist, wähle ein Reiseziel. Er kommt mit einer Postkarte und ein paar Überraschungen zurück.";
 T.de.using = "Aktiv";
 T.de.stories.hill[1][1] = "{n} hat entdeckt, wie herrlich lustig es ist, den Hügel hinunterzurollen. Gleich siebenmal!";
 T.de.stories.mountain[1][1] = "Eine Bergziege zeigte {n} den einfachsten Weg. Manchmal ist es das Beste, um Hilfe zu bitten.";
@@ -35,4 +35,4 @@ T.de.inst.ios = "Auf dem iPhone: Tippe in Safari auf Teilen und dann auf „Zum 
 T.de.guideAdd[1] = "Unter „Mehr“ findest du „Kopie speichern“: Damit entsteht eine Datei mit deinem ganzen Fortschritt. Öffne Tanetto auf einem neuen Handy und tippe auf „Kopie wiederherstellen“.";
 T.de.chat.R.bored[0] = "Spielen wir zusammen? Tippe auf „Spielen“!";
 T.de.chat.R.hungry[2] = "Teilen wir einen Snack? Tippe auf „Snack“!";
-T.de.chat.R.help[0] = "Wähle kleine Ziele und schaff sie jeden Tag: Ich bekomme Energie und du verdienst Tanì fürs Zuhause. Die ganze Anleitung findest du unter „Mehr“.";
+T.de.chat.R.help[0] = "Wähle kleine Ziele und schaff sie jeden Tag: Du packst etwas in meinen Rucksack und verdienst Tanì fürs Zuhause. Die ganze Anleitung findest du unter „Mehr“.";

@@ -30,5 +30,5 @@ T.pt.inst.ios = "No iPhone: toque no botão Compartilhar do Safari e depois em �
 T.pt.guideAdd[1] = "Em “Mais” você encontra “Salvar uma cópia”: ela cria um arquivo com todo o seu progresso. Em um celular novo, abra o Tanetto e toque em “Restaurar uma cópia”.";
 T.pt.chat.R.bored[0] = "Vamos brincar juntos? Toque em “Brincar”!";
 T.pt.chat.R.hungry[2] = "Quer dividir um lanche comigo? Toque em “Lanche”!";
-T.pt.chat.R.help[0] = "Escolha metas pequenas e cumpra todo dia: eu ganho energia e você ganha Tanì pra casinha. Em “Mais” tem o guia completo.";
+T.pt.chat.R.help[0] = "Escolha metas pequenas e cumpra todo dia: você coloca algo na minha mochila e ganha Tanì pra casinha. Em “Mais” tem o guia completo.";
 T.pt.wk.cat = (n, c) => `Complete ${n} metas da categoria “${c}”`;

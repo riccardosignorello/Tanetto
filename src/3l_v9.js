@@ -41,7 +41,7 @@ yearly: "Annuale", monthly: "Mensile", perYear: (p) => `${p} all'anno`, perMonth
       hungry: ["Anche io ho un languorino! Uno spuntino sano?", "Mangiare con calma è un modo per volersi bene.", "Ti va di dividere una merenda con me? Tocca «Merenda»!"],
       drink: ["Ottima idea: un bel bicchiere d'acqua! Io bevo con te.", "Glu glu glu! L'acqua fa bene a tutto, anche all'umore.", "Ricordati: un sorso ogni tanto, anche se non hai sete."],
       joke: ["Sai perché il pomodoro non riesce a dormire? Perché l'insalata russa!", "Cosa fa un gatto in palestra? Il miao-sollevamento pesi!", "Qual è il colmo per un giardiniere? Avere un cuore di pietra... e piantarla lì!"],
-      help: ["Scegli piccoli obiettivi e completali ogni giorno: io prendo energia e tu guadagni Tanì per la casetta. In «Altro» trovi la guida completa.", "Puoi giocare con me, darmi la merenda, farmi una foto e portarmi in avventura. Prova lo schermo intero nella stanza!"],
+      help: ["Scegli piccoli obiettivi e completali ogni giorno: metti una cosa nel mio zaino e guadagni Tanì per la casetta. In «Altro» trovi la guida completa.", "Puoi giocare con me, darmi la merenda, farmi una foto e portarmi in avventura. Prova lo schermo intero nella stanza!"],
       default: ["Ti ascolto. Me ne racconti di più?", "Capito! Sai che anche un piccolo gesto per te, oggi, conta tanto?", "Mi piace quando mi scrivi. Com'è andata la giornata?", "Hmm, non sono sicuro di aver capito, ma sono qui con te."]
     },
     K: {
@@ -113,7 +113,7 @@ yearly: "Yearly", monthly: "Monthly", perYear: (p) => `${p} per year`, perMonth:
       hungry: ["I'm a bit peckish too! A healthy snack?", "Eating slowly is a way of being kind to yourself.", "Want to share a snack with me? Tap «Snack»!"],
       drink: ["Great idea: a nice glass of water! I'll drink with you.", "Glug glug! Water is good for everything, even your mood.", "Remember: a sip now and then, even if you're not thirsty."],
       joke: ["Why did the scarecrow win an award? Because he was outstanding in his field!", "What do you call a sleeping bull? A bulldozer!", "Why don't eggs tell jokes? They'd crack each other up!"],
-      help: ["Pick small goals and complete them every day: I get energy and you earn Tanì for the home. You'll find the full guide in «More».", "You can play with me, give me a snack, take my photo and send me on adventures. Try full screen in the room!"],
+      help: ["Pick small goals and complete them every day: you pack something in my backpack and earn Tanì for the home. You'll find the full guide in «More».", "You can play with me, give me a snack, take my photo and send me on adventures. Try full screen in the room!"],
       default: ["I'm listening. Tell me more?", "Got it! Did you know that even a small gesture for yourself today means a lot?", "I love it when you write to me. How was your day?", "Hmm, I'm not sure I understood, but I'm here with you."]
     },
     K: {
@@ -187,7 +187,7 @@ yearly: "Jährlich", monthly: "Monatlich", perYear: (p) => `${p} pro Jahr`, perM
       hungry: ["Ich hab auch ein bisschen Hunger! Ein gesunder Snack?", "Langsam zu essen ist eine Art, lieb zu sich selbst zu sein.", "Teilen wir einen Snack? Tippe auf «Snack»!"],
       drink: ["Super Idee: ein schönes Glas Wasser! Ich trinke mit dir.", "Gluck gluck! Wasser tut allem gut, sogar der Laune.", "Denk dran: ab und zu ein Schluck, auch ohne Durst."],
       joke: ["Was ist grün und klopft an die Tür? Ein Klopfsalat!", "Welcher Bus ist als Erster über den Ozean gefahren? Kolumbus!", "Was macht ein Pirat am Computer? Er drückt die Enter-Taste!"],
-      help: ["Wähle kleine Ziele und schaff sie jeden Tag: Ich bekomme Energie und du verdienst Tanì fürs Zuhause. Die ganze Anleitung findest du unter «Mehr».", "Du kannst mit mir spielen, mir einen Snack geben, ein Foto von mir machen und mich auf Abenteuer schicken. Probier im Zimmer den Vollbildmodus aus!"],
+      help: ["Wähle kleine Ziele und schaff sie jeden Tag: Du packst etwas in meinen Rucksack und verdienst Tanì fürs Zuhause. Die ganze Anleitung findest du unter «Mehr».", "Du kannst mit mir spielen, mir einen Snack geben, ein Foto von mir machen und mich auf Abenteuer schicken. Probier im Zimmer den Vollbildmodus aus!"],
       default: ["Ich höre dir zu. Erzählst du mir mehr?", "Verstanden! Wusstest du, dass schon eine kleine Geste für dich heute ganz viel bedeutet?", "Ich mag es, wenn du mir schreibst. Wie war dein Tag?", "Hmm, ich bin nicht sicher, ob ich das verstanden habe, aber ich bin bei dir."]
     },
     K: {
@@ -260,7 +260,7 @@ yearly: "Anual", monthly: "Mensual", perYear: (p) => `${p} al año`, perMonth: (
       hungry: ["¡Yo también tengo un poco de hambre! ¿Algo sano para picar?", "Comer con calma es una forma de cuidarte.", "¿Compartimos una merienda? ¡Toca «Merienda»!"],
       drink: ["Buena idea: ¡un buen vaso de agua! Yo bebo contigo.", "¡Glu glu glu! El agua va bien para todo, hasta para el humor.", "Recuerda: un sorbito de vez en cuando, aunque no tengas sed."],
       joke: ["¿Qué le dice una iguana a su hermana gemela? ¡Somos iguanitas!", "¿Por qué el libro de matemáticas está triste? ¡Porque tiene muchos problemas!", "¿Qué hace una abeja en el gimnasio? ¡Zum-ba!"],
-      help: ["Elige objetivos pequeños y complétalos cada día: yo gano energía y tú ganas Tanì para la casita. En «Más» tienes la guía completa.", "Puedes jugar conmigo, darme la merienda, hacerme una foto y llevarme de aventuras. ¡Prueba la pantalla completa en la habitación!"],
+      help: ["Elige objetivos pequeños y complétalos cada día: guardas algo en mi mochila y ganas Tanì para la casita. En «Más» tienes la guía completa.", "Puedes jugar conmigo, darme la merienda, hacerme una foto y llevarme de aventuras. ¡Prueba la pantalla completa en la habitación!"],
       default: ["Te escucho. ¿Me cuentas más?", "¡Entendido! ¿Sabías que hasta un pequeño gesto por ti hoy cuenta mucho?", "Me encanta que me escribas. ¿Qué tal ha ido el día?", "Mmm, no estoy seguro de haberlo entendido, pero estoy aquí contigo."]
     },
     K: {
@@ -333,7 +333,7 @@ yearly: "Annuel", monthly: "Mensuel", perYear: (p) => `${p} par an`, perMonth: (
       hungry: ["Moi aussi, j'ai un petit creux ! Un en-cas sain ?", "Manger tranquillement, c'est une façon de prendre soin de soi.", "On partage un goûter ? Touche « Goûter » !"],
       drink: ["Bonne idée : un bon verre d'eau ! Je bois avec toi.", "Glou glou ! L'eau fait du bien à tout, même au moral.", "N'oublie pas : une gorgée de temps en temps, même sans avoir soif."],
       joke: ["Quel est le comble pour un électricien ? Ne pas être au courant !", "Que dit une imprimante dans l'eau ? J'ai papier !", "Qu'est-ce qui est jaune et qui attend ? Jonathan !"],
-      help: ["Choisis de petits objectifs et accomplis-les chaque jour : je gagne de l'énergie et toi, tu gagnes des Tanì pour la maison. Tu trouveras le guide complet dans « Plus ».", "Tu peux jouer avec moi, me donner un goûter, me prendre en photo et m'envoyer à l'aventure. Essaie le plein écran dans la pièce !"],
+      help: ["Choisis de petits objectifs et accomplis-les chaque jour : tu mets quelque chose dans mon sac à dos et gagnes des Tanì pour la maison. Tu trouveras le guide complet dans « Plus ».", "Tu peux jouer avec moi, me donner un goûter, me prendre en photo et m'envoyer à l'aventure. Essaie le plein écran dans la pièce !"],
       default: ["Je t'écoute. Tu m'en dis plus ?", "Compris ! Tu savais que même un petit geste pour toi aujourd'hui, ça compte beaucoup ?", "J'adore quand tu m'écris. Comment s'est passée ta journée ?", "Hmm, je ne suis pas sûr d'avoir compris, mais je suis là avec toi."]
     },
     K: {
@@ -406,7 +406,7 @@ yearly: "Anual", monthly: "Mensal", perYear: (p) => `${p} por ano`, perMonth: (p
       hungry: ["Eu também tô com uma fominha! Um lanchinho saudável?", "Comer com calma é um jeito de cuidar de si.", "Quer dividir um lanche comigo? Toque em «Lanche»!"],
       drink: ["Ótima ideia: um belo copo d'água! Eu bebo com você.", "Glub glub! Água faz bem pra tudo, até pro humor.", "Lembre: um golinho de vez em quando, mesmo sem sede."],
       joke: ["Por que o livro de matemática ficou triste? Porque tinha muitos problemas!", "O que o tomate foi fazer no banco? Tirar extrato!", "Por que a plantinha não foi atendida no hospital? Porque só tinha médico de plantão!"],
-      help: ["Escolha metas pequenas e cumpra todo dia: eu ganho energia e você ganha Tanì pra casinha. Em «Mais» tem o guia completo.", "Você pode brincar comigo, me dar um lanche, tirar uma foto minha e me levar em aventuras. Experimente a tela cheia no quarto!"],
+      help: ["Escolha metas pequenas e cumpra todo dia: você coloca algo na minha mochila e ganha Tanì pra casinha. Em «Mais» tem o guia completo.", "Você pode brincar comigo, me dar um lanche, tirar uma foto minha e me levar em aventuras. Experimente a tela cheia no quarto!"],
       default: ["Tô te ouvindo. Me conta mais?", "Entendi! Sabia que até um pequeno gesto por você hoje faz muita diferença?", "Adoro quando você me escreve. Como foi o seu dia?", "Hmm, não sei se entendi direito, mas estou aqui com você."]
     },
     K: {

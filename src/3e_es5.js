@@ -18,9 +18,9 @@ Object.assign(T.es, {
   summaryT: (n) => `El resumen de ${n}`, summary: (g, best) => g ? `Esta semana has completado ${g === 1 ? "1 objetivo" : `${g} objetivos`}. Tu mejor día fue el ${best}. ¡Estoy orgulloso de ti!` : "Esta semana ha sido tranquila. Está bien así: volvemos a empezar juntos, paso a paso.",
   legalT: "Guía e información", guideB: "Cómo funciona", privB: "Política de privacidad", termsB: "Condiciones de uso", healthB: "Aviso de salud", creditsB: "Créditos y licencias", tutAgain: "Ver otra vez la guía inicial", ownerMissing: "[por completar antes de la publicación]",
   guide: [
-    ["¿Cómo funciona Tanetto?", "Eliges pequeños objetivos para cuidarte. Cada vez que completas uno, tu compañero gana energía y tú ganas Tanì."],
+    ["¿Cómo funciona Tanetto?", "Eliges pequeños objetivos para cuidarte. Cada vez que completas uno, guardas algo en la mochila de tu compañero y ganas Tanì."],
     ["¿Para qué sirven los Tanì?", "Con los Tanì decoras la casita y eliges qué se pone tu compañero. Las ganas con objetivos, regalos, aventuras y juegos."],
-    ["¿Qué es la energía?", "Cuando completas todos los objetivos del día, la energía se llena y tu compañero puede irse de aventura. Vuelve con una postal."],
+    ["¿Qué es la mochila?", "Cuando completas todos los objetivos del día, la mochila se llena y tu compañero puede irse de aventura. Vuelve con una postal."],
     ["¿Y la alegría?", "Sube cuando te cuidas y hacéis cosas juntos. Nunca baja sola: aquí nadie te hace sentir culpable."],
     ["¿Qué pasa si me salto un día?", "Nada grave. Puedes marcar un día de descanso y tu racha no se rompe. El regalo del día simplemente vuelve a empezar."],
     ["¿Qué son las fiestas de temporada?", "En cada estación, al completar 20 objetivos, ganas un gorro especial para tu compañero."],

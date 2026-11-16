@@ -7,7 +7,7 @@
 const V23 = {
   it: {
     welT: "Un piccolo amico per prenderti cura di te",
-    welP: "Scegli qualche piccolo obiettivo al giorno. Ognuno dà energia al tuo compagno, che parte per un viaggio e ti manda una cartolina.",
+    welP: "Scegli qualche piccolo obiettivo al giorno. Ognuno mette una cosa nello zaino del tuo compagno, che parte per un viaggio e ti manda una cartolina.",
     opt: "facoltativo",
     gift2T: "Due regali per te",
     gift2P: (n) => `50 Tanì per decorare la stanzetta di ${n} e un cappellino da festa per la prima stagione di Tanetto.`,
@@ -26,7 +26,7 @@ const V23 = {
   },
   en: {
     welT: "A little friend for your self-care",
-    welP: "Pick a few small goals a day. Each one gives your companion energy for a trip, and a postcard comes home to you.",
+    welP: "Pick a few small goals a day. Each one packs something in your companion's backpack for a trip, and a postcard comes home to you.",
     opt: "optional",
     gift2T: "Two gifts for you",
     gift2P: (n) => `50 Tanì to decorate ${n}'s little room, and a party hat to celebrate Tanetto's first season.`,
@@ -45,7 +45,7 @@ const V23 = {
   },
   de: {
     welT: "Ein kleiner Freund, der dir guttut",
-    welP: "Wähle ein paar kleine Ziele am Tag. Jedes gibt deinem Begleiter Energie für eine Reise, und eine Postkarte kommt zu dir nach Hause.",
+    welP: "Wähle ein paar kleine Ziele am Tag. Mit jedem packst du etwas in den Rucksack deines Begleiters, und von der Reise kommt eine Postkarte zu dir.",
     opt: "optional",
     gift2T: "Zwei Geschenke für dich",
     gift2P: (n) => `50 Tanì, um das kleine Zimmer von ${n} zu schmücken, und ein Partyhut zur ersten Saison von Tanetto.`,
@@ -64,7 +64,7 @@ const V23 = {
   },
   es: {
     welT: "Un pequeño amigo para cuidarte",
-    welP: "Elige algunos objetivos pequeños al día. Cada uno le da energía a tu compañero para un viaje, y desde allí te manda una postal.",
+    welP: "Elige algunos objetivos pequeños al día. Con cada uno guardas algo en la mochila de tu compañero para un viaje, y desde allí te manda una postal.",
     opt: "opcional",
     gift2T: "Dos regalos para ti",
     gift2P: (n) => `50 Tanì para decorar el cuartito de ${n} y un gorro de fiesta para celebrar la primera temporada de Tanetto.`,
@@ -83,7 +83,7 @@ const V23 = {
   },
   fr: {
     welT: "Un petit ami pour prendre soin de toi",
-    welP: "Choisis quelques petits objectifs par jour. Chacun donne de l'énergie à ton compagnon pour un voyage, et une carte postale arrive chez toi.",
+    welP: "Choisis quelques petits objectifs par jour. Chacun met quelque chose dans le sac à dos de ton compagnon pour un voyage, et une carte postale arrive chez toi.",
     opt: "facultatif",
     gift2T: "Deux cadeaux pour toi",
     gift2P: (n) => `50 Tanì pour décorer la petite chambre de ${n}, et un chapeau de fête pour la première saison de Tanetto.`,
@@ -102,7 +102,7 @@ const V23 = {
   },
   pt: {
     welT: "Um amiguinho para cuidar de você",
-    welP: "Escolha algumas metas pequenas por dia. Cada uma dá energia ao seu companheiro para uma viagem, e um cartão-postal chega para você.",
+    welP: "Escolha algumas metas pequenas por dia. Cada uma coloca algo na mochila do seu companheiro para uma viagem, e um cartão-postal chega para você.",
     opt: "opcional",
     gift2T: "Dois presentes para você",
     gift2P: (n) => `50 Tanì para decorar o quartinho de ${n} e um chapéu de festa para comemorar a primeira temporada do Tanetto.`,
@@ -121,7 +121,7 @@ const V23 = {
   },
   ja: {
     welT: "セルフケアの小さな友だち",
-    welP: "毎日、小さな目標をいくつか選ぼう。ひとつ達成するたびにパートナーに旅のエネルギーがたまり、旅先から絵はがきが届きます。",
+    welP: "毎日、小さな目標をいくつか選ぼう。ひとつ達成するたびにパートナーの旅のリュックに何かが入り、旅先から絵はがきが届きます。",
     opt: "任意",
     gift2T: "プレゼントがふたつ",
     gift2P: (n) => `${n}の小さなお部屋を飾る50 Tanìと、Tanettoの最初のシーズンを祝うパーティー帽子です。`,
@@ -140,7 +140,7 @@ const V23 = {
   },
   ko: {
     welT: "나를 돌보는 작은 친구",
-    welP: "하루에 작은 목표 몇 개를 골라 보세요. 하나씩 해낼 때마다 친구가 여행할 에너지가 생기고, 여행지에서 엽서가 도착해요.",
+    welP: "하루에 작은 목표 몇 개를 골라 보세요. 하나씩 해낼 때마다 친구의 여행 배낭에 하나씩 챙겨 주고, 여행지에서 엽서가 도착해요.",
     opt: "선택",
     gift2T: "선물이 두 개 있어요",
     gift2P: (n) => `${n}의 작은 방을 꾸밀 Tanì 50개, 그리고 Tanetto의 첫 시즌을 축하하는 파티 모자예요.`,
@@ -159,7 +159,7 @@ const V23 = {
   },
   zh: {
     welT: "陪你好好照顾自己的小伙伴",
-    welP: "每天选几个小目标。每完成一个，小伙伴就多一点旅行的能量，旅途中还会给你寄回明信片。",
+    welP: "每天选几个小目标。每完成一个，就往小伙伴的旅行背包里放一样东西，旅途中它还会给你寄回明信片。",
     opt: "可选",
     gift2T: "两份礼物送给你",
     gift2P: (n) => `50 Tanì 用来布置${n}的小房间，还有一顶派对帽，庆祝 Tanetto 的第一个季节。`,
@@ -178,7 +178,7 @@ const V23 = {
   },
   zht: {
     welT: "陪你好好照顧自己的小夥伴",
-    welP: "每天選幾個小目標。每完成一個，小夥伴就多一點旅行的能量，旅途中還會寄明信片給你。",
+    welP: "每天選幾個小目標。每完成一個，就往小夥伴的旅行背包裡放一樣東西，旅途中還會寄明信片給你。",
     opt: "選填",
     gift2T: "兩份禮物送給你",
     gift2P: (n) => `50 Tanì 用來布置${n}的小房間，還有一頂派對帽，慶祝 Tanetto 的第一個季節。`,
@@ -197,7 +197,7 @@ const V23 = {
   },
   ru: {
     welT: "Маленький друг, который помогает заботиться о себе",
-    welP: "Выбирай несколько небольших целей в день. Каждая даёт питомцу энергию для путешествия, а из поездки приходит открытка.",
+    welP: "Выбирай несколько небольших целей в день. За каждую питомец кладёт что-то в рюкзак для путешествия, а из поездки приходит открытка.",
     opt: "необязательно",
     gift2T: "Два подарка для тебя",
     gift2P: (n) => `50 Tanì, чтобы украсить комнатку питомца по имени ${n}, и праздничный колпак в честь первого сезона Tanetto.`,
@@ -216,7 +216,7 @@ const V23 = {
   },
   pl: {
     welT: "Mały przyjaciel, który pomaga dbać o siebie",
-    welP: "Wybierz kilka małych celów na dzień. Każdy daje towarzyszowi energię na podróż, a z podróży przychodzi do ciebie pocztówka.",
+    welP: "Wybierz kilka małych celów na dzień. Za każdy towarzysz wkłada coś do plecaka na podróż, a z podróży przychodzi do ciebie pocztówka.",
     opt: "opcjonalnie",
     gift2T: "Dwa prezenty dla ciebie",
     gift2P: (n) => `50 Tanì na urządzenie pokoiku towarzysza ${n} i czapeczka imprezowa na pierwszy sezon Tanetto.`,
@@ -235,7 +235,7 @@ const V23 = {
   },
   nl: {
     welT: "Een klein maatje om goed voor jezelf te zorgen",
-    welP: "Kies elke dag een paar kleine doelen. Elk doel geeft je maatje energie voor een reis, en onderweg stuurt het je een ansichtkaart.",
+    welP: "Kies elke dag een paar kleine doelen. Met elk doel stop je iets in de rugzak van je maatje voor een reis, en onderweg stuurt het je een ansichtkaart.",
     opt: "niet verplicht",
     gift2T: "Twee cadeaus voor jou",
     gift2P: (n) => `50 Tanì om het kamertje van ${n} te versieren, en een feesthoedje voor het eerste seizoen van Tanetto.`,
@@ -254,7 +254,7 @@ const V23 = {
   },
   tr: {
     welT: "Kendine iyi bakman için küçük bir arkadaş",
-    welP: "Her gün birkaç küçük hedef seç. Her biri arkadaşına yolculuk için enerji verir ve yolculuktan sana bir kartpostal gelir.",
+    welP: "Her gün birkaç küçük hedef seç. Her biriyle arkadaşının sırt çantasına bir şey koyarsın; yolculuktan sana bir kartpostal gelir.",
     opt: "isteğe bağlı",
     gift2T: "Sana iki hediye",
     gift2P: (n) => `${n} için: küçük odasını süslemek üzere 50 Tanì ve Tanetto'nun ilk sezonunu kutlayan bir parti şapkası.`,

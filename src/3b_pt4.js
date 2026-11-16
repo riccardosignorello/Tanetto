@@ -48,8 +48,8 @@ Object.assign(T.pt, {
     "Este é {n}! Toque para fazer um carinho, ou acaricie deslizando o dedo.",
     "Todo dia tem um presente, e ele fica maior se você voltar amanhã. Abra!",
     "Aqui você pode dar um lanche, brincar, conversar, colocar para dormir ou tirar uma foto.",
-    "Estas são suas metas. Quando fizer uma, toque nela: {n} ganha energia e você ganha Tanì.",
-    "Com a energia cheia, {n} sai numa aventura. Aqui embaixo ficam aventuras, casinha, diário e ajustes."
+    "Estas são suas metas. Quando fizer uma, toque nela: você coloca algo na mochila de {n} e ganha Tanì.",
+    "Com a mochila cheia, {n} sai numa aventura. Aqui embaixo ficam aventuras, casinha, diário e ajustes."
   ],
   tutNext: "Próximo", tutSkip: "Pular", tutDone: "Entendi!",
   privT: "Privacidade", privP: "O companheiro, as metas e o diário ficam neste aparelho. Se você criar uma conta, também salvamos seu e-mail e um backup do seu progresso, só para você recuperá-lo. Para melhorar o app, contamos algumas ações de forma anônima e agregada (por exemplo, quantas vezes ele é aberto). Tanetto não é uma ferramenta médica e é para todas as idades: abaixo da idade de consentimento digital do seu país (de 13 a 16 anos, conforme o país), os anúncios nunca são personalizados e o backup on-line não está disponível.",

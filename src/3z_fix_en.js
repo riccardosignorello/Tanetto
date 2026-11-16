@@ -36,4 +36,4 @@ T.en.inst.ios = "On iPhone: tap Safari's Share button, then “Add to Home Scree
 T.en.guideAdd[1] = "In “More” you'll find “Save a copy”: it creates a file with all your progress. On a new phone, open Tanetto and tap “Restore a copy”.";
 T.en.chat.R.bored[0] = "Shall we play a game together? Tap “Play”!";
 T.en.chat.R.hungry[2] = "Want to share a snack with me? Tap “Snack”!";
-T.en.chat.R.help[0] = "Pick small goals and complete them every day: I get energy and you earn Tanì for the home. You'll find the full guide in “More”.";
+T.en.chat.R.help[0] = "Pick small goals and complete them every day: you pack something in my backpack and earn Tanì for the home. You'll find the full guide in “More”.";

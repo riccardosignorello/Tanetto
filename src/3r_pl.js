@@ -143,7 +143,7 @@ T.pl = {
       "Pękam z dumy!"
     ],
     ready: [
-      "Mam pełną energię! Wyślesz mnie na przygodę?"
+      "Mam pełny plecak! Wyślesz mnie na przygodę?"
     ],
     free: [
       "Dziś nic w planach. Może spacer po krainie marzeń?"
@@ -156,7 +156,7 @@ T.pl = {
     }
   },
   level: "Poziom",
-  energy: "Energia",
+  energy: "Plecak",
   xpTo: (a, b) => `${a}/${b} pkt`,
   todayT: "Twoje cele na dziś",
   edit: "Edytuj cele",
@@ -167,7 +167,7 @@ T.pl = {
   restDone: "Dzień odpoczynku zapisany. Do jutra!",
   freeT: "Na dziś brak zaplanowanych celów",
   freeP: "Ciesz się dniem: twoja seria jest bezpieczna. Dni zmienisz w zakładce Więcej.",
-  ready: "Pełna energia! Możesz wysłać towarzysza na przygodę.",
+  ready: "Pełny plecak! Możesz wysłać towarzysza na przygodę.",
   goTrip: "Wybierz przygodę",
   awayT: (n) => `${n} jest na przygodzie`,
   awayB: (d, t) => `${d} · powrót za ${t}`,
@@ -189,10 +189,10 @@ T.pl = {
   unlocked: (d) => `Nowe miejsce: ${d}`,
   grow: (n) => `Spójrz: ${n} się zmienia!`,
   tripsT: "Przygody",
-  tripsP: "Gdy energia jest pełna, wybierz, dokąd wysłać towarzysza. Wróci z pocztówką i kilkoma niespodziankami.",
+  tripsP: "Gdy plecak jest pełny, wybierz, dokąd wysłać towarzysza. Wróci z pocztówką i kilkoma niespodziankami.",
   hours: (h) => h === 1 ? "1 godzina" : h % 10 > 1 && h % 10 < 5 && (h % 100 < 12 || h % 100 > 14) ? `${h} godziny` : `${h} godzin`,
   lockedL: (l) => `Od poziomu ${l}`,
-  need: "Potrzebna pełna energia: ukończ dzisiejsze cele.",
+  need: "Potrzebny pełny plecak: ukończ dzisiejsze cele.",
   depart: (d) => `W drogę: ${d}`,
   albumT: "Album pocztówek",
   albumP: (a, b) => `Znalezione: ${a} z ${b}`,
@@ -553,8 +553,8 @@ T.pl = {
     "To jest {n}! Dotknij, by przytulić, albo pogłaszcz, przesuwając palcem.",
     "Codziennie czeka prezent, a jeśli wrócisz jutro, będzie większy. Otwórz go!",
     "Tutaj możesz dać przekąskę, pobawić się, porozmawiać, położyć towarzysza na drzemkę albo zrobić zdjęcie.",
-    "To twoje cele. Gdy jakiś wykonasz, dotknij go: {n} dostaje energię, a ty zdobywasz Tanì.",
-    "Z pełną energią {n} wyrusza na przygodę. Na dole znajdziesz przygody, dom, dziennik i ustawienia."
+    "To twoje cele. Gdy jakiś wykonasz, dotknij go: {n} wkłada coś do plecaka, a ty zdobywasz Tanì.",
+    "Z pełnym plecakiem {n} wyrusza na przygodę. Na dole znajdziesz przygody, dom, dziennik i ustawienia."
   ],
   tutNext: "Dalej",
   tutSkip: "Pomiń",
@@ -732,15 +732,15 @@ T.pl = {
   guide: [
     [
       "Jak działa Tanetto?",
-      "Wybierasz małe cele, by o siebie dbać. Za każdym razem, gdy jakiś ukończysz, twój towarzysz dostaje energię, a ty zdobywasz Tanì."
+      "Wybierasz małe cele, by o siebie dbać. Za każdym razem, gdy jakiś ukończysz, wkładasz coś do plecaka towarzysza i zdobywasz Tanì."
     ],
     [
       "Do czego służą Tanì?",
       "Za Tanì urządzasz dom i wybierasz, co nosi twój towarzysz. Zdobywasz je za cele, prezenty, przygody i gry."
     ],
     [
-      "Czym jest energia?",
-      "Gdy ukończysz wszystkie dzisiejsze cele, energia jest pełna i twój towarzysz może wyruszyć na przygodę. Wraca z pocztówką."
+      "Czym jest plecak?",
+      "Gdy ukończysz wszystkie dzisiejsze cele, plecak jest pełny i twój towarzysz może wyruszyć na przygodę. Wraca z pocztówką."
     ],
     [
       "A jeśli opuszczę jakiś dzień?",
@@ -1197,7 +1197,7 @@ T.pl = {
         "Co mówi ślimak, który jedzie na żółwiu? Juhuuu!"
       ],
       help: [
-        "Wybierz małe cele i wykonuj je codziennie: ja dostaję energię, a ty zdobywasz Tanì na dom. Pełny przewodnik znajdziesz w zakładce „Więcej”.",
+        "Wybierz małe cele i wykonuj je codziennie: wkładasz coś do mojego plecaka i zdobywasz Tanì na dom. Pełny przewodnik znajdziesz w zakładce „Więcej”.",
         "Możesz się ze mną bawić, dać mi przekąskę, zrobić mi zdjęcie i wysyłać mnie na przygody. Wypróbuj pełny ekran w pokoju!"
       ],
       default: [

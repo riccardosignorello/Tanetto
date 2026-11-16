@@ -143,7 +143,7 @@ T.nl = {
       "Zo trots!"
     ],
     ready: [
-      "Mijn energie is vol! Stuur je me op avontuur?"
+      "Mijn rugzak is vol! Stuur je me op avontuur?"
     ],
     free: [
       "Niets gepland vandaag. Zullen we een dagdroomwandeling maken?"
@@ -156,7 +156,7 @@ T.nl = {
     }
   },
   level: "Level",
-  energy: "Energie",
+  energy: "Rugzak",
   xpTo: (a, b) => `${a}/${b} punten`,
   todayT: "Je doelen voor vandaag",
   edit: "Doelen aanpassen",
@@ -167,7 +167,7 @@ T.nl = {
   restDone: "Rustdag opgeslagen. Tot morgen!",
   freeT: "Geen doelen gepland voor vandaag",
   freeP: "Geniet van je dag: je reeks blijft veilig. Je kunt de dagen aanpassen bij Meer.",
-  ready: "Volle energie! Je kunt je maatje op avontuur sturen.",
+  ready: "Rugzak vol! Je kunt je maatje op avontuur sturen.",
   goTrip: "Kies een avontuur",
   awayT: (n) => `${n} is op avontuur`,
   awayB: (d, t) => `${d} · terug over ${t}`,
@@ -189,10 +189,10 @@ T.nl = {
   unlocked: (d) => `Nieuwe bestemming: ${d}`,
   grow: (n) => `Kijk naar ${n}: er is iets veranderd!`,
   tripsT: "Avonturen",
-  tripsP: "Als de energie vol is, kies je waar je maatje heen gaat. Het komt terug met een ansichtkaart en een paar verrassingen.",
+  tripsP: "Als de rugzak vol is, kies je waar je maatje heen gaat. Het komt terug met een ansichtkaart en een paar verrassingen.",
   hours: (h) => h === 1 ? "1 uur" : `${h} uur`,
   lockedL: (l) => `Vanaf level ${l}`,
-  need: "Volle energie nodig: maak je doelen van vandaag af.",
+  need: "Rugzak nog niet vol: maak je doelen van vandaag af.",
   depart: (d) => `Op weg naar ${d}`,
   albumT: "Kaartenalbum",
   albumP: (a, b) => `${a} van ${b} gevonden`,
@@ -549,8 +549,8 @@ T.nl = {
     "Dit is {n}! Tik voor een knuffel, of aai door met je vinger te slepen.",
     "Er is elke dag een cadeau, en het wordt groter als je morgen terugkomt. Maak het open!",
     "Hier kun je een snack geven, samen spelen, praten, een dutje laten doen of een foto maken.",
-    "Dit zijn je doelen. Heb je er een gedaan? Tik erop: {n} krijgt energie en jij verdient Tanì.",
-    "Met volle energie gaat {n} op avontuur. Hieronder vind je avonturen, huisje, dagboek en instellingen."
+    "Dit zijn je doelen. Heb je er een gedaan? Tik erop: je stopt iets in de rugzak van {n} en verdient Tanì.",
+    "Met een volle rugzak gaat {n} op avontuur. Hieronder vind je avonturen, huisje, dagboek en instellingen."
   ],
   tutNext: "Verder",
   tutSkip: "Overslaan",
@@ -728,15 +728,15 @@ T.nl = {
   guide: [
     [
       "Hoe werkt Tanetto?",
-      "Je kiest kleine doelen om goed voor jezelf te zorgen. Elke keer dat je er een voltooit, krijgt je maatje energie en verdien jij Tanì."
+      "Je kiest kleine doelen om goed voor jezelf te zorgen. Elke keer dat je er een voltooit, stop je iets in de rugzak van je maatje en verdien je Tanì."
     ],
     [
       "Waar zijn Tanì voor?",
       "Met Tanì versier je het huisje en kies je wat je maatje draagt. Je verdient ze met doelen, cadeaus, avonturen en spelletjes."
     ],
     [
-      "Wat is energie?",
-      "Als je alle doelen van vandaag voltooit, is de energie vol en kan je maatje op avontuur. Het komt terug met een ansichtkaart."
+      "Wat is de rugzak?",
+      "Als je alle doelen van vandaag voltooit, is de rugzak vol en kan je maatje op avontuur. Het komt terug met een ansichtkaart."
     ],
     [
       "Wat als ik een dag oversla?",
@@ -1193,7 +1193,7 @@ T.nl = {
         "Wat is geel en kan niet zwemmen? Een graafmachine. Waarom niet? Hij heeft maar één arm!"
       ],
       help: [
-        "Kies kleine doelen en haal ze elke dag: ik krijg energie en jij verdient Tanì voor het huisje. De volledige uitleg vind je bij “Meer”.",
+        "Kies kleine doelen en haal ze elke dag: je stopt iets in mijn rugzak en verdient Tanì voor het huisje. De volledige uitleg vind je bij “Meer”.",
         "Je kunt met me spelen, me een snack geven, een foto van me maken en me op avontuur sturen. Probeer ook eens het volledige scherm in de kamer!"
       ],
       default: [
