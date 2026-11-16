@@ -53,7 +53,7 @@ P = [
     # 1.0.10 (17/11/2026, richiesta del proprietario): Profilo con 4 voci; Impostazioni, Account, Privacy e Acquisti dentro
     # "Impostazioni e account", Aiuto e Informazioni dentro "Aiuto e informazioni". Le 8 pagine sono le stesse: si aprono con psGo.
     ("fix109/tfix_b.py", "await ev(pg, \"document.querySelectorAll('.pmenu .prow')[3].click(); 1\")", "await ev(pg, \"psGo('acct'); 1\")", "profilo a 4 voci"),
-    ("fix109/tfix_b.py", "await ev(pg, f\"document.querySelectorAll('.pmenu .prow')[{i}] && document.querySelectorAll('.pmenu .prow')[{i}].click(); 1\")", "await ev(pg, f\"psGo(K8[{i}]); 1\".replace('K8', \"KEYS8\"))", "profilo a 4 voci"),
+    ("fix109/tfix_b.py", "await ev(pg, f\"document.querySelectorAll('.pmenu .prow')[{i}] && document.querySelectorAll('.pmenu .prow')[{i}].click(); 1\")", "await ev(pg, f\"psGo(['prog','comp','set','acct','priv','buy','help','about'][{i}]); 1\")", "profilo a 4 voci"),
     ("fix109/tfix_d.py", "n = await ev(pg, \"document.querySelectorAll('.pmenu .prow').length\")", "n = 8", "profilo a 4 voci"),
     ("fix109/tfix_d.py", "await ev(pg, f\"tab='more'; render(); document.querySelectorAll('.pmenu .prow')[{i}].click(); 1\")", "await ev(pg, f\"tab='more'; render(); psGo(['prog','comp','set','acct','priv','buy','help','about'][{i}]); 1\")", "profilo a 4 voci"),
     ("fix109/tfix_f.py", "n = await ev(pg, \"document.querySelectorAll('.pmenu .prow').length\"); check(f\"Profilo {tag}: 8 pagine\", n == 8, n)", "n = await ev(pg, \"document.querySelectorAll('.pmenu .prow').length\"); check(f\"Profilo {tag}: 8 pagine e 2 gruppi\", n == 10, n); n = 8", "profilo a 4 voci"),
