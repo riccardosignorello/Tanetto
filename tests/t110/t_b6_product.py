@@ -115,7 +115,11 @@ async def main(b):
     # --- A-10: coriandoli del livello nuovo dietro ai pulsanti (prima coprivano "Condividi" e il testo)
     st = T.base_state("en"); st["calm"] = False; st["lite"] = False
     ctx, pg = await T.page(b, st, age="adult")
-    await T.close_layer(pg); await T.ev(pg, "anim = true; S.level = 4; showLevelUp(); 1"); await pg.wait_for_timeout(350)
+    await T.close_layer(pg); await T.ev(pg, "S.level = 4; showLevelUp(); 1")
+    for _ in range(25):  # la finestra passa dalla coda delle finestre (nq20): arriva dopo la pausa dalla chiusura precedente
+        await pg.wait_for_timeout(200)
+        if await T.ev(pg, "!!layer.querySelector('.levelup')"): break
+    await pg.wait_for_timeout(350)
     r = json.loads(await T.ev(pg, """JSON.stringify((() => { const bs = [...layer.querySelectorAll('.levelup .box button')].filter((x) => x.getClientRects().length);
       return { n: bs.length, fx: layer.querySelectorAll('.levelup .fx i').length, hit: bs.every((x) => { const q = x.getBoundingClientRect(); const e = document.elementFromPoint(q.left + q.width / 2, q.top + q.height / 2); return e && (e === x || x.contains(e)); }) }; })())"""))
     T.check(f"A-10 livello nuovo: i {r['n']} pulsanti restano sopra ai coriandoli ({r['fx']} in volo)", r["n"] >= 1 and r["hit"], r)
