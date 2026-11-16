@@ -3,7 +3,7 @@
    (scratchpad/p2b/tools/econrun.py + econtab.py):
      iniziali 100 (giorno 1) · base 100-250 · comune 900-1.750 (1-2 settimane) · raro 4.700-5.500 (5-6 settimane) ·
      epico 11.500-15.000 (3-4 mesi) · leggendario 30.000-33.500 (8-9 mesi) · mitico 40.500 / 44.500 (11-12 mesi, il "ponte") ·
-     Introvabili 68.000-80.000 (XV_PRICE): chi guarda 5 video al giorno con la serie piena ci mette almeno 12 mesi.
+     Introvabili 54.000-63.000 dalla 1.0.10 (XV_PRICE): chi guarda 5 video al giorno con la serie piena ci mette almeno 12 mesi.
    L'ordine dentro ogni fascia e' quello della critica dell'economia (ECON_CRITIC.md, prices_rec.json), riscalato.
    Tra un acquisto e l'altro restano i premi gratis frequenti: tappe del sentiero, cartoline dei viaggi, pagine dell'album,
    trofei e le feste del Desiderio al 25/50/75%.
@@ -29,8 +29,10 @@ const PR22 = {
   PATH: { kites: { f: { 7: 10 }, g: { 14: 21, 21: 14 } }, stars: { f: { 5: 8 }, g: { 10: 15, 15: 10 } } }
 };
 /* Introvabili (98ze): solo Tanì guadagnati (non quelli dei pacchetti), nessuno sconto Plus.
-   Il primo (68.000) arriva dopo ~12 mesi a chi guarda 5 video al giorno con la serie piena e gioca a tutti i giochi. */
-const XV_PRICE = { x_aura: 68000, x_crown: 68000, x_cloak: 70000, x_galaxy: 73000, x_fountain: 76000, x_tree: 80000 };
+   Il primo (54.000 dalla 1.0.10) arriva dopo ~12 mesi a chi guarda 5 video al giorno con la serie piena e gioca a tutti i giochi. */
+/* 1.0.10 (M-09, decisione del proprietario 16/11/2026, scelta b): prezzi piu' bassi e dal terzo video del giorno 6 Tanì (98zm):
+   chi gioca normalmente arriva al primo in circa 15 mesi, chi guarda 5 video al giorno resta sopra i 12. */
+const XV_PRICE = { x_aura: 54000, x_crown: 54000, x_cloak: 56000, x_galaxy: 58000, x_fountain: 60000, x_tree: 63000 };
 
 /* (critica fase 2) Pacchetti di Tanì (soldi veri): stessi prezzi in euro, Tanì x5 (prima 200 / 1.100 / 2.400 / 5.000).
    Perche' x5: i prezzi degli oggetti sono saliti di circa 5 volte (rari, epici, leggendari 4,3-7,9x; comuni 3,9-4,7x),
