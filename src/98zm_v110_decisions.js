@@ -213,3 +213,51 @@ function v110Fit() {
 const _renderV110f = render;
 render = function (...a) { const r = _renderV110f.apply(this, a); v110Fit(); return r; };
 window.addEventListener("resize", () => { clearTimeout(window.__v110ft); window.__v110ft = setTimeout(v110Fit, 120); });
+
+/* =================== 7) "Condividi il tuo Germo": la foto anche in formato storia (9:16) ===================
+   Crescita come Finch: chi usa l'app mostra il proprio compagno. Nella finestra "Foto" si sceglie tra la foto (come prima)
+   e la storia 1080x1920, pronta per TikTok, Instagram e WhatsApp: nome del compagno grande, la stanza com'e' adesso,
+   il nome Tanetto. Il testo condiviso porta gia' il link alla scheda di Google Play (shareImage, 97l). Niente dati personali:
+   solo il nome scelto per il compagno; tutto avviene sul telefono e si condivide solo se lo si sceglie. I contenuti importanti
+   stanno nella fascia centrale (in alto e in basso TikTok e Instagram mettono i loro pulsanti). */
+const V110_PH = {
+  it: ["Foto", "Storia"], en: ["Photo", "Story"], de: ["Foto", "Story"], es: ["Foto", "Historia"], fr: ["Photo", "Story"], pt: ["Foto", "Story"],
+  ja: ["写真", "ストーリー"], ko: ["사진", "스토리"], zh: ["照片", "竖屏"], zht: ["照片", "直式"], ru: ["Фото", "Сторис"], pl: ["Zdjęcie", "Relacja"],
+  nl: ["Foto", "Story"], tr: ["Fotoğraf", "Hikâye"]
+};
+let v110PhotoUrl = null;
+async function v110StoryUrl() {
+  const t = L();
+  let roomS = roomSVG({ ph: phase(), pet: S.pet, e: S.lightsOff ? "assonnato" : "felice", hat: S.hat, st: stage(), furn: S.furn, wall: S.wall, away: false, glow: 0.95, label: "", season: season().id, dark: S.lightsOff });
+  roomS = roomS.replace('<svg viewBox="0 0 360 300"', '<svg x="72" y="560" width="936" height="780" viewBox="0 0 360 300"');
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7F1E6"/><stop offset="1" stop-color="#E7DAC3"/></linearGradient><clipPath id="r"><rect x="72" y="560" width="936" height="780" rx="56"/></clipPath></defs><rect width="1080" height="1920" fill="url(#g)"/><rect x="62" y="566" width="956" height="790" rx="60" fill="#000" opacity=".10"/><g clip-path="url(#r)">${roomS}</g></svg>`;
+  const img = await loadImg("data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg));
+  try { await document.fonts.load('600 96px "Fredoka"'); await document.fonts.load('500 40px "Figtree"'); } catch (e) { /* niente */ }
+  const cv = document.createElement("canvas"); cv.width = 1080; cv.height = 1920; const c = cv.getContext("2d"); c.drawImage(img, 0, 0);
+  c.textAlign = "center";
+  const fit = (txt, font, max, start) => { let s = start; c.font = font.replace("{s}", s); while (c.measureText(txt).width > max && s > 28) { s -= 2; c.font = font.replace("{s}", s); } };
+  const name = String(S.petName || "");
+  c.fillStyle = "#2F2A26"; fit(name, '600 {s}px "Fredoka", "Trebuchet MS", Arial, sans-serif', 900, 104); c.fillText(name, 540, 470);
+  c.fillStyle = "#6E655D"; fit(t.shareText, '500 {s}px "Figtree", "Segoe UI", Arial, sans-serif', 900, 44); c.fillText(t.shareText, 540, 1440);
+  c.fillStyle = "#2F7A3D"; c.font = '600 76px "Fredoka", "Trebuchet MS", Arial, sans-serif'; c.fillText("Tanetto", 540, 1550);
+  return cv.toDataURL("image/png");
+}
+function v110PhotoChips() {
+  const out = document.getElementById("phOut"); const im = document.getElementById("photoImg"); if (!out || !im || out.querySelector(".v110ph")) return;
+  v110PhotoUrl = im.src; const x = V110_PH[S.lang] || V110_PH.en;
+  out.insertAdjacentHTML("afterbegin", `<div class="tabsx v110ph" role="tablist"><button role="tab" type="button" data-v110ph="photo" aria-selected="true">${esc(x[0])}</button><button role="tab" type="button" data-v110ph="story" aria-selected="false">${esc(x[1])}</button></div>`);
+}
+if (typeof takePhoto === "function") {
+  const _a = takePhoto;
+  takePhoto = async function (...a) { const r = await _a.apply(this, a); try { v110PhotoChips(); } catch (e) { /* niente */ } return r; };
+}
+document.addEventListener("click", async (ev) => {
+  const b = ev.target.closest && ev.target.closest("[data-v110ph]"); if (!b) return; ev.stopImmediatePropagation();
+  const out = document.getElementById("phOut"); const im = document.getElementById("photoImg"); if (!out || !im) return;
+  const story = b.dataset.v110ph === "story"; out.querySelectorAll("[data-v110ph]").forEach((x) => x.setAttribute("aria-selected", String(x === b)));
+  try {
+    im.src = story ? await v110StoryUrl() : v110PhotoUrl || im.src; im.classList.toggle("v110story", story);
+    const nm = story ? "tanetto-storia.png" : "tanetto-foto.png"; out.querySelectorAll("[data-saveimg], [data-shareimg]").forEach((x) => { if (x.dataset.saveimg) x.dataset.saveimg = nm; if (x.dataset.shareimg) x.dataset.shareimg = nm; });
+    trackOnce(story ? "foto-storia" : "foto-classica");
+  } catch (e) { /* resta la foto di prima */ }
+}, true);
