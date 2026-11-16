@@ -1,26 +1,192 @@
-Tanetto 1.0.10 (versionCode 110) - release notes for Google Play ("What's new")
-Limit: 500 characters per language. English 478, Italian 496 characters.
+Tanetto 1.0.10 (versionCode 110) - testi "Novita'" per Google Play, nelle 19 lingue della scheda.
+Massimo 500 caratteri per lingua (contati).
 
-<en-GB>
-Kinder and fairer:
-- Better help when you write something painful, with helplines for your country
-- Plus offers never pop up for young users
-- Missing a day no longer resets your daily gift; rest and free days count
+<en-US>
+Germo has grown a little kinder this season:
+- Show your companion: new Story picture for TikTok and Instagram (Photo button)
+- Help is always one tap away in chat and diary, with helplines for your country
+- A missed day no longer resets your daily gift; rest days count
+- The rarest treasures are a little closer
 - Two phones on one account: you choose which progress to keep
-- Quick answers to common questions in your Profile
-- Clearer text in 14 languages, bigger touch targets, keyboard no longer covers the diary
-- Vibration works, reminders are quieter, faster restart
-</en-GB>
-
-Italiano (traduzione, da incollare come it-IT):
+- Clearer text in 14 languages, bigger buttons, works offline too
+</en-US>
 
 <it-IT>
-Più gentile e giusta:
-- Più aiuto se scrivi qualcosa di doloroso, con i numeri del tuo Paese
-- Le offerte Plus non compaiono da sole ai più giovani
-- Un giorno saltato non azzera più il regalo; i giorni liberi e di riposo contano
+Germo è cresciuto ed è ancora più gentile:
+- Mostra il tuo compagno: nuova immagine Storia per TikTok e Instagram (pulsante Foto)
+- L'aiuto è sempre a un tocco in chat e nel diario, con i numeri del tuo Paese
+- Un giorno saltato non azzera più il regalo; i giorni di riposo contano
+- I tesori più rari sono un po' più vicini
 - Due telefoni con un account: scegli tu quali progressi tenere
-- Risposte veloci alle domande comuni nel Profilo
-- Testi più chiari in 14 lingue, tasti più grandi, la tastiera non copre il diario
-- Vibrazione che funziona, promemoria discreti, riapertura più veloce
+- Testi più chiari in 14 lingue, tasti più grandi, funziona anche senza internet
 </it-IT>
+
+<de-DE>
+Germo ist gewachsen und noch freundlicher geworden:
+- Zeig deinen Begleiter: neues Story-Bild für TikTok und Instagram (Foto-Taste)
+- Hilfe ist im Chat und im Tagebuch immer nur einen Tipp entfernt, mit Nummern für dein Land
+- Ein verpasster Tag setzt dein Tagesgeschenk nicht mehr zurück; Ruhetage zählen
+- Die seltensten Schätze sind etwas näher
+- Zwei Handys, ein Konto: du entscheidest, welcher Fortschritt bleibt
+- Klarere Texte in 14 Sprachen, größere Tasten, funktioniert auch offline
+</de-DE>
+
+<es-ES>
+Germo ha crecido y es aún más amable:
+- Muestra a tu compañero: nueva imagen de Historia para TikTok e Instagram (botón Foto)
+- La ayuda está siempre a un toque en el chat y el diario, con teléfonos de tu país
+- Un día perdido ya no reinicia tu regalo diario; los días de descanso cuentan
+- Los tesoros más raros están un poco más cerca
+- Dos teléfonos con una cuenta: tú eliges qué progreso conservar
+- Textos más claros en 14 idiomas, botones más grandes, funciona también sin internet
+</es-ES>
+
+<es-419>
+Germo ha crecido y es aún más amable:
+- Muestra a tu compañero: nueva imagen de Historia para TikTok e Instagram (botón Foto)
+- La ayuda está siempre a un toque en el chat y el diario, con teléfonos de tu país
+- Un día perdido ya no reinicia tu regalo diario; los días de descanso cuentan
+- Los tesoros más raros están un poco más cerca
+- Dos teléfonos con una cuenta: tú eliges qué progreso conservar
+- Textos más claros en 14 idiomas, botones más grandes, funciona también sin internet
+</es-419>
+
+<es-US>
+Germo ha crecido y es aún más amable:
+- Muestra a tu compañero: nueva imagen de Historia para TikTok e Instagram (botón Foto)
+- La ayuda está siempre a un toque en el chat y el diario, con teléfonos de tu país
+- Un día perdido ya no reinicia tu regalo diario; los días de descanso cuentan
+- Los tesoros más raros están un poco más cerca
+- Dos teléfonos con una cuenta: tú eliges qué progreso conservar
+- Textos más claros en 14 idiomas, botones más grandes, funciona también sin internet
+</es-US>
+
+<fr-FR>
+Germo a grandi et il est encore plus doux :
+- Montre ton compagnon : nouvelle image Story pour TikTok et Instagram (bouton Photo)
+- L'aide est toujours à un geste dans le chat et le journal, avec les numéros de ton pays
+- Un jour manqué ne remet plus ton cadeau du jour à zéro ; les jours de repos comptent
+- Les trésors rares sont plus proches
+- Deux téléphones, un compte : tu choisis quels progrès garder
+- Textes plus clairs en 14 langues, boutons plus grands, marche aussi hors ligne
+</fr-FR>
+
+<fr-CA>
+Germo a grandi et il est encore plus doux :
+- Montre ton compagnon : nouvelle image Story pour TikTok et Instagram (bouton Photo)
+- L'aide est toujours à un geste dans le chat et le journal, avec les numéros de ton pays
+- Un jour manqué ne remet plus ton cadeau du jour à zéro ; les jours de repos comptent
+- Les trésors rares sont plus proches
+- Deux téléphones, un compte : tu choisis quels progrès garder
+- Textes plus clairs en 14 langues, boutons plus grands, marche aussi hors ligne
+</fr-CA>
+
+<pt-BR>
+O Germo cresceu e está ainda mais gentil:
+- Mostre seu companheiro: nova imagem de Story para TikTok e Instagram (botão Foto)
+- A ajuda está sempre a um toque no chat e no diário, com os números do seu país
+- Um dia perdido não zera mais o presente do dia; dias de descanso contam
+- Os tesouros mais raros estão um pouco mais perto
+- Dois celulares em uma conta: você escolhe qual progresso manter
+- Textos mais claros em 14 idiomas, botões maiores, funciona também sem internet
+</pt-BR>
+
+<pt-PT>
+O Germo cresceu e está ainda mais gentil:
+- Mostre seu companheiro: nova imagem de Story para TikTok e Instagram (botão Foto)
+- A ajuda está sempre a um toque no chat e no diário, com os números do seu país
+- Um dia perdido não zera mais o presente do dia; dias de descanso contam
+- Os tesouros mais raros estão um pouco mais perto
+- Dois celulares em uma conta: você escolhe qual progresso manter
+- Textos mais claros em 14 idiomas, botões maiores, funciona também sem internet
+</pt-PT>
+
+<ja-JP>
+ゲルモが少し成長して、もっとやさしくなりました：
+・相棒を見せよう：TikTokやInstagram向けの縦長ストーリー画像（写真ボタン）
+・チャットと日記から、いつでもワンタップで相談窓口へ（お住まいの国の番号）
+・1日休んでも毎日のプレゼントがリセットされなくなりました。お休みの日もカウント
+・いちばん珍しい宝物が少し近くなりました
+・1つのアカウントで2台のスマホ：残す進み具合を選べます
+・14言語の文章をわかりやすく、ボタンを大きく。オフラインでも使えます
+</ja-JP>
+
+<ko-KR>
+게르모가 조금 자라서 더 다정해졌어요:
+- 내 친구를 자랑해요: TikTok과 Instagram용 세로 스토리 이미지 (사진 버튼)
+- 채팅과 일기에서 언제나 한 번만 누르면 도움을 받을 수 있어요 (우리나라 상담 번호)
+- 하루를 놓쳐도 매일 선물이 처음으로 돌아가지 않아요. 쉬는 날도 인정돼요
+- 가장 희귀한 보물이 조금 더 가까워졌어요
+- 한 계정으로 휴대폰 두 대: 남길 진행 상황을 직접 골라요
+- 14개 언어로 더 쉬운 문장, 더 큰 버튼, 인터넷 없이도 작동해요
+</ko-KR>
+
+<zh-CN>
+Germo 长大了一点，也更温柔了：
+- 展示你的伙伴：新增适合 TikTok 和 Instagram 的竖版故事图片（照片按钮）
+- 在聊天和日记中随时一键获得帮助，并显示你所在国家的求助电话
+- 错过一天不会再让每日礼物清零；休息日也算数
+- 最稀有的宝物离你更近了一些
+- 一个账号两部手机：由你决定保留哪份进度
+- 14 种语言的文字更清晰，按钮更大，没有网络也能正常使用
+</zh-CN>
+
+<zh-TW>
+Germo 長大了一點，也更溫柔了：
+- 展示你的夥伴：新增適合 TikTok 和 Instagram 的直式限時動態圖片（照片按鈕）
+- 在聊天和日記中隨時一鍵取得協助，並顯示你所在國家的求助電話
+- 錯過一天不會再讓每日禮物歸零；休息日也算數
+- 最稀有的寶物離你更近了一些
+- 一個帳號兩支手機：由你決定保留哪份進度
+- 14 種語言的文字更清楚，按鈕更大，沒有網路也能正常使用
+</zh-TW>
+
+<zh-HK>
+Germo 長大了一點，也更溫柔了：
+- 展示你的夥伴：新增適合 TikTok 和 Instagram 的直式限時動態圖片（照片按鈕）
+- 在聊天和日記中隨時一鍵取得協助，並顯示你所在國家的求助電話
+- 錯過一天不會再讓每日禮物歸零；休息日也算數
+- 最稀有的寶物離你更近了一些
+- 一個帳號兩支手機：由你決定保留哪份進度
+- 14 種語言的文字更清楚，按鈕更大，沒有網路也能正常使用
+</zh-HK>
+
+<ru-RU>
+Гермо немного подрос и стал ещё добрее:
+- Покажи своего друга: новая картинка-сторис для TikTok и Instagram (кнопка «Фото»)
+- Помощь всегда в одно касание в чате и дневнике, с телефонами твоей страны
+- Пропущенный день больше не обнуляет ежедневный подарок; дни отдыха засчитываются
+- Самые редкие сокровища стали чуть ближе
+- Два телефона на одном аккаунте: ты выбираешь, какой прогресс оставить
+- Тексты понятнее на 14 языках, кнопки крупнее, работает и без интернета
+</ru-RU>
+
+<pl-PL>
+Germo trochę urósł i jest jeszcze milszy:
+- Pokaż swojego towarzysza: nowy obrazek-relacja na TikToka i Instagram (przycisk Zdjęcie)
+- Pomoc jest zawsze o jedno dotknięcie w czacie i dzienniku, z numerami dla twojego kraju
+- Opuszczony dzień nie zeruje już codziennego prezentu; dni odpoczynku się liczą
+- Najrzadsze skarby są trochę bliżej
+- Dwa telefony, jedno konto: ty wybierasz, który postęp zostaje
+- Czytelniejsze teksty w 14 językach, większe przyciski, działa też offline
+</pl-PL>
+
+<nl-NL>
+Germo is wat gegroeid en nog liever geworden:
+- Laat je maatje zien: nieuwe Story-afbeelding voor TikTok en Instagram (knop Foto)
+- Hulp is altijd één tik weg in de chat en het dagboek, met nummers voor jouw land
+- Een gemiste dag zet je dagcadeau niet meer terug op nul; rustdagen tellen mee
+- De zeldzaamste schatten zijn een stukje dichterbij
+- Twee telefoons, één account: jij kiest welke voortgang blijft
+- Duidelijkere teksten in 14 talen, grotere knoppen, werkt ook offline
+</nl-NL>
+
+<tr-TR>
+Germo biraz büyüdü ve daha da nazik oldu:
+- Arkadaşını göster: TikTok ve Instagram için yeni dikey Hikâye görseli (Fotoğraf düğmesi)
+- Sohbette ve günlükte yardım her zaman bir dokunuş uzağında, ülkene göre numaralarla
+- Kaçırılan bir gün artık günlük hediyeni sıfırlamıyor; dinlenme günleri sayılıyor
+- En nadir hazineler biraz daha yakın
+- Tek hesapta iki telefon: hangi ilerlemenin kalacağını sen seçersin
+- 14 dilde daha anlaşılır metinler, daha büyük düğmeler, internetsiz de çalışır
+</tr-TR>
