@@ -7,8 +7,6 @@
 .mood { min-width: 0; }
 .mood span { max-width: 100%; overflow-wrap: anywhere; hyphens: auto; line-height: 1.1; text-align: center; }
 @media (max-width: 359px) { .moods { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-/* barra in basso con testo grande: le parole non si spezzano a meta' ("Negozi / o") */
-#tabs button span { overflow-wrap: normal; word-break: keep-all; hyphens: none; }
 /* aree di tocco di almeno 48 px */
 .day, #ageSkip, .alldone #closeLayer.link, .nvi, #petNameBtn { min-height: 48px; }
 a.nvtel { display: inline-block; min-width: 48px; min-height: 48px; line-height: 48px; text-align: center; }

@@ -192,65 +192,39 @@ cancellazione dell'account, pagine "get" e "test".
 
 ## 9) Prove fatte
 
-[[TESTS]]
+1) **Prove nuove della 1.0.10** (tests/t110, 15 file): bambini e momenti difficili, soldi e Tanì, accessibilità, prodotto,
+velocità, parti legali e Android, sito, decisioni del 16/11, calma dopo una frase difficile, **senza internet**, controllo
+finale. Tutte verdi.
+2) **Prove storiche della 1.0.8 e 1.0.9** (oltre 20 suite, 14 lingue, chiaro e scuro, 320-1280 px, axe-core su 36 schermate
+senza problemi): verdi; le poche attese cambiate apposta sono in tests/legacy_patches.py, ognuna con il motivo.
+3) **Tre controlli indipendenti** (agenti che non avevano scritto il codice): critica della release, controllo finale
+completo di ogni funzione, tre prove cieche delle frasi difficili. Tutto quello che hanno trovato è stato corretto e
+rimesso alla prova.
+4) **Economia rimisurata** con l'app vera per 460 giorni simulati (vedi DECISO, punto 1).
 
 
-## 10) Voti per area (prima 1.0.9 → ora 1.0.10)
+## 10) Voti per area (controllo finale indipendente, poi correzioni)
 
-Voti dati da me rileggendo l'audit punto per punto (non da un critico esterno: vedi sotto, punto 9 della sezione 11).
-
-1) Grafica e marchio: **7 → 8**. Mancano i caratteri per russo/asiatico, il fiore nei momenti 3D, la stanza meno chiara in tema scuro.
-2) Misure e impaginazione: **7,5 → 9**.
-3) Testi in 14 lingue: **7 → 9**. Manca la voce diversa per ogni compagno (tua decisione).
-4) Logica e conti: **8 → 9,5**. Resta il tempo degli Introvabili (tua decisione).
-5) Psicologia e prodotto: **7 → 9**.
-6) Movimento, suoni, vibrazione: **5 → 7,5**. Manca un sistema unico di animazioni.
-7) Accessibilità: **7,5 → 9,5**.
-8) Velocità e batteria: **5,5 → 7**. Il grande limite resta l'avvio con tutto il codice da leggere (punto 2 sotto).
-9) Android: **7 → 9** (da confermare sul telefono).
-10) Regole di Play, privacy, legale: **7 → 8,5**. Mancano il titolare dei dati (tua decisione) e i moduli in Play Console.
-11) Solidità e sicurezza: **6,5 → 7,5**. Mancano la verifica degli acquisti con la chiave di Play e la protezione CSP nell'app.
-12) Manutenzione negli anni: **3,5 → 6,5**. Ora tutto è in git, si costruisce e si prova con un comando, e GitHub
-rifà da solo build, controllo delle lingue e tutte le prove nuove a ogni modifica (verde). Ma il codice ha ancora molti
-"strati" uno sopra l'altro: andrebbe riordinato con calma.
-13) Sito e pagine: **7 → 8,5**. Manca la pagina iniziale leggera.
-14) Rispetto alle altre app: **7 → 7,5**.
+Voti del controllo finale indipendente sulla 1.0.10, prima delle ultime correzioni: schermate 8,5; lingue 8,5;
+impaginazione 8; accessibilità 8,5; logica e soldi 9,5; bambini e crisi 5; senza internet 8,5; velocità 7,5; privacy 9;
+Android 9; regole di Play 8,5.
+Dopo il controllo sono stati corretti: il riconoscimento delle frasi difficili (tre prove cieche), le risposte allegre
+"a caso", l'aiuto sempre a un tocco, i falsi allarmi, l'avviso di memoria piena, l'umore del diario a 320 px, le parole
+spezzate con il testo grande, le aree di tocco, i nomi per il lettore di schermo, le licenze e il testo dell'età.
 
 
-## 11) Cosa manca ancora per il 10 (onesto)
+## 11) Cosa resta per le prossime versioni (onesto)
 
-Sono onesto: ecco cosa **non** ho fatto o non ho potuto provare, e perché.
+Non sono nella 1.0.10 perché cambiano il modo in cui l'app viene costruita o servono il PC o un telefono vero per provarle
+bene; farle di corsa sarebbe un rischio più grande del beneficio.
 
-1) **Voce dei 7 compagni (M-22c):** parlano ancora tutti allo stesso modo (cambia solo la frase tipica). Riscrivere chat,
-incoraggiamenti e promemoria per 7 caratteri in 14 lingue è un lavoro grande e cambia il carattere dell'app: serve prima
-il tuo sì (vedi DA DECIDERE).
-
-2) **Avvio più veloce (M-42):** l'app legge ancora tutto il codice (3,7 MB, 14 lingue) a ogni avvio. Dividerlo per lingua
-cambia il modo in cui l'app viene costruita: rischio alto senza provarlo su telefoni veri. Ho reso più corto il benvenuto
-animato e lo mostro solo alla prima apertura del giorno.
-
-3) **Caratteri per russo, giapponese, coreano e cinese (M-36):** il carattere di Tanetto non ha quelle lettere, quindi in
-una stessa riga si mischiano due caratteri. Serve scegliere e aggiungere caratteri nuovi (circa 2-6 MB in più).
-
-4) **Il fiore di Germo nei momenti 3D (M-38):** servono render fatti sul PC con la scheda video.
-
-5) **Protezione del codice dentro l'app Android (M-47, "CSP"):** sul sito c'è; nell'app no, perché Capacitor inserisce un suo
-script nella pagina e senza un telefono vero non posso essere sicuro di non rompere l'avvio.
-
-6) **Pagina iniziale del sito (M-51):** il sito apre ancora l'app intera (4 MB). Una pagina leggera di presentazione è un
-lavoro a parte sul sito, non sull'app.
-
-7) **Da provare solo su un telefono:** vibrazione, tasto indietro, canale nuovo dei promemoria, backup automatico di Google,
-splash scuro, la versione "ridotta" del codice (R8), pubblicità e pagamenti veri (lista sotto).
-
-8) **Altre cose piccole non fatte:** firma della copia di backup ancora controllata sul telefono (D-11/H-11, serve un server),
-"da dove arrivano" le installazioni (E-12, serve una libreria nuova), alcune animazioni minori (A-06..A-18), la neve della
-Stagione delle Stelle anche nell'emisfero sud (decisione tua), e le suite di prova storiche non sono ancora dentro git
-(sono in una cartella a parte, le uso ma non sono salvate con il codice).
-
-9) **Critici indipendenti:** in questa sessione non avevo lo strumento per lanciare altri agenti, quindi le revisioni per area
-le ho fatte io, rileggendo con le liste dell'audit. Non è come avere occhi nuovi: conviene un controllo esterno prima
-di pubblicare.
+1) **Avvio più veloce (M-42):** dividere il codice per lingua.
+2) **Caratteri per russo, giapponese, coreano e cinese (M-36).**
+3) **Il fiore di Germo nei momenti 3D (M-38):** render sul PC.
+4) **Protezione CSP dentro l'app Android (M-47).**
+5) **Pagina iniziale leggera del sito (M-51).**
+6) **Voci diverse per i 7 compagni (M-22c):** rimandata da te.
+7) **Da provare sul telefono vero** prima dell'invio: lista qui sotto.
 
 
 ## DECISO IL 16/11/2026 (le tue decisioni, già nell'app)

@@ -37,6 +37,12 @@ P = [
     ("p2c/t5.py", '''S.seeds = 18000; save(); tab='today'; render(); 1"); await pg.wait_for_timeout(1100)''', '''S.seeds = 18000; save(); tab='today'; render(); 1"); await pg.wait_for_timeout(2200)''', "attesa della festa"),
     # 1.0.10 (blocco 6, bentornato a livelli): chi torna dopo giorni riceve la scheda del bentornato con la figura del regalo
     ("fix109/suites/p3b/t6.py", 'all(x.startswith("ban/") for x in r[1]), r[1])', 'all(x.startswith("ban/") or x.startswith("m/gift.") for x in r[1]), r[1])', "bentornato con la figura del regalo"),
+    ("fix109/t38run5/t38_growth.py", 'await pg.add_init_script("window.__TEST_NOAGE=1;" + js)', 'await pg.add_init_script("window.__TEST_NOAGE=1;localStorage.setItem(`tanetto-eta`, JSON.stringify({y: 1990, m: 5}));" + js)', "P0 1.0.10: recensioni e offerte di Plus solo agli adulti, la suite usa un adulto"),
+    ("fix109/t38run5/t38_nav.py", 'await pg.add_init_script("window.__TEST_NOAGE=1;" + js)', 'await pg.add_init_script("window.__TEST_NOAGE=1;localStorage.setItem(`tanetto-eta`, JSON.stringify({y: 1990, m: 5}));" + js)', "P0 1.0.10: recensioni e offerte di Plus solo agli adulti, la suite usa un adulto"),
+    # russo e turco: auguri di Capodanno anche il 31 (adattamento culturale, 4 voci invece di 3)
+    ("fix109/t38run5/t38_xmas.py", "Object.keys(x.gr).length !== 3", "Object.keys(x.gr).length < 3", "auguri di Capodanno in ru e tr"),
+    # 1.0.10 (M-09): dal terzo video del giorno 6 Tanì: il premio si legge prima, non dopo due video
+    ("fix109/t38run5/t38_secure.py", "hit and r == [2, 100 + amt] and amt == 12", "hit and r == [2, 112]", "premio del video letto prima"),
 ]
 bad = 0
 for f, old, new, why in P:
