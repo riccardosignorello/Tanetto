@@ -83,12 +83,7 @@ function v110Sections() {
   const de = document.documentElement;
   if (!S.pet || document.querySelector("#app .onbtop")) { delete de.dataset.v110tab; return; }
   de.dataset.v110tab = tab;
-  /* icona della sezione accanto al titolo (Viaggi, Negozio, Diario, Profilo): la stessa del menu, con il fondo colorato */
-  if (tab !== "today") {
-    const h = document.querySelector("#app .stack > h1:not(.greet), #app .stack h1:not(.greet):not(.psubt)");
-    const src = document.querySelector(`#tabsIn .tab[data-tab="${tab}"] svg`);
-    if (h && src && !h.querySelector(".v110hic")) { const sv = src.cloneNode(true); sv.setAttribute("aria-hidden", "true"); h.insertAdjacentHTML("afterbegin", `<span class="v110hic" aria-hidden="true"></span>`); h.firstChild.appendChild(sv); }
-  }
+  /* (17/11: niente icona accanto al titolo, su richiesta del proprietario: il titolo resta pulito) */
   /* cambiando sezione (non a ogni aggiornamento della pagina) i primi riquadri entrano uno dopo l'altro */
   if (tab !== v110LastTab) {
     const app = document.getElementById("app");

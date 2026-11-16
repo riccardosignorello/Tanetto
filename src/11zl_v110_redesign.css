@@ -92,3 +92,25 @@ html.v110x #app .pmenu .prico { width: 46px; height: 46px; border-radius: 15px; 
 html.v110x #app .v110path > .dest .pc svg { transform: scale(1.42); }
 html.v110x #app .v110path > .dest + .dest { margin-top: -64px; }
 @media (max-width: 360px) { html.v110x #app .v110path > .dest + .dest { margin-top: -40px; } }
+
+/* Profilo: tutte le righe con la stessa icona (46 px) e lo stesso margine, cosi' le scritte sono allineate in colonna */
+html.v110x #app .pluscard { grid-template-columns: 46px minmax(0, 1fr) 18px; gap: 14px; padding: 14px 16px; }
+html.v110x #app .pluscard .pcrown { width: 46px; height: 46px; border-radius: 15px; box-shadow: inset 0 -4px 0 rgba(0, 0, 0, .14); }
+html.v110x #app .v2invite { grid-template-columns: 46px minmax(0, 1fr) 18px; gap: 14px; padding: 14px 16px; }
+html.v110x #app .v2invite .v2ii { width: 46px; height: 46px; border-radius: 15px; }
+html.v110x #app .v2invite .v2ii svg { width: 26px; height: 26px; }
+html.v110x #app .v2invite b { font-size: 17px; } html.v110x #app .v2invite small { font-size: 13px; }
+html.v110x #app .pmenu .prow { grid-template-columns: 46px minmax(0, 1fr) 18px; column-gap: 14px; padding-left: 16px; padding-right: 16px; }
+html.v110x #app .pmenu .prico svg { width: 24px; height: 24px; }
+
+/* primo avvio nello stesso stile: scelte, obiettivi e pulsanti in rilievo */
+html.v110x body.v110onb .choice { box-shadow: none; border: 2px solid var(--k-line); border-bottom-width: 6px; border-radius: 22px; }
+html.v110x body.v110onb .choice[aria-checked="true"] { border-color: var(--accent); border-bottom-color: color-mix(in srgb, var(--accent) 65%, #000); transform: translateY(-2px); box-shadow: none; }
+html.v110x body.v110onb .chips .chip { border: 2px solid var(--k-line); border-bottom-width: 4px; border-radius: 16px; box-shadow: none; }
+html.v110x body.v110onb .chips .chip[aria-pressed="true"] { border-color: color-mix(in srgb, var(--accent) 80%, #000); border-bottom-color: color-mix(in srgb, var(--accent) 55%, #000); }
+html.v110x body.v110onb .btn:not(.link):not(.ghost) { box-shadow: 0 5px 0 color-mix(in srgb, var(--accent) 62%, #000); border-radius: 18px; }
+html.v110x body.v110onb .btn:not(.link):not(.ghost):active { transform: translateY(4px); box-shadow: 0 1px 0 color-mix(in srgb, var(--accent) 62%, #000); }
+html.v110x body.v110onb .w3hero, html.v110x body.v110onb .field input { border-radius: 22px; }
+html.v110x body.v110onb .field input { border: 2px solid var(--k-line); border-bottom-width: 4px; box-shadow: none; }
+html.v110x #app .btn.gold:not(.link):not(.ghost), html.v110x .plusbox .btn.gold { box-shadow: 0 5px 0 #B9801C; }
+html.v110x #app .btn.gold:not(.link):not(.ghost):active { box-shadow: 0 1px 0 #B9801C; }

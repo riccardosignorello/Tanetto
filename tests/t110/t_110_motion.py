@@ -104,7 +104,7 @@ async def main(b):
                 await T.ev(pg, f"tab = '{tb}'; render(); 1"); await pg.wait_for_timeout(500); await T.close_layer(pg)
                 r = await T.ev(pg, """(() => { const h = document.querySelector('#app .v110hic'); const hb = h ? h.parentElement.getBoundingClientRect() : null;
                   return [document.documentElement.dataset.v110tab, !!h, hb ? hb.right <= innerWidth + 1 : true, document.documentElement.scrollWidth <= innerWidth]; })()""")
-                T.check(f"{scheme} {w}px {tb}: colore della sezione, icona al titolo {'no' if tb == 'today' else 'si'}, niente fuori schermo", r[0] == tb and r[1] == (tb != "today") and r[2] and r[3], r)
+                T.check(f"{scheme} {w}px {tb}: colore della sezione, nessuna icona al titolo, niente fuori schermo", r[0] == tb and r[1] is False and r[2] and r[3], r)
             await T.ev(pg, "tab = 'diary'; render(); 1"); await pg.wait_for_timeout(400)
             moods = await T.ev(pg, """(() => { const rgb = (s) => { const v = (s.match(/[\\d.]+/g) || []).slice(0, 3).map(Number); return s.startsWith('color(') ? v.map((x) => Math.round(x * 255)) : v; }; return [...document.querySelectorAll('.moods .mood[data-mood]')].map((m) => { m.style.transition = 'none'; m.setAttribute('aria-pressed', 'true'); const c = getComputedStyle(m); const o = [rgb(c.color), rgb(c.backgroundColor)]; m.setAttribute('aria-pressed', 'false'); const c2 = getComputedStyle(m); o.push(rgb(c2.color), rgb(c2.backgroundColor)); return o; }); })()""")
             bad = [i for i, m in enumerate(moods) if ratio(m[0], m[1]) < 4.5 or ratio(m[2], m[3]) < 4.5]
