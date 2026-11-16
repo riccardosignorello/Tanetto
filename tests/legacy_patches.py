@@ -63,6 +63,16 @@ P = [
     ("fix109/suites/p3b/t6.py", "check(f\"{l}: phone Back from '{k}' returns to the Profile menu\", r == [None, \"more\", True], r)", "check(f\"{l}: phone Back from '{k}' returns to its group or to the Profile menu\", r[1] == \"more\" and r[0] in (None, \"g_set\", \"g_help\"), r); await ev(pg, \"psGo(null); 1\"); await pg.wait_for_timeout(250)", "profilo a 4 voci"),
     ("fix109/suites/p3b/t6.py", "await pg.locator('.prow[data-psub=\"set\"]').click(); await pg.wait_for_timeout(300)\n    await pg.locator(\".psback:visible\").click(); await pg.wait_for_timeout(300)\n    check(\"on-screen back arrow returns to the menu, focus back on the row\", await ev(pg, \"moreSub === null && document.activeElement && document.activeElement.dataset.psub === 'set'\"))\n    await pg.locator('.prow[data-psub=\"acct\"]').click(); await pg.wait_for_timeout(300)",
      "await pg.locator('.prow[data-psub=\"g_set\"]').click(); await pg.wait_for_timeout(300)\n    await pg.locator(\".psback:visible\").click(); await pg.wait_for_timeout(300)\n    check(\"on-screen back arrow returns to the menu, focus back on the row\", await ev(pg, \"moreSub === null && document.activeElement && document.activeElement.dataset.psub === 'g_set'\"))\n    await pg.locator('.prow[data-psub=\"g_set\"]').click(); await pg.wait_for_timeout(300); await pg.locator('.prow[data-psub=\"acct\"]').click(); await pg.wait_for_timeout(300)", "profilo a 4 voci"),
+    # 1.0.10 (17/11/2026): lo "Zaino" sono caselle-oggetto separate (prima una pillola unica con il gradiente verde)
+    ("p2/t2.py", 'check(f"{scheme}: energy is one pill (no gaps) with a green gradient and a top shine", e["gap"] == "0px" and "linear-gradient" in e["on"] and "rgb(78, 138, 74)" in e["on"] and "inset" in e["shine"] and e["n"] == 5, e)',
+     'check(f"{scheme}: backpack: one slot per goal with a gap, slots done outlined in green", e["gap"] == "5px" and "inset" in e["shine"] and e["n"] == 5, e)', "zaino a caselle"),
+    ("p2/t2.py", 'check(f"{scheme}: the energy pill turns gold when full", "nv-full" in e2[0] and "rgb(242, 177, 64)" in e2[1], e2)',
+     'check(f"{scheme}: the backpack card is marked full when full", "nv-full" in e2[0], e2)', "zaino a caselle"),
+    # 1.0.10: Profilo a 4 voci, altre due righe della prova storica
+    ("fix109/suites/p3b/t6.py", "await pg.locator('.prow[data-psub=\"acct\"]').click(); await pg.wait_for_timeout(300)\n    await ev(pg, \"backPress(); backPress()\"); await pg.wait_for_timeout(500)\n    check(\"Back twice from a page: menu, then Home (as before)\"",
+     "await pg.locator('.prow[data-psub=\"g_set\"]').click(); await pg.wait_for_timeout(300); await pg.locator('.prow[data-psub=\"acct\"]').click(); await pg.wait_for_timeout(300)\n    await ev(pg, \"backPress(); backPress(); backPress()\"); await pg.wait_for_timeout(500)\n    check(\"Back three times from a sub-page: group, menu, then Home\"", "profilo a 4 voci"),
+    ("fix109/suites/p3b/t6.py", "await pg.locator('.prow[data-psub=\"set\"]').click(); await pg.wait_for_timeout(300)\n    await ev(pg, \"openPlus('t')\")",
+     "await pg.locator('.prow[data-psub=\"g_set\"]').click(); await pg.wait_for_timeout(300); await pg.locator('.prow[data-psub=\"set\"]').click(); await pg.wait_for_timeout(300)\n    await ev(pg, \"openPlus('t')\")", "profilo a 4 voci"),
 ]
 bad = 0
 for f, old, new, why in P:
