@@ -22,7 +22,6 @@ P = [
     # dal 16/11/2026 il "regalo di lancio" (fino al 31/01/2027) si apre davvero: le suite che non lo riguardano lo spengono
     ("fix109/lib/common.py", '"window.__TEST_NOAGE=1;" + js', '"window.__TEST_NOAGE=1;window.__TEST_NOLAUNCH=1;" + js', "regalo di lancio spento nelle suite che non lo provano"),
     ("p1/common.py", '"window.__TEST_NOAGE=1;" + js', '"window.__TEST_NOAGE=1;window.__TEST_NOLAUNCH=1;" + js', "regalo di lancio spento nelle suite che non lo provano"),
-    ("fix109/suites/p3b/t6.py", 'window.__TEST_NOAGE=1;window.__TEST_NOGIFT20=1;', 'window.__TEST_NOAGE=1;window.__TEST_NOGIFT20=1;window.__TEST_NOLAUNCH=1;', "regalo di lancio spento"),
     # 1.0.10 (E-02): a chi non ha detto l'eta' mai "raddoppia"; la prova del testo per gli adulti usa un adulto
     ("fix109/suites/p3b/t6.py", 'r = await ev(pg, """(() => { const o = {}; S.adsDay = { d: dkey(), n: 0 }; o.g0', 'r = await ev(pg, """(() => { const o = {}; S.age = { y: 1990, m: 5 }; S.adsDay = { d: dkey(), n: 0 }; o.g0', "testo del video per gli adulti"),
     ("fix109/suites/p2b/t3.py", 'txt = await ev(pg, "(() => { const d = document.creat', 'txt = await ev(pg, "(() => { S.age = { y: 1990, m: 5 }; const d = document.creat', "testo del video per gli adulti"),
@@ -34,6 +33,13 @@ P = [
     ("fix109/suites/p2b/t3.py", 'r3["own"] and r3["s"] == 7000 and', 'r3["own"] and r3["s"] == 21000 and', "prezzi Introvabili 1.0.10"),
     # la prima pagina della galleria (it 320) arriva prima che la pubblicita' sia pronta (avvio a freddo): si aspetta il pulsante
     ("fix109/tfix_d.py", 'await pg.wait_for_timeout(900); await shot(pg, f"d/{t}_adgift")', 'await pg.wait_for_timeout(900); await pg.wait_for_function("!!document.querySelector(\\".adbtn\\")", timeout=8000); await ev(pg, "const g = document.getElementById(\\\'adGift\\\'); g && g.scrollIntoView({block:\\\'center\\\'}); 1"); await pg.wait_for_timeout(400); await shot(pg, f"d/{t}_adgift")', "attesa del pulsante del video"),
+    # P0 (1.0.10): niente offerta di Plus automatica a chi non ha detto l'eta' -> la prova della finestra usa un adulto
+    ("crit/tcrit.py", 'st = base_state(lang); st["firstDay"] = "2026-11-01"\n        ctx, pg = await cpage(b, lang, st, (2026, 11, 12), w=320, h=640, scheme=scheme)', 'st = base_state(lang); st["firstDay"] = "2026-11-01"; st["age"] = {"y": 1990, "m": 5}\n        ctx, pg = await cpage(b, lang, st, (2026, 11, 12), w=320, h=640, scheme=scheme)', "offerta Plus provata con un adulto"),
+    # la festa del desiderio arriva 700 ms dopo l'ultimo disegno: con la macchina carica 1,1 s non bastano sempre
+    ("fix109/suites/p2b/t3.py", '''36000; save(); layer.innerHTML=''; tab='today'; render(); 1"); await pg.wait_for_timeout(1100)''', '''36000; save(); layer.innerHTML=''; tab='today'; render(); 1"); await pg.wait_for_timeout(2200)''', "attesa della festa"),
+    ("p2c/t5.py", '''S.seeds = 18000; save(); tab='today'; render(); 1"); await pg.wait_for_timeout(1100)''', '''S.seeds = 18000; save(); tab='today'; render(); 1"); await pg.wait_for_timeout(2200)''', "attesa della festa"),
+    # 1.0.10 (blocco 6, bentornato a livelli): chi torna dopo giorni riceve la scheda del bentornato con la figura del regalo
+    ("fix109/suites/p3b/t6.py", 'all(x.startswith("ban/") for x in r[1]), r[1])', 'all(x.startswith("ban/") or x.startswith("m/gift.") for x in r[1]), r[1])', "bentornato con la figura del regalo"),
 ]
 bad = 0
 for f, old, new, why in P:

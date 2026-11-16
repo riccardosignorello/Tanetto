@@ -12,7 +12,7 @@
 /* aree di tocco di almeno 48 px */
 .day, #ageSkip, .alldone #closeLayer.link, .nvi, #petNameBtn { min-height: 48px; }
 a.nvtel { display: inline-block; min-width: 48px; min-height: 48px; line-height: 48px; text-align: center; }
-#arrOpen { min-width: 48px; min-height: 48px; }
+
 /* prima configurazione su telefoni stretti: la descrizione del compagno non si taglia con "..." */
 @media (max-width: 359px) { .choose:not(.four) .choice .ds { -webkit-line-clamp: unset; display: block; overflow: visible; } }
 .switch::before { content: ""; position: absolute; inset: -8px -2px; } /* area di tocco 48 px senza cambiare il disegno */
