@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-XO/CaVitn0FSOkS8lIF+vWIhE2aefHZYSPDLl93fxe8=' 'unsafe-eval' https://apis.google.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.goatcounter.com; media-src 'self' data: blob:; connect-src 'self' data: blob: https://*.googleapis.com https://tanettoapp-pet.firebaseapp.com https://*.goatcounter.com; frame-src https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-xaGdDJ1y4vfNL5cvspx5ZM9f8bxP2VFsJdsYUrYWtSg=' 'unsafe-eval' https://apis.google.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.goatcounter.com; media-src 'self' data: blob:; connect-src 'self' data: blob: https://*.googleapis.com https://tanettoapp-pet.firebaseapp.com https://*.goatcounter.com; frame-src https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#F4EFE6">
 <title>Tanetto — a tiny pet for your self-care habits (free app)</title>
@@ -3416,55 +3416,130 @@ html.bigtext #app .v110pack.v110pack i:nth-child(n) { height: 36px; }
 :root[lang^="zh"] { --font-display: "Noto Sans SC", "Noto Sans TC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif; --font-body: "Noto Sans SC", "Noto Sans TC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif; }
 :root[lang^="zh-TW"], :root[lang^="zh-Hant"], :root[lang^="zh-HK"] { --font-display: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif; --font-body: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif; }
 
-/* ===== 1.0.10 — PROPOSTA di nuovo aspetto (attiva con la classe html.v110x) =====
-   Casa: la stanza diventa la copertina (da bordo a bordo, sotto la barra in alto), saluto sopra la stanza, azioni in una
-   barra di vetro che galleggia sul bordo della stanza, obiettivi piu' grandi. Viaggi: mete come album a due colonne con
-   l'immagine grande. Profilo: copertina con il compagno grande. Ovunque: titoli piu' grandi, piu' aria. */
-html.v110x #app h1:not(.greet):not(.psubt) { font-size: 30px; letter-spacing: -.2px; }
-html.v110x #app .stack > h2, html.v110x #app .sec h2 { font-size: 22px; }
-html.v110x body .card { border-radius: 24px; }
+/* ===== 1.0.10 — NUOVO ASPETTO (proposta 2, attiva con html.v110x) =====
+   Idea: Tanetto come un piccolo mondo da sfogliare. Casa = la scena del compagno che sfuma nella pagina, con il
+   riepilogo del giorno in un anello; obiettivi come schede colorate della loro categoria. Viaggi = un album di cartoline
+   vere (bordo bianco, francobollo, titolo scritto a mano). Profilo = il compagno su un piccolo palco, con livello e numeri.
+   Materiale: riquadri morbidi "di argilla" (luce in alto, ombra sotto), vetro sopra la scena. */
 
-/* --- Casa: la stanza come copertina --- */
-html.v110x[data-v110tab="today"] #app .top { position: relative; z-index: 4; }
-html.v110x[data-v110tab="today"] #app .top .lvpill, html.v110x[data-v110tab="today"] #app .top .pill, html.v110x[data-v110tab="today"] #app .top .iconbtn {
-  background: color-mix(in srgb, var(--paper) 72%, transparent); backdrop-filter: blur(10px) saturate(1.3); -webkit-backdrop-filter: blur(10px) saturate(1.3); box-shadow: 0 4px 14px -8px rgba(40, 25, 10, .45); }
-html.v110x[data-v110tab="today"] #app .top .name { color: #fff; text-shadow: 0 1px 8px rgba(30, 20, 10, .55); }
-html.v110x[data-v110tab="today"] #app .roomwrap.v110hero { margin: -74px -16px 0; position: relative; }
-html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .room { border-radius: 0 0 34px 34px; aspect-ratio: 360 / 330; box-shadow: 0 18px 40px -22px rgba(60, 35, 10, .65); }
-html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .room::after { content: ""; position: absolute; inset: 0 0 auto 0; height: 120px; background: linear-gradient(to bottom, rgba(40, 25, 10, .38), transparent); pointer-events: none; z-index: 1; }
-html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .greet { position: absolute; z-index: 2; left: 20px; top: 66px; margin: 0; color: #fff; text-shadow: 0 2px 10px rgba(30, 20, 10, .55); pointer-events: none; }
-html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .greet .gd { color: rgba(255, 255, 255, .9); }
-html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .greet .gw { font-size: 30px; }
-html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .bubble { margin-top: -54px; position: relative; z-index: 2; }
-html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .actions { width: calc(100% - 32px); margin: 12px 16px 0; padding: 8px; border-radius: 24px; background: color-mix(in srgb, var(--paper) 86%, transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 14px 30px -18px rgba(60, 35, 10, .55), inset 0 0 0 1px color-mix(in srgb, var(--line) 70%, transparent); }
-html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .act { background: transparent; box-shadow: none; }
+html.v110x { --v2-r: 26px; --v2-sh: 0 1px 0 rgba(255, 255, 255, .75) inset, 0 2px 4px rgba(80, 55, 25, .06), 0 16px 30px -18px rgba(80, 55, 25, .42); }
+:root.v110x[data-theme="dark"] { --v2-sh: 0 1px 0 rgba(255, 255, 255, .05) inset, 0 16px 30px -16px rgba(0, 0, 0, .9); }
+@media (prefers-color-scheme: dark) { :root.v110x:not([data-theme="light"]) { --v2-sh: 0 1px 0 rgba(255, 255, 255, .05) inset, 0 16px 30px -16px rgba(0, 0, 0, .9); } }
+html.v110x body .card, html.v110x #app .goal, html.v110x #app .nven, html.v110x #app .tr20st, html.v110x #app .albumbtn, html.v110x #app .nvpass { border-radius: var(--v2-r); box-shadow: var(--v2-sh); }
+html.v110x #app .stack > h1:not(.greet):not(.psubt) { font-size: 32px; letter-spacing: -.3px; margin-top: 4px; }
+html.v110x #app .stack > h2, html.v110x #app .sec h2 { font-size: 22px; letter-spacing: -.2px; }
+
+/* ---------------- CASA ---------------- */
+/* barra in alto: capsule di vetro sopra la scena */
+html.v110x[data-v110tab="today"] #app .top { position: relative; z-index: 5; gap: 8px; }
+html.v110x[data-v110tab="today"] #app .top > button { background: color-mix(in srgb, var(--paper) 78%, transparent); backdrop-filter: blur(12px) saturate(1.4); -webkit-backdrop-filter: blur(12px) saturate(1.4);
+  box-shadow: 0 6px 16px -10px rgba(40, 25, 10, .5), inset 0 0 0 1px rgba(255, 255, 255, .5); border-radius: 999px; }
+html.v110x[data-v110tab="today"] #app .top .namebtn { padding: 6px 14px; min-height: 40px; color: var(--ink); }
+/* la scena: da bordo a bordo, sale sotto la barra e sfuma nella pagina */
+html.v110x[data-v110tab="today"] #app .roomwrap.v110hero { margin: -64px -16px 0; position: relative; }
+html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .room { border-radius: 0; aspect-ratio: 360 / 352; box-shadow: none;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 74%, rgba(0, 0, 0, .55) 88%, transparent 100%); mask-image: linear-gradient(to bottom, #000 0, #000 74%, rgba(0, 0, 0, .55) 88%, transparent 100%); }
+html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .fullbtn { top: 70px; bottom: auto; right: 16px; z-index: 4; }
+/* saluto: etichetta di vetro in alto a sinistra, sopra la parete (mai sopra il compagno) */
+html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .greet { position: absolute; z-index: 3; left: 16px; top: 70px; margin: 0; pointer-events: none; padding: 8px 14px 9px; border-radius: 18px;
+  background: color-mix(in srgb, var(--paper) 80%, transparent); backdrop-filter: blur(12px) saturate(1.3); -webkit-backdrop-filter: blur(12px) saturate(1.3); box-shadow: 0 8px 20px -12px rgba(40, 25, 10, .5), inset 0 0 0 1px rgba(255, 255, 255, .5); }
+html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .greet .gd { display: block; font-size: 12.5px; font-weight: 700; color: var(--muted); }
+html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .greet .gw { display: block; font-size: 24px; line-height: 1.1; color: var(--ink); }
+/* il fumetto a destra del compagno, con la punta verso di lui */
+html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .bubble { position: absolute; z-index: 4; top: 40%; right: 12px; left: auto; margin: 0; max-width: 42%; font-size: 14px; padding: 8px 12px; border-radius: 18px 18px 18px 6px; box-shadow: 0 10px 22px -12px rgba(40, 25, 10, .5); }
+html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .bubble::before, html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .bubble::after { display: none; }
+/* azioni: bottoni rotondi di vetro sulla linea dove la scena finisce */
+html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .actions { position: relative; z-index: 4; width: calc(100% - 24px); margin: -78px 12px 0; gap: 4px; }
+html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .act { background: transparent; box-shadow: none; min-height: 72px; gap: 5px; font-weight: 700; }
+html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .act .aci { width: 50px; height: 50px; border-radius: 50%; background: color-mix(in srgb, var(--paper) 86%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 8px 18px -10px rgba(40, 25, 10, .55), inset 0 0 0 1px rgba(255, 255, 255, .6); transition: transform .2s cubic-bezier(.3, 1.6, .5, 1); }
+html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .act .aci svg { width: 24px; height: 24px; }
+html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .act:active .aci { transform: scale(.9); }
+/* riepilogo del giorno: anello + zaino */
+html.v110x #app .nven.v2ring { display: grid; grid-template-columns: 92px minmax(0, 1fr); column-gap: 14px; align-items: center; padding: 16px; margin-top: 6px; }
+html.v110x #app .nven.v2ring > * { grid-column: 2; }
+html.v110x #app .nven.v2ring .v2r { grid-column: 1; grid-row: 1 / span 4; width: 92px; height: 92px; border-radius: 50%; display: grid; place-items: center; align-self: center;
+  background: conic-gradient(var(--v110c, var(--accent)) calc(var(--p, 0) * 1%), color-mix(in srgb, var(--v110c, var(--accent)) 14%, var(--paper-2)) 0); position: relative; }
+html.v110x #app .nven.v2ring .v2r::before { content: ""; position: absolute; inset: 9px; border-radius: 50%; background: var(--paper); box-shadow: inset 0 2px 6px rgba(80, 55, 25, .12); }
+html.v110x #app .nven.v2ring .v2r b { position: relative; font-family: var(--font-display); font-size: 26px; line-height: 1; color: var(--ink); }
+html.v110x #app .nven.v2ring .v2r small { position: relative; display: block; font-size: 11.5px; color: var(--muted); font-weight: 700; text-align: center; margin-top: 2px; }
+html.v110x #app .nven.v2ring .v2r span { display: grid; justify-items: center; }
+html.v110x #app .nven.v2ring .nvenrow { flex-wrap: wrap; gap: 8px; }
+html.v110x #app .nven.v2ring .nvenrow .btn { flex: 1 1 100%; }
+/* obiettivi: schede del colore della loro categoria */
 html.v110x #app .goals { gap: 10px; }
-html.v110x #app .goal { border-radius: 22px; min-height: 74px; padding: 14px 16px; }
-html.v110x #app .sec h2 .v110cnt { display: inline-grid; place-items: center; min-width: 34px; height: 26px; padding: 0 8px; margin-left: 8px; border-radius: 999px; font-size: 14px; vertical-align: 3px; background: var(--v110c-s); color: var(--v110c); }
+html.v110x #app .goal { min-height: 76px; padding: 12px 14px 12px 12px; gap: 14px; background: linear-gradient(100deg, color-mix(in srgb, var(--cc) 14%, var(--paper)) 0%, var(--paper) 62%); }
+html.v110x #app .goal .cat { width: 50px; height: 50px; border-radius: 16px; box-shadow: inset 0 -4px 0 rgba(0, 0, 0, .14), 0 8px 14px -10px var(--cc); }
+html.v110x #app .goal .cat svg { width: 26px; height: 26px; }
+html.v110x #app .goal .txt b { font-size: 17px; font-weight: 700; }
+html.v110x #app .goal .tick { width: 44px; height: 44px; border-width: 3px; border-color: color-mix(in srgb, var(--cc) 45%, var(--line)); }
+html.v110x #app .goal[aria-pressed="true"] { background: color-mix(in srgb, var(--cc) 10%, var(--paper)); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--cc) 30%, transparent); }
+html.v110x #app .goal[aria-pressed="true"] .tick { background: var(--cc); border-color: var(--cc); color: #fff; }
+html.v110x #app .goal[aria-pressed="true"] .txt b { text-decoration-thickness: 1.5px; text-decoration-color: color-mix(in srgb, var(--cc) 70%, transparent); }
+html.v110x #app .sec h2 .v110cnt { display: inline-grid; place-items: center; min-width: 40px; height: 28px; padding: 0 10px; margin-left: 10px; border-radius: 999px; font-size: 15px; vertical-align: 3px; background: var(--v110c-s); color: var(--v110c); }
 
-/* --- Viaggi: album a due colonne --- */
-html.v110x #app .v110grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-html.v110x #app .v110grid > .dest { display: flex; flex-direction: column; align-items: stretch; gap: 0; padding: 0; overflow: hidden; border-radius: 22px; text-align: left; }
-html.v110x #app .v110grid > .dest .pc { width: 100%; margin: 0; aspect-ratio: 4 / 3; border-radius: 0; box-shadow: none; }
-html.v110x #app .v110grid > .dest .meta { padding: 10px 12px 12px; }
-html.v110x #app .v110grid > .dest .meta b { font-size: 15.5px; line-height: 1.2; }
-html.v110x #app .v110grid > .dest .meta small, html.v110x #app .v110grid > .dest .meta .tr20tag { font-size: 12px; }
-html.v110x #app .v110grid > .dest.locked .pc { filter: saturate(.55); }
+/* ---------------- VIAGGI: album di cartoline ---------------- */
+html.v110x #app .v110grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 12px; }
+html.v110x #app .v110grid > .dest { display: block; position: relative; padding: 8px 8px 12px; border-radius: 6px; background: #FFFDF8; text-align: left; color: #2F2A26;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .8) inset, 0 3px 6px rgba(80, 55, 25, .10), 0 18px 28px -18px rgba(80, 55, 25, .55); transition: transform .25s cubic-bezier(.3, 1.6, .5, 1); }
+html.v110x #app .v110grid > .dest:nth-child(4n+1) { rotate: -1.2deg; } html.v110x #app .v110grid > .dest:nth-child(4n+2) { rotate: 1deg; }
+html.v110x #app .v110grid > .dest:nth-child(4n+3) { rotate: .8deg; } html.v110x #app .v110grid > .dest:nth-child(4n) { rotate: -.9deg; }
+html.v110x #app .v110grid > .dest:active { transform: scale(.97); }
+html.v110x #app .v110grid > .dest .pc { display: block; width: 100%; margin: 0; aspect-ratio: 4 / 3; border-radius: 2px; box-shadow: none; overflow: hidden; }
+html.v110x #app .v110grid > .dest .pc::after { content: ""; position: absolute; top: 14px; right: 14px; width: 26px; height: 30px; border-radius: 3px;
+  background: radial-gradient(circle at 50% 42%, #E9A23B 0 6px, transparent 7px), #FFF7EA; outline: 2px dashed rgba(201, 141, 60, .55); outline-offset: -4px; box-shadow: 0 2px 4px rgba(0, 0, 0, .18); }
+html.v110x #app .v110grid > .dest .meta { display: block; padding: 8px 4px 0; }
+html.v110x #app .v110grid > .dest .meta b { display: block; font-family: "Caveat", var(--font-display); font-size: 23px; line-height: 1.05; font-weight: 700; color: #2F2A26; }
+html.v110x #app .v110grid > .dest .meta .small { display: block; margin-top: 4px; font-size: 12.5px; color: #6E655D; }
+html.v110x #app .v110grid > .dest .meta .tr20tag { display: inline-block; margin-top: 6px; font-size: 11.5px; border-radius: 999px; padding: 3px 8px; }
+html.v110x #app .v110grid > .dest.locked { opacity: 1; }
+html.v110x #app .v110grid > .dest.locked .pc { filter: saturate(.25) brightness(1.08); }
+html.v110x #app .v110grid > .dest.locked .pc::after { background: radial-gradient(circle at 50% 42%, #9C928A 0 6px, transparent 7px), #F3EFE9; outline-color: rgba(120, 110, 100, .45); }
+:root.v110x[data-theme="dark"] #app .v110grid > .dest { background: #F6F0E4; }
+@media (prefers-color-scheme: dark) { :root.v110x:not([data-theme="light"]) #app .v110grid > .dest { background: #F6F0E4; } }
+html.v110x #app .tr20st { padding: 18px; }
 
-/* --- Profilo: copertina con il compagno --- */
-html.v110x #app .profcard { background: linear-gradient(160deg, var(--v110c-s, var(--accent-soft)) 0%, var(--paper) 70%); padding: 20px; }
-html.v110x #app .profcard .pfpet { width: 96px; height: 96px; }
-html.v110x #app .profcard .pfpet svg, html.v110x #app .profcard .pfpet img { width: 96px; height: 96px; }
-html.v110x #app .profcard .pftx b, html.v110x #app .profcard .pftx h2 { font-size: 26px; }
-html.v110x #app .pmenu .prow { min-height: 70px; }
-html.v110x #app .pmenu .prico { width: 44px; height: 44px; border-radius: 14px; }
+/* ---------------- PROFILO: il compagno sul palco ---------------- */
+html.v110x #app .profcard.v2stage { padding: 0 0 16px; overflow: hidden; text-align: center; gap: 0; }
+html.v110x #app .profcard.v2stage .pfrow { display: grid; justify-items: center; gap: 6px; padding: 22px 16px 4px; position: relative;
+  background: radial-gradient(120% 80% at 50% 0%, var(--v110c-s, var(--accent-soft)) 0%, color-mix(in srgb, var(--v110c-s, var(--accent-soft)) 30%, var(--paper)) 55%, var(--paper) 100%); }
+html.v110x #app .profcard.v2stage .pfpet { width: 132px; height: 132px; display: grid; place-items: center; border-radius: 50%; background: radial-gradient(circle at 50% 70%, rgba(255, 255, 255, .85), rgba(255, 255, 255, 0) 68%); }
+html.v110x #app .profcard.v2stage .pfpet svg, html.v110x #app .profcard.v2stage .pfpet img { width: 124px; height: 124px; }
+html.v110x #app .profcard.v2stage .pftx h2 { font-size: 30px; }
+html.v110x #app .profcard.v2stage .v2lv { margin: 6px 18px 0; text-align: left; }
+html.v110x #app .profcard.v2stage .v2lv .v2lvh { display: flex; justify-content: space-between; font-size: 13.5px; font-weight: 700; color: var(--muted); }
+html.v110x #app .profcard.v2stage .v2lv .v2lvh b { color: var(--ink); }
+html.v110x #app .profcard.v2stage .v2lv .v2bar { height: 10px; border-radius: 999px; background: var(--paper-2); margin-top: 6px; overflow: hidden; box-shadow: inset 0 1px 2px rgba(80, 55, 25, .15); }
+html.v110x #app .profcard.v2stage .v2lv .v2bar i { display: block; height: 100%; width: calc(var(--p, 0) * 1%); border-radius: 999px; background: linear-gradient(90deg, var(--v110c, var(--accent)), color-mix(in srgb, var(--v110c, var(--accent)) 70%, #fff)); }
+html.v110x #app .profcard.v2stage .v2stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 14px 16px 0; }
+html.v110x #app .profcard.v2stage .v2stats > div { background: var(--paper-2); border-radius: 18px; padding: 10px 6px; display: grid; justify-items: center; gap: 2px; }
+html.v110x #app .profcard.v2stage .v2stats b { font-family: var(--font-display); font-size: 22px; line-height: 1.1; color: var(--ink); }
+html.v110x #app .profcard.v2stage .v2stats small { font-size: 12px; color: var(--muted); font-weight: 700; text-align: center; }
+html.v110x #app .profcard.v2stage .pfbtns { justify-content: center; margin: 12px 16px 0; }
+html.v110x #app .v2invite { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 14px; align-items: center; padding: 16px; text-align: left; width: 100%; border: 0; color: var(--ink);
+  background: linear-gradient(120deg, color-mix(in srgb, #F2A0BC 28%, var(--paper)) 0%, var(--paper) 75%); }
+html.v110x #app .v2invite .v2ii { width: 56px; height: 56px; border-radius: 18px; display: grid; place-items: center; background: #E7799F; color: #fff; box-shadow: inset 0 -4px 0 rgba(0, 0, 0, .14), 0 10px 18px -10px #E7799F; }
+html.v110x #app .v2invite .v2ii svg { width: 28px; height: 28px; }
+html.v110x #app .v2invite b { display: block; font-family: var(--font-display); font-size: 19px; }
+html.v110x #app .v2invite small { display: block; color: var(--muted); font-size: 14px; margin-top: 2px; }
+html.v110x #app .pluscard { border-radius: var(--v2-r); position: relative; overflow: hidden; }
+html.v110x #app .pluscard::after { content: ""; position: absolute; inset: 0; background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, .55) 50%, transparent 60%); translate: -100% 0; animation: v2shine 5.5s cubic-bezier(.65, 0, .35, 1) 1.2s infinite; pointer-events: none; }
+@keyframes v2shine { 0%, 70% { translate: -100% 0; } 100% { translate: 100% 0; } }
+html.v110x #app .pmenu .prow { min-height: 72px; }
+html.v110x #app .pmenu .prico { width: 46px; height: 46px; border-radius: 15px; }
 
+/* schermi stretti e testo grande */
 @media (max-width: 360px) {
-  html.v110x #app h1:not(.greet):not(.psubt) { font-size: 26px; }
-  html.v110x #app .v110grid { gap: 8px; }
-  html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .greet .gw { font-size: 24px; }
+  html.v110x #app .stack > h1:not(.greet):not(.psubt) { font-size: 27px; }
+  html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .greet .gw { font-size: 28px; }
+  html.v110x #app .nven.v2ring { grid-template-columns: 76px minmax(0, 1fr); }
+  html.v110x #app .nven.v2ring .v2r { width: 76px; height: 76px; }
+  html.v110x #app .v110grid { gap: 12px 8px; }
+  html.v110x #app .v110grid > .dest .meta b { font-size: 20px; }
 }
-html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .fullbtn { top: auto; bottom: 64px; right: 14px; }
+html.calm.v110x #app .pluscard::after, html.lite.v110x #app .pluscard::after { animation: none; display: none; }
+html.v110x #app .v110grid > .dest .meta .tr20tag { background: #FBE7C4; color: #6E4410; }
+html.v110x #app .v110grid > .dest .meta .tr20tag.off { background: #EFE8DD; color: #5E564F; }
 
 </style>
 
@@ -46471,19 +46546,60 @@ backPress = function () {
   return _backPressV110g.apply(this, arguments);
 };
 
-/* ===== 1.0.10 — PROPOSTA di nuovo aspetto: piccoli spostamenti nella pagina (attivi solo con html.v110x) ===== */
+/* ===== 1.0.10 — NUOVO ASPETTO (proposta 2): spostamenti e pezzi in piu' nella pagina (attivi solo con html.v110x) ===== */
+const V2_T = {
+  it: { next: "Verso il", goals: "obiettivi", cards: "cartoline", streak: "giorni di fila", troph: "trofei", invT: "Invita un amico", invP: "Prendersi cura di sé è più bello in due." },
+  en: { next: "Next:", goals: "goals", cards: "postcards", streak: "days in a row", troph: "trophies", invT: "Invite a friend", invP: "Looking after yourself is nicer with two." },
+  de: { next: "Nächstes:", goals: "Ziele", cards: "Postkarten", streak: "Tage in Folge", troph: "Trophäen", invT: "Freunde einladen", invP: "Zu zweit macht Selbstfürsorge mehr Freude." },
+  es: { next: "Hacia el", goals: "objetivos", cards: "postales", streak: "días seguidos", troph: "trofeos", invT: "Invita a un amigo", invP: "Cuidarse es más bonito entre dos." },
+  fr: { next: "Vers le", goals: "objectifs", cards: "cartes", streak: "jours d'affilée", troph: "trophées", invT: "Inviter un ami", invP: "Prendre soin de soi, c'est plus doux à deux." },
+  pt: { next: "Rumo ao", goals: "metas", cards: "cartões", streak: "dias seguidos", troph: "troféus", invT: "Convide um amigo", invP: "Cuidar de si é mais gostoso a dois." },
+  ja: { next: "次は", goals: "目標", cards: "ポストカード", streak: "日連続", troph: "トロフィー", invT: "友だちを招待", invP: "自分をいたわるのは、ふたりならもっと楽しい。" },
+  ko: { next: "다음", goals: "목표", cards: "엽서", streak: "일 연속", troph: "트로피", invT: "친구 초대하기", invP: "나를 돌보는 일, 둘이 하면 더 즐거워요." },
+  zh: { next: "下一级", goals: "目标", cards: "明信片", streak: "天连续", troph: "奖杯", invT: "邀请朋友", invP: "照顾自己，两个人一起更开心。" },
+  zht: { next: "下一級", goals: "目標", cards: "明信片", streak: "天連續", troph: "獎盃", invT: "邀請朋友", invP: "照顧自己，兩個人一起更開心。" },
+  ru: { next: "Дальше:", goals: "цели", cards: "открытки", streak: "дней подряд", troph: "трофеи", invT: "Пригласить друга", invP: "Заботиться о себе вдвоём приятнее." },
+  pl: { next: "Dalej:", goals: "cele", cards: "pocztówki", streak: "dni z rzędu", troph: "trofea", invT: "Zaproś znajomego", invP: "Dbać o siebie we dwoje jest milej." },
+  nl: { next: "Op weg naar", goals: "doelen", cards: "kaarten", streak: "dagen op rij", troph: "trofeeën", invT: "Nodig een vriend uit", invP: "Goed voor jezelf zorgen is leuker met z'n tweeën." },
+  tr: { next: "Sıradaki:", goals: "hedef", cards: "kartpostal", streak: "gün üst üste", troph: "kupa", invT: "Arkadaşını davet et", invP: "Kendine iyi bakmak iki kişiyle daha güzel." }
+};
+const v2t = () => V2_T[S.lang] || V2_T.en;
+const V2_GIFT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h16v9H4Z"/><path d="M3 7h18v4H3Z"/><path d="M12 7v13"/><path d="M12 7C10.5 4 7 3.5 7 5.5S10 7 12 7Zm0 0c1.5-3 5-3.5 5-1.5S14 7 12 7Z"/></svg>';
 function v110Redesign() {
   if (!document.documentElement.classList.contains("v110x")) return;
-  const app = document.getElementById("app"); if (!app) return;
-  /* Casa: il saluto entra nella copertina della stanza */
-  const rw = app.querySelector(".stack > .roomwrap"); const gr = app.querySelector(".stack > h1.greet");
-  if (rw && tab === "today" && !rw.classList.contains("full")) { rw.classList.add("v110hero"); if (gr) rw.insertBefore(gr, rw.firstChild); }
-  /* Casa: quanti obiettivi mancano accanto al titolo */
-  const h2 = app.querySelector(".sec h2"); const g = app.querySelectorAll(".goals .goal");
-  if (h2 && g.length && tab === "today" && !h2.querySelector(".v110cnt")) { const d = app.querySelectorAll(".goals .goal.done, .goals .goal[aria-pressed='true']").length; h2.insertAdjacentHTML("beforeend", `<span class="v110cnt">${d}/${g.length}</span>`); }
-  /* Viaggi: le mete come album a due colonne */
+  const app = document.getElementById("app"); if (!app) return; const w = v2t();
+  if (tab === "today") {
+    /* la scena con il saluto dentro */
+    const rw = app.querySelector(".stack > .roomwrap"); const gr = app.querySelector(".stack > h1.greet");
+    if (rw && !rw.classList.contains("full")) { rw.classList.add("v110hero"); if (gr) rw.insertBefore(gr, rw.firstChild); }
+    /* riepilogo del giorno: anello con gli obiettivi fatti */
+    const ne = app.querySelector("#nvEnergy");
+    if (ne && !ne.querySelector(".v2r")) {
+      let dn = 0, n = 0; try { const st = nav20energyInfo(); dn = st.why === "used" ? 0 : st.dn || 0; n = st.n || 0; } catch (e) { /* niente */ }
+      const tg = todayGoals(); const done = tg.filter((g) => S.done.includes(g)).length; const tot = tg.length || n;
+      ne.classList.add("v2ring"); ne.insertAdjacentHTML("afterbegin", `<div class="v2r" style="--p:${tot ? Math.round((done / tot) * 100) : 0}" aria-hidden="true"><span><b>${done}/${tot}</b><small>${esc(w.goals)}</small></span></div>`);
+    }
+    const h2 = app.querySelector(".sec h2"); const g = app.querySelectorAll(".goals .goal");
+    if (h2 && g.length && !h2.querySelector(".v110cnt")) { const d = app.querySelectorAll('.goals .goal[aria-pressed="true"]').length; h2.insertAdjacentHTML("beforeend", `<span class="v110cnt">${d}/${g.length}</span>`); }
+  }
+  /* Viaggi: album di cartoline */
   app.querySelectorAll(".stack-s").forEach((s) => { if (s.querySelector(":scope > .dest")) s.classList.add("v110grid"); });
+  /* Profilo: il compagno sul palco, livello e numeri; "Invita un amico" in vista (solo se l'invito esiste per questa eta') */
+  const pc = app.querySelector(".profcard");
+  if (pc && !pc.classList.contains("v2stage")) {
+    pc.classList.add("v2stage");
+    const need = typeof xpNeed === "function" ? xpNeed(S.level) : 100; const xp = Math.max(0, Math.min(need, S.xp || 0)); const t = L();
+    const lvT = `${t.level || "Lv"} ${S.level + 1}`; const xpT = typeof t.xpTo === "function" ? t.xpTo(xp, need) : `${xp}/${need}`;
+    const cardsTxt = (pc.querySelector(".pftx p") || {}).textContent || ""; const cm = cardsTxt.match(/(\d+)\s*\/\s*(\d+)/);
+    const st = typeof streak === "function" ? streak() : 0; const tr = Object.values(S.trophies || {}).filter((x) => x && x.at).length;
+    const row = pc.querySelector(".pfrow");
+    if (row) row.insertAdjacentHTML("afterend", `<div class="v2lv"><div class="v2lvh"><b>${esc(w.next)} ${esc(lvT)}</b><span>${Math.round((xp / need) * 100)}%</span></div><div class="v2bar" style="--p:${Math.round((xp / need) * 100)}"><i></i></div></div>
+      <div class="v2stats"><div><b>${cm ? `${cm[1]}/${cm[2]}` : "0"}</b><small>${esc(w.cards)}</small></div><div><b>${st}</b><small>${esc(w.streak)}</small></div><div><b>${tr}</b><small>${esc(w.troph)}</small></div></div>`);
+  }
+  const inv = app.querySelector("#invite"); const plus = app.querySelector('#plusCard[data-pg="main"]') || app.querySelector("#plusCard");
+  if (inv && plus && !app.querySelector(".v2invite")) plus.insertAdjacentHTML("afterend", `<button class="card v2invite" type="button" id="v2Invite" data-pg="main"${(moreSub && moreSub !== "main") ? " hidden" : ""}><span class="v2ii">${V2_GIFT}</span><span><b>${esc(w.invT)}</b><small>${esc(w.invP)}</small></span></button>`);
 }
+document.addEventListener("click", (ev) => { const b = ev.target.closest && ev.target.closest("#v2Invite"); if (!b) return; ev.stopImmediatePropagation(); const i = document.getElementById("invite"); if (i) i.click(); }, true);
 const _renderV110x = render;
 render = function (...a) { const r = _renderV110x.apply(this, a); try { v110Redesign(); } catch (e) { /* niente */ } return r; };
 
