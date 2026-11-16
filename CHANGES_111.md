@@ -171,7 +171,29 @@ cancellazione dell'account, pagine "get" e "test".
 [[TESTS]]
 
 
-## 10) Cosa manca ancora per il 10 (onesto)
+## 10) Voti per area (prima 1.0.9 → ora 1.0.11)
+
+Voti dati da me rileggendo l'audit punto per punto (non da un critico esterno: vedi sotto, punto 9 della sezione 11).
+
+1) Grafica e marchio: **7 → 8**. Mancano i caratteri per russo/asiatico, il fiore nei momenti 3D, la stanza meno chiara in tema scuro.
+2) Misure e impaginazione: **7,5 → 9**.
+3) Testi in 14 lingue: **7 → 9**. Manca la voce diversa per ogni compagno (tua decisione).
+4) Logica e conti: **8 → 9,5**. Resta il tempo degli Introvabili (tua decisione).
+5) Psicologia e prodotto: **7 → 9**.
+6) Movimento, suoni, vibrazione: **5 → 7,5**. Manca un sistema unico di animazioni.
+7) Accessibilità: **7,5 → 9,5**.
+8) Velocità e batteria: **5,5 → 7**. Il grande limite resta l'avvio con tutto il codice da leggere (punto 2 sotto).
+9) Android: **7 → 9** (da confermare sul telefono).
+10) Regole di Play, privacy, legale: **7 → 8,5**. Mancano il titolare dei dati (tua decisione) e i moduli in Play Console.
+11) Solidità e sicurezza: **6,5 → 7,5**. Mancano la verifica degli acquisti con la chiave di Play e la protezione CSP nell'app.
+12) Manutenzione negli anni: **3,5 → 6,5**. Ora tutto è in git, si costruisce e si prova con un comando, e GitHub
+rifà da solo build, controllo delle lingue e tutte le prove nuove a ogni modifica (verde). Ma il codice ha ancora molti
+"strati" uno sopra l'altro: andrebbe riordinato con calma.
+13) Sito e pagine: **7 → 8,5**. Manca la pagina iniziale leggera.
+14) Rispetto alle altre app: **7 → 7,5**.
+
+
+## 11) Cosa manca ancora per il 10 (onesto)
 
 Sono onesto: ecco cosa **non** ho fatto o non ho potuto provare, e perché.
 

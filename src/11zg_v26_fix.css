@@ -84,8 +84,8 @@ body:has(:is(input:not([type=checkbox]):not([type=radio]):not([type=range]), tex
 /* --- M-32 / B-06 / F-13: Plus a caratteri grandi, la parte fissa in basso non copre piu' tutto --- */
 .plussticky.v26static { position: static; box-shadow: none; }
 
-/* --- M-33 / B-07: stanza a schermo intero, la fila delle scene non passa sotto i pulsanti in alto a destra --- */
-.roomwrap.full .fulltop .scns { margin-right: 104px; }
+/* M-33 / B-07: la fila delle scene a schermo intero si ferma gia' prima dei pulsanti (98zj, v25ScnFit): niente da aggiungere
+   (un margine fisso qui la rendeva larga 100 px a 320 px: tolto dopo la regressione storica tfix_f) */
 
 /* --- M-34 / B-08: schermi larghi, l'intestazione resta ferma cambiando scheda --- */
 html[data-dvl] #app > .top { max-width: 712px; margin-inline: auto; width: 100%; box-sizing: border-box; }
@@ -167,3 +167,5 @@ html.firstgoal .goal .tick::after { animation-iteration-count: 6; }
 
 /* 1.0.11 (G2-10): privacy una frase per riga, con poco spazio tra le righe */
 .v26psplit { display: flex; flex-direction: column; gap: 6px; } .v26psplit p { margin: 0; }
+/* 1.0.11 (A-10): nel livello nuovo i coriandoli passano dietro al testo e ai pulsanti (prima coprivano "Condividi") */
+.levelup .box > .fx { z-index: 0; }
