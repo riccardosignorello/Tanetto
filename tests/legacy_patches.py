@@ -19,9 +19,6 @@ P = [
     ("p2c/t5.py", 'await pg.click("#ageGo");', 'await pg.click("#ageGo"); await pg.wait_for_timeout(250); await pg.evaluate("(() => { const b = document.getElementById(`ageOk`); if (b) b.click(); })()");', "eta\' con conferma (G2-10, 16/11/2026)"),
     # 1.0.10 (critica 1.0.10, punto 10): il paragrafo dei bambini nomina solo AdMob (statistiche sempre spente per loro)
     ("fix109/tfix_a.py", 'pv.count("GoatCounter") >= 28 and', 'pv.count("GoatCounter") >= 14 and', "bambini: solo AdMob"),
-    # dal 16/11/2026 il "regalo di lancio" (fino al 31/01/2027) si apre davvero: le suite che non lo riguardano lo spengono
-    ("fix109/lib/common.py", '"window.__TEST_NOAGE=1;" + js', '"window.__TEST_NOAGE=1;window.__TEST_NOLAUNCH=1;" + js', "regalo di lancio spento nelle suite che non lo provano"),
-    ("p1/common.py", '"window.__TEST_NOAGE=1;" + js', '"window.__TEST_NOAGE=1;window.__TEST_NOLAUNCH=1;" + js', "regalo di lancio spento nelle suite che non lo provano"),
     # 1.0.10 (E-02): a chi non ha detto l'eta' mai "raddoppia"; la prova del testo per gli adulti usa un adulto
     ("fix109/suites/p3b/t6.py", 'r = await ev(pg, """(() => { const o = {}; S.adsDay = { d: dkey(), n: 0 }; o.g0', 'r = await ev(pg, """(() => { const o = {}; S.age = { y: 1990, m: 5 }; S.adsDay = { d: dkey(), n: 0 }; o.g0', "testo del video per gli adulti"),
     ("fix109/suites/p2b/t3.py", 'txt = await ev(pg, "(() => { const d = document.creat', 'txt = await ev(pg, "(() => { S.age = { y: 1990, m: 5 }; const d = document.creat', "testo del video per gli adulti"),

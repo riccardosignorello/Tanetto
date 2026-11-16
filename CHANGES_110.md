@@ -38,9 +38,12 @@ Anche il "bentornato" non dice più "ti stava aspettando".
 7) **Statistiche anonime con un interruttore** in Profilo › Privacy ed età. Sono **sempre spente** per chi è sotto l'età del consenso digitale del suo Paese (in Italia 14 anni) e per chi non ha detto l'età, e
 **prima della domanda sull'età non si conta niente**. Una frase nuova lo dice nell'informativa (14 lingue).
 
-8) **Riconoscimento delle frasi difficili unito al lavoro di sicurezza:** su frasi nuove mai viste prima (scritte apposta per
-la prova) il vecchio riconoscimento ne capiva 82 su 144 e prendeva per crisi "i want to dye my hair" e "non voglio morire";
-quello della 1.0.10 le capisce **tutte** (144 su 144, 216 su 216 nella seconda prova) e non sbaglia sui modi di dire.
+8) **Riconoscimento delle frasi difficili molto più forte:** è stato provato da **tre tester indipendenti** che hanno scritto
+frasi nuove senza vedere gli elenchi, in 14 lingue, come le scrivono davvero i ragazzi (abbreviazioni, errori, senza accenti).
+Dopo ogni prova sono state aggiunte le **famiglie** di frasi mancate in tutte le lingue. L'ultima prova cieca, prima delle
+correzioni, riconosceva già 9 frasi su 10; ora le riconosce tutte, con zero falsi allarmi su 210 frasi normali (esagerazioni,
+videogiochi, film, incidenti in cucina). Anche l'inglese scritto con l'app in un'altra lingua viene riconosciuto.
+**Nessun elenco può capire tutto**, per questo ci sono anche i punti 12 e 13.
 
 9) **Dopo una frase difficile l'app sta calma:** per tutta la sessione niente "Prova Plus" e niente richiesta di recensione,
 e per 10 minuti niente feste ("Tutto fatto", livello nuovo). Nella scheda di aiuto **i numeri si toccano per chiamare**.
@@ -52,6 +55,14 @@ europei senza linea in elenco almeno il 112.
 11) **Età, come hai deciso:** si inserisce **una volta sola**, l'app mostra mese, anno ed età e chiede **"È giusto?"**
 ("Sì, è giusto" oppure "Correggi"), e **poi non si può più cambiare** (nemmeno con "Ricomincia da capo"). Nel Profilo la
 scheda lo dice. "Preferisco non dirlo" resta: vale come bambino, e l'età si può dire più tardi una volta sola.
+
+12) **Germo non risponde mai in modo allegro "a caso":** quando non capisce una frase risponde solo con calma ("Ti ascolto.
+Me ne racconti di più?" oppure "Non sono sicuro di aver capito, ma sono qui con te").
+
+13) **Aiuto sempre a un tocco:** in chat e nel diario c'è sempre "Hai bisogno di aiuto?", che apre i numeri del proprio
+Paese da toccare per chiamare, senza dover scrivere niente.
+
+14) **Un'età inventata non entra mai:** né da un codice di trasferimento né da un file modificato a mano.
 
 
 ## 2) Tanì, soldi e progressi
