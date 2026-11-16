@@ -1,4 +1,4 @@
-"""1.0.11 blocco 8: licenze (M-14/I-10), condizioni (I-09), cancellazione per i minori (I-08), parti native (M-17 VIBRATE,
+"""1.0.10 blocco 8: licenze (M-14/I-10), condizioni (I-09), cancellazione per i minori (I-08), parti native (M-17 VIBRATE,
 H-07 permessi, G-14/H-08 regole di backup, M-45/G-07 indietro, CR-04 canale dei promemoria, G-13 splash scuro, G-17 fuso orario)."""
 import json, sys, os, re
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -50,6 +50,6 @@ async def main(b):
     T.check("M-45/G-07 'Esci' = moveTaskToBack (avvio successivo immediato)", "moveTaskToBack(true)" in bp and "finish()" not in bp)
     T.check("G-13 splash scuro uguale al fondo dell'app (#1A1714)", "#1A1714" in open(os.path.join(AND, "res/values-night/colors_splash.xml")).read())
     gr = open(os.path.join(T.REPO, "app-android/android/app/build.gradle")).read()
-    T.check("versione 111 / 1.0.11", "versionCode 111" in gr and 'versionName "1.0.11"' in gr)
+    T.check("versione 110 / 1.0.10", "versionCode 110" in gr and 'versionName "1.0.10"' in gr)
 
 T.run(main)

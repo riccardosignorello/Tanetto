@@ -701,7 +701,7 @@ const _renderV26b = render;
 render = function (...a) { const r = _renderV26b.apply(this, a); v26Title(); return r; };
 
 /* ---------- 14) Prodotto (M-40, E-08, E-11, E-14, G2-11, M-37) ---------- */
-const V26_VERSION = "1.0.11";
+const V26_VERSION = "1.0.10";
 /* a) M-40 / E-03 / E-11: "bentornato" a livelli. Dopo 7+ giorni: una riga su cio' che c'e' adesso (Natale, stagione che
    finisce), "Ripartiamo piano: oggi solo 1 obiettivo" e, se il promemoria era stato rifiutato, una sola nuova proposta. */
 function v26Light() { const l = S.v26light; return l && l.day === dkey() && typeof l.goal === "string" ? l.goal : null; }
@@ -825,7 +825,7 @@ if (typeof acctCard === "function") {
 }
 
 /* ---------- 17) Conteggi anonimi utili (E-13) e "+N Tanì" anche senza animazioni (G2-09) ---------- */
-function v26Ver() { return "1.0.11"; }
+function v26Ver() { return "1.0.10"; }
 const _finishTripV26 = finishTrip;
 finishTrip = function (...a) { const r = _finishTripV26.apply(this, a); try { trackOnce("viaggio-tornato"); } catch (e) { /* niente */ } return r; };
 const _showLevelUpV26 = showLevelUp;

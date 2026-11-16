@@ -1,4 +1,4 @@
-"""1.0.11 blocchi 4 e 6: testi e prodotto (M-40, E-04, E-08, E-11, E-14, E-15, G2-11, M-37, M-39, I-07, G3-08, C-07, C-11, C-20,
+"""1.0.10 blocchi 4 e 6: testi e prodotto (M-40, E-04, E-08, E-11, E-14, E-15, G2-11, M-37, M-39, I-07, G3-08, C-07, C-11, C-20,
 C-22, C-13, C-01..C-04, F-06, G3-05, G1-07). Ogni controllo fallisce sulla build di prima."""
 import json, sys, os, re
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

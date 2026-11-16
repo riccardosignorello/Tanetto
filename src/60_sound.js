@@ -145,7 +145,7 @@ const SND = (() => {
     if (!S.sfx || !FX[name]) return;
     const c = ensure(); if (!c) return;
     try { FX[name](c.currentTime + 0.01); } catch (e) { /* niente */ }
-    /* 1.0.11 (A-02): con la musica accesa, la musica si abbassa un attimo sotto il suono (si sente sempre il tocco) */
+    /* 1.0.10 (A-02): con la musica accesa, la musica si abbassa un attimo sotto il suono (si sente sempre il tocco) */
     try { if (musicTimer && musicBus) { const t0 = c.currentTime, g = MUSIC_K * TRACKS[cur].g; musicBus.gain.cancelScheduledValues(t0); musicBus.gain.setTargetAtTime(g * 0.5, t0, 0.03); musicBus.gain.setTargetAtTime(g, t0 + 0.6, 0.25); } } catch (e) { /* niente */ }
   }
   /* 1.0.9 (fase 3): il motivo di ogni compagno (scratchpad/gpu/characters.md), tutti in Sol maggiore pentatonico come il
@@ -176,7 +176,7 @@ const SND = (() => {
     epiano: (f, t, v, d) => { tone(f, t, 1.8, { vol: v, dest: d, attack: 0.012, filter: 1800 }); tone(f * 2, t, 0.7, { vol: v * 0.16, dest: d, attack: 0.01 }); tone(f / 2, t, 1.2, { vol: v * 0.18, dest: d, attack: 0.03 }); },
     celesta: (f, t, v, d) => { tone(f, t, 1.8, { vol: v, dest: d, attack: 0.003 }); tone(f * 4, t, 0.25, { vol: v * 0.18, dest: d }); }
   });
-  const MUSIC_K = 0.64; /* 1.0.11 (A-02): prima 1,6 (musica 10-25 LU sopra i suoni dei tocchi) */
+  const MUSIC_K = 0.64; /* 1.0.10 (A-02): prima 1,6 (musica 10-25 LU sopra i suoni dei tocchi) */
   const TRACKS = [
     { root: 3, mode: "major", beat: 0.4, per: 8, prog: [0, 4, 5, 3], mel: "epiano", dens: 0.42, acc: "broken", accI: "harp", bass: "root", drums: null, g: 0.95, seed: 11 },
     { root: -2, mode: "mixo", beat: 0.27, per: 8, prog: [0, 3, 6, 4], mel: "marimba", dens: 0.55, acc: "hits", accI: "epiano", bass: "walk", drums: "tick", g: 1.2, seed: 23 },
@@ -293,7 +293,7 @@ const SND = (() => {
     startSong(first != null ? first : cur);
     musicBus.gain.cancelScheduledValues(c.currentTime);
     musicBus.gain.setValueAtTime(musicBus.gain.value, c.currentTime);
-    musicBus.gain.linearRampToValueAtTime(MUSIC_K * TRACKS[cur].g, c.currentTime + 3.5); /* 1.0.11 (A-02): -8 dB */
+    musicBus.gain.linearRampToValueAtTime(MUSIC_K * TRACKS[cur].g, c.currentTime + 3.5); /* 1.0.10 (A-02): -8 dB */
     musicTimer = setInterval(schedule, 120); schedule();
   }
   function musicOff() {

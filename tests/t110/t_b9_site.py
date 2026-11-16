@@ -1,4 +1,4 @@
-"""1.0.11 sito: indirizzo e-mail dell'informativa (K-01), contrasto delle pagine (K-07), pagine leggibili senza JavaScript (K-08, M-50)."""
+"""1.0.10 sito: indirizzo e-mail dell'informativa (K-01), contrasto delle pagine (K-07), pagine leggibili senza JavaScript (K-08, M-50)."""
 import sys, json; sys.path.insert(0, __import__("os").path.dirname(__import__("os").path.abspath(__file__))); import lib110 as T
 
 LUM = """(sel) => { const L = (c) => { const m = c.match(/[\\d.]+/g).map(Number); const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }; return 0.2126 * f(m[0]) + 0.7152 * f(m[1]) + 0.0722 * f(m[2]); };

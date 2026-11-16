@@ -258,7 +258,7 @@ Object.keys(V26T).forEach((l) => {
 /* I-09: condizioni d'uso con i diritti del consumatore, minori, contenuti digitali e legge applicabile */
 Object.keys(V26T).forEach((l) => { const t = T[l], x = V26T[l].terms; if (!t || !Array.isArray(t.terms) || t.terms.v26 || t.terms.length !== 6) { if (t && Array.isArray(t.terms) && !t.terms.v26 && t.terms.length !== 6) V26_MISS.push(l + " terms"); return; }
   const a = t.terms; t.terms = [x.t0, a[1], a[2], a[3], x.minor, x.digital, a[4], x.law, a[5]]; t.terms.v26 = 1; });
-if (V26_MISS.length) throw new Error("1.0.11 testi: manca " + V26_MISS.join(", "));
+if (V26_MISS.length) throw new Error("1.0.10 testi: manca " + V26_MISS.join(", "));
 /* G1-07: il terzo "bentornato" non dice piu' "ti stava aspettando" */
 Object.keys(V26T).forEach((l) => { const t = T[l]; if (t && t.v12 && Array.isArray(t.v12.backP) && t.v12.backP.length > 2) { const s2 = V26T[l].wb.backP2; t.v12.backP[2] = (n) => s2.split("{n}").join(n); } });
 if (V26_MISS.length) throw new Error("1.0.10 testi: manca " + V26_MISS.join(", "));

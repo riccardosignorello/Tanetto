@@ -185,7 +185,7 @@ function viewHome() {
 }
 function calendar() {
   const t = L(); const now = new Date(); const y = now.getFullYear(), m = now.getMonth();
-  const days = new Date(y, m + 1, 0).getDate(); const wo = v26WeekOrder(); const lead = (wdIdx(new Date(y, m, 1)) - wo[0] + 7) % 7; /* 1.0.11 (C-13) */
+  const days = new Date(y, m + 1, 0).getDate(); const wo = v26WeekOrder(); const lead = (wdIdx(new Date(y, m, 1)) - wo[0] + 7) % 7; /* 1.0.10 (C-13) */
   const wd = wo.map((i) => wdName(i, "narrow"));
   const mname = intlDT(loc(), { month: "long", year: "numeric" }).format(now);
   let cells = wd.map((w) => `<span class="wd">${w}</span>`).join("") + `<span class="d empty"></span>`.repeat(lead);

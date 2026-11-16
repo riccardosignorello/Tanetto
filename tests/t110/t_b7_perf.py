@@ -1,4 +1,4 @@
-"""1.0.11 blocco 7: prestazioni (M-43 Firebase solo quando serve, M-44 animazioni a riposo, G-05 audio che si addormenta)."""
+"""1.0.10 blocco 7: prestazioni (M-43 Firebase solo quando serve, M-44 animazioni a riposo, G-05 audio che si addormenta)."""
 import json, sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import lib110 as T

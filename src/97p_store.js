@@ -3,7 +3,7 @@
 /* ---------- Promemoria con notifiche vere (solo app Android) ---------- */
 const LN = () => { try { const C = window.Capacitor; return (C.Plugins && C.Plugins.LocalNotifications) || (C.registerPlugin ? C.registerPlugin("LocalNotifications") : null); } catch (e) { return null; } };
 const NOTIF_DAYS = 7, NOTIF_ID0 = 100, NOTIF_TRIP = 200, NOTIF_CH = "promemoria";
-/* 1.0.11 (CR-04): canale nuovo per i promemoria, importanza normale (niente finestrella sopra le altre app) e testo nascosto
+/* 1.0.10 (CR-04): canale nuovo per i promemoria, importanza normale (niente finestrella sopra le altre app) e testo nascosto
    sulla schermata di blocco; Android non abbassa mai l'importanza di un canale esistente, quindi il vecchio si cancella */
 const NOTIF_CH2 = "promemoria2";
 function v26OldChannel(p) { try { if (S.v26ch || !p || !p.deleteChannel) return; S.v26ch = 1; save(); const r = p.deleteChannel({ id: NOTIF_CH }); if (r && r.catch) r.catch(() => {}); } catch (e) { /* niente */ } }
@@ -131,7 +131,7 @@ function reportErr(msg, line) {
   if (errN >= 5) return; const m = String(msg || "").replace(/^Uncaught\s+/i, "").slice(0, 200);
   if (!m || /ResizeObserver loop|Script error|Load failed|NetworkError|Failed to fetch/i.test(m)) return;
   errN++; const slug = m.toLowerCase().replace(/https?:\/\/\S+/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 60);
-  try { trackOnce(`errore-js-${v26Ver()}-${isNativeApp() ? "app" : "web"}-${slug}-l${line || 0}`); /* 1.0.11 (E-13): con la versione */ } catch (e) { /* niente */ }
+  try { trackOnce(`errore-js-${v26Ver()}-${isNativeApp() ? "app" : "web"}-${slug}-l${line || 0}`); /* 1.0.10 (E-13): con la versione */ } catch (e) { /* niente */ }
 }
 window.addEventListener("error", (e) => { if (e && e.filename && !/index\.html|tanetto|localhost|github\.io|^$/.test(e.filename) && !e.filename.startsWith(location.origin)) return; reportErr(e && e.message, e && e.lineno); });
 window.addEventListener("unhandledrejection", (e) => { const r = e && e.reason; if (r && r.code) return; /* errori gestiti (rete, annullato...) */ reportErr(r && (r.message || r), 0); });

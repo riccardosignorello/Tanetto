@@ -609,7 +609,7 @@ function nav20awayTimes() {
   try { const d = destByKey(a.dest); total = d.h * 3600000 * (a.kind === "short" && typeof TRIP_PARTIAL_TIME !== "undefined" ? TRIP_PARTIAL_TIME : 1); } catch (e) { total = 3600000; }
   const t0 = a.t0 || a.until - total; const now = Date.now();
   const pct = Math.max(0.02, Math.min(1, (now - t0) / Math.max(1, a.until - t0)));
-  const end = new Date(a.until); const hm = intlDT(loc(), Object.assign({ hour: typeof FMT_H12 !== "undefined" && FMT_H12 ? "numeric" : "2-digit", minute: "2-digit" }, typeof FMT_H12 === "undefined" || FMT_H12 == null ? {} : { hour12: FMT_H12 })).format(end); /* 1.0.11 (C-12) */
+  const end = new Date(a.until); const hm = intlDT(loc(), Object.assign({ hour: typeof FMT_H12 !== "undefined" && FMT_H12 ? "numeric" : "2-digit", minute: "2-digit" }, typeof FMT_H12 === "undefined" || FMT_H12 == null ? {} : { hour12: FMT_H12 })).format(end); /* 1.0.10 (C-12) */
   const tomorrow = dkey(end) !== dkey(); const t = nav20();
   return { pct, label: `${tomorrow ? t.backTom(hm) : t.back(hm)} · ${t.left(timeLeft(a.until))}`, html: `<span>${esc(tomorrow ? t.backTom(hm) : t.back(hm))}</span> · <span>${esc(t.left(timeLeft(a.until)))}</span>` };
 }
@@ -978,7 +978,7 @@ nq20wrap("hint", "ask", () => (typeof v20touchHint === "function" ? v20touchHint
 /* Mai durante il benvenuto. Una volta, con calma, dopo la prima vera conquista: a fine del primo giorno
    (tutti gli obiettivi fatti) oppure, dal secondo giorno, dopo il primo obiettivo spuntato. Se si dice "Non ora",
    almeno 2 giorni di pausa (massimo 3 volte in tutto). Solo nell'app Android, con prezzo e prova veri di Google Play. */
-const NAV20_PLUS_MAX = 3, NAV20_PLUS_PAUSE = 5; /* 1.0.11 (E-04): prima 2 giorni (3 offerte nei primi 6 giorni) */
+const NAV20_PLUS_MAX = 3, NAV20_PLUS_PAUSE = 5; /* 1.0.10 (E-04): prima 2 giorni (3 offerte nei primi 6 giorni) */
 const nav20days = (a, b) => Math.round((new Date(b + "T12:00:00") - new Date(a + "T12:00:00")) / 86400000);
 /* 1.0.9: mai nel momento di una partenza o di un ritorno. Niente offerta con una meta appena scelta, con la cartolina del
    ritorno aperta, nella scheda Viaggi o nei 10 minuti dopo la partenza (prima arrivava proprio dopo "Parti").

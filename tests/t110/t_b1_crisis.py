@@ -51,7 +51,8 @@ async def main(b):
     print(f"TOTALE riconosciute {tot[0]}/{tot[1]}, modi di dire scambiati {tot[2]}/{tot[3]}")
     # livello gentile (parola di morte da sola)
     soft = json.loads(await T.ev(pg, "JSON.stringify([crisisLevel('ho paura di morire', 'it'), crisisLevel('my grandpa died', 'en'), crisisLevel('ich hasse mein leben', 'de'), crisisLevel('oggi bel giorno', 'it')])"))
-    T.check("livello gentile: 'ho paura di morire' / 'my grandpa died' / 'ich hasse mein leben' = 1, frase normale = 0", soft == [1, 1, 1, 0], soft)
+    # 1.0.10 (98zl): un lutto di un altro ('my grandpa died') non e' un momento di crisi di chi scrive -> 0, come nel ramo sicurezza
+    T.check("livello gentile: 'ho paura di morire' / 'ich hasse mein leben' = 1; 'my grandpa died' e frase normale = 0", soft == [1, 0, 1, 0], soft)
     # inglese in piu' in ogni lingua
     T.check("frase inglese di crisi riconosciuta anche con l'app in italiano", await T.ev(pg, "crisisLevel('I want to kill myself', 'it')") == 2)
     await ctx.close()
@@ -89,10 +90,11 @@ async def main(b):
     # numeri per Paese
     cases = [("en", "en-GB", "Europe/Rome", ["19696", "112"]), ("en", "en-US", "America/Toronto", ["Kids Help Phone", "988"]), ("en", "en-AU", "Australia/Sydney", ["13 11 14", "Kids Helpline"]),
              ("es", "es-MX", "America/Mexico_City", ["800 911 2000"]), ("pt", "pt-PT", "Europe/Lisbon", ["SOS Criança"]), ("fr", "fr-CH", "Europe/Zurich", ["143", "147"]),
-             ("de", "de-AT", "Europe/Vienna", ["142", "147"]), ("ja", "ja-JP", "Asia/Tokyo", ["0120-99-7777"]), ("es", "es-AR", "America/Argentina/Buenos_Aires", ["tu país", "findahelpline"])]
+             ("de", "de-AT", "Europe/Vienna", ["142", "147"]), ("ja", "ja-JP", "Asia/Tokyo", ["0120-0-78310", "0120-279-338"]), ("es", "es-AR", "America/Argentina/Buenos_Aires", ["135", "0800 345 1435"]),
+             ("en", "en-US", "America/Bogota", ["findahelpline"]), ("it", "it-IT", "Europe/Stockholm", ["112"])]
     for lang, loc, tz, want in cases:
         ctx, pg = await T.page(b, T.base_state(lang), age="adult", lang=loc, tz=tz, wait=2000)
-        lines = await T.ev(pg, "L().helpLines.join(' | ')")
+        lines = (await T.ev(pg, "L().helpLines.join(' | ')")).replace("\u00a0", " ").replace("\u2060", "")
         T.check(f"numeri di aiuto {lang} {tz}: {', '.join(want)} + findahelpline", all(w in lines for w in want) and "findahelpline.com" in lines, lines)
         await ctx.close()
 
