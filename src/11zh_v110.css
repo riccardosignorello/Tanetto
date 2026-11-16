@@ -21,7 +21,7 @@ a.nvtel { display: inline-block; min-width: 48px; min-height: 48px; line-height:
 .v110ph button { min-height: 48px; }
 #photoImg.v110story { max-height: 62vh; width: auto; max-width: 100%; display: block; margin: 0 auto; }
 /* 1.0.10: fiducia su Plus e promemoria della fine della prova */
-.plusbox .v110trust{font-weight:600;color:var(--leaf,#4E8A4A);margin:6px 0 10px;line-height:1.4}
+.plusbox .v110trust{font-weight:600;color:var(--ink);margin:6px 0 10px;line-height:1.4}
 .plusbox .v110trialnote{margin-top:4px}
 .card.v110trial{margin:0 0 12px;padding:14px 16px;border:1.5px solid var(--sun,#E9B949);line-height:1.4}
 .card.v110trial p{margin:6px 0 10px}

@@ -237,12 +237,15 @@ async function v110StoryUrl() {
   c.textAlign = "center";
   const fit = (txt, font, max, start) => { let s = start; c.font = font.replace("{s}", s); while (c.measureText(txt).width > max && s > 28) { s -= 2; c.font = font.replace("{s}", s); } };
   /* nome nell'immagine: per i non adulti sempre il nome normale del compagno (nessuno mette per sbaglio il proprio nome) */
-  const def = ((t.pets || {})[S.pet] || [])[0] || ""; const name = String((typeof ageBand === "function" && ageBand() === "adult" ? S.petName : def) || def || S.petName || "");
+  const def = ((t.pets || {})[S.pet] || [])[0] || ""; const name = String((!v26Young() ? S.petName : def) || def || S.petName || "");
   c.fillStyle = "#2F2A26"; fit(name, '600 {s}px "Fredoka", "Trebuchet MS", Arial, sans-serif', 900, 104); c.fillText(name, 540, 470);
-  c.fillStyle = "#6E655D"; fit(t.shareText, '500 {s}px "Figtree", "Segoe UI", Arial, sans-serif', 900, 44); c.fillText(t.shareText, 540, 1440);
-  c.fillStyle = "#2F7A3D"; c.font = '600 76px "Fredoka", "Trebuchet MS", Arial, sans-serif'; c.fillText("Tanetto", 540, 1550);
+  /* una sola volta "Tanetto" e sotto dove trovarlo: Instagram e TikTok spesso non tengono il testo condiviso */
+  c.fillStyle = "#2F7A3D"; c.font = '600 92px "Fredoka", "Trebuchet MS", Arial, sans-serif'; c.fillText("Tanetto", 540, 1500);
+  const gp = V110_GP[S.lang] || V110_GP.en; c.fillStyle = "#5E564F"; fit(gp, '500 {s}px "Figtree", "Segoe UI", Arial, sans-serif', 900, 46); c.fillText(gp, 540, 1580);
   return cv.toDataURL("image/png");
 }
+const V110_GP = { it: "su Google Play", en: "on Google Play", de: "bei Google Play", es: "en Google Play", fr: "sur Google Play", pt: "no Google Play", ja: "Google Playで配信中",
+  ko: "Google Play에서 만나요", zh: "在 Google Play 下载", zht: "在 Google Play 下載", ru: "в Google Play", pl: "w Google Play", nl: "op Google Play", tr: "Google Play'de" };
 /* la storia per i social: dai 13 anni in su (sotto i 13 e con l'eta' non detta niente pulsante, come "Invita un amico") */
 const v110StoryOk = () => { try { return typeof ageBand === "function" && (ageBand() === "adult" || ageBand() === "teen"); } catch (e) { return false; } };
 function v110PhotoChips() {
@@ -265,19 +268,20 @@ document.addEventListener("click", async (ev) => {
   } catch (e) { /* resta la foto di prima */ }
 }, true);
 /* testo che accompagna foto e storia: link a Google Play con l'origine (utm_source=share_germo, si legge in Play Console)
-   e gli hashtag #tanettoapp #germo, cosi' chi pubblica e chi guarda ritrova Tanetto */
+   e l'hashtag #tanettoapp, cosi' chi pubblica e chi guarda ritrova Tanetto */
 let v110ShareName = "";
 document.addEventListener("click", (ev) => { const b = ev.target.closest && ev.target.closest("[data-shareimg]"); v110ShareName = b ? b.dataset.shareimg || "" : ""; }, true);
 if (typeof shareImage === "function") {
   const _a = shareImage;
   shareImage = async function (url, name, ...r) {
+    if (!v110StoryOk()) return _a.call(this, url, name, ...r); /* bambini ed eta' non detta: condivisione di prima, senza link ne' hashtag */
     const nm = name || v110ShareName;
     if (!/^tanetto-(storia|foto)\.png$/.test(nm)) return _a.call(this, url, name, ...r);
     const t = L();
     try {
       const blob = await (await fetch(url)).blob(); const file = new File([blob], nm, { type: blob.type || "image/png" });
-      const link = (typeof isNativeApp === "function" && isNativeApp()) ? PLAY_URL + "&referrer=utm_source%3Dshare_germo%26utm_medium%3Dfoto" : SITE_URL + "?src=share_germo";
-      const text = `${t.shareText} · ${link} #tanettoapp #germo`;
+      const link = (typeof isNativeApp === "function" && isNativeApp()) ? PLAY_URL + "&referrer=utm_source%3Dshare_germo%26utm_campaign%3D" + (nm.includes("storia") ? "storia" : "foto") : SITE_URL + "?src=share_germo";
+      const text = `${t.shareText} · ${link} #tanettoapp`;
       const p = typeof sharePlugin === "function" ? sharePlugin() : null;
       if (p && typeof isNativeApp === "function" && isNativeApp()) { const data = await blobB64(blob); await p.share({ data, name: nm, mime: blob.type || "image/png", text, title: "Tanetto" }); trackOnce(nm.includes("storia") ? "condivisione-storia" : "condivisione-foto"); return true; }
       if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: "Tanetto", text }); trackOnce(nm.includes("storia") ? "condivisione-storia" : "condivisione-foto"); return true; }
@@ -297,7 +301,7 @@ const _viewMoreV110r = viewMore;
 viewMore = function (...a) {
   const h = _viewMoreV110r.apply(this, a);
   try {
-    if (!S.pet || h.indexOf('id="v110Rate"') >= 0 || typeof ageBand !== "function" || ageBand() !== "adult" || !(typeof isNativeApp === "function" && isNativeApp())) return h;
+    if (!S.pet || h.indexOf('id="v110Rate"') >= 0 || v26Young() || !(typeof isNativeApp === "function" && isNativeApp())) return h;
     const tpl = document.createElement("template"); tpl.innerHTML = h; const lic = tpl.content.querySelector("#v26Lic"); if (!lic) return h;
     lic.insertAdjacentHTML("beforebegin", `<a class="btn ghost block" id="v110Rate" href="${PLAY_URL}" target="_blank" rel="noopener">${esc(V110_RATE[S.lang] || V110_RATE.en)}</a>`);
     return tpl.innerHTML;

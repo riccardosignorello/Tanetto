@@ -30,7 +30,7 @@ async def main(b):
     await T.close_layer(pg); await T.ev(pg, "layer.innerHTML=''; takePhoto(); 1"); await pg.wait_for_timeout(2500)
     await pg.click("[data-v110ph=story]"); await pg.wait_for_timeout(2500); await pg.click("[data-shareimg]"); await pg.wait_for_timeout(1500)
     sh = await T.ev(pg, "window.__sh ? { name: window.__sh.name, text: window.__sh.text } : null")
-    T.check("condivisione della storia: link Google Play con share_germo e #tanettoapp #germo", sh and sh["name"] == "tanetto-storia.png" and "utm_source%3Dshare_germo" in sh["text"] and "#tanettoapp" in sh["text"], sh)
+    T.check("condivisione della storia: link Google Play con share_germo, campagna 'storia' e solo #tanettoapp", sh and sh["name"] == "tanetto-storia.png" and "utm_source%3Dshare_germo" in sh["text"] and "utm_campaign%3Dstoria" in sh["text"] and "#tanettoapp" in sh["text"] and "#germo" not in sh["text"], sh)
     await ctx.close()
     # bambini ed eta' non detta: niente storia; ragazzi si'; nome personale solo per gli adulti
     for age, want in (("child", False), ("none", False), ("teen", True)):
@@ -44,8 +44,30 @@ async def main(b):
             png = await T.ev(pg, "document.getElementById('photoImg').src"); open(f"{SH}/story_teen.png", "wb").write(base64.b64decode(png.split(",", 1)[1]))
         await ctx.close()
 
+    # ragazzo di 15 anni (in Italia ageBand lo considera gia' "adult"): storia si', ma nel disegno il nome normale, mai quello scelto
+    FT = "window.__ft = []; const _ft = CanvasRenderingContext2D.prototype.fillText; CanvasRenderingContext2D.prototype.fillText = function (t, ...a) { window.__ft.push(String(t)); return _ft.call(this, t, ...a); };"
+    for age, nm_ok in (({"y": 2011, "m": 3}, "Germo"), ("adult", "Biscotto")):
+        st = T.base_state("it"); st["petName"] = "Biscotto"
+        ctx, pg = await T.page(b, st, age=age, lang="it-IT", extra_js=FT)
+        await T.close_layer(pg); await T.ev(pg, "layer.innerHTML=''; takePhoto(); 1"); await pg.wait_for_timeout(2500)
+        await T.ev(pg, "window.__ft = []; 1"); await pg.click("[data-v110ph=story]"); await pg.wait_for_timeout(2500)
+        ft = await T.ev(pg, "window.__ft")
+        T.check(f"storia ({'15 anni' if nm_ok == 'Germo' else 'adulto'}): nel disegno il nome {nm_ok}, 'Tanetto' una volta e dove trovarlo", nm_ok in ft and ("Biscotto" in ft) == (nm_ok == "Biscotto") and ft.count("Tanetto") == 1 and "su Google Play" in ft, ft)
+        await ctx.close()
+    # bambino ed eta' non detta: la foto si condivide come prima, senza link di origine ne' hashtag
+    for age in ("child", "none"):
+        st = T.base_state("it"); st["petName"] = "Biscotto"
+        ctx, pg = await T.page(b, st, age=age, lang="it-IT", native=True, extra_js="window.Capacitor.Plugins.TanettoShare = { share: async (o) => { window.__sh = o; return {}; } };")
+        await T.close_layer(pg); await T.ev(pg, "layer.innerHTML=''; takePhoto(); 1"); await pg.wait_for_timeout(2500)
+        btn = await T.ev(pg, "!!document.querySelector('[data-shareimg]')")
+        if btn:
+            await pg.click("[data-shareimg]"); await pg.wait_for_timeout(1500)
+        sh = await T.ev(pg, "window.__sh ? (window.__sh.text || '') : ''")
+        T.check(f"eta' {age}: condivisione senza share_germo e senza hashtag", "share_germo" not in sh and "#tanettoapp" not in sh, [btn, sh])
+        await ctx.close()
+
     # "Valuta Tanetto su Google Play": solo adulti, solo nell'app
-    for age, nat, want in (("adult", True, True), ("child", True, False), ("adult", False, False)):
+    for age, nat, want in (("adult", True, True), ("child", True, False), ({"y": 2011, "m": 3}, True, False), ("adult", False, False)):
         ctx, pg = await T.page(b, T.base_state("it"), age=age, lang="it-IT", native=nat)
         await T.close_layer(pg); await T.ev(pg, "tab = 'more'; render(); 1")
         r = await T.ev(pg, "(() => { const a = document.getElementById('v110Rate'); return a ? [a.getAttribute('href'), a.getAttribute('target')] : null; })()")
