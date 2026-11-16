@@ -1,0 +1,49 @@
+/* ===== 1.0.10 — PROPOSTA di nuovo aspetto (attiva con la classe html.v110x) =====
+   Casa: la stanza diventa la copertina (da bordo a bordo, sotto la barra in alto), saluto sopra la stanza, azioni in una
+   barra di vetro che galleggia sul bordo della stanza, obiettivi piu' grandi. Viaggi: mete come album a due colonne con
+   l'immagine grande. Profilo: copertina con il compagno grande. Ovunque: titoli piu' grandi, piu' aria. */
+html.v110x #app h1:not(.greet):not(.psubt) { font-size: 30px; letter-spacing: -.2px; }
+html.v110x #app .stack > h2, html.v110x #app .sec h2 { font-size: 22px; }
+html.v110x body .card { border-radius: 24px; }
+
+/* --- Casa: la stanza come copertina --- */
+html.v110x[data-v110tab="today"] #app .top { position: relative; z-index: 4; }
+html.v110x[data-v110tab="today"] #app .top .lvpill, html.v110x[data-v110tab="today"] #app .top .pill, html.v110x[data-v110tab="today"] #app .top .iconbtn {
+  background: color-mix(in srgb, var(--paper) 72%, transparent); backdrop-filter: blur(10px) saturate(1.3); -webkit-backdrop-filter: blur(10px) saturate(1.3); box-shadow: 0 4px 14px -8px rgba(40, 25, 10, .45); }
+html.v110x[data-v110tab="today"] #app .top .name { color: #fff; text-shadow: 0 1px 8px rgba(30, 20, 10, .55); }
+html.v110x[data-v110tab="today"] #app .roomwrap.v110hero { margin: -74px -16px 0; position: relative; }
+html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .room { border-radius: 0 0 34px 34px; aspect-ratio: 360 / 330; box-shadow: 0 18px 40px -22px rgba(60, 35, 10, .65); }
+html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .room::after { content: ""; position: absolute; inset: 0 0 auto 0; height: 120px; background: linear-gradient(to bottom, rgba(40, 25, 10, .38), transparent); pointer-events: none; z-index: 1; }
+html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .greet { position: absolute; z-index: 2; left: 20px; top: 66px; margin: 0; color: #fff; text-shadow: 0 2px 10px rgba(30, 20, 10, .55); pointer-events: none; }
+html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .greet .gd { color: rgba(255, 255, 255, .9); }
+html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .greet .gw { font-size: 30px; }
+html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .bubble { margin-top: -54px; position: relative; z-index: 2; }
+html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .actions { width: calc(100% - 32px); margin: 12px 16px 0; padding: 8px; border-radius: 24px; background: color-mix(in srgb, var(--paper) 86%, transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 14px 30px -18px rgba(60, 35, 10, .55), inset 0 0 0 1px color-mix(in srgb, var(--line) 70%, transparent); }
+html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .act { background: transparent; box-shadow: none; }
+html.v110x #app .goals { gap: 10px; }
+html.v110x #app .goal { border-radius: 22px; min-height: 74px; padding: 14px 16px; }
+html.v110x #app .sec h2 .v110cnt { display: inline-grid; place-items: center; min-width: 34px; height: 26px; padding: 0 8px; margin-left: 8px; border-radius: 999px; font-size: 14px; vertical-align: 3px; background: var(--v110c-s); color: var(--v110c); }
+
+/* --- Viaggi: album a due colonne --- */
+html.v110x #app .v110grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+html.v110x #app .v110grid > .dest { display: flex; flex-direction: column; align-items: stretch; gap: 0; padding: 0; overflow: hidden; border-radius: 22px; text-align: left; }
+html.v110x #app .v110grid > .dest .pc { width: 100%; margin: 0; aspect-ratio: 4 / 3; border-radius: 0; box-shadow: none; }
+html.v110x #app .v110grid > .dest .meta { padding: 10px 12px 12px; }
+html.v110x #app .v110grid > .dest .meta b { font-size: 15.5px; line-height: 1.2; }
+html.v110x #app .v110grid > .dest .meta small, html.v110x #app .v110grid > .dest .meta .tr20tag { font-size: 12px; }
+html.v110x #app .v110grid > .dest.locked .pc { filter: saturate(.55); }
+
+/* --- Profilo: copertina con il compagno --- */
+html.v110x #app .profcard { background: linear-gradient(160deg, var(--v110c-s, var(--accent-soft)) 0%, var(--paper) 70%); padding: 20px; }
+html.v110x #app .profcard .pfpet { width: 96px; height: 96px; }
+html.v110x #app .profcard .pfpet svg, html.v110x #app .profcard .pfpet img { width: 96px; height: 96px; }
+html.v110x #app .profcard .pftx b, html.v110x #app .profcard .pftx h2 { font-size: 26px; }
+html.v110x #app .pmenu .prow { min-height: 70px; }
+html.v110x #app .pmenu .prico { width: 44px; height: 44px; border-radius: 14px; }
+
+@media (max-width: 360px) {
+  html.v110x #app h1:not(.greet):not(.psubt) { font-size: 26px; }
+  html.v110x #app .v110grid { gap: 8px; }
+  html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .greet .gw { font-size: 24px; }
+}
+html.v110x[data-v110tab="today"] #app .roomwrap.v110hero .fullbtn { top: auto; bottom: 64px; right: 14px; }
