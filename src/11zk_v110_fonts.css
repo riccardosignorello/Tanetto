@@ -1,0 +1,10 @@
+/* ===== 1.0.10 (M-36) — un solo carattere per riga in russo, giapponese, coreano e cinese =====
+   Prima: "Germo" in Fredoka e il resto della riga in un carattere di sistema (stili mescolati nella stessa riga).
+   Ora ogni lingua usa un carattere che copre anche le lettere latine: russo Nunito (titoli e testo), giapponese
+   M PLUS Rounded 1c per i titoli, coreano Jua per i titoli; il testo normale di giapponese, coreano e cinese usa il
+   carattere di sistema del telefono per tutta la riga (latino compreso). Cinese: carattere di sistema anche nei titoli. */
+:root[lang^="ru"] { --font-display: "Tanetto RU", "Nunito", system-ui, sans-serif; --font-body: "Tanetto RU", "Nunito", system-ui, sans-serif; }
+:root[lang^="ja"] { --font-display: "Tanetto JA", "Hiragino Maru Gothic ProN", "Noto Sans JP", system-ui, sans-serif; --font-body: "Noto Sans JP", "Hiragino Sans", system-ui, sans-serif; }
+:root[lang^="ko"] { --font-display: "Tanetto KO", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif; --font-body: "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif; }
+:root[lang^="zh"] { --font-display: "Noto Sans SC", "Noto Sans TC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif; --font-body: "Noto Sans SC", "Noto Sans TC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif; }
+:root[lang^="zh-TW"], :root[lang^="zh-Hant"], :root[lang^="zh-HK"] { --font-display: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif; --font-body: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif; }

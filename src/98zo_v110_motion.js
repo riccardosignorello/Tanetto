@@ -104,3 +104,26 @@ function v110Sections() {
 function v110Return() { try { if (!S.pet || typeof dayIndex !== "function") return; const d = dayIndex(); if (d === 1 || d === 7 || d === 30) trackOnce(`ritorno-g${d}`); } catch (e) { /* niente */ } }
 const _renderV110s = render;
 render = function (...a) { const r = _renderV110s.apply(this, a); try { v110Sections(); v110Return(); } catch (e) { /* niente */ } return r; };
+
+/* ---------- 5) (M-36) i disegni su canvas (cartoline, riassunti, storia, foto) usano lo stesso carattere della lingua ---------- */
+const V110_CFONT = { ru: ['"Tanetto RU", "Nunito"', '"Tanetto RU", "Nunito"'], ja: ['"Tanetto JA", "Noto Sans JP"', '"Noto Sans JP"'], ko: ['"Tanetto KO", "Noto Sans KR"', '"Noto Sans KR"'],
+  zh: ['"Noto Sans SC"', '"Noto Sans SC"'], zht: ['"Noto Sans TC"', '"Noto Sans TC"'] };
+try {
+  const d = Object.getOwnPropertyDescriptor(CanvasRenderingContext2D.prototype, "font");
+  if (d && d.set && d.get) Object.defineProperty(CanvasRenderingContext2D.prototype, "font", { configurable: true, get: d.get, set(v) {
+    const f = V110_CFONT[S && S.lang]; let s = String(v);
+    if (f) s = s.replace(/"Fredoka"/g, f[0]).replace(/"Figtree"/g, f[1]);
+    d.set.call(this, s);
+  } });
+} catch (e) { /* niente */ }
+/* i caratteri della lingua si caricano subito, cosi' anche il primo disegno su canvas li usa */
+function v110FontsWarm() {
+  try { const f = V110_CFONT[S.lang]; if (!f || !document.fonts || !document.fonts.load) return; const fam = f[0].split(",")[0];
+    ["500", "600", "700"].forEach((w) => document.fonts.load(`${w} 20px ${fam}`, "Aあ가Я").catch(() => {})); } catch (e) { /* niente */ }
+}
+v110FontsWarm();
+const _setLangV110f = setLang;
+setLang = function (...a) { const r = _setLangV110f.apply(this, a); v110FontsWarm(); return r; };
+/* licenze: i tre caratteri nuovi (stessa licenza SIL OFL 1.1) */
+Object.keys(T).forEach((l) => { const c = T[l] && T[l].credits; if (!Array.isArray(c)) return; const i = c.findIndex((x) => typeof x === "string" && /Fredoka.*Figtree/.test(x)); if (i < 0 || /Nunito/.test(c[i])) return;
+  c[i] = c[i].replace(/Fredoka(\s*\S{0,4}\s*)Figtree/, (m, conj) => `Fredoka, Figtree, Nunito, M PLUS Rounded 1c${conj}Jua`); });
