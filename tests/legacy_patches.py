@@ -73,6 +73,8 @@ P = [
      "await pg.locator('.prow[data-psub=\"g_set\"]').click(); await pg.wait_for_timeout(300); await pg.locator('.prow[data-psub=\"acct\"]').click(); await pg.wait_for_timeout(300)\n    await ev(pg, \"backPress(); backPress(); backPress()\"); await pg.wait_for_timeout(500)\n    check(\"Back three times from a sub-page: group, menu, then Home\"", "profilo a 4 voci"),
     ("fix109/suites/p3b/t6.py", "await pg.locator('.prow[data-psub=\"set\"]').click(); await pg.wait_for_timeout(300)\n    await ev(pg, \"openPlus('t')\")",
      "await pg.locator('.prow[data-psub=\"g_set\"]').click(); await pg.wait_for_timeout(300); await pg.locator('.prow[data-psub=\"set\"]').click(); await pg.wait_for_timeout(300)\n    await ev(pg, \"openPlus('t')\")", "profilo a 4 voci"),
+    ("fix109/suites/p3b/t6.py", "await pg.locator('.prow[data-psub=\"buy\"]').click(); await pg.wait_for_timeout(300)\n    await pg.locator(\"#psPlus\")",
+     "await pg.locator('.prow[data-psub=\"g_set\"]').click(); await pg.wait_for_timeout(300); await pg.locator('.prow[data-psub=\"buy\"]').click(); await pg.wait_for_timeout(300)\n    await pg.locator(\"#psPlus\")", "profilo a 4 voci"),
 ]
 bad = 0
 for f, old, new, why in P:
