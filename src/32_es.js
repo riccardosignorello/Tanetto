@@ -27,7 +27,7 @@ T.es = {
     free: ["Hoy no hay nada en la agenda. ¿Damos un paseo con la imaginación?"],
     season: { autumn: "¿Hueles las hojas? ¡Ha llegado el otoño!", winter: "¡Brr, qué frío! ¿Nos quedamos juntitos al calor?", spring: "¡Es primavera! Yo también siento que florezco.", summer: "¡Qué calor! ¿Nos tomamos un vaso de agua juntos?" }
   },
-  level: "Nivel", energy: "Mochila", xpTo: (a, b) => `${a}/${b} puntos`, todayT: "Tus objetivos de hoy", edit: "Editar objetivos",
+  level: "Nivel", energy: "Mochila", xpTo: (a, b) => `${Math.round(a / b * 100)}\u00a0%`, todayT: "Tus objetivos de hoy", edit: "Editar objetivos",
   streak: (n) => n === 1 ? "1 día seguido" : `${n} días seguidos`, restT: "Hoy es día de descanso", restP: "Parar también es cuidarse. Tu racha no se rompe.", restB: "Me tomo un día de descanso", restDone: "Día de descanso anotado. ¡Hasta mañana!",
   freeT: "Hoy no tienes objetivos programados", freeP: "Disfruta del día: tu racha no se rompe. Puedes cambiar los días en Más.",
   ready: "¡Mochila llena! Puedes mandarlo de aventura.", goTrip: "Elegir aventura",

@@ -27,7 +27,7 @@ T.it = {
     free: ["Oggi niente impegni: facciamo una passeggiata con la fantasia?"],
     season: { autumn: "Senti che profumo di foglie? L'autunno è arrivato!", winter: "Brr, che freddo! Ci stiamo vicini al calduccio?", spring: "È primavera! Anche io mi sento sbocciare.", summer: "Che caldo! Un bicchiere d'acqua lo beviamo insieme?" }
   },
-  level: "Livello", energy: "Zaino", xpTo: (a, b) => `${a}/${b} punti`, todayT: "I tuoi obiettivi di oggi", edit: "Modifica gli obiettivi",
+  level: "Livello", energy: "Zaino", xpTo: (a, b) => `${Math.round(a / b * 100)}%`, todayT: "I tuoi obiettivi di oggi", edit: "Modifica gli obiettivi",
   streak: (n) => n === 1 ? "1 giorno di fila" : `${n} giorni di fila`, restT: "Oggi giornata di riposo", restP: "Anche fermarsi è prendersi cura di sé. La tua serie non si interrompe.", restB: "Prendo un giorno di riposo", restDone: "Giorno di riposo segnato. A domani!",
   freeT: "Oggi nessun obiettivo in programma", freeP: "Goditi la giornata: la tua serie non si interrompe. Puoi cambiare i giorni da Altro.",
   ready: "Zaino pieno! Puoi mandarlo in avventura.", goTrip: "Scegli l'avventura",

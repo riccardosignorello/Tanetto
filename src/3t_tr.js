@@ -157,7 +157,7 @@ T.tr = {
   },
   level: "Seviye",
   energy: "Çanta",
-  xpTo: (a, b) => `${a}/${b} puan`,
+  xpTo: (a, b) => `%${Math.round(a / b * 100)}`,
   todayT: "Bugünkü hedeflerin",
   edit: "Hedefleri düzenle",
   streak: (n) => n === 1 ? "Üst üste 1 gün" : `Üst üste ${n} gün`,

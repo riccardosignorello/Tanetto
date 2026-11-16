@@ -157,7 +157,7 @@ T.nl = {
   },
   level: "Level",
   energy: "Rugzak",
-  xpTo: (a, b) => `${a}/${b} punten`,
+  xpTo: (a, b) => `${Math.round(a / b * 100)}%`,
   todayT: "Je doelen voor vandaag",
   edit: "Doelen aanpassen",
   streak: (n) => n === 1 ? "1 dag op rij" : `${n} dagen op rij`,

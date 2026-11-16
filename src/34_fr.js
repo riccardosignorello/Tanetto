@@ -27,7 +27,7 @@ T.fr = {
     free: ["Rien de prévu aujourd'hui. On part se promener en rêvant ?"],
     season: { autumn: "Tu sens l'odeur des feuilles ? L'automne est là !", winter: "Brr, qu'il fait froid ! On reste au chaud ensemble ?", spring: "C'est le printemps ! J'ai l'impression de fleurir moi aussi.", summer: "Quelle chaleur ! On boit un verre d'eau ensemble ?" }
   },
-  level: "Niveau", energy: "Sac à dos", xpTo: (a, b) => `${a}/${b} points`, todayT: "Tes objectifs du jour", edit: "Modifier les objectifs",
+  level: "Niveau", energy: "Sac à dos", xpTo: (a, b) => `${Math.round(a / b * 100)}\u00a0%`, todayT: "Tes objectifs du jour", edit: "Modifier les objectifs",
   streak: (n) => n === 1 ? "1 jour d'affilée" : `${n} jours d'affilée`, restT: "Aujourd'hui, jour de repos", restP: "S'arrêter, c'est aussi prendre soin de soi. Ta série continue.", restB: "Je prends un jour de repos", restDone: "Jour de repos noté. À demain !",
   freeT: "Aucun objectif prévu aujourd'hui", freeP: "Profite de ta journée : ta série continue. Tu peux changer les jours dans Plus.",
   ready: "Sac à dos plein ! Tu peux l'envoyer à l'aventure.", goTrip: "Choisir l'aventure",

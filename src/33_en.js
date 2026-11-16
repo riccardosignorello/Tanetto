@@ -27,7 +27,7 @@ T.en = {
     free: ["Nothing planned today. Shall we go on a daydream walk?"],
     season: { autumn: "Can you smell the leaves? Autumn is here!", winter: "Brr, it's cold! Shall we stay cosy together?", spring: "It's spring! I feel like I'm blooming, too.", summer: "So hot! Shall we have a glass of water together?" }
   },
-  level: "Level", energy: "Backpack", xpTo: (a, b) => `${a}/${b} points`, todayT: "Your goals for today", edit: "Edit goals",
+  level: "Level", energy: "Backpack", xpTo: (a, b) => `${Math.round(a / b * 100)}%`, todayT: "Your goals for today", edit: "Edit goals",
   streak: (n) => n === 1 ? "1 day in a row" : `${n} days in a row`, restT: "Today is a rest day", restP: "Stopping is self-care, too. Your streak stays safe.", restB: "Take a rest day", restDone: "Rest day saved. See you tomorrow!",
   freeT: "No goals planned for today", freeP: "Enjoy your day: your streak stays safe. You can change the days in More.",
   ready: "Backpack full! You can send them on an adventure.", goTrip: "Choose an adventure",

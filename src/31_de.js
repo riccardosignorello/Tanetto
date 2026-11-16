@@ -27,7 +27,7 @@ T.de = {
     free: ["Heute steht nichts an. Machen wir einen Spaziergang in Gedanken?"],
     season: { autumn: "Riechst du die Blätter? Der Herbst ist da!", winter: "Brr, ist das kalt! Kuscheln wir uns ins Warme?", spring: "Es ist Frühling! Ich fühle mich, als würde ich aufblühen.", summer: "So heiß! Trinken wir zusammen ein Glas Wasser?" }
   },
-  level: "Level", energy: "Rucksack", xpTo: (a, b) => `${a}/${b} Punkte`, todayT: "Deine Ziele für heute", edit: "Ziele ändern",
+  level: "Level", energy: "Rucksack", xpTo: (a, b) => `${Math.round(a / b * 100)}\u00a0%`, todayT: "Deine Ziele für heute", edit: "Ziele ändern",
   streak: (n) => n === 1 ? "1 Tag in Folge" : `${n} Tage in Folge`, restT: "Heute ist Ruhetag", restP: "Auch Pausen sind Selbstfürsorge. Deine Serie bleibt bestehen.", restB: "Ich nehme mir einen Ruhetag", restDone: "Ruhetag eingetragen. Bis morgen!",
   freeT: "Heute sind keine Ziele geplant", freeP: "Genieß den Tag: Deine Serie bleibt bestehen. Die Wochentage änderst du unter Mehr.",
   ready: "Rucksack voll! Du kannst ihn auf ein Abenteuer schicken.", goTrip: "Abenteuer wählen",

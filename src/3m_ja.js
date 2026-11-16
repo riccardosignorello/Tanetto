@@ -157,7 +157,7 @@ T.ja = {
   },
   level: "レベル",
   energy: "リュック",
-  xpTo: (a, b) => `${a}/${b}ポイント`,
+  xpTo: (a, b) => `${Math.round(a / b * 100)}%`,
   todayT: "今日の目標",
   edit: "目標を編集",
   streak: (n) => n === 1 ? "1日連続" : `${n}日連続`,

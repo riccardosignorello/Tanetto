@@ -157,7 +157,7 @@ T.ko = {
   },
   level: "레벨",
   energy: "배낭",
-  xpTo: (a, b) => `${a}/${b} 포인트`,
+  xpTo: (a, b) => `${Math.round(a / b * 100)}%`,
   todayT: "오늘의 목표",
   edit: "목표 편집",
   streak: (n) => n === 1 ? "1일 연속" : `${n}일 연속`,
