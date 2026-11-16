@@ -1,0 +1,110 @@
+/* ===== 1.0.10 — menu, guida e primo avvio piu' vivi e fluidi (16/11/2026, richiesta del proprietario) =====
+   1) Menu in basso come una "barca" sospesa: angoli tondi, vetro sfocato, ombra morbida; ogni scheda ha il suo colore
+      quando e' attiva (Casa verde, Viaggi cielo, Negozio arancio, Diario lilla, Profilo rosa), icona piena a due toni e
+      piccolo rimbalzo al tocco. Colori del testo con contrasto almeno 4,5:1 in chiaro e in scuro.
+   2) Primo avvio: luce morbida che si muove piano sullo sfondo, scelte che si sollevano, obiettivi con la spunta.
+   3) Guida iniziale: il cerchio scivola da un punto all'altro invece di spegnersi e riaccendersi.
+   Con "movimento ridotto" (calm/lite o impostazione del telefono) niente animazioni continue. */
+
+:root {
+  --tb-today: #2F6B2C; --tb-today-s: #DDEEDA;
+  --tb-trips: #2A6A96; --tb-trips-s: #DCEBF6;
+  --tb-home: #9A5317; --tb-home-s: #FBE6D2;
+  --tb-diary: #6E3F96; --tb-diary-s: #ECE1F6;
+  --tb-more: #A23C60; --tb-more-s: #F9DFE8;
+}
+:root[data-theme="dark"] {
+  --tb-today: #9AD493; --tb-today-s: #26402A;
+  --tb-trips: #8CC6EE; --tb-trips-s: #1E3446;
+  --tb-home: #F2B36B; --tb-home-s: #43301B;
+  --tb-diary: #CDA9F0; --tb-diary-s: #352841;
+  --tb-more: #F2A0BC; --tb-more-s: #432633;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --tb-today: #9AD493; --tb-today-s: #26402A;
+    --tb-trips: #8CC6EE; --tb-trips-s: #1E3446;
+    --tb-home: #F2B36B; --tb-home-s: #43301B;
+    --tb-diary: #CDA9F0; --tb-diary-s: #352841;
+    --tb-more: #F2A0BC; --tb-more-s: #432633;
+  }
+}
+
+/* --- 1) il menu sospeso --- */
+html body .tabs {
+  background: linear-gradient(to bottom, transparent 0, color-mix(in srgb, var(--bg) 70%, transparent) 38%, color-mix(in srgb, var(--bg) 92%, transparent) 100%) !important;
+  box-shadow: none !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+  padding: 10px max(10px, env(safe-area-inset-right, 0px)) calc(8px + env(safe-area-inset-bottom, 0px)) max(10px, env(safe-area-inset-left, 0px)) !important;
+}
+html body .tabs .in {
+  background: color-mix(in srgb, var(--paper) 93%, transparent);
+  backdrop-filter: blur(16px) saturate(1.35); -webkit-backdrop-filter: blur(16px) saturate(1.35);
+  border: 1px solid color-mix(in srgb, var(--line) 85%, transparent); border-radius: 26px; padding: 2px 4px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .55) inset, 0 12px 28px -10px rgba(70, 45, 20, .30), 0 2px 8px -2px rgba(70, 45, 20, .10);
+}
+:root[data-theme="dark"] body .tabs .in { box-shadow: 0 1px 0 rgba(255, 255, 255, .05) inset, 0 14px 30px -10px rgba(0, 0, 0, .75); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) body .tabs .in { box-shadow: 0 1px 0 rgba(255, 255, 255, .05) inset, 0 14px 30px -10px rgba(0, 0, 0, .75); } }
+html body .tab { min-height: 60px; transition: color .25s ease; }
+html body .tab .ic { width: 52px; height: 30px; transition: transform .25s cubic-bezier(.3, 1.6, .5, 1); }
+html body .tab:active .ic { transform: scale(.88); }
+.tab svg [data-v110f] { fill: currentColor; stroke: none; opacity: 0; transition: opacity .25s ease; }
+.tab[aria-current="page"] svg [data-v110f] { opacity: .24; }
+.tab[aria-current="page"] svg { stroke-width: 2.2; }
+.tab[aria-current="page"] > span:last-child { font-weight: 800; }
+html body .tabpill { border-radius: 999px; transition: background-color .3s ease, box-shadow .3s ease; }
+/* colore per scheda (non durante Natale e le Stagioni, che hanno i loro colori) */
+:root:not([data-xmas]):not(.sea-stars):not(.sea-kites) .tab[data-tab="today"][aria-current="page"] { color: var(--tb-today); }
+:root:not([data-xmas]):not(.sea-stars):not(.sea-kites) .tab[data-tab="trips"][aria-current="page"] { color: var(--tb-trips); }
+:root:not([data-xmas]):not(.sea-stars):not(.sea-kites) .tab[data-tab="home"][aria-current="page"] { color: var(--tb-home); }
+:root:not([data-xmas]):not(.sea-stars):not(.sea-kites) .tab[data-tab="diary"][aria-current="page"] { color: var(--tb-diary); }
+:root:not([data-xmas]):not(.sea-stars):not(.sea-kites) .tab[data-tab="more"][aria-current="page"] { color: var(--tb-more); }
+:root:not([data-xmas]):not(.sea-stars):not(.sea-kites) .tabs .in[data-cur="today"] .tabpill { background: var(--tb-today-s); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tb-today) 22%, transparent); }
+:root:not([data-xmas]):not(.sea-stars):not(.sea-kites) .tabs .in[data-cur="trips"] .tabpill { background: var(--tb-trips-s); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tb-trips) 22%, transparent); }
+:root:not([data-xmas]):not(.sea-stars):not(.sea-kites) .tabs .in[data-cur="home"] .tabpill { background: var(--tb-home-s); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tb-home) 22%, transparent); }
+:root:not([data-xmas]):not(.sea-stars):not(.sea-kites) .tabs .in[data-cur="diary"] .tabpill { background: var(--tb-diary-s); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tb-diary) 22%, transparent); }
+:root:not([data-xmas]):not(.sea-stars):not(.sea-kites) .tabs .in[data-cur="more"] .tabpill { background: var(--tb-more-s); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tb-more) 22%, transparent); }
+.tab .ic.v110pop { animation: v110pop .5s cubic-bezier(.3, 1.7, .5, 1); }
+@keyframes v110pop { 0% { transform: scale(.85); } 45% { transform: scale(1.14) translateY(-2px); } 100% { transform: none; } }
+/* spazio in fondo per il menu sospeso, un po' piu' alto di prima */
+.hasbar .app { padding-bottom: calc(196px + env(safe-area-inset-bottom, 0px)); }
+
+/* --- 2) primo avvio --- */
+html.v110onb::before {
+  content: ""; position: fixed; left: -20%; top: -20%; width: 140%; height: 140%; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(40% 32% at 18% 20%, rgba(176, 216, 160, .55), transparent 70%),
+    radial-gradient(36% 30% at 84% 32%, rgba(247, 196, 150, .50), transparent 70%),
+    radial-gradient(44% 34% at 58% 88%, rgba(170, 206, 236, .50), transparent 70%);
+  animation: v110aurora 18s ease-in-out infinite alternate;
+}
+:root[data-theme="dark"].v110onb::before { opacity: .35; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]).v110onb::before { opacity: .35; } }
+@keyframes v110aurora { 0% { transform: translate3d(0, 0, 0) scale(1); } 50% { transform: translate3d(3%, -2%, 0) scale(1.06); } 100% { transform: translate3d(-3%, 2%, 0) scale(1.02); } }
+body.v110onb .steps span { transition: background-color .45s ease, transform .45s cubic-bezier(.3, 1.6, .5, 1); }
+body.v110onb .choice { transition: transform .3s cubic-bezier(.3, 1.6, .5, 1), box-shadow .3s ease; }
+body.v110onb .choice[aria-checked="true"] { transform: translateY(-4px); box-shadow: 0 14px 26px -14px rgba(78, 138, 74, .55), 0 0 0 2px var(--accent); }
+body.v110onb .choice[aria-checked="true"] .halo img { animation: v110bob 2.6s ease-in-out infinite; }
+@keyframes v110bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+body.v110onb .choice:active { transform: scale(.97); }
+body.v110onb .chip { transition: transform .2s cubic-bezier(.3, 1.6, .5, 1), background-color .2s ease, color .2s ease; }
+body.v110onb .chip:active { transform: scale(.94); }
+body.v110onb .chip[aria-pressed="true"]::before { content: "✓"; display: inline-block; margin-right: 6px; font-weight: 800; animation: v110tick .35s cubic-bezier(.3, 1.8, .5, 1); }
+@keyframes v110tick { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+body.v110onb .btn:not(.ghost):not(.link) { transition: transform .15s ease, box-shadow .2s ease; box-shadow: 0 10px 22px -12px color-mix(in srgb, var(--accent) 80%, transparent); }
+body.v110onb .btn:active { transform: scale(.97); }
+
+/* --- 3) guida iniziale: il cerchio scivola --- */
+.tutwrap.v110tut .tutring { transition: none; will-change: transform, width, height; }
+.tutwrap.v110tut .tutbox { transition: top .35s cubic-bezier(.4, 0, .2, 1); }
+.tutwrap.v110tut #tutTx { transition: opacity .18s ease; }
+
+/* movimento ridotto */
+html.calm.v110onb::before, html.lite.v110onb::before { animation: none; }
+html.calm .choice[aria-checked="true"] .halo img, html.lite .choice[aria-checked="true"] .halo img { animation: none; }
+html.calm .tab .ic.v110pop, html.lite .tab .ic.v110pop { animation: none; }
+html.calm body.v110onb .chip[aria-pressed="true"]::before, html.lite body.v110onb .chip[aria-pressed="true"]::before { animation: none; }
+html.calm .tutwrap.v110tut .tutbox, html.lite .tutwrap.v110tut .tutbox { transition: none; }
+@media (prefers-reduced-motion: reduce) {
+  html.v110onb::before, .choice .halo img, .tab .ic.v110pop, body.v110onb .chip[aria-pressed="true"]::before { animation: none !important; }
+  .tutwrap.v110tut .tutbox { transition: none; }
+}
