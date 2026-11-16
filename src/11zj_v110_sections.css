@@ -66,3 +66,6 @@ html.calm .moods .mood[aria-pressed="true"], html.lite .moods .mood[aria-pressed
 #app .v110pack i.half::after { top: -4px; bottom: -4px; right: -4px; }
 html.bigtext #app .v110pack.v110pack i:nth-child(n) { height: 36px; }
 @media (max-width: 360px) { #app .v110pack { gap: 3px; } #app .v110pack i svg { width: 15px; height: 15px; } }
+
+/* 8) liste lunghe (gruppi del negozio): il telefono non disegna i gruppi fuori dallo schermo finche' non ci arrivi */
+#app .shopgrp { content-visibility: auto; contain-intrinsic-size: auto 520px; }

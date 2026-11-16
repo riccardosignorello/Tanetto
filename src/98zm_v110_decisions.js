@@ -211,7 +211,7 @@ function v110Fit() {
   } catch (e) { /* niente */ }
 }
 const _renderV110f = render;
-render = function (...a) { const r = _renderV110f.apply(this, a); v110Fit(); return r; };
+render = function (...a) { const r = _renderV110f.apply(this, a); requestAnimationFrame(() => { try { v110Fit(); } catch (e) { /* niente */ } }); return r; }; /* 1.0.10: dopo il primo disegno, non prima */
 window.addEventListener("resize", () => { clearTimeout(window.__v110ft); window.__v110ft = setTimeout(v110Fit, 120); });
 
 /* =================== 7) "Condividi il tuo Germo": la foto anche in formato storia (9:16) ===================

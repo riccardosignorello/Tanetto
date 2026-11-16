@@ -108,3 +108,11 @@ html.calm .tutwrap.v110tut .tutbox, html.lite .tutwrap.v110tut .tutbox { transit
   html.v110onb::before, .choice .halo img, .tab .ic.v110pop, body.v110onb .chip[aria-pressed="true"]::before { animation: none !important; }
   .tutwrap.v110tut .tutbox { transition: none; }
 }
+
+/* finestre che si aprono: velo che sfuma e riquadro che sale (proprieta' "translate", separata dalle animazioni GSAP) */
+.overlay.v110open { animation: v110veil .22s ease-out both; }
+.overlay.v110open > * { animation: v110sheet .34s cubic-bezier(.2, .9, .3, 1) both; }
+@keyframes v110veil { from { opacity: 0; } to { opacity: 1; } }
+@keyframes v110sheet { from { translate: 0 28px; } to { translate: 0 0; } }
+html.calm .overlay.v110open, html.lite .overlay.v110open, html.calm .overlay.v110open > *, html.lite .overlay.v110open > * { animation: none; }
+@media (prefers-reduced-motion: reduce) { .overlay.v110open, .overlay.v110open > * { animation: none !important; } }

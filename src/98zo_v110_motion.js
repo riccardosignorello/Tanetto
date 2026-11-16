@@ -149,3 +149,28 @@ function v110Pack() {
 }
 const _renderV110p = render;
 render = function (...a) { const r = _renderV110p.apply(this, a); try { v110Pack(); } catch (e) { /* niente */ } return r; };
+
+/* ---------- 7) finestre: quando se ne apre una (da pagina vuota) il velo sfuma e il riquadro sale morbido dal basso ---------- */
+try {
+  let v110WasEmpty = !layer.innerHTML.trim();
+  new MutationObserver(() => {
+    const empty = !layer.innerHTML.trim();
+    if (v110WasEmpty && !empty && anim) { const ov = layer.querySelector(".overlay"); if (ov) { ov.classList.add("v110open"); setTimeout(() => ov.classList.remove("v110open"), 450); } }
+    v110WasEmpty = empty;
+  }).observe(layer, { childList: true });
+} catch (e) { /* niente */ }
+
+/* ---------- 8) velocita': le etichette di rarita' del negozio si misurano tutte insieme (prima: una misura della pagina per
+   ognuna delle ~70 etichette, a ogni disegno; era un terzo del tempo per aprire il Negozio) ---------- */
+let v110FitRaf = 0;
+v26FitBadges = function (root) {
+  /* pagina intera: dopo il primo disegno (il Negozio compare subito, le etichette si sistemano nel fotogramma dopo) */
+  if (!root || root.id === "app") { cancelAnimationFrame(v110FitRaf); v110FitRaf = requestAnimationFrame(() => setTimeout(() => v110FitNow(document.getElementById("app") || document), 0)); return; }
+  v110FitNow(root);
+};
+function v110FitNow(root) {
+  const els = [...root.querySelectorAll(".rar")]; if (!els.length) return;
+  els.forEach((x) => { if (x.style.fontSize) x.style.fontSize = ""; });
+  const over = els.filter((x) => x.scrollWidth > x.clientWidth + 0.5); /* una sola misura per tutte */
+  over.forEach((x) => { let f = parseFloat(getComputedStyle(x).fontSize) || 12; let k = 0; while (x.scrollWidth > x.clientWidth + 0.5 && f > 11.5 && k++ < 8) { f -= 0.5; x.style.fontSize = f + "px"; } });
+}
