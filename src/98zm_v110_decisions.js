@@ -93,3 +93,101 @@ if (typeof psAgeCard === "function") {
     return h.replace(/(<div class="card stack-s psage">[\s\S]*?)(<\/div>)/, `$1<p class="small muted v110agelock">${esc(v110AgeT()[6])}</p>$2`);
   };
 }
+
+/* =================== 4) Controllo finale 1.0.10: piccole cose ===================
+   a) "Memoria del telefono piena" (M-08): l'avviso arriva dopo quello dell'azione, resta 7 secondi senza essere coperto
+      e si ripete al massimo ogni 10 minuti finche' il salvataggio non riesce di nuovo. */
+let v110StickyUntil = 0, v110FullAt = 0;
+const _toastV110 = toast;
+toast = function (msg, ...a) {
+  const w = v110StickyUntil - Date.now(); if (w > 0) { setTimeout(() => toast(msg, ...a), w + 200); return; }
+  return _toastV110.call(this, msg, ...a);
+};
+function v110FullWarn() {
+  try {
+    const el = document.getElementById("toast"); if (!el) return;
+    el.textContent = L().v26.full; el.hidden = false; v110StickyUntil = Date.now() + 7000;
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => { el.hidden = true; }, 7000);
+  } catch (e) { /* niente */ }
+}
+const _saveV110 = save;
+save = function (...a) {
+  const r = _saveV110.apply(this, a);
+  try { if (!secSaveOk && Date.now() - v110FullAt > 600000) { v110FullAt = Date.now(); setTimeout(v110FullWarn, 1500); } } catch (e) { /* niente */ }
+  return r;
+};
+/* b) lettore di schermo: la barra in basso si chiama "Menu" nella lingua dell'app; Tanì e livello cominciano con il testo
+      che si vede (WCAG 2.5.3, chi usa i comandi vocali dice quello che legge) */
+const V110_MENU = { it: "Menu", en: "Menu", de: "Menü", es: "Menú", fr: "Menu", pt: "Menu", ja: "メニュー", ko: "메뉴", zh: "菜单", zht: "選單", ru: "Меню", pl: "Menu", nl: "Menu", tr: "Menü" };
+function v110Labels() {
+  try {
+    const tb = document.getElementById("tabs"); if (tb) tb.setAttribute("aria-label", V110_MENU[S.lang] || "Menu");
+    const sp = document.getElementById("seedPill"), sn = document.getElementById("seedN"), t = L();
+    if (sp && sn && sp.tagName === "BUTTON") sp.setAttribute("aria-label", `${sn.textContent} Tanì: ${(t.tani && t.tani.shopT) || ""}`.replace(/:\s*$/, ""));
+    const lv = document.getElementById("lvBtn");
+    if (lv) { const v = (lv.textContent || "").replace(/\s+/g, " ").trim(); const base = lv.getAttribute("aria-label") || ""; if (v && !base.startsWith(v)) lv.setAttribute("aria-label", base ? `${v}, ${base}` : v); }
+  } catch (e) { /* niente */ }
+}
+const _renderV110 = render;
+render = function (...a) { const r = _renderV110.apply(this, a); v110Labels(); return r; };
+/* c) licenze: le due frasi iniziali nella lingua dell'app (i testi delle licenze restano quelli originali, in inglese) */
+const V110_LIC = {
+  it: "Tanetto è costruito con questi componenti open source. Grazie a tutte le persone che li hanno creati.",
+  en: "Tanetto is built with these open-source components. Thank you to everyone who made them.",
+  de: "Tanetto ist mit diesen Open-Source-Komponenten gebaut. Danke an alle, die sie geschaffen haben.",
+  es: "Tanetto está hecho con estos componentes de código abierto. Gracias a todas las personas que los crearon.",
+  fr: "Tanetto est construit avec ces composants open source. Merci à toutes les personnes qui les ont créés.",
+  pt: "O Tanetto é feito com estes componentes de código aberto. Obrigado a todas as pessoas que os criaram.",
+  ja: "Tanettoは、次のオープンソースのコンポーネントで作られています。作ってくださったすべての方に感謝します。",
+  ko: "Tanetto는 다음 오픈 소스 구성 요소로 만들어졌어요. 만들어 주신 모든 분께 감사드려요.",
+  zh: "Tanetto 使用了以下开源组件。感谢所有创造它们的人。",
+  zht: "Tanetto 使用了以下開放原始碼元件。感謝所有創造它們的人。",
+  ru: "Tanetto создано с помощью этих компонентов с открытым исходным кодом. Спасибо всем, кто их создал.",
+  pl: "Tanetto powstało z użyciem tych komponentów open source. Dziękujemy wszystkim, którzy je stworzyli.",
+  nl: "Tanetto is gemaakt met deze opensourceonderdelen. Dank aan iedereen die ze heeft gemaakt.",
+  tr: "Tanetto bu açık kaynak bileşenlerle yapıldı. Onları yapan herkese teşekkürler."
+};
+try { new MutationObserver(() => { const b = layer.querySelector(".v26lic"); if (!b || b.dataset.v110) return; b.dataset.v110 = "1";
+  const p = [...b.querySelectorAll("p.muted")].find((x) => /open-source components/.test(x.textContent)); if (p) p.textContent = V110_LIC[S.lang] || V110_LIC.en; }).observe(layer, { childList: true, subtree: true }); } catch (e) { /* niente */ }
+/* d) eta': "resta su questo telefono" dice anche del backup di Android (come l'informativa) */
+const V110_AGEBK = {
+  it: [" (e nel backup di Android, se è attivo)", " Se il backup di Android è attivo, sono salvati anche lì."],
+  en: [" (and in your Android backup, if it's on)", " If Android backup is on, they're saved there too."],
+  de: [" (und in der Android-Sicherung, wenn sie eingeschaltet ist)", " Wenn die Android-Sicherung eingeschaltet ist, werden sie auch dort gespeichert."],
+  es: [" (y en la copia de seguridad de Android, si está activada)", " Si la copia de seguridad de Android está activada, también se guardan allí."],
+  fr: [" (et dans la sauvegarde Android, si elle est activée)", " Si la sauvegarde Android est activée, ils y sont aussi enregistrés."],
+  pt: [" (e no backup do Android, se estiver ativado)", " Se o backup do Android estiver ativado, eles também ficam salvos lá."],
+  ja: ["（Androidのバックアップがオンなら、そこにも保存されます）", "Androidのバックアップがオンなら、そこにも保存されます。"],
+  ko: [" (Android 백업이 켜져 있으면 백업에도 저장돼요)", " Android 백업이 켜져 있으면 백업에도 저장돼요."],
+  zh: ["（如果开启了 Android 备份，也会保存在备份中）", "如果开启了 Android 备份，也会保存在备份中。"],
+  zht: ["（如果開啟了 Android 備份，也會儲存在備份中）", "如果開啟了 Android 備份，也會儲存在備份中。"],
+  ru: [" (и в резервной копии Android, если она включена)", " Если включено резервное копирование Android, они сохраняются и там."],
+  pl: [" (i w kopii zapasowej Androida, jeśli jest włączona)", " Jeśli kopia zapasowa Androida jest włączona, są zapisywane także tam."],
+  nl: [" (en in je Android-back-up, als die aanstaat)", " Als Android-back-up aanstaat, worden ze daar ook bewaard."],
+  tr: [" (Android yedeklemesi açıksa yedekte de)", " Android yedeklemesi açıksa orada da saklanır."]
+};
+Object.keys(V110_AGEBK).forEach((l) => {
+  try {
+    const a = AGE_T[l]; const [paren, sent] = V110_AGEBK[l];
+    if (a && typeof a.P === "string" && !a.P.includes(paren.trim())) { const m = /[.。]\s*$/.exec(a.P); a.P = m ? a.P.slice(0, m.index) + paren + a.P.slice(m.index) : a.P + paren; }
+    const v = V23[l]; if (v && typeof v.ageYes === "string" && !v.ageYes.includes(sent.trim())) v.ageYes = v.ageYes + sent;
+  } catch (e) { /* niente */ }
+});
+
+/* =================== 5) Chat e diario: mai allegri "a caso" e aiuto sempre a un tocco ===================
+   Nessun elenco di frasi riconosce tutto. Per questo:
+   a) quando Germo non capisce una frase risponde solo con calma ("Ti ascolto. Me ne racconti di piu'?" / "non sono sicuro
+      di aver capito, ma sono qui con te"), mai con "Capito! Sai che..." o "Mi piace quando mi scrivi";
+   b) in chat e nel diario c'e' sempre "Hai bisogno di aiuto?": apre la scheda con i numeri del Paese (si toccano per
+      chiamare), senza dover scrivere niente. */
+Object.keys(T).forEach((l) => { try { const d = T[l].chat && T[l].chat.R && T[l].chat.R.default; if (Array.isArray(d) && d.length === 4) T[l].chat.R.default = [d[0], d[3]]; } catch (e) { /* niente */ } });
+function v110HelpBtn(id) { const t = L(); return `<button class="link v110help" id="${id}" type="button">${esc(t.helpT)}</button>`; }
+if (typeof openChat === "function") {
+  const _a = openChat;
+  openChat = function (...a) { const r = _a.apply(this, a); try { const n = layer.querySelector(".chatbox .chnote"); if (n && !layer.querySelector("#v110ChatHelp")) n.insertAdjacentHTML("afterend", v110HelpBtn("v110ChatHelp")); } catch (e) { /* niente */ } return r; };
+}
+try { new MutationObserver(() => { try { const f = document.getElementById("diaryForm"); if (f && !document.getElementById("v110DiaryHelp")) f.insertAdjacentHTML("afterend", v110HelpBtn("v110DiaryHelp")); } catch (e) { /* niente */ } }).observe(document.getElementById("app"), { childList: true, subtree: true }); } catch (e) { /* niente */ }
+document.addEventListener("click", (ev) => {
+  const b = ev.target.closest && ev.target.closest("#v110ChatHelp, #v110DiaryHelp"); if (!b) return; ev.stopImmediatePropagation();
+  try { if (b.id === "v110ChatHelp") { const box = layer.querySelector(".chatbox .v26sos"); if (box) { box.scrollIntoView({ block: "nearest" }); return; } } v26HelpSheet(1); } catch (e) { /* niente */ }
+}, true);

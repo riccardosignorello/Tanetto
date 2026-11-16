@@ -19,6 +19,19 @@ P = [
     ("p2c/t5.py", 'await pg.click("#ageGo");', 'await pg.click("#ageGo"); await pg.wait_for_timeout(250); await pg.evaluate("(() => { const b = document.getElementById(`ageOk`); if (b) b.click(); })()");', "eta\' con conferma (G2-10, 16/11/2026)"),
     # 1.0.10 (critica 1.0.10, punto 10): il paragrafo dei bambini nomina solo AdMob (statistiche sempre spente per loro)
     ("fix109/tfix_a.py", 'pv.count("GoatCounter") >= 28 and', 'pv.count("GoatCounter") >= 14 and', "bambini: solo AdMob"),
+    # dal 16/11/2026 il "regalo di lancio" (fino al 31/01/2027) si apre davvero: le suite che non lo riguardano lo spengono
+    ("fix109/lib/common.py", '"window.__TEST_NOAGE=1;" + js', '"window.__TEST_NOAGE=1;window.__TEST_NOLAUNCH=1;" + js', "regalo di lancio spento nelle suite che non lo provano"),
+    ("p1/common.py", '"window.__TEST_NOAGE=1;" + js', '"window.__TEST_NOAGE=1;window.__TEST_NOLAUNCH=1;" + js', "regalo di lancio spento nelle suite che non lo provano"),
+    ("fix109/suites/p3b/t6.py", 'window.__TEST_NOAGE=1;window.__TEST_NOGIFT20=1;', 'window.__TEST_NOAGE=1;window.__TEST_NOGIFT20=1;window.__TEST_NOLAUNCH=1;', "regalo di lancio spento"),
+    # 1.0.10 (E-02): a chi non ha detto l'eta' mai "raddoppia"; la prova del testo per gli adulti usa un adulto
+    ("fix109/suites/p3b/t6.py", 'r = await ev(pg, """(() => { const o = {}; S.adsDay = { d: dkey(), n: 0 }; o.g0', 'r = await ev(pg, """(() => { const o = {}; S.age = { y: 1990, m: 5 }; S.adsDay = { d: dkey(), n: 0 }; o.g0', "testo del video per gli adulti"),
+    ("fix109/suites/p2b/t3.py", 'txt = await ev(pg, "(() => { const d = document.creat', 'txt = await ev(pg, "(() => { S.age = { y: 1990, m: 5 }; const d = document.creat', "testo del video per gli adulti"),
+    # 98zk (D-05/M-06): le tappe d'oro del sentiero hanno il segno v26g (Tanì di Plus contati come pagati)
+    ("p2/t2.py", 'r[2] == {"tani": 5} and r[3] == {"tani": 10}', 'r[2] == {"tani": 5} and r[3].get("tani") == 10', "segno v26g delle tappe d'oro"),
+    # 1.0.10 (M-09, decisione 16/11/2026): Introvabili 54.000-63.000
+    ("fix109/suites/p2b/t3.py", 'min(r["xv"]) == 68000 and max(r["xv"]) == 80000', 'min(r["xv"]) == 54000 and max(r["xv"]) == 63000', "prezzi Introvabili 1.0.10"),
+    ("fix109/suites/p2b/t3.py", '"Hai 120 di 68.000 Tanì" in r["furn"][1]', '"Hai 120 di 54.000 Tanì" in r["furn"][1]', "prezzi Introvabili 1.0.10"),
+    ("fix109/suites/p2b/t3.py", 'r3["own"] and r3["s"] == 7000 and', 'r3["own"] and r3["s"] == 21000 and', "prezzi Introvabili 1.0.10"),
 ]
 bad = 0
 for f, old, new, why in P:

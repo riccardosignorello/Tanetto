@@ -67,6 +67,74 @@ async def main(b):
     got = await T.ev(pg, "(" + json.dumps(CR) + ").map(([l, x]) => crisisLevel(x, l))")
     bad = [(c, g) for c, g in zip(CR, got) if g != c[2]]
     T.check(f"critica 1.0.10: {len(CR) - len(bad)}/{len(CR)} frasi nuove e falsi allarmi giusti", not bad, bad)
+    # controllo finale 1.0.10 (CONTROLLO_FINALE_110): le frasi di crisi della prova finale (tutte forti) e i suoi modi di dire (niente),
+    # i falsi allarmi d'affetto ("ti voglio bene da morire") in 14 lingue, i casi limite (gentile) e l'inglese con l'app in un'altra lingua
+    FIN = {
+     "it": (["stasera mi impicco", "voglio buttarmi dal ponte", "ho preso tutte le pastiglie della mamma", "penso sempre a come uccidermi", "sarebbe meglio se morissi", "non ce la faccio più, voglio solo morire", "mi faccio i tagli sulle cosce", "ho scritto la lettera d'addio ai miei", "a nessuno importerebbe se sparissi", "domani mi butto sotto il treno", "voglio smettere di vivere", "nn ce la faccio + a vivere", "mi odio e voglio morire", "vorrei non essere mai nata"],
+            ["che caldo, si muore", "mi sono tagliato con il foglio", "oggi ammazzo il tempo giocando", "mi butto in piscina", "la batteria del telefono sta morendo", "il mio personaggio è morto nel gioco", "ti voglio bene da morire", "ho tagliato la corda prima della lezione", "mia nonna è morta l'anno scorso, mi manca", "ti amo da morire", "ti voglio un mondo di bene da morire"]),
+     "en": (["i'm going to hang myself tonight", "im gonna overdose on my meds", "i took a whole bottle of pills", "i want to jump off the bridge", "everyone would be happier if i was gone", "i don't see the point in living anymore", "i've been self-harming again", "i wrote my suicide note", "i just want to stop existing", "i plan to end things this weekend", "i want to disappear forever", "i hate my life i want to die", "i dont want to be here anymore", "i want to sleep and never wake up"],
+            ["i'm dying to try the new level", "my battery died", "this joke killed me", "i'm cutting the grass", "dead tired after school", "i want to kill this boss", "she killed it on stage", "i cut my finger peeling apples", "my hamster died yesterday", "i love you to death", "love you to death bestie"]),
+     "de": (["ich will mich heute nacht erhängen", "ich nehme alle tabletten auf einmal", "ich springe von der brücke", "es wäre besser, wenn ich nicht mehr da wäre", "ich hab keinen bock mehr zu leben", "ich schneide mir die arme auf", "ich denke ständig an selbstmord", "niemand würde merken, wenn ich weg wäre", "ich will für immer einschlafen", "ich mach heute schluss mit allem", "ich will nicht mehr existieren", "ich möchte sterben"],
+            ["ich sterbe vor langeweile", "der akku stirbt gleich", "ich schneide mir die haare", "heute war es todlangweilig", "ich könnte mich totlachen", "ich habe zwiebeln geschnitten", "mein opa ist gestorben", "ich hab dich zum sterben gern", "ich liebe dich bis in den tod"]),
+     "es": (["me voy a tirar del puente", "quiero ahorcarme", "me tomé todas las pastillas", "nadie me extrañaría si me muero", "no le veo sentido a vivir", "me hago cortes en las piernas", "ojalá no despertara mañana", "estoy pensando en quitarme la vida", "ya no aguanto, me quiero morir", "quiero dejar de existir", "me quiero suicidar", "quisiera estar muerta"],
+            ["me muero de sueño", "me mató de risa ese video", "corté con mi novio", "voy a matar el tiempo", "se me murió el móvil", "me corté el dedo cocinando", "me muero por ir a la playa", "te quiero a morir", "te amo hasta morir"]),
+     "fr": (["je vais me pendre ce soir", "j'ai avalé toutes mes pilules", "je veux sauter du pont", "tout le monde serait mieux sans moi", "je ne vois plus l'intérêt de vivre", "je me fais des coupures sur les bras", "je pense à me suicider", "j'aimerais ne plus me réveiller", "je veux plus exister", "j'ai envie de crever", "je veux mettre fin à mes jours"],
+            ["je suis morte de fatigue", "ce film m'a tué", "j'ai coupé les légumes", "mon téléphone est mort", "je tue le temps", "je meurs d'envie de te voir", "mon chat est mort la semaine dernière", "je t'aime à mourir", "je t'aime à en mourir"]),
+     "pt": (["vou me enforcar", "tomei todos os remédios da caixa", "quero pular da ponte", "ninguém sentiria minha falta", "não vejo sentido em viver", "tô me cortando de novo", "penso em me matar todo dia", "não quero mais existir", "vou acabar com a minha vida", "quero morrer hoje", "queria estar morto"],
+            ["morri de vergonha", "meu celular morreu", "matei a aula hoje", "cortei o dedo cozinhando", "tô morta de cansaço", "morro de vontade de viajar", "te amo até morrer", "amo você de morrer"]),
+     "ru": (["я повешусь сегодня", "выпью все таблетки", "хочу спрыгнуть с крыши", "никто не заметит если я умру", "не вижу смысла жить", "я опять порезала руки", "думаю о суициде", "мне незачем жить", "хочу уснуть и не проснуться", "хочу покончить с жизнью", "я хочу умереть"],
+            ["умираю от скуки", "телефон умер", "убил босса в игре", "порезал палец когда готовил", "устал до смерти", "бабушка умерла в прошлом году", "люблю тебя до смерти"]),
+     "pl": (["powieszę się dziś", "połknęłam wszystkie tabletki", "skoczę z mostu", "nikt by nie zauważył gdybym umarła", "nie widzę sensu życia", "znowu się cięłam", "chcę zasnąć i się nie obudzić", "myślę o samobójstwie codziennie", "nie chcę już istnieć", "chcę ze sobą skończyć", "chcę się zabić"],
+            ["umieram z zimna", "telefon mi padł", "zabijam czas", "pokroiłam warzywa", "padam ze zmęczenia", "dziadek umarł w zeszłym roku", "kocham cię na zabój", "kocham cię na śmierć"]),
+     "nl": (["ik ga mezelf ophangen", "ik heb alle pillen genomen", "ik spring van de brug", "niemand zou me missen", "het leven heeft geen zin meer", "ik snijd mezelf weer", "ik denk aan zelfdoding", "ik wil niet meer bestaan", "ik wil er niet meer zijn", "ik wil niet meer wakker worden", "ik maak een einde aan mijn leven"],
+            ["ik verveel me dood", "mijn telefoon is dood", "ik schrok me dood", "ik snij de groenten", "doodop na school", "mijn oma is dood", "ik hou van je tot de dood"]),
+     "tr": (["kendimi asacağım", "bütün ilaçları içtim", "köprüden atlayacağım", "ölsem kimse fark etmez", "yaşamanın anlamı yok", "yine kollarımı kestim", "intihar etmek istiyorum", "artık var olmak istemiyorum", "canıma kıymak istiyorum", "ölmek istiyorum artık", "kendimi öldüreceğim bu gece"],
+            ["sıcaktan öldüm", "telefonum öldü", "saçımı kestim", "gülmekten kırıldım", "zaman öldürüyorum", "dedem geçen yıl öldü", "seni ölesiye seviyorum"]),
+     "ja": (["首を吊りたい", "薬を全部飲んだ", "飛び降りたい", "私がいなくなっても誰も気にしない", "生きる意味がわからない", "また腕を切った", "自分を傷つけてしまう", "もう終わりにしたい", "消えてなくなりたい", "死にたいと思う", "生きるのをやめたい"],
+            ["暑くて死ぬ", "スマホの電池が死んだ", "ゲームで死んだ", "野菜を切った", "疲れて死にそう", "おじいちゃんが死んだ", "死ぬほど愛してる"]),
+     "ko": (["목매고 싶어", "약을 다 먹었어", "옥상에서 뛰어내리고 싶어", "내가 없어져도 아무도 모를 거야", "사는 게 의미 없어", "또 팔을 그었어", "자살 생각이 계속 나", "그냥 다 끝내고 싶어", "죽어버릴까", "살고 싶지 않아요", "죽고 싶다는 생각뿐이야"],
+            ["더워 죽겠다", "배터리가 죽었어", "게임에서 죽었어", "야채를 썰었어", "피곤해 죽겠어", "할아버지가 돌아가셨어", "죽도록 사랑해"]),
+     "zh": (["我想上吊", "我把药全吃了", "我想从楼上跳下去", "我死了也没人在乎", "活着没有意义", "我又割自己了", "我一直想自杀", "我想结束这一切", "我不想存在了", "我真的不想活了", "我想去死"],
+            ["热得要死", "游戏里我死了", "我在切菜", "累得要命", "你去死吧", "我们做个了断吧", "我爷爷去世了", "爱你爱得要死"]),
+     "zht": (["我想上吊", "我把藥全吃了", "我想從樓上跳下去", "我死了也沒人在乎", "活著沒有意義", "我又割自己了", "我一直想自殺", "我想結束這一切", "我不想存在了", "我真的不想活了", "我想去死"],
+            ["熱得要死", "遊戲裡我死了", "我在切菜", "累得要命", "你去死吧", "我們做個了斷吧", "我爺爺過世了", "愛你愛得要死"]),
+    }
+    FX = [("it", "ti voglio bene da morire", 0),
+          ("it", "ti voglio un bene da morire", 0),
+          ("it", "voglio un gelato da morire", 0),
+          ("it", "mi sono tagliato con il foglio", 0),
+          ("it", "mi sono tagliata con un foglio di carta", 0),
+          ("it", "vorrei tanto morire dal ridere", 0),
+          ("it", "voglio morire", 2),
+          ("it", "sto pensando di tagliarmi i capelli", 0),
+          ("it", "meglio morire che fare matematica ahah", 1),
+          ("it", "preferirei morire piuttosto che andare a scuola", 1),
+          ("it", "preferirei morire piuttosto che vivere cosi", 2),
+          ("en", "i would rather die than eat broccoli", 1),
+          ("en", "i would rather die than live like this", 2),
+          ("en", "i want to die my hair blue", 0),
+          ("es", "quiero un helado, me muero", 0),
+          ("it", "non voglio andare a vivere dalla nonna", 0),
+          ("es", "me volvi a cortar despues de la escuela", 2),
+          ("pt", "me cortei de novo depois da escola", 2),
+          ("it", "giochiamo all'impiccato", 0),
+          ("tr", "kendimi kesinlikle iyi hissediyorum", 0),
+          ("pl", "nikt nie zauważył mojej fryzury", 0),
+          ("fr", "j'ai avalé toutes les frites", 0),
+          ("en", "i want to sleep forever", 1),
+          ("it", "vorrei addormentarmi per sempre", 2),
+          ("it", "i plan to end things this weekend", 2),
+          ("de", "i plan to end things this weekend", 2),
+          ("es", "i plan to end things this weekend", 2),
+          ("ja", "i plan to end things this weekend", 2),
+          ("tr", "i plan to end things this weekend", 2),
+          ("ru", "i plan to end things this weekend", 2),
+          ("zh", "i plan to end things this weekend", 2),
+          ("pl", "i plan to end things this weekend", 2)]
+    CF = [(l, x, 2) for l, (p, n) in FIN.items() for x in p] + [(l, x, 0) for l, (p, n) in FIN.items() for x in n] + [tuple(c) for c in FX]
+    got = await T.ev(pg, "(" + json.dumps(CF) + ").map(([l, x]) => crisisLevel(x, l))")
+    bad = [(c, g) for c, g in zip(CF, got) if g != c[2]]
+    T.check(f"controllo finale 1.0.10: {len(CF) - len(bad)}/{len(CF)} frasi di crisi, modi di dire e casi limite giusti", not bad, bad)
     await ctx.close()
     # chat: risposta con i numeri, gentile, normale
     ctx, pg = await T.page(b, T.base_state("it"), age="adult", lang="it-IT", tz="Europe/Rome")

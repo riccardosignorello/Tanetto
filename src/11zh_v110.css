@@ -1,4 +1,20 @@
 /* 1.0.10: numeri di aiuto da toccare (scheda di aiuto e chat): stesso colore del testo, sottolineati, area di tocco 48 px */
-.v26sos a, .cmsg.sos a { color: inherit; text-decoration: underline; text-underline-offset: 3px; display: inline-block; min-height: 48px; line-height: 48px; padding: 0 2px; }
+.v26sos a, .cmsg.sos a { color: inherit; text-decoration: underline; text-underline-offset: 3px; display: inline-block; min-height: 48px; line-height: 1.4; padding: 12px 2px; box-sizing: border-box; }
 /* conferma dell'eta': "Correggi" alto almeno 48 px */
 #ageFix { min-height: 48px; }
+/* diario a 320 px e testo grande: le parole dell'umore restano dentro i pulsanti (sotto i 360 px: 3 + 2) */
+.moods { gap: 4px; }
+.mood { min-width: 0; }
+.mood span { max-width: 100%; overflow-wrap: anywhere; hyphens: auto; line-height: 1.1; text-align: center; }
+@media (max-width: 359px) { .moods { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+/* barra in basso con testo grande: le parole non si spezzano a meta' ("Negozi / o") */
+#tabs button span { overflow-wrap: normal; word-break: keep-all; hyphens: none; }
+/* aree di tocco di almeno 48 px */
+.day, #ageSkip, .alldone #closeLayer.link, .nvi, #petNameBtn { min-height: 48px; }
+a.nvtel { display: inline-block; min-width: 48px; min-height: 48px; line-height: 48px; text-align: center; }
+#arrOpen { min-width: 48px; min-height: 48px; }
+/* prima configurazione su telefoni stretti: la descrizione del compagno non si taglia con "..." */
+@media (max-width: 359px) { .choose:not(.four) .choice .ds { -webkit-line-clamp: unset; display: block; overflow: visible; } }
+.switch::before { content: ""; position: absolute; inset: -8px -2px; } /* area di tocco 48 px senza cambiare il disegno */
+/* "Hai bisogno di aiuto?" in chat e nel diario: discreto ma sempre li', area di tocco 48 px */
+.v110help { display: block; margin: 4px auto 0; min-height: 48px; font-size: 14px; }
