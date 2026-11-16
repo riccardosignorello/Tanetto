@@ -1,12 +1,10 @@
-# Tanetto 1.0.11 (versionCode 111): cosa cambia e perché
+# Tanetto 1.0.10 (versionCode 110): cosa cambia e perché
 
-Preparata il 14/11/2026. **Non è stata inviata a Google e non è stata caricata da nessuna parte.**
+Preparata dal 14/11/2026 al 16/11/2026. **Non è stata inviata a Google e non è stata caricata da nessuna parte.**
+Si invia **solo dopo che Google ha pubblicato la 1.0.9**.
 
-La **1.0.10** esce prima, da sola, come aggiornamento di **sola sicurezza** per i bambini (fatto a parte).
-Questa **1.0.11** contiene tutto il resto delle correzioni dell'audit completo della 1.0.9, **più** le stesse protezioni
-della 1.0.10 (anzi un po' più larghe), così non si torna mai indietro.
-
-I file in upload111 sono marcati **PROVVISORIO** finché non prendi le decisioni della sezione "DA DECIDERE".
+È **un solo aggiornamento con tutto**: le protezioni per i bambini e i momenti difficili (prima preparate a parte)
+più tutte le correzioni dell'audit completo della 1.0.9, più le tue decisioni del 16/11/2026.
 
 **Prezzi mai toccati:** Plus resta **4,99 al mese** e **44,99 all'anno** con **7 giorni gratis**. Una sola moneta (Tanì),
 massimo 5 video al giorno, musica spenta all'inizio, app per tutte le età.
@@ -29,7 +27,7 @@ C'è anche un livello **gentile** ("ho paura di morire": una domanda gentile e i
 4) L'aiuto compare anche dopo il **diario**, **"Lascia andare"** e la **capsula del tempo** (prima solo nella chat).
 Non si blocca niente e non si salva niente.
 
-5) **Numeri di aiuto per Paese** (prima per lingua: a un messicano davano i numeri della Spagna): 27 Paesi, con le **linee per
+5) **Numeri di aiuto per Paese** (prima per lingua: a un messicano davano i numeri della Spagna): 28 Paesi (più il 112 negli altri Paesi europei), con le **linee per
 bambini e ragazzi** (in Italia **Telefono Azzurro 19696**), e sempre in fondo **findahelpline.com**. Se il Paese non è in
 elenco non si mostrano numeri sbagliati.
 
@@ -39,6 +37,21 @@ Anche il "bentornato" non dice più "ti stava aspettando".
 
 7) **Statistiche anonime con un interruttore** in Profilo › Privacy ed età. Sono **sempre spente** per minori ed età non detta, e
 **prima della domanda sull'età non si conta niente**. Una frase nuova lo dice nell'informativa (14 lingue).
+
+8) **Riconoscimento delle frasi difficili unito al lavoro di sicurezza:** su frasi nuove mai viste prima (scritte apposta per
+la prova) il vecchio riconoscimento ne capiva 82 su 144 e prendeva per crisi "i want to dye my hair" e "non voglio morire";
+quello della 1.0.10 le capisce **tutte** (144 su 144, 216 su 216 nella seconda prova) e non sbaglia sui modi di dire.
+
+9) **Dopo una frase difficile l'app sta calma:** per tutta la sessione niente "Prova Plus" e niente richiesta di recensione,
+e per 10 minuti niente feste ("Tutto fatto", livello nuovo). Nella scheda di aiuto **i numeri si toccano per chiamare**.
+
+10) **Numeri di aiuto rivisti sulle fonti ufficiali** (elenco e fonti in docs/HELPLINES_FONTI.md): per esempio in Portogallo
+la linea nazionale 1411, in Giappone la linea 24 ore per i ragazzi, in Argentina i numeri veri (prima nessuno), nei Paesi
+europei senza linea in elenco almeno il 112.
+
+11) **Età, come hai deciso:** si inserisce **una volta sola**, l'app mostra mese, anno ed età e chiede **"È giusto?"**
+("Sì, è giusto" oppure "Correggi"), e **poi non si può più cambiare** (nemmeno con "Ricomincia da capo"). Nel Profilo la
+scheda lo dice. "Preferisco non dirlo" resta: vale come bambino, e l'età si può dire più tardi una volta sola.
 
 
 ## 2) Tanì, soldi e progressi
@@ -171,7 +184,7 @@ cancellazione dell'account, pagine "get" e "test".
 [[TESTS]]
 
 
-## 10) Voti per area (prima 1.0.9 → ora 1.0.11)
+## 10) Voti per area (prima 1.0.9 → ora 1.0.10)
 
 Voti dati da me rileggendo l'audit punto per punto (non da un critico esterno: vedi sotto, punto 9 della sezione 11).
 
@@ -229,48 +242,36 @@ le ho fatte io, rileggendo con le liste dell'audit. Non è come avere occhi nuov
 di pubblicare.
 
 
-## DA DECIDERE (tue decisioni)
+## DECISO IL 16/11/2026 (le tue decisioni, già nell'app)
 
-Qui non ho deciso niente al posto tuo. Per ognuna: cosa succede oggi e le scelte, con i numeri.
+1) **Introvabili (M-09), scelta b:** prezzi **54.000 / 54.000 / 56.000 / 58.000 / 60.000 / 63.000** Tanì, e dal **terzo video
+del giorno** in poi **6 Tanì** (i primi due valgono il regalo di oggi, fino a 18). Il pulsante dice sempre quanto dà il
+prossimo video. Rimisurato con l'app vera per 460 giorni simulati, senza comprare niente, tempo per il primo Introvabile:
+   1) chi guarda **2 video al giorno**: **450 giorni, circa 15 mesi**;
+   2) chi guarda 2 video e fa anche i giochi: 414 giorni, circa 13,6 mesi;
+   3) chi gioca **tantissimo** (5 video al giorno, serie sempre piena, tutti i giochi): **364 giorni, circa 12 mesi**;
+   4) chi non guarda video: 645 giorni, circa 21 mesi.
 
-1) **Quanto tempo per il primo Introvabile (M-09).** Tu hai detto "circa 15 mesi per chi gioca normalmente, almeno 12 per chi
-gioca tantissimo". Rimisurato oggi sulla 1.0.11 (460 giorni simulati con l'app vera, senza comprare niente):
-[[ECON]]
-Le scelte:
-a) **Tenere i prezzi** (68.000-80.000) e dire "circa [[TYPM]] mesi". Nessun codice da cambiare.
-b) **Prezzi più bassi e video 3-5 da 6 Tanì:** Introvabili 54.000 / 54.000 / 56.000 / 58.000 / 60.000 / 63.000, e dal terzo
-video del giorno in poi 6 Tanì invece del valore del regalo. Così chi gioca normalmente arriva a circa 15 mesi e chi guarda 5
-video al giorno resta sopra i 12. È un cambio di 2 righe; poi rifaccio la foto 06 dello store (oggi dice "27 mesi", K-12).
+2) **Pacchetti di Tanì (E-09):** restano 1.000 / 5.500 / 12.000 / 25.000.
 
-2) **Pacchetti di Tanì (E-09):** oggi 1.000 / 5.500 / 12.000 / 25.000 Tanì per 0,99 / 4,99 / 9,99 / 19,99. Il primo da solo vale
-circa 8 giorni di gioco. Tenere, oppure ridurre a 400 / 2.500 / 5.500 / 12.000? (I prezzi in euro non cambiano in nessun caso.)
+3) **Regalo triplo di Plus (D-05):** la parte in più conta come **"pagata"**: Plus non accorcia mai gli Introvabili.
 
-3) **Regalo triplo di Plus (D-05):** con Plus il regalo del giorno vale 3 volte (fino a 54 Tanì invece di 18). Oggi la parte in
-più conta come "guadagnata", quindi accorcia gli Introvabili per chi ha Plus. Vuoi che la parte in più conti come "pagata"
-(Plus non accorcia mai gli Introvabili, come i 750 Tanì al mese) oppure lasciarla così?
-[[PLUSLINE]]
+4) **"Risparmi il 25%":** resta 25% (24,87 arrotondato al numero più vicino).
 
-4) **"Risparmi il 25%" (CR-06):** 44,99 contro 12 × 4,99 = 59,88 è un risparmio del 24,87 %. Avevi deciso l'arrotondamento,
-quindi l'app scrive ancora 25 %. Se preferisci non arrotondare mai per eccesso, diventa "24 %" (una riga).
+5) **Neve della Stagione delle Stelle:** per tutti, anche nell'emisfero sud.
 
-5) **Neve della Stagione delle Stelle in Australia e Brasile (D-10):** lì a dicembre è estate. Lasciare la neve per tutti
-oppure, nell'emisfero sud, stelle senza neve?
+6) **Titolare dei dati (M-13):** "Snugbloom Studio – nome dello sviluppatore, Italia" e l'e-mail di Tanetto, in 14 lingue
+(la legge europea chiede l'identità del titolare). Niente indirizzo e niente telefono. Data dell'informativa: 16/11/2026.
 
-6) **Chi è il titolare dei dati nell'informativa (M-13):** oggi c'è solo il nome "Tanetto". Per legge serve nome e indirizzo
-(tuo o di una ditta). Dimmi cosa scrivere e lo metto in 14 lingue.
+7) **Prezzi per Paese (M-41):** sì, si fanno **in Play Console** (non nell'app): India ₹149 / ₹999, Indonesia Rp29.000 /
+Rp199.000, Brasile R$9,90 / R$79,90, Turchia ₺79,99 / ₺599,99, Messico $59 / $449. Con una VPN non si aggira: Google Play
+usa il Paese dell'account (serve un pagamento di quel Paese e si cambia al massimo una volta l'anno).
 
-7) **Prezzi per Paese (M-41):** India, Brasile, Turchia, Indonesia, Messico pagano oggi l'equivalente di 4,99 / 44,99.
-Proposta (si fa in Play Console, non nell'app): India ₹149 / ₹999, Indonesia Rp29.000 / Rp199.000, Brasile R$9,90 / R$79,90,
-Turchia ₺79,99 / ₺599,99, Messico $59 / $449. Europa resta 4,99 / 44,99.
+8) **Voci diverse per i 7 compagni (M-22c):** rimandate a un aggiornamento futuro.
 
-8) **Voce diversa per i 7 compagni (M-22c):** oggi parlano tutti allo stesso modo. Posso scrivere 7 caratteri (es. Germo
-calmo, Lumi curioso...) per chat, incoraggiamenti e promemoria in 14 lingue. È un lavoro grande: lo faccio solo se vuoi.
+9) **Età:** si inserisce una volta, con conferma, e poi non si cambia più (vedi parte 1, punto 11).
 
-9) **Cambiare l'età dall'app (G2-10):** ora la scheda dice la fascia d'età data, ma non si può cambiare (solo con "Ricomincia
-da capo"). Le scelte: lasciare così; permettere solo di **abbassare** l'età (più protezioni, mai meno); o permettere tutto.
-
-10) **"Unikat" in tedesco:** l'etichetta degli Introvabili in tedesco ora dice "Unikat" (prima "UNAUFFINDBAR", troppo lunga e
-spezzata). Il titolo della sezione resta "Unauffindbare Schätze". Va bene?
+10) **"Unikat" in tedesco:** sì.
 
 
 ## DA FARE IN PLAY CONSOLE (a mano)
@@ -287,16 +288,16 @@ notifica aperta, errore dell'app. Nessun dato personale.
 4) **Abbonamento Plus:** i benefici scritti nella scheda vanno aggiornati **solo al momento dell'approvazione** (file
 apply_at_approval.json già pronto, M-53).
 
-5) **Prezzi per Paese** (India, Brasile, Turchia, Indonesia...): li decidi tu in Play Console (vedi DA DECIDERE).
+5) **Prezzi per Paese** (India, Brasile, Turchia, Indonesia, Messico): decisi il 16/11 (vedi DECISO, punto 7), si impostano in Play Console insieme all'invio.
 
 6) **Stato del profilo pagamenti** e, se lo vuoi, il **video promozionale** (K-17).
 
-7) Le note di rilascio sono in RELEASE_NOTES_111.txt (inglese e italiano, sotto i 500 caratteri).
+7) Le note di rilascio sono in RELEASE_NOTES_110.txt (inglese e italiano, sotto i 500 caratteri).
 
 
 ## DA PROVARE SUL TELEFONO
 
-Su un telefono Android vero, con la versione di upload111 (installare l'APK universale):
+Su un telefono Android vero, con la versione di upload110 (installare l'APK universale):
 
 1) **Vibrazione:** completare un obiettivo, deve vibrare leggermente (se la vibrazione è attiva nel telefono).
 
