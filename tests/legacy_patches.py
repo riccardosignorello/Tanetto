@@ -45,6 +45,8 @@ P = [
     ("fix109/t38run5/t38_secure.py", "hit and r == [2, 100 + amt] and amt == 12", "hit and r == [2, 112]", "premio del video letto prima"),
     # 1.0.10 (C-22): un solo nome per "scegli un viaggio"
     ("fix109/t38run5/t38_trips.py", '"Germo può fare una gita breve!" in cta and "Scegli la gita" in cta', '"Germo può fare una gita breve!" in cta and "Scegli il viaggio" in cta', "un solo nome per scegli un viaggio (C-22)"),
+    # 1.0.10 (E-04): dopo "Non ora" 5 giorni di pausa (prima 2): al secondo giorno ancora niente offerta
+    ("fix109/t38run5/t38_nav.py", 'check("Dopo \'Non ora\' almeno 2 giorni di pausa", due == [False, True], due)', 'check("Dopo \'Non ora\' almeno 5 giorni di pausa (E-04)", due == [False, False], due)', "pausa di 5 giorni tra le offerte di Plus"),
 ]
 bad = 0
 for f, old, new, why in P:
