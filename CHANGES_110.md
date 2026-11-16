@@ -156,6 +156,13 @@ molto grande il titolo di una finestra non esce più dall'alto; le liste lunghe 
 
 7) **Condizioni d'uso** aggiornate in 14 lingue (diritti del consumatore, minori, contenuti digitali, legge italiana).
 
+8) **"Condividi il tuo Germo":** dalla foto della stanza si sceglie **Foto** o **Storia** (1080x1920, pronta per TikTok e
+Instagram, con nome, frase e "Tanetto"). Il testo condiviso ha il link di Google Play con l'origine **share_germo** (così in
+Play Console si vede quante installazioni arrivano dalle condivisioni) e gli hashtag **#tanettoapp #germo**. Solo **dai 13
+anni**; il nome scelto dall'utente compare **solo per gli adulti** (per i ragazzi resta il nome di default).
+
+9) **"Valuta Tanetto su Google Play"** in Profilo, in 14 lingue: solo per gli adulti e solo nell'app Android.
+
 
 ## 6) Velocità e batteria
 
@@ -266,7 +273,8 @@ usa il Paese dell'account (serve un pagamento di quel Paese e si cambia al massi
 
 2) **Sicurezza dei dati:** aggiungere che le **statistiche anonime** (GoatCounter) si possono spegnere e sono spente per i minori;
 elenco degli eventi contati: aperture, viaggio partito/tornato, livello raggiunto, video premio visto, acquisto nel negozio,
-notifica aperta, errore dell'app. Nessun dato personale.
+notifica aperta, errore dell'app, **condivisione-storia, condivisione-foto, foto-storia, foto-classica,
+valuta-da-profilo** (nuovi nella 1.0.10). Nessun dato personale.
 
 3) **AdMob:** attivare il messaggio per gli **Stati USA** (privacy degli Stati) oltre a quello europeo.
 
@@ -277,7 +285,7 @@ apply_at_approval.json già pronto, M-53).
 
 6) **Stato del profilo pagamenti** e, se lo vuoi, il **video promozionale** (K-17).
 
-7) Le note di rilascio sono in RELEASE_NOTES_110.txt (inglese e italiano, sotto i 500 caratteri).
+7) Le note di rilascio sono in RELEASE_NOTES_110.txt (**19 lingue**, ognuna sotto i 500 caratteri): si incollano tutte insieme.
 
 
 ## DA PROVARE SUL TELEFONO
@@ -298,5 +306,8 @@ compagno e Tanì devono tornare (se il backup automatico è attivo nel telefono)
 
 6) **Versione ridotta (R8):** aprire tutte le schede, il negozio, un viaggio, Plus (senza comprare), un video premio,
 l'accesso con Google e il widget: niente si deve bloccare.
+
+7) **Condividi il tuo Germo:** Profilo › foto della stanza › Storia › Condividi: deve aprirsi la scelta delle app con
+l'immagine verticale e il testo con il link; provare anche Foto.
 
 7) **Pagamenti di prova** con un account tester: prova di 7 giorni, disdetta, pacchetto di Tanì.
