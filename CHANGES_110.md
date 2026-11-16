@@ -188,6 +188,23 @@ gli obiettivi scelti hanno la spunta con un piccolo scatto, pulsanti con ombra e
 14) **Guida iniziale fluida:** prima a ogni "Avanti" il velo si spegneva e si riaccendeva dopo quasi mezzo secondo (e a volte
 una seconda volta); ora c'è un solo velo e il cerchio scivola sul punto successivo, mentre il testo cambia in dissolvenza.
 
+15) **Tutte le sezioni rivedute:** ogni sezione ha il suo colore (luce in alto, icona accanto al titolo, selettori a
+pillola), riquadri più profondi che entrano uno dopo l'altro quando cambi sezione, faccine dell'umore colorate, finestre che
+salgono morbide dal basso.
+
+16) **"Zaino" al posto di "Energia" (14 lingue, 461 testi):** ogni obiettivo fatto mette un oggetto nello zaino del compagno
+(borraccia, mappa, mela, cappello, macchina fotografica, bussola, sciarpa, lanterna); zaino a metà = gita breve, zaino pieno =
+viaggio completo. Le regole non cambiano. Anche le 19 schede dello Store.
+
+17) **Una voce per ogni compagno (M-22c):** Germo, Ondi, Lumi, Miko, Rufi, Pingo e Dori hanno frasi loro quando completi un
+obiettivo, nei promemoria e nella chat (solo risposte di ascolto, mai al posto dell'aiuto): 980 frasi in 14 lingue.
+
+18) **Caratteri per russo, giapponese, coreano e cinese (M-36):** un solo stile per riga anche con nomi in lettere latine;
+anche nei disegni (cartoline, storia, riassunti).
+
+19) **Più veloce:** nell'app Android il codice sta in un file a parte (Android lo tiene compilato: aperture più rapide dalla
+seconda in poi); il Negozio si apre in circa metà del tempo di prima (le etichette si misurano dopo il disegno).
+
 Con "movimento ridotto" (impostazione dell'app o del telefono) niente animazioni continue.
 
 ## 6) Velocità e batteria
@@ -251,12 +268,14 @@ spezzate con il testo grande, le aree di tocco, i nomi per il lettore di schermo
 Non sono nella 1.0.10 perché cambiano il modo in cui l'app viene costruita o servono il PC o un telefono vero per provarle
 bene; farle di corsa sarebbe un rischio più grande del beneficio.
 
-1) **Avvio più veloce (M-42):** dividere il codice per lingua.
-2) **Caratteri per russo, giapponese, coreano e cinese (M-36).**
-3) **Il fiore di Germo nei momenti 3D (M-38):** render sul PC.
-4) **Protezione CSP dentro l'app Android (M-47).**
-5) **Pagina iniziale leggera del sito (M-51).**
-6) **Voci diverse per i 7 compagni (M-22c):** rimandata da te.
+1) **Avvio ancora più veloce (M-42, seconda parte):** caricare solo la lingua in uso. Cambia la struttura di decine di file di
+testi: va fatto con calma e provato su un telefono vero. La prima parte (codice in un file a parte) è nella 1.0.10.
+2) **Il fiore di Germo nei momenti 3D (M-38):** servono nuove immagini 3D fatte con la scheda grafica del PC.
+3) **Protezione CSP dentro l'app Android (M-47):** l'app non carica contenuti da fuori, quindi il rischio è piccolo; un errore
+potrebbe invece bloccare accesso o acquisti, e si può provare solo su un telefono vero.
+4) **Pagina iniziale leggera del sito (M-51):** è del sito, non dell'app: va con il lavoro sul sito multilingua.
+5) **Negozio e Profilo ancora più rapidi:** disegnare i gruppi lontani solo quando ci arrivi (cambia come sono costruite le
+pagine).
 7) **Da provare sul telefono vero** prima dell'invio: lista qui sotto.
 
 
@@ -295,9 +314,7 @@ usa il Paese dell'account (serve un pagamento di quel Paese e si cambia al massi
 Habit Pet", che aveva la stessa forma del titolo di Finch. Già nel file della scheda; nelle 19 schede la lingua è detta nella
 prima frase della descrizione.
 
-12) **"Energia" diventa "Zaino" (16/11 sera, "fai tu"):** si fa nella **1.0.11**, subito dopo questa. Sono circa 500 testi in 14
-lingue più un disegno nuovo (uno zaino che si riempie di un oggetto per ogni obiettivo): fatti di corsa stanotte sarebbero
-sotto il 10 su 10.
+12) **"Energia" diventa "Zaino" (16/11 sera):** fatto nella 1.0.10 (vedi parte 5, punto 16).
 
 
 ## DA FARE IN PLAY CONSOLE (a mano)
@@ -308,7 +325,8 @@ sotto il 10 su 10.
 2) **Sicurezza dei dati:** aggiungere che le **statistiche anonime** (GoatCounter) si possono spegnere e sono spente per i minori;
 elenco degli eventi contati: aperture, viaggio partito/tornato, livello raggiunto, video premio visto, acquisto nel negozio,
 notifica aperta, errore dell'app, **condivisione-storia, condivisione-foto, foto-storia, foto-classica,
-valuta-da-profilo, prova-plus-promemoria** (nuovi nella 1.0.10). Nessun dato personale.
+valuta-da-profilo, prova-plus-promemoria, ritorno-g1, ritorno-g7, ritorno-g30** (nuovi nella 1.0.10: chi torna
+dopo 1, 7 e 30 giorni, solo un conteggio). Nessun dato personale.
 
 3) **AdMob:** attivare il messaggio per gli **Stati USA** (privacy degli Stati) oltre a quello europeo.
 
