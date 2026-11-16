@@ -142,7 +142,7 @@ notifSchedule = function () {
     const t = L(), x = v19n(), c = v110Care(), n = S.petName || ""; const { h, m } = remTimes(); const now = Date.now(); const list = [];
     const tg = todayGoals(); const allDone = tg.length > 0 && tg.every((g) => S.done.includes(g));
     const day0 = Math.floor(new Date(dkey() + "T12:00:00").getTime() / 86400000);
-    const msgs = (x && x.msgs) || t.notif.msgs; const st = typeof streak === "function" ? streak() : 0;
+    let msgs = (x && x.msgs) || t.notif.msgs; if (typeof v110VoiceMsgs === "function") msgs = v110VoiceMsgs(msgs); const st = typeof streak === "function" ? streak() : 0;
     const soft = typeof sf110Quiet !== "undefined" && sf110Quiet && msgs.length >= 8;
     V110_PLAN.forEach((off, k) => {
       const d = new Date(); d.setDate(d.getDate() + off); d.setHours(h, m, 0, 0);

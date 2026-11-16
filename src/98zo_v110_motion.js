@@ -127,3 +127,25 @@ setLang = function (...a) { const r = _setLangV110f.apply(this, a); v110FontsWar
 /* licenze: i tre caratteri nuovi (stessa licenza SIL OFL 1.1) */
 Object.keys(T).forEach((l) => { const c = T[l] && T[l].credits; if (!Array.isArray(c)) return; const i = c.findIndex((x) => typeof x === "string" && /Fredoka.*Figtree/.test(x)); if (i < 0 || /Nunito/.test(c[i])) return;
   c[i] = c[i].replace(/Fredoka(\s*\S{0,4}\s*)Figtree/, (m, conj) => `Fredoka, Figtree, Nunito, M PLUS Rounded 1c${conj}Jua`); });
+
+/* ---------- 6) "Zaino" al posto di "Energia": distintivo con lo zaino e una casella-oggetto per ogni obiettivo ---------- */
+const V110_PACK = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 7V5.5a3.5 3.5 0 0 1 7 0V7"/><path d="M5 10a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v9a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2Z"/><path d="M9 13.5h6v3.5H9Z"/></svg>';
+const V110_ITEMS = [
+  '<path d="M10 3h4v3l1.5 2v11a2 2 0 0 1-2 2h-3a2 2 0 0 1-2-2V8L10 6Z"/><path d="M8.5 12.5h7"/>',
+  '<path d="M4 6l5-2 6 2 5-2v14l-5 2-6-2-5 2Z"/><path d="M9 4v14M15 6v14"/>',
+  '<path d="M12 8c-3-2-7 0-7 4.5 0 4 3 7.5 5 7.5 1 0 1.4-.5 2-.5s1 .5 2 .5c2 0 5-3.5 5-7.5C19 8 15 6 12 8Z"/><path d="M12 8c0-2 1-3.5 3-4.5"/>',
+  '<path d="M4.5 15c0-4.6 3.4-7.8 7.5-7.8s7.5 3.2 7.5 7.8Z"/><path d="M2.5 15h19"/>',
+  '<path d="M4 8h3l2-3h6l2 3h3v11H4Z"/><circle cx="12" cy="13" r="3.4"/>',
+  '<circle cx="12" cy="12" r="8.5"/><path d="M15 9l-1.8 4.2L9 15l1.8-4.2Z"/>',
+  '<path d="M6 5h12v4H6Z"/><path d="M9 9v10l3-2 3 2V9"/>',
+  '<path d="M10 3h4M12 3v3M8 6h8l1 12H7Z"/><path d="M12 10v4"/>'
+];
+function v110Pack() {
+  document.querySelectorAll("#app .nvbadge, #app .tr20bdg").forEach((b) => { if (!b.dataset.v110p) { b.innerHTML = V110_PACK; b.dataset.v110p = "1"; } });
+  document.querySelectorAll("#app .nvseg, #app .tr20seg").forEach((seg) => {
+    [...seg.children].forEach((it, k) => { if (it.tagName === "I" && !it.querySelector("svg")) it.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${V110_ITEMS[k % V110_ITEMS.length]}</svg>`; });
+    seg.classList.add("v110pack");
+  });
+}
+const _renderV110p = render;
+render = function (...a) { const r = _renderV110p.apply(this, a); try { v110Pack(); } catch (e) { /* niente */ } return r; };

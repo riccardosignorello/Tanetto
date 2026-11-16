@@ -54,3 +54,15 @@ html body .card { border-radius: 22px; box-shadow: 0 1px 0 rgba(255, 255, 255, .
 html.calm #app.v110in .stack > *, html.lite #app.v110in .stack > * { animation: none; }
 html.calm .moods .mood[aria-pressed="true"], html.lite .moods .mood[aria-pressed="true"] { transform: none; }
 @media (prefers-reduced-motion: reduce) { #app.v110in .stack > * { animation: none !important; } }
+
+/* 7) "Zaino": ogni obiettivo e' una casella con un oggetto (borraccia, mappa, mela, cappello, macchina fotografica, bussola,
+   sciarpa, lanterna); fatto = la casella si colora e l'oggetto entra nello zaino */
+#app .nvseg.v110pack, #app .tr20seg.v110pack { height: auto; gap: 5px; background: none; box-shadow: none; border-radius: 0; }
+#app .v110pack.v110pack i:nth-child(n) { height: 32px; border-radius: 11px; display: grid; place-items: center; background: var(--paper-2); box-shadow: inset 0 0 0 1px var(--line); color: var(--muted); transition: background-color .3s ease, box-shadow .3s ease, color .3s ease; }
+#app .v110pack i svg { width: 17px; height: 17px; opacity: .55; transition: opacity .3s ease, transform .3s cubic-bezier(.3, 1.7, .5, 1); }
+#app .v110pack.v110pack i.on:nth-child(n) { background: color-mix(in srgb, var(--accent) 18%, var(--paper)); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--accent) 70%, transparent); color: var(--accent); }
+#app .nven.nv-full .v110pack.v110pack i.on:nth-child(n) { background: color-mix(in srgb, var(--sun) 22%, var(--paper)); box-shadow: inset 0 0 0 1.5px var(--sun); color: color-mix(in srgb, var(--sun) 70%, var(--ink)); }
+#app .v110pack i.on svg { opacity: 1; transform: scale(1.08); }
+#app .v110pack i.half::after { top: -4px; bottom: -4px; right: -4px; }
+html.bigtext #app .v110pack.v110pack i:nth-child(n) { height: 36px; }
+@media (max-width: 360px) { #app .v110pack { gap: 3px; } #app .v110pack i svg { width: 15px; height: 15px; } }

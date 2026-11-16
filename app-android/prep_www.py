@@ -17,6 +17,13 @@ for fam, ws in [("fredoka", [500, 600, 700]), ("figtree", [400, 500, 600, 700])]
             if m.endswith(".woff2"): shutil.copy(f"node_modules/@fontsource/{fam}/files/{m}", f"{W}/fonts/{m}")
         c = re.sub(r",\s*url\(\./files/[^)]+\.woff\) format\('woff'\)", "", c)
         css += c.replace("url(./files/", "url(fonts/")
+# 1.0.10 (M-36): caratteri per russo, giapponese e coreano (gli stessi del sito, gia' ridotti ai caratteri che servono)
+_sf = open(f"{SITE}/fonts.css", encoding="utf-8").read(); _k = _sf.find("/* 1.0.10 (M-36)")
+assert _k > 0, "caratteri 1.0.10 non trovati in fonts.css"
+css += "\n" + _sf[_k:]
+for _f in os.listdir(f"{SITE}/fonts"):
+    if _f.startswith("t110-"): shutil.copy(f"{SITE}/fonts/{_f}", f"{W}/fonts/{_f}")
+assert len([x for x in os.listdir(f"{W}/fonts") if x.startswith("t110-")]) >= 200, "caratteri 1.0.10 non copiati"
 open(f"{W}/fonts.css", "w").write(css)
 h = open(f"{SITE}/index.html").read()
 h = h.replace('<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"', '<script src="gsap.min.js"')
@@ -38,5 +45,12 @@ assert "caveat-700.woff2" not in h or os.path.exists(f"{W}/caveat-700.woff2"), "
 dbg = "window.__v10 = { ev: (code) => eval(code) };"
 assert h.count(dbg) == 1, "aggancio di prova non trovato"
 h = h.replace(dbg, "")
+# 1.0.10 (M-42, prima parte): il codice dell'app in un file a parte (app.js) invece che dentro la pagina: Android lo
+# compila una volta e lo tiene pronto (cache del codice), cosi' le aperture dopo la prima sono piu' veloci.
+_sc = re.findall(r"<script>([\s\S]*?)</script>", h)
+assert len(_sc) == 1 and len(_sc[0]) > 1000000, "script dell'app non trovato"
+open(f"{W}/app.js", "w", encoding="utf-8").write(_sc[0])
+h = h.replace("<script>" + _sc[0] + "</script>", '<script src="app.js"></script>', 1)
+assert "<script>" not in h and 'src="app.js"' in h, "script non spostato"
 open(f"{W}/index.html", "w").write(h)
 print("www pronta:", len(os.listdir(W + "/fonts")), "font,", len(h), "byte")
