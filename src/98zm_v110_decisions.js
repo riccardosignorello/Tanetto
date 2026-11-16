@@ -100,6 +100,8 @@ if (typeof psAgeCard === "function") {
 let v110StickyUntil = 0, v110FullAt = 0;
 const _toastV110 = toast;
 toast = function (msg, ...a) {
+  /* i messaggi aspettano la fine del respiro (la regola di 98f era stata scavalcata dall'avviso per i lettori di schermo, 98zk) */
+  try { if (document.querySelector(".nvbreath.running")) { const iv = setInterval(() => { if (!document.querySelector(".nvbreath.running")) { clearInterval(iv); toast(msg, ...a); } }, 400); return; } } catch (e) { /* niente */ }
   const w = v110StickyUntil - Date.now(); if (w > 0) { setTimeout(() => toast(msg, ...a), w + 200); return; }
   return _toastV110.call(this, msg, ...a);
 };
@@ -191,3 +193,23 @@ document.addEventListener("click", (ev) => {
   const b = ev.target.closest && ev.target.closest("#v110ChatHelp, #v110DiaryHelp"); if (!b) return; ev.stopImmediatePropagation();
   try { if (b.id === "v110ChatHelp") { const box = layer.querySelector(".chatbox .v26sos"); if (box) { box.scrollIntoView({ block: "nearest" }); return; } } v26HelpSheet(1); } catch (e) { /* niente */ }
 }, true);
+
+/* =================== 6) Testo grande (caratteri di sistema 130-200%): parole intere ===================
+   Nella barra in basso e sulle etichette "INTROVABILE" una parola non si spezza a meta' e non esce dal pulsante: se non ci
+   sta, il carattere si rimpicciolisce un poco (mai sotto 9 px), solo per quella parola. */
+function v110FitOne(el, box, minPx) {
+  try {
+    el.style.fontSize = ""; let fs = parseFloat(getComputedStyle(el).fontSize) || 12; let n = 0;
+    const fits = () => { if (box === el) return el.scrollWidth <= el.clientWidth + 1; const bw = box.clientWidth - 4; return el.scrollWidth <= bw + 1 && el.getBoundingClientRect().width <= box.getBoundingClientRect().width - 2 && new Set([...el.getClientRects()].map((q) => Math.round(q.top))).size <= Math.max(1, el.textContent.trim().split(/\s+/).length); };
+    while (!fits() && fs > minPx && n < 40) { fs -= 0.5; el.style.fontSize = fs + "px"; n++; }
+  } catch (e) { /* niente */ }
+}
+function v110Fit() {
+  try {
+    document.querySelectorAll("#tabsIn .tab > span:not(.ic)").forEach((s) => { s.style.wordBreak = "keep-all"; s.style.overflowWrap = "normal"; s.style.hyphens = "none"; v110FitOne(s, s.closest(".tab"), 9); });
+    document.querySelectorAll("#app .rar").forEach((r) => { if (r.scrollWidth > r.clientWidth + 1) v110FitOne(r, r, 8); });
+  } catch (e) { /* niente */ }
+}
+const _renderV110f = render;
+render = function (...a) { const r = _renderV110f.apply(this, a); v110Fit(); return r; };
+window.addEventListener("resize", () => { clearTimeout(window.__v110ft); window.__v110ft = setTimeout(v110Fit, 120); });

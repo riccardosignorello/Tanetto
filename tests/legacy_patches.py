@@ -43,6 +43,8 @@ P = [
     ("fix109/t38run5/t38_xmas.py", "Object.keys(x.gr).length !== 3", "Object.keys(x.gr).length < 3", "auguri di Capodanno in ru e tr"),
     # 1.0.10 (M-09): dal terzo video del giorno 6 Tanì: il premio si legge prima, non dopo due video
     ("fix109/t38run5/t38_secure.py", "hit and r == [2, 100 + amt] and amt == 12", "hit and r == [2, 112]", "premio del video letto prima"),
+    # 1.0.10 (C-22): un solo nome per "scegli un viaggio"
+    ("fix109/t38run5/t38_trips.py", '"Germo può fare una gita breve!" in cta and "Scegli la gita" in cta', '"Germo può fare una gita breve!" in cta and "Scegli il viaggio" in cta', "un solo nome per scegli un viaggio (C-22)"),
 ]
 bad = 0
 for f, old, new, why in P:
