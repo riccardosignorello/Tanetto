@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-ZfdwwV/I4s2tbbV6n8zhj1hhU8qNVfKL68CKWBZ+aMQ=' 'unsafe-eval' https://apis.google.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.goatcounter.com; media-src 'self' data: blob:; connect-src 'self' data: blob: https://*.googleapis.com https://tanettoapp-pet.firebaseapp.com https://*.goatcounter.com; frame-src https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-yA+/8EKnQAA4Yme9JlteBD0to9HE3YD8MtqLFB6+8RI=' 'unsafe-eval' https://apis.google.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.goatcounter.com; media-src 'self' data: blob:; connect-src 'self' data: blob: https://*.googleapis.com https://tanettoapp-pet.firebaseapp.com https://*.goatcounter.com; frame-src https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#F4EFE6">
 <title>Tanetto — a tiny pet for your self-care habits (free app)</title>
@@ -3649,6 +3649,26 @@ html.v110x #app .v110path > .dest .meta { width: 100%; box-sizing: border-box; }
 #app .tr20scale > span { position: absolute; top: 0; width: max(66px, calc((100% - (var(--v110n, 5) - 1) * 5px) / var(--v110n, 5))); text-align: center; white-space: normal; line-height: 1.15; font-size: 12.5px; font-weight: 700; }
 #app .tr20scale > .h { color: var(--nv-energy-ink); }
 #app .tr20scale > .f { right: 0; color: var(--accent); }
+/* 1.0.11: rarity badge always above the item picture (the curtain rod covered "RARE" on locked path rewards) */
+.item .rar { z-index: 2; }
+
+/* ===== 1.0.11: cartolina della settimana, formati 9:16 / 1:1, scheda in Oggi ===== */
+.gr20box .w111fmt { width: 100%; max-width: 320px; margin: 0 auto; }
+.gr20box .w111fmt button { min-height: 48px; }
+.gr20prev.sq { aspect-ratio: 1 / 1; height: auto; width: min(100%, 46vh, 340px); }
+@media (max-height: 640px) { .gr20prev.sq { width: min(100%, 40vh, 300px); } }
+/* sotto i 13 anni (e con l'eta' non detta) niente condivisione fuori dall'app: spariscono anche i pulsanti "Condividi" di prima */
+html.w111noshare #shareCard, html.w111noshare #shareLevel { display: none !important; }
+/* scheda "La settimana con ... e' pronta" (stessa base della scheda del nome) */
+.card.w111wk .w111days { display: flex; gap: 6px; justify-content: center; margin: 2px 0 2px; }
+.card.w111wk .w111d { width: 26px; height: 26px; border-radius: 9px; background: var(--paper-2, #F3EDE4); box-shadow: inset 0 0 0 2px var(--line, #E2D6C3); display: block; }
+.card.w111wk .w111d.all { background: var(--accent, #4E8A4A); box-shadow: none; }
+.card.w111wk .w111d.some { background: color-mix(in srgb, var(--accent, #4E8A4A) 45%, #fff); box-shadow: none; }
+.card.w111wk .w111d.rest { background: #EFE6F7; box-shadow: inset 0 0 0 2px #CFC3EA; }
+.card.w111wk .w111d.next { background: none; box-shadow: none; outline: 2px dashed var(--line, #D9CDBA); outline-offset: -3px; }
+.card.w111wk .btn { min-height: 48px; }
+[data-theme="dark"] .card.w111wk .w111d.rest { background: #3A3350; box-shadow: inset 0 0 0 2px #5A4F7A; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .card.w111wk .w111d.rest { background: #3A3350; box-shadow: inset 0 0 0 2px #5A4F7A; } }
 
 </style>
 
@@ -25499,7 +25519,7 @@ const SND = (() => {
     const c = ensure(); if (!c) return;
     try { FX[name](c.currentTime + 0.01); } catch (e) { /* niente */ }
     /* 1.0.10 (A-02): con la musica accesa, la musica si abbassa un attimo sotto il suono (si sente sempre il tocco) */
-    try { if (musicTimer && musicBus) { const t0 = c.currentTime, g = MUSIC_K * TRACKS[cur].g; musicBus.gain.cancelScheduledValues(t0); musicBus.gain.setTargetAtTime(g * 0.5, t0, 0.03); musicBus.gain.setTargetAtTime(g, t0 + 0.6, 0.25); } } catch (e) { /* niente */ }
+    try { if (musicTimer && musicBus) { const t0 = c.currentTime, g = MUSIC_K * curGain(); musicBus.gain.cancelScheduledValues(t0); musicBus.gain.setTargetAtTime(g * 0.5, t0, 0.03); musicBus.gain.setTargetAtTime(g, t0 + 0.6, 0.25); } } catch (e) { /* niente */ }
   }
   /* 1.0.9 (fase 3): il motivo di ogni compagno (scratchpad/gpu/characters.md), tutti in Sol maggiore pentatonico come il
      logo, con la stessa kalimba/celesta; brevi (sotto 1,2 s), piano, mai insistenti. Germo = il logo stesso. */
@@ -25608,6 +25628,7 @@ const SND = (() => {
   }
   function stopBed() { if (!bed || !ctx) return; const b = bed; bed = null; b.g.gain.linearRampToValueAtTime(0.0001, ctx.currentTime + 1); setTimeout(() => { try { b.src.stop(); } catch (e) { /* niente */ } }, 1200); }
   function schedule() {
+    if (ctx && evCur) { evTick(); return; }
     if (!ctx || !song) return;
     const { tr, bars } = song; const L = MODES[tr.mode].length; const I = INST[tr.mel], A = INST[tr.accI];
     while (nextT < ctx.currentTime + 0.5) {
@@ -25639,24 +25660,249 @@ const SND = (() => {
       nextT += tr.beat; step++;
     }
   }
-  function startSong(i) { cur = (i + TRACKS.length) % TRACKS.length; song = buildSong(cur); step = 0; nextT = ctx.currentTime + 0.15; startBed(TRACKS[cur].bed); if (musicTimer) { musicBus.gain.cancelScheduledValues(ctx.currentTime); musicBus.gain.setValueAtTime(musicBus.gain.value, ctx.currentTime); musicBus.gain.linearRampToValueAtTime(MUSIC_K * TRACKS[cur].g, ctx.currentTime + 1.5); } if (onTrack) onTrack(cur); }
+  /* =================== 1.0.11: MUSICHE DEGLI EVENTI ===================
+     Cinque brani composti apposta (melodia, armonia e arrangiamento scritti nota per nota, non generati a caso), con timbri
+     che gli altri 21 brani non usano: Lanterne (6/8, chitarra pizzicata, ocarina, campanellini), Natale (swing leggero,
+     celesta, pizzicato, sonagli), Nuovo inizio (alba: arpeggi di piano e il motivo del logo sulla kalimba), Stelle (notturno,
+     celesta, arpa, tappeto di vetro), Aquiloni (arioso, flauto, marimba, folate di vento).
+     - Forma: introduzione breve (solo la prima volta), poi 16 battute (A+B) due volte, la seconda con un arrangiamento diverso
+       (contromelodia, raddoppi); l'ultima battuta e' una dominante che risolve sulla prima: il giro ricomincia senza stacchi,
+       con lo stesso tempo e la coda dell'eco che continua.
+     - Ogni nota ha un attacco e una chiusura morbidi (nessun clic); funzioni pure (contesto e uscita come argomenti), usate sia
+       dal vivo sia dai test con un OfflineAudioContext per farne i file di ascolto. */
+  const MID = (s) => { const m = /^([A-G])([#b]?)(-?\d)$/.exec(s); if (!m) return null; return { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 }[m[1]] + (m[2] === "#" ? 1 : m[2] === "b" ? -1 : 0) + 12 * (+m[3] + 1); };
+  const HZ = (m) => 440 * Math.pow(2, (m - 69) / 12);
+  const CHQ = { "": [0, 4, 7], m: [0, 3, 7], maj7: [0, 4, 7, 11], maj9: [0, 4, 7, 11, 14], m7: [0, 3, 7, 10], m9: [0, 3, 7, 10, 14], m6: [0, 3, 7, 9], 7: [0, 4, 7, 10], 9: [0, 4, 7, 10, 14], 6: [0, 4, 7, 9], sus4: [0, 5, 7], sus2: [0, 2, 7], "7sus4": [0, 5, 7, 10], add9: [0, 4, 7, 14] };
+  const PC = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 };
+  const pcOf = (s) => PC[s[0]] + (s[1] === "#" ? 1 : s[1] === "b" ? -1 : 0);
+  /* accordo: { root: classe della fondamentale, bass: classe del basso, iv: intervalli } */
+  function chordOf(sym) {
+    const m = /^([A-G][#b]?)(maj9|maj7|m9|m7|m6|7sus4|sus4|sus2|add9|m|7|9|6)?(?:\/([A-G][#b]?))?$/.exec(sym); if (!m) return { root: 0, bass: 0, iv: [0, 4, 7] };
+    const r = pcOf(m[1]); return { root: r, bass: m[3] ? pcOf(m[3]) : r, iv: CHQ[m[2] || ""] };
+  }
+  /* note dell'accordo vicine a un'ottava (midi >= lo) */
+  const near = (pc, lo) => { let x = lo - ((lo - pc) % 12 + 12) % 12; if (x < lo) x += 12; return x; };
+  const chordNotes = (ch, lo, n) => { const out = []; const base = near(ch.root, lo); for (let k = 0; out.length < n; k++) { const iv = ch.iv[k % ch.iv.length] + 12 * Math.floor(k / ch.iv.length); out.push(base + iv); } return out; };
+  /* melodia scritta "NOTA:durata" (durata in passi), battute separate da | */
+  function parseMel(str, per) {
+    return str.split("|").map((bar) => { const ev = []; let p = 0; bar.trim().split(/\s+/).filter(Boolean).forEach((tk) => { const [n, d] = tk.split(":"); const len = +d || 1; if (n !== "r") ev.push([p, MID(n), len]); p += len; }); ev.len = p; return ev; });
+  }
+  /* --- strumenti (contesto c, uscita d) --- */
+  let evNoise = null, evHum = 7;
+  function evNoiseBuf(c) { if (evNoise && evNoise.sampleRate === c.sampleRate) return evNoise; const n = c.sampleRate; const b = c.createBuffer(1, n, c.sampleRate); const x = b.getChannelData(0); let r = 12345; for (let i = 0; i < n; i++) { r = (r * 16807) % 2147483647; x[i] = r / 1073741823.5 - 1; } evNoise = b; return b; }
+  function evPan(c, d, p) { if (!p || !c.createStereoPanner) return d; const s = c.createStereoPanner(); s.pan.value = p; s.connect(d); return s; }
+  /* oscillatore con inviluppo: attacco lineare da 0, decadimento esponenziale verso 0, stop solo a volume nullo */
+  function evOsc(c, d, f, t, o) {
+    const { type = "sine", vol = 0.1, a = 0.006, dur = 1, rel = 0.25, lp = 0, det = 0, sus = 0 } = o;
+    if (!(f > 20 && f < c.sampleRate * 0.45) || !(vol > 0)) return;
+    evHum = (evHum * 1103515245 + 12345) & 0x7fffffff; const hv = vol * (0.94 + (evHum % 1000) / 1000 * 0.12); /* piccole differenze di tocco */
+    const os = c.createOscillator(), g = c.createGain(); os.type = type; os.frequency.setValueAtTime(f, t); if (det) os.detune.setValueAtTime(det, t);
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(hv, t + a);
+    if (sus) { g.gain.setTargetAtTime(hv * sus, t + a, dur * 0.35); g.gain.setTargetAtTime(0, t + dur, rel / 4); }
+    else g.gain.setTargetAtTime(0, t + a, Math.max(0.02, dur / 4));
+    let src = os; if (lp) { const f1 = c.createBiquadFilter(); f1.type = "lowpass"; f1.frequency.setValueAtTime(lp, t); f1.Q.value = 0.4; os.connect(f1); src = f1; }
+    src.connect(g); g.connect(d); os.start(t); os.stop(t + (sus ? dur + rel * 1.6 : dur * 1.6) + a + 0.05);
+    return os;
+  }
+  function evNoiseHit(c, d, t, o) {
+    const { vol = 0.05, a = 0.003, dur = 0.06, f = 6000, q = 1, type = "bandpass", f2 = 0, off = 0 } = o;
+    const s = c.createBufferSource(), bp = c.createBiquadFilter(), g = c.createGain(); s.buffer = evNoiseBuf(c);
+    bp.type = type; bp.frequency.setValueAtTime(f, t); if (f2) bp.frequency.exponentialRampToValueAtTime(f2, t + dur * 0.8); bp.Q.value = q;
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(vol, t + a); g.gain.setTargetAtTime(0, t + a, dur / 3.5);
+    s.connect(bp); bp.connect(g); g.connect(d); s.start(t, (off * 0.37) % 0.6, Math.min(0.39, dur * 2.2 + a)); /* il rumore dura al massimo 0,4 s */
+  }
+  const EVI = {
+    /* chitarra di nylon pizzicata: triangolo + armoniche, filtro che si chiude */
+    pluck: (c, d, f, t, v, len, pan) => { const o = evPan(c, d, pan); evOsc(c, o, f, t, { type: "triangle", vol: v, a: 0.004, dur: 1.1, lp: 2400 }); evOsc(c, o, f * 2, t, { vol: v * 0.22, a: 0.003, dur: 0.35 }); evOsc(c, o, f * 3, t, { vol: v * 0.08, a: 0.002, dur: 0.12 }); },
+    /* ocarina / flauto dolce: sinusoide con vibrato che arriva piano e un filo di fiato all'attacco */
+    ocarina: (c, d, f, t, v, len, pan) => {
+      const o = evPan(c, d, pan); const os = evOsc(c, o, f, t, { vol: v, a: 0.07, dur: len, rel: 0.22, sus: 0.82 });
+      if (os) { const l = c.createOscillator(), lg = c.createGain(); l.frequency.value = 5.2; lg.gain.setValueAtTime(0, t); lg.gain.linearRampToValueAtTime(f * 0.005, t + Math.min(0.5, len * 0.6)); l.connect(lg); lg.connect(os.frequency); l.start(t); l.stop(t + len + 0.6); }
+      evOsc(c, o, f * 2, t, { vol: v * 0.06, a: 0.08, dur: len, rel: 0.2, sus: 0.8 });
+      evNoiseHit(c, o, t, { vol: v * 0.12, a: 0.02, dur: 0.09, f: 1800 + f * 0.5, q: 2, off: f });
+    },
+    celesta: (c, d, f, t, v, len, pan) => { const o = evPan(c, d, pan); evOsc(c, o, f, t, { vol: v, a: 0.003, dur: 1.5 }); evOsc(c, o, f * 4, t, { vol: v * 0.16, a: 0.002, dur: 0.22 }); evOsc(c, o, f * 2, t, { vol: v * 0.1, a: 0.003, dur: 0.5 }); },
+    glock: (c, d, f, t, v, len, pan) => { const o = evPan(c, d, pan); evOsc(c, o, f, t, { vol: v, a: 0.002, dur: 1.2 }); evOsc(c, o, f * 2.76, t, { vol: v * 0.25, a: 0.002, dur: 0.3 }); evOsc(c, o, f * 5.4, t, { vol: v * 0.08, a: 0.002, dur: 0.1 }); },
+    /* tappeto: due denti di sega appena stonati, filtrati, attacco e chiusura lenti */
+    pad: (c, d, f, t, v, len, pan, bright) => { const o = evPan(c, d, pan); const lp = bright || 1100; evOsc(c, o, f, t, { type: "sawtooth", vol: v * 0.5, a: Math.min(0.9, len * 0.4), dur: len, rel: 1.2, sus: 0.9, lp, det: -6 }); evOsc(c, o, f, t, { type: "sawtooth", vol: v * 0.5, a: Math.min(0.9, len * 0.4), dur: len, rel: 1.2, sus: 0.9, lp, det: 6 }); },
+    /* vetro: sinusoidi e triangolo con attacco lento (Stelle) */
+    glass: (c, d, f, t, v, len, pan) => { const o = evPan(c, d, pan); evOsc(c, o, f, t, { vol: v, a: Math.min(1.2, len * 0.45), dur: len, rel: 1.4, sus: 0.85, det: -4 }); evOsc(c, o, f * 2, t, { type: "triangle", vol: v * 0.25, a: Math.min(1.4, len * 0.5), dur: len, rel: 1.4, sus: 0.8, det: 5, lp: 2600 }); },
+    harp: (c, d, f, t, v, len, pan) => { const o = evPan(c, d, pan); evOsc(c, o, f, t, { type: "triangle", vol: v, a: 0.004, dur: 1.6, lp: 2600 }); evOsc(c, o, f * 2, t, { vol: v * 0.15, a: 0.003, dur: 0.5 }); },
+    bass: (c, d, f, t, v, len) => { evOsc(c, d, f, t, { vol: v, a: 0.012, dur: Math.max(0.3, len), rel: 0.18, sus: 0.6, lp: 700 }); evOsc(c, d, f * 2, t, { type: "triangle", vol: v * 0.18, a: 0.01, dur: Math.max(0.2, len * 0.6), rel: 0.12, sus: 0.4, lp: 900 }); },
+    pizz: (c, d, f, t, v) => { evOsc(c, d, f, t, { type: "triangle", vol: v, a: 0.004, dur: 0.32, lp: 1300 }); evOsc(c, d, f * 2, t, { vol: v * 0.2, a: 0.003, dur: 0.12 }); },
+    marimba: (c, d, f, t, v, len, pan) => { const o = evPan(c, d, pan); evOsc(c, o, f, t, { vol: v, a: 0.003, dur: 0.5 }); evOsc(c, o, f * 3.98, t, { vol: v * 0.2, a: 0.002, dur: 0.06 }); },
+    epiano: (c, d, f, t, v, len, pan) => { const o = evPan(c, d, pan); evOsc(c, o, f, t, { vol: v, a: 0.008, dur: 1.8, lp: 2200 }); evOsc(c, o, f * 2, t, { vol: v * 0.14, a: 0.006, dur: 0.6 }); evOsc(c, o, f * 3, t, { vol: v * 0.05, a: 0.004, dur: 0.2 }); },
+    flute: (c, d, f, t, v, len, pan) => {
+      const o = evPan(c, d, pan); const os = evOsc(c, o, f, t, { vol: v, a: 0.05, dur: len, rel: 0.2, sus: 0.85, lp: 3200 });
+      if (os) { const l = c.createOscillator(), lg = c.createGain(); l.frequency.value = 5.6; lg.gain.setValueAtTime(0, t); lg.gain.linearRampToValueAtTime(f * 0.006, t + Math.min(0.4, len * 0.5)); l.connect(lg); lg.connect(os.frequency); l.start(t); l.stop(t + len + 0.5); }
+      evOsc(c, o, f * 2, t, { vol: v * 0.12, a: 0.05, dur: len, rel: 0.2, sus: 0.8 }); evOsc(c, o, f * 3, t, { vol: v * 0.03, a: 0.05, dur: len, rel: 0.2, sus: 0.8 });
+      evNoiseHit(c, o, t, { vol: v * 0.1, a: 0.015, dur: 0.07, f: 2600, q: 1.4, off: f });
+    },
+    kal: (c, d, f, t, v, len, pan) => { logoKal(c, d, f, t, v, pan || 0, 0.9, 0.5); },
+    sleigh: (c, d, t, v, k) => { evNoiseHit(c, d, t, { vol: v, a: 0.002, dur: 0.11, f: 7800, q: 1.6, off: k }); [6340, 7120, 8460].forEach((f, i) => evOsc(c, d, f * (1 + 0.01 * ((k + i) % 3)), t + 0.004 * i, { vol: v * 0.12, a: 0.002, dur: 0.09 })); },
+    shaker: (c, d, t, v, k) => { evNoiseHit(c, d, t, { vol: v, a: 0.006, dur: 0.07, f: 6400, q: 1.1, off: k }); },
+    brush: (c, d, t, v, k) => { evNoiseHit(c, d, t, { vol: v, a: 0.01, dur: 0.16, f: 3200, q: 0.6, off: k }); },
+    kick: (c, d, t, v) => { const os = c.createOscillator(), g = c.createGain(); os.frequency.setValueAtTime(105, t); os.frequency.exponentialRampToValueAtTime(48, t + 0.16); g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(v, t + 0.004); g.gain.setTargetAtTime(0, t + 0.004, 0.06); os.connect(g); g.connect(d); os.start(t); os.stop(t + 0.45); },
+    wind: (c, d, t, v, k) => { const len = 2.6; const s = c.createBufferSource(), bp = c.createBiquadFilter(), g = c.createGain(); s.buffer = evNoiseBuf(c); s.loop = true; bp.type = "bandpass"; bp.Q.value = 2.2; bp.frequency.setValueAtTime(420, t); bp.frequency.exponentialRampToValueAtTime(1500, t + len * 0.55); bp.frequency.exponentialRampToValueAtTime(600, t + len); g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(v, t + len * 0.5); g.gain.linearRampToValueAtTime(0, t + len); s.connect(bp); bp.connect(g); g.connect(d); s.start(t, (k * 0.13) % 0.5); s.stop(t + len + 0.05); }
+  };
+  /* --- i brani --- */
+  const EVS = {
+    lanterns: { step: 60 / 168, per: 6, g: 1.0,
+      intro: ["Dm9", "Bbmaj7"],
+      ch: ["Dm9", "Bbmaj7", "F", "C/E", "Dm9", "Bbmaj7", "Gm7", "A7", "Bbmaj7", "C", "Am7", "Dm", "Gm7", "C", "Bbmaj7", "A7"],
+      mel: "A4:3 C5:1 D5:2 | F5:3 E5:1 D5:2 | C5:3 A4:1 C5:2 | G4:6 | A4:3 C5:1 D5:2 | F5:2 G5:1 A5:3 | G5:2 F5:1 E5:2 D5:1 | E5:3 C#5:3 | D5:2 F5:1 A5:3 | G5:2 E5:1 C5:3 | E5:2 G5:1 C6:2 A5:1 | A5:6 | Bb5:2 A5:1 G5:3 | G5:2 F5:1 E5:3 | F5:2 E5:1 D5:2 C5:1 | C#5:3 E5:3",
+      cnt: "r:6 | D5:3 C5:3 | A4:3 C5:3 | E5:3 D5:3 | r:6 | D5:3 F5:3 | Bb4:3 D5:3 | A4:6 | F4:3 A4:3 | E4:3 G4:3 | C5:3 E5:3 | D5:3 F5:3 | D5:3 Bb4:3 | G4:3 C5:3 | D5:3 Bb4:3 | E5:3 A4:3" },
+    xmas: { step: 60 / 200, per: 8, swing: 0.16, g: 0.95,
+      intro: ["G", "D7"],
+      ch: ["G", "Em7", "Am7", "D7", "G", "B7/F#", "Em", "G7/D", "C", "Cm6", "G/B", "E7", "Am7", "D7", "G", "D7"],
+      mel: "D5:2 G5:2 F#5:1 G5:1 A5:2 | B5:3 A5:1 G5:4 | E5:2 A5:2 G5:1 F#5:1 E5:2 | F#5:6 r:2 | D5:2 G5:2 F#5:1 G5:1 B5:2 | A5:2 F#5:2 D#5:4 | E5:2 G5:2 B5:2 E6:2 | D6:4 B5:2 F5:2 | E6:3 D6:1 C6:2 G5:2 | Eb6:3 D6:1 C6:2 A5:2 | B5:2 D6:2 G5:2 B5:2 | G#5:4 E5:2 D5:2 | C6:3 B5:1 A5:2 E5:2 | F#5:2 A5:2 C6:2 A5:2 | B5:4 A5:2 G5:2 | A5:3 G5:1 F#5:2 E5:2",
+      cnt: "B4:4 D5:4 | G4:4 B4:4 | C5:4 E5:4 | D5:4 C5:4 | B4:4 D5:4 | D#5:4 F#5:4 | G5:4 E5:4 | F5:4 D5:4 | G5:4 E5:4 | G5:4 Eb5:4 | D5:4 G5:4 | E5:4 D5:4 | E5:4 C5:4 | C5:4 D5:4 | D5:4 B4:4 | C5:4 A4:4" },
+    fresh: { step: 60 / 184, per: 8, g: 0.95,
+      intro: ["Cmaj7", "D/C"],
+      ch: ["Cmaj7", "D/C", "Em7", "Fmaj7", "Am7", "G/B", "Fmaj7", "Gsus4", "Fmaj7", "G", "Em7", "Am7", "Dm7", "G", "Csus2", "G7"],
+      mel: "E5:2 G5:2 B5:3 r:1 | A5:2 F#5:2 D5:4 | G5:2 B5:2 D6:3 B5:1 | C6:6 A5:2 | E5:2 A5:2 C6:3 B5:1 | D6:2 B5:2 G5:4 | A5:2 C6:2 E6:2 D6:2 | C6:4 B5:4 | A5:3 G5:1 F5:2 A5:2 | B5:3 A5:1 G5:2 B5:2 | D6:3 C6:1 B5:2 G5:2 | C6:6 r:2 | F5:2 A5:2 D6:2 C6:2 | B5:2 D6:2 B5:2 G5:2 | D6:4 C6:2 G5:2 | F5:4 D5:4",
+      cnt: "G4:8 | F#4:8 | B4:8 | A4:8 | C5:8 | B4:8 | A4:8 | G4:4 D5:4 | C5:8 | D5:8 | G4:8 | E5:8 | D5:8 | D5:8 | G4:8 | C5:8" },
+    stars: { step: 60 / 144, per: 8, g: 1.1,
+      intro: ["Dmaj7", "Gmaj7"],
+      ch: ["Dmaj7", "E/D", "Bm7", "Gmaj7", "Em7", "A", "F#m7", "Bm7", "Gmaj7", "A/G", "F#m7", "Bm7", "Em9", "A", "Dmaj7", "A7sus4"],
+      mel: "F#5:3 A5:1 C#6:4 | B5:3 G#5:1 E5:4 | D6:3 C#6:1 A5:2 F#5:2 | F#5:8 | G5:3 B5:1 D6:4 | C#6:3 B5:1 A5:4 | A5:2 C#6:2 E6:2 C#6:2 | B5:8 | D6:3 C#6:1 B5:2 F#5:2 | E6:3 D6:1 C#6:2 A5:2 | C#6:3 B5:1 A5:2 F#5:2 | D6:6 C#6:2 | B5:3 A5:1 G5:2 F#5:2 | E5:2 A5:2 D6:2 C#6:2 | A5:4 F#5:4 | E5:6 r:2",
+      cnt: "D5:8 | B4:8 | F#4:8 | B4:4 D5:4 | B4:8 | E5:4 C#5:4 | C#5:8 | D5:4 F#5:4 | B4:8 | A4:8 | A4:8 | F#4:8 | G4:8 | G4:4 A4:4 | D5:8 | C#5:8" },
+    kites: { step: 60 / 224, per: 8, g: 0.9,
+      intro: ["F", "C/E"],
+      ch: ["F", "C/E", "Dm7", "Bb", "F/A", "Gm7", "C", "C7", "Bb", "C", "Am7", "Dm7", "Gm7", "C", "F", "C7"],
+      mel: "C5:1 F5:1 A5:2 G5:1 A5:1 C6:2 | G5:2 E5:2 C5:4 | D5:1 F5:1 A5:2 C6:1 A5:1 F5:2 | D5:2 F5:2 Bb5:4 | A5:2 C6:2 F6:3 E6:1 | D6:2 Bb5:2 G5:4 | E5:1 G5:1 C6:2 Bb5:1 A5:1 G5:2 | E5:6 r:2 | F5:2 Bb5:2 D6:3 C6:1 | C6:2 G5:2 E5:4 | E5:1 A5:1 C6:2 E6:2 C6:2 | D6:6 r:2 | Bb5:2 G5:1 A5:1 Bb5:2 D6:2 | C6:2 E5:2 G5:2 Bb5:2 | A5:4 C6:2 A5:2 | Bb5:2 G5:2 E5:2 G5:2",
+      cnt: "A4:4 C5:4 | C5:4 G4:4 | F4:4 A4:4 | F4:4 D4:4 | C5:4 A4:4 | Bb4:4 D5:4 | G4:4 C5:4 | Bb4:4 G4:4 | D5:4 F5:4 | E5:4 C5:4 | C5:4 E5:4 | F5:4 A4:4 | D5:4 Bb4:4 | E5:4 C5:4 | F5:4 C5:4 | E5:4 Bb4:4" }
+  };
+  Object.values(EVS).forEach((s) => { s.M = parseMel(s.mel, s.per); s.C = parseMel(s.cnt, s.per); s.CH = s.ch.map(chordOf); s.IN = s.intro.map(chordOf); s.bars = s.CH.length * 2; s.pass = s.bars * s.per; s.introSteps = s.IN.length * s.per; });
+  const barLen0 = (s) => s.step * s.per;
+  /* un passo del brano: pos = passi dall'inizio (introduzione compresa). Restituisce la durata del passo. */
+  const evDyn = new WeakMap();
+  /* dinamica della forma: introduzione piano, A piu' raccolta, B piu' piena, il secondo giro un po' piu' ricco */
+  function evBus(c, d) { let g = evDyn.get(d); if (!g || g.context !== c) { g = c.createGain(); g.gain.value = 0.85; g.connect(d); evDyn.set(d, g); } return g; }
+  function evStep(c, d0, id, pos, t0) {
+    const s = EVS[id]; const per = s.per, st = s.step; const d = evBus(c, d0);
+    const intro = pos < s.introSteps; const q = intro ? pos : pos - s.introSteps;
+    const bar = Math.floor(q / per) % (intro ? s.IN.length : s.bars), si = q % per; const pass = intro ? -1 : Math.floor(q / s.pass);
+    const half = !intro && bar >= s.CH.length ? 1 : 0; /* 0 = prima volta, 1 = seconda volta (arrangiamento diverso) */
+    const b16 = intro ? -1 : bar % s.CH.length; const ch = intro ? s.IN[bar] : s.CH[b16];
+    const k = pos; const t = t0 + (s.swing && si % 2 ? st * s.swing : 0) + (si ? ((k * 7919) % 9 - 4) * 0.0015 : 0); /* tempo un po' umano, il primo della battuta sempre preciso */
+    if (si === 0) { const sec = intro ? 0.8 : (b16 < 8 ? 0.86 : 1) + half * 0.08; try { d.gain.setTargetAtTime(sec, t0, barLen0(s) * 0.5); } catch (e) { /* niente */ } }
+    const breath = !intro && bar === s.bars - 1 && si >= per - 2; /* ultima battuta del giro: un respiro prima di ricominciare */
+    const mel = !intro && s.M[b16].filter((e) => e[0] === si);
+    const cnt = !intro && s.C[b16].filter((e) => e[0] === si);
+    const bassF = HZ(near(ch.bass, 36)); const barLen = st * per;
+    const notes = chordNotes(ch, 55, 5);
+    if (id === "lanterns") {
+      /* 6/8: basso sul 1 e sul 4, chitarra in arpeggio, tappeto caldo, ocarina; seconda volta: campanellini e controcanto */
+      if (si === 0) { EVI.bass(c, d, bassF, t, 0.15, st * 2.6); EVI.pad(c, d, HZ(notes[1]), t, 0.026, barLen * 1.02, -0.2, 900); EVI.pad(c, d, HZ(notes[2]), t, 0.022, barLen * 1.02, 0.2, 900); }
+      if (si === 3) EVI.bass(c, d, HZ(near(ch.bass, 36) + 7), t, 0.1, st * 2.4);
+      const arp = [0, 1, 2, 3, 2, 1][si]; const gn = chordNotes(ch, 50, 4)[arp];
+      if (!breath) EVI.pluck(c, d, HZ(gn), t, si === 0 ? 0.075 : 0.055, st, si % 2 ? 0.25 : -0.15);
+      if (si === 3 && !intro) EVI.brush(c, d, t, 0.018, k);
+      (mel || []).forEach(([, m, l]) => EVI.ocarina(c, d, HZ(m), t, 0.105, l * st * 0.95, 0.05));
+      if (half) { (cnt || []).forEach(([, m, l]) => EVI.pluck(c, d, HZ(m + 12), t, 0.04, l * st, 0.35)); if (si === 0 && b16 % 4 === 3) EVI.celesta(c, d, HZ(notes[3] + 12), t + st * 0.5, 0.035, 1, -0.3); }
+      else if (si === 0 && (b16 === 3 || b16 === 11)) EVI.celesta(c, d, HZ(notes[2] + 24), t + st * 2, 0.03, 1, 0.3);
+    } else if (id === "xmas") {
+      /* swing leggero: pizzicato "bum-cia", accordi morbidi sui tempi deboli, sonagli, celesta; seconda volta: glockenspiel e controcanto */
+      if (si === 0) EVI.pizz(c, d, bassF, t, 0.16);
+      if (si === 4) EVI.pizz(c, d, HZ(near(ch.bass, 36) + 7), t, 0.12);
+      if (si === 2 || si === 6) chordNotes(ch, 55, 4).slice(1).forEach((m, j) => EVI.epiano(c, d, HZ(m), t + j * 0.012, 0.022, 0.5, (j - 1) * 0.25));
+      if (si === 0) EVI.pad(c, d, HZ(notes[0]), t, 0.014, barLen, 0, 1000);
+      if (!breath) EVI.sleigh(c, d, t, si % 2 ? 0.032 : si === 0 ? 0.022 : 0.012, k);
+      if (si === 4) EVI.brush(c, d, t, 0.015, k);
+      (mel || []).forEach(([, m, l]) => EVI.celesta(c, d, HZ(m), t, 0.085, l * st, 0.08));
+      if (half) { (mel || []).forEach(([, m]) => EVI.glock(c, d, HZ(m + 12), t + 0.01, 0.018, 1, -0.2)); (cnt || []).forEach(([, m, l]) => EVI.flute(c, d, HZ(m), t, 0.045, l * st * 0.9, -0.3)); }
+      if (intro && si === 0) EVI.glock(c, d, HZ(notes[2] + 24), t, 0.04, 1, 0.2);
+    } else if (id === "fresh") {
+      /* alba: piano a crome che sale, basso lungo, archi morbidi; il motivo del logo sulla kalimba alla fine delle frasi */
+      if (si === 0) { EVI.bass(c, d, bassF, t, 0.13, barLen * 0.95); EVI.pad(c, d, HZ(notes[1]), t, 0.018, barLen, -0.25, 1300); EVI.pad(c, d, HZ(notes[3] || notes[2]), t, 0.016, barLen, 0.25, 1300); }
+      const ep = chordNotes(ch, 48, 6); const order = [0, 2, 4, 5, 3, 4, 2, 1];
+      if (!breath) EVI.epiano(c, d, HZ(ep[order[si]] + 12), t, si === 0 ? 0.045 : 0.032, 1, si % 2 ? 0.2 : -0.2);
+      if (!intro && half && si % 2 === 1) EVI.shaker(c, d, t, 0.016, k);
+      if (!intro && half && si === 0) EVI.kick(c, d, t, 0.07);
+      (mel || []).forEach(([, m, l]) => EVI.flute(c, d, HZ(m), t, 0.07, l * st * 0.95, 0.05));
+      if (half) (cnt || []).forEach(([, m, l]) => EVI.glass(c, d, HZ(m), t, 0.03, l * st, -0.3));
+      if (!intro && si === 4 && (b16 === 3 || b16 === 11 || b16 === 15)) LOGO_HZ.forEach((f, j) => EVI.kal(c, d, f, t + j * st * 0.5, 0.11, j % 2 ? 0.2 : -0.2));
+    } else if (id === "stars") {
+      /* notturno: arpa in crome su due ottave, tappeto di vetro, celesta; scintille alte ogni tanto; seconda volta: melodia anche all'ottava */
+      if (si === 0) { EVI.bass(c, d, bassF, t, 0.09, barLen * 1.05); chordNotes(ch, 57, 4).slice(0, 3).forEach((m, j) => EVI.glass(c, d, HZ(m), t, 0.02, barLen * 1.05, (j - 1) * 0.35)); }
+      const hp = chordNotes(ch, 45, 7); const ord = [0, 1, 2, 3, 4, 3, 2, 1];
+      if (!breath) EVI.harp(c, d, HZ(hp[ord[si]] + 12), t, si === 0 ? 0.045 : 0.03, 1, (si - 3.5) * 0.1);
+      (mel || []).forEach(([, m, l]) => { EVI.celesta(c, d, HZ(m), t, 0.09, l * st, 0.05); if (half) EVI.glock(c, d, HZ(m + 12), t + 0.02, 0.016, 1, 0.3); });
+      if (half) (cnt || []).forEach(([, m, l]) => EVI.flute(c, d, HZ(m - 12), t, 0.035, l * st * 0.95, -0.35));
+      const tw = (k * 7919) % 23; if (si === 5 && tw < 6 && !intro) EVI.celesta(c, d, HZ(near(ch.root, 86) + [0, 7, 12, 4][tw % 4]), t + st * 0.5, 0.022, 1, tw % 2 ? 0.5 : -0.5);
+    } else if (id === "kites") {
+      /* arioso: marimba sui tempi deboli, pizzicato, shaker leggero, flauto; folate di vento all'inizio delle frasi; seconda volta: kalimba */
+      if (si === 0 || si === 4) EVI.pizz(c, d, si === 0 ? bassF : HZ(near(ch.bass, 36) + 7), t, 0.14);
+      if (!breath && (si === 2 || si === 6)) chordNotes(ch, 60, 3).forEach((m, j) => EVI.marimba(c, d, HZ(m), t + j * 0.008, 0.035, 0.4, (j - 1) * 0.3));
+      if (si === 0) EVI.pad(c, d, HZ(notes[1]), t, 0.012, barLen, 0.3, 1500);
+      if (!breath) EVI.shaker(c, d, t, si % 2 ? 0.02 : 0.011, k);
+      if (si === 0 && (bar === 0 || (!intro && b16 === 8))) EVI.wind(c, d, t, 0.045, k);
+      (mel || []).forEach(([, m, l]) => EVI.flute(c, d, HZ(m), t, 0.075, l * st * 0.9, 0.05));
+      if (half) (cnt || []).forEach(([, m, l]) => { const nn = chordNotes(ch, m, 3); nn.forEach((x, j) => EVI.kal(c, d, HZ(x + 12), t + j * st * 0.5, 0.05, 0.3)); });
+    }
+    return st;
+  }
+  const EV_IDS = Object.keys(EVS);
+  /* per i test: "n" passi a partire dal passo "from" (per ascoltare la cucitura del giro) */
+  function evRenderFrom(c, d, id, from, n, t0) { const s = EVS[id]; let t = t0; for (let p = from; p < from + n; p++) t += evStep(c, d, id, p, t); return t; }
+  /* catena dell'uscita uguale a quella della musica (filtro caldo + eco + compressore), per i test e i file di ascolto */
+  function evChain(c) {
+    const comp = c.createDynamicsCompressor(); comp.threshold.value = -14; comp.ratio.value = 3; comp.connect(c.destination);
+    const bus = c.createGain(); const warm = c.createBiquadFilter(); warm.type = "lowpass"; warm.frequency.value = 2600; warm.Q.value = 0.5; bus.connect(warm); warm.connect(comp);
+    const vb = c.createConvolver(); { const len = Math.floor(c.sampleRate * 2.2), bf = c.createBuffer(2, len, c.sampleRate); let r = 99; for (let ch = 0; ch < 2; ch++) { const x = bf.getChannelData(ch); for (let i = 0; i < len; i++) { r = (r * 16807) % 2147483647; x[i] = (r / 1073741823.5 - 1) * Math.pow(1 - i / len, 2.6); } } vb.buffer = bf; } const wet = c.createGain(); wet.gain.value = 0.38; bus.connect(vb); vb.connect(wet); wet.connect(comp);
+    return bus;
+  }
+  /* tutto il brano in un contesto (anche offline): introduzione + "passes" giri. Restituisce [inizio del giro, fine] in secondi */
+  function evRender(c, d, id, passes, t0) {
+    const s = EVS[id]; if (!s) return null; let t = t0 || 0.05; const n = s.introSteps + s.pass * (passes || 1); let loopAt = 0;
+    for (let p = 0; p < n; p++) { if (p === s.introSteps) loopAt = t; t += evStep(c, d, id, p, t); }
+    return [loopAt, t];
+  }
+  /* --- musica dell'evento dal vivo: un passo dopo l'altro, il giro ricomincia senza azzerare il tempo (nessuno stacco) --- */
+  let evId = null, evSkip = false, evCur = null;
+  const curGain = () => (evCur ? EVS[evCur.id].g : TRACKS[cur].g);
+  function evTick() {
+    const s = EVS[evCur.id];
+    while (nextT < ctx.currentTime + 0.5) {
+      try { evStep(ctx, musicBus, evCur.id, evCur.pos, nextT); } catch (e) { /* niente */ }
+      nextT += s.step; evCur.pos++;
+      if (evCur.pos >= s.introSteps + s.pass * 64) evCur.pos = s.introSteps; /* dopo molti giri si riparte dal giro (stesso punto musicale) */
+    }
+  }
+  function startEvent() {
+    if (!ctx || !evId || !EVS[evId]) return false;
+    stopBed(); song = null; evCur = { id: evId, pos: 0 }; nextT = ctx.currentTime + 0.15;
+    if (musicTimer) { musicBus.gain.cancelScheduledValues(ctx.currentTime); musicBus.gain.setValueAtTime(musicBus.gain.value, ctx.currentTime); musicBus.gain.linearRampToValueAtTime(MUSIC_K * EVS[evId].g, ctx.currentTime + 1.5); }
+    if (onTrack) onTrack(-1); return true;
+  }
+  function startSong(i) { evCur = null; cur = (i + TRACKS.length) % TRACKS.length; song = buildSong(cur); step = 0; nextT = ctx.currentTime + 0.15; startBed(TRACKS[cur].bed); if (musicTimer) { musicBus.gain.cancelScheduledValues(ctx.currentTime); musicBus.gain.setValueAtTime(musicBus.gain.value, ctx.currentTime); musicBus.gain.linearRampToValueAtTime(MUSIC_K * TRACKS[cur].g, ctx.currentTime + 1.5); } if (onTrack) onTrack(cur); }
   function next() { startSong(cur + 1); }
   function musicOn(first) {
     const c = ensure(); if (!c || musicTimer) return;
-    startSong(first != null ? first : cur);
+    /* 1.0.11: durante un evento parte la sua musica (se non si e' scelto un altro brano in questa sessione) */
+    if (!(evId && !evSkip && startEvent())) startSong(first != null ? first : cur);
     musicBus.gain.cancelScheduledValues(c.currentTime);
     musicBus.gain.setValueAtTime(musicBus.gain.value, c.currentTime);
-    musicBus.gain.linearRampToValueAtTime(MUSIC_K * TRACKS[cur].g, c.currentTime + 3.5); /* 1.0.10 (A-02): -8 dB */
+    musicBus.gain.linearRampToValueAtTime(MUSIC_K * curGain(), c.currentTime + 3.5); /* 1.0.10 (A-02): -8 dB */
     musicTimer = setInterval(schedule, 120); schedule();
   }
   function musicOff() {
     if (!ctx || !musicTimer) return;
-    clearInterval(musicTimer); musicTimer = null; song = null; stopBed();
+    clearInterval(musicTimer); musicTimer = null; song = null; evCur = null; stopBed();
     musicBus.gain.cancelScheduledValues(ctx.currentTime);
     musicBus.gain.setValueAtTime(musicBus.gain.value, ctx.currentTime);
     musicBus.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.6);
   }
-  function skip(i) { if (!musicTimer) { cur = i; return; } startSong(i); }
+  function skip(i) { evSkip = true; if (!musicTimer) { cur = i; return; } startSong(i); }
+  /* evento attuale (null = nessuno): se cambia mentre suona, si passa alla musica giusta */
+  function setEvent(id) {
+    id = id && EVS[id] ? id : null; if (id === evId) return; evId = id; evSkip = false;
+    if (!musicTimer || !ctx) return;
+    if (id) startEvent(); else if (evCur) startSong(cur);
+  }
+  function playEvent() { evSkip = false; if (musicTimer && evId) startEvent(); }
+  function holdEvent() { evSkip = true; } /* scelto un altro brano: in questa sessione resta quello */
   /* Accordo morbido per la respirazione */
   function breath(dir, secs) {
     if (!S.sfx) return;
@@ -25681,7 +25927,8 @@ const SND = (() => {
   function resume() { if (ctx && ctx.state === "suspended") { try { ctx.resume(); } catch (e) { /* niente */ } } }
   function note(f, len = 0.7) { lastAt = performance.now(); if (!S.sfx) return; const c = ensure(); if (!c) return; try { bell(f, c.currentTime + 0.005, 0.2, fxBus, len); } catch (e) { /* niente */ } }
   function level() { if (!an) return 0; const d = new Float32Array(an.fftSize); an.getFloatTimeDomainData(d); let q = 0; for (const x of d) q += x * x; return Math.sqrt(q / d.length); }
-  return { petMotif, MOTIF_PETS: Object.keys(MOTIF), logoTick, logoChime, logoTickTo, logoChimeTo, LOGO_HZ, CHIME_HZ, S16, level, play, note, catchSound, haptic, musicOn, musicOff, skip, breath, breathStop, suspend, resume, playing: () => !!musicTimer, unlock: ensure, lastAt: () => lastAt, track: () => cur, setOnTrack: (f) => { onTrack = f; }, count: TRACKS.length };
+  return { petMotif, MOTIF_PETS: Object.keys(MOTIF), logoTick, logoChime, logoTickTo, logoChimeTo, LOGO_HZ, CHIME_HZ, S16, level, play, note, catchSound, haptic, musicOn, musicOff, skip, breath, breathStop, suspend, resume, playing: () => !!musicTimer, unlock: ensure, lastAt: () => lastAt, track: () => (evCur ? -1 : cur),
+    setEvent, playEvent, holdEvent, eventId: () => evId, eventPlaying: () => !!evCur, EV_IDS, evRender, evRenderFrom, evChain, evInfo: (id) => (EVS[id] ? { g: EVS[id].g, K: MUSIC_K, step: EVS[id].step, per: EVS[id].per, bars: EVS[id].bars, introSteps: EVS[id].introSteps, pass: EVS[id].pass, M: EVS[id].M, C: EVS[id].C, ch: EVS[id].ch } : null), setOnTrack: (f) => { onTrack = f; }, count: TRACKS.length };
 })();
 
 /* =================== VISTE =================== */
@@ -41242,16 +41489,16 @@ function gr20Place(ck, c) {
 /* ultima cartolina arrivata (per l'immagine del livello) */
 function gr20LastCard() { const a = (S.cards || []).filter((x) => typeof x === "string"); for (let i = a.length - 1; i >= 0; i--) { try { if (cardInfo(a[i])) return a[i]; } catch (e) { /* cartolina sconosciuta */ } } return null; }
 function gr20Spec(kind, ck) {
-  const t = gr20t(), L0 = L(), p = S.petName || "";
+  const t = gr20t(), L0 = L(), p = w111Name(); /* 1.0.11: il nome scelto solo dai 18 anni */
   if (kind === "card") {
     const c = cardInfo(ck); const place = gr20Place(ck, c);
-    return { art: c.art(), kicker: t.by(p), big: place, cap: c.title && c.title !== place ? c.title : "", place, name: "tanetto-cartolina.png", text: `${t.txt(p, place)} ${GR20_LINK}`, alt: `${t.by(p)}: ${place}` };
+    return { art: c.art(), kicker: t.by(p), big: place, cap: c.title && c.title !== place ? c.title : "", place, name: "tanetto-cartolina.png", text: w111ShareText(t.txt(p, place), "trip"), alt: `${t.by(p)}: ${place}` };
   }
   const last = gr20LastCard(); let art, place;
   if (last) { const c = cardInfo(last); art = c.art(); place = gr20Place(last, c); }
   else { place = (L0.dests && L0.dests.forest) || ""; art = postcard("forest", 0, place); }
   const big = typeof L0.levelUpT === "function" ? L0.levelUpT(S.level) : String(S.level);
-  return { art, kicker: p, big, cap: place, place, name: "tanetto-livello.png", text: `${t.txtLvl(p, S.level)} ${GR20_LINK}`, alt: `${p}: ${big}` };
+  return { art, kicker: p, big, cap: place, place, name: "tanetto-livello.png", text: w111ShareText(t.txtLvl(p, S.level), "level"), alt: `${p}: ${big}` };
 }
 function gr20Lines(c, text, maxW, size, min, font) {
   const set = (s) => { c.font = font.replace("{s}", s); };
@@ -41277,31 +41524,34 @@ const gr20Fonts = () => Promise.race([
   new Promise((r) => setTimeout(r, 1500))
 ]);
 let gr20Memo = { key: "", url: "" };
+/* 1.0.11: formato scelto nella finestra (storia 9:16 o quadrata 1:1), come la cartolina della settimana */
+let gr20Fmt = "story", gr20Last = null;
 async function gr20Make(kind, ck) {
-  const sp = gr20Spec(kind, ck);
-  const key = [kind, ck, S.lang, S.pet, S.hat, S.petName, S.level, kind === "level" ? gr20LastCard() : ""].join("|");
+  const sp = gr20Spec(kind, ck); const SQ = gr20Fmt === "square"; const GH = SQ ? 1080 : GR20_H;
+  const key = [kind, ck, S.lang, S.pet, S.hat, w111Name(), S.level, gr20Fmt, kind === "level" ? gr20LastCard() : ""].join("|");
   if (gr20Memo.key === key && gr20Memo.url) return { url: gr20Memo.url, sp };
   const pal = (typeof WEEK_PAL !== "undefined" && (WEEK_PAL[S.pet] || WEEK_PAL.germo)) || ["#DCEFD3", "#A8D79D", "#4E8A4A"];
   const a = stripSvg(sp.art); const vb = a.vb.split(/[\s,]+/).map(Number); const asp = vb[2] > 0 && vb[3] > 0 ? vb[2] / vb[3] : 1.6;
-  const AW = 880, AH = Math.max(420, Math.min(600, Math.round(AW / asp)));
-  const FX = 70, FY = 520, FW = 940, FH = 30 + AH + 100; const cx = FX + FW / 2, cy = FY + FH / 2; const ROT = -1.6;
-  const PS = 540, PX = (GR20_W - PS) / 2, PY = Math.min(FY + FH - 56, GR20_H - PS - 170);
+  const AW = SQ ? 640 : 880, AH = SQ ? Math.max(330, Math.min(420, Math.round(640 / asp))) : Math.max(420, Math.min(600, Math.round(AW / asp)));
+  const FX = SQ ? 90 : 70, FY = SQ ? 236 : 450, FW = AW + 60, FH = 30 + AH + (SQ ? 80 : 100); const cx = FX + FW / 2, cy = FY + FH / 2; const ROT = -1.6;
+  /* storia: il compagno davanti alla cartolina; quadrata: in basso a destra, accanto alla cartolina */
+  const PS = SQ ? 360 : 460, PX = SQ ? GR20_W - PS - 40 : (GR20_W - PS) / 2, PY = SQ ? 600 : Math.min(FY + FH - 60, 1530 - PS);
   const lg = stripSvg(typeof LOGO === "string" ? LOGO : "<svg viewBox=\"0 0 32 32\"></svg>");
   const spark = (x, y, r, op) => `<path d="M${x} ${y - r}Q${x} ${y} ${x + r} ${y}Q${x} ${y} ${x} ${y + r}Q${x} ${y} ${x - r} ${y}Q${x} ${y} ${x} ${y - r}Z" fill="${pal[2]}" opacity="${op}"/>`;
   const pet = petInner(S.pet, "felice", S.hat, stage(), 0.95);
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${GR20_W}" height="${GR20_H}" viewBox="0 0 ${GR20_W} ${GR20_H}"><defs>`
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${GR20_W}" height="${GH}" viewBox="0 0 ${GR20_W} ${GH}"><defs>`
     + `<linearGradient id="gr20bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFBF4"/><stop offset=".42" stop-color="${pal[0]}"/><stop offset="1" stop-color="${pal[1]}"/></linearGradient>`
     + `<clipPath id="gr20cl"><rect x="${FX + 30}" y="${FY + 30}" width="${AW}" height="${AH}" rx="12"/></clipPath></defs>`
-    + `<rect width="${GR20_W}" height="${GR20_H}" fill="url(#gr20bg)"/>`
-    + `<circle cx="80" cy="200" r="210" fill="#fff" opacity=".35"/><circle cx="1010" cy="1830" r="260" fill="#fff" opacity=".22"/><circle cx="1040" cy="300" r="90" fill="#fff" opacity=".25"/>`
-    + spark(140, 470, 18, 0.35) + spark(950, 230, 14, 0.3) + spark(110, 1500, 16, 0.25) + spark(980, 1420, 20, 0.28)
+    + `<rect width="${GR20_W}" height="${GH}" fill="url(#gr20bg)"/>`
+    + `<circle cx="80" cy="${SQ ? 120 : 200}" r="${SQ ? 170 : 210}" fill="#fff" opacity=".35"/><circle cx="1010" cy="${GH - 90}" r="260" fill="#fff" opacity=".22"/><circle cx="1040" cy="300" r="90" fill="#fff" opacity=".25"/>`
+    + (SQ ? spark(70, 600, 16, 0.3) + spark(1010, 190, 14, 0.3) + spark(60, 900, 14, 0.25) : spark(140, 470, 18, 0.35) + spark(950, 230, 14, 0.3) + spark(110, 1500, 16, 0.25) + spark(980, 1420, 20, 0.28))
     /* cartolina: ombra morbida, bordo bianco, disegno, francobollo e timbro */
     + `<g transform="rotate(${ROT} ${cx} ${cy})">`
     + `<rect x="${FX + 6}" y="${FY + 22}" width="${FW}" height="${FH}" rx="22" fill="#3A2510" opacity=".08"/><rect x="${FX + 3}" y="${FY + 12}" width="${FW}" height="${FH}" rx="22" fill="#3A2510" opacity=".07"/>`
     + `<rect x="${FX}" y="${FY}" width="${FW}" height="${FH}" rx="22" fill="#FFFDF8"/>`
     + `<g clip-path="url(#gr20cl)"><svg x="${FX + 30}" y="${FY + 30}" width="${AW}" height="${AH}" viewBox="${a.vb}" preserveAspectRatio="xMidYMid slice">${a.inner}</svg></g>`
     + `<rect x="${FX + 30}" y="${FY + 30}" width="${AW}" height="${AH}" rx="12" fill="none" stroke="#000" stroke-opacity=".06" stroke-width="2"/>`
-    + `<g transform="translate(${FX + FW - 132} ${FY - 34}) rotate(6)"><rect x="-6" y="-6" width="124" height="148" rx="6" fill="#FFFDF8" stroke="${pal[1]}" stroke-width="3" stroke-dasharray="7 6"/><rect x="6" y="6" width="100" height="124" rx="4" fill="${pal[0]}"/><svg x="18" y="22" width="76" height="76" viewBox="${lg.vb}">${lg.inner}</svg><rect x="30" y="108" width="52" height="7" rx="3.5" fill="${pal[2]}" opacity=".45"/></g>`
+    + `<g transform="translate(${FX + FW - (SQ ? 100 : 132)} ${FY - (SQ ? 22 : 34)}) rotate(6) scale(${SQ ? 0.8 : 1})"><rect x="-6" y="-6" width="124" height="148" rx="6" fill="#FFFDF8" stroke="${pal[1]}" stroke-width="3" stroke-dasharray="7 6"/><rect x="6" y="6" width="100" height="124" rx="4" fill="${pal[0]}"/><svg x="18" y="22" width="76" height="76" viewBox="${lg.vb}">${lg.inner}</svg><rect x="30" y="108" width="52" height="7" rx="3.5" fill="${pal[2]}" opacity=".45"/></g>`
     + `<g transform="translate(${FX + FW - 250} ${FY + 8})" fill="none" stroke="${pal[2]}" stroke-opacity=".38" stroke-width="4"><circle cx="40" cy="40" r="34"/><circle cx="40" cy="40" r="24" stroke-dasharray="5 6"/><path d="M84 22q12 -8 24 0t24 0t24 0M84 40q12 -8 24 0t24 0t24 0M84 58q12 -8 24 0t24 0t24 0"/></g>`
     + `</g>`
     /* il compagno, davanti alla cartolina */
@@ -41310,15 +41560,16 @@ async function gr20Make(kind, ck) {
   const img = await loadImg("data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg));
   /* 1.0.9 (fase 3): il marchio e' il Germo 3D dell'icona (un solo Germo ovunque) */
   const logo = await loadImg(typeof BOOT_IMG === "string" ? BOOT_IMG : "data:image/svg+xml;charset=utf-8," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="${lg.vb}">${lg.inner}</svg>`)).catch(() => null);
-  await gr20Fonts();
-  const cv = document.createElement("canvas"); cv.width = GR20_W; cv.height = GR20_H; const c = cv.getContext("2d"); c.drawImage(img, 0, 0);
+  await gr20Fonts(); await w111Fonts([sp.big, sp.kicker, sp.cap]);
+  const cv = document.createElement("canvas"); cv.width = GR20_W; cv.height = GH; const c = cv.getContext("2d"); c.drawImage(img, 0, 0);
   const FD = '"Fredoka", "Trebuchet MS", "Hiragino Maru Gothic ProN", "Noto Sans CJK JP", Arial, sans-serif', FB = '"Figtree", "Segoe UI", "Noto Sans CJK JP", Arial, sans-serif';
   c.textAlign = "center"; c.textBaseline = "alphabetic";
   /* in alto: chi la manda, e il posto (o il livello) */
-  const big = gr20Lines(c, sp.big || "", 900, 86, 52, `600 {s}px ${FD}`);
-  const bigY = big.lines.length > 1 ? [400, 400 + big.size * 1.08] : [440];
-  const kick = gr20Lines(c, sp.kicker || "", 880, 44, 30, `600 {s}px ${FB}`);
-  c.font = `600 ${kick.size}px ${FB}`; c.fillStyle = pal[2]; c.fillText(kick.lines[0], GR20_W / 2, (big.lines.length > 1 ? 400 : 440) - big.size - 26);
+  const big = gr20Lines(c, sp.big || "", 900, SQ ? 70 : 86, SQ ? 44 : 52, `600 {s}px ${FD}`);
+  const B1 = SQ ? 150 : 330, B2 = SQ ? 172 : 370;
+  const bigY = big.lines.length > 1 ? [B1 - (SQ ? 30 : 0), B1 - (SQ ? 30 : 0) + big.size * 1.08] : [B2];
+  const kick = gr20Lines(c, sp.kicker || "", 880, SQ ? 38 : 44, 28, `600 {s}px ${FB}`);
+  c.font = `600 ${kick.size}px ${FB}`; c.fillStyle = pal[2]; c.fillText(kick.lines[0], GR20_W / 2, (big.lines.length > 1 ? bigY[0] : B2) - big.size - (SQ ? 18 : 26));
   c.font = `600 ${big.size}px ${FD}`; c.fillStyle = "#2F2A26"; big.lines.forEach((ln, i) => c.fillText(ln, GR20_W / 2, bigY[i]));
   /* didascalia sul bordo bianco della cartolina, inclinata come lei */
   if (sp.cap) {
@@ -41327,11 +41578,8 @@ async function gr20Make(kind, ck) {
     c.font = `italic 500 ${cp.size}px ${FB}`; c.fillStyle = "#6E655D"; c.fillText(cp.lines[0], 0, FY + 30 + AH + 64 - cy);
     c.restore();
   }
-  /* marchio piccolo in basso: foglioline + "Tanetto" */
-  c.font = `600 46px ${FD}`; const tw = c.measureText("Tanetto").width; const lw = logo ? 60 : 0; const gx = GR20_W / 2 - (tw + lw + 14) / 2; const my = GR20_H - 120;
-  if (logo) { c.fillStyle = "rgba(255,253,248,.85)"; c.beginPath(); c.arc(gx + lw / 2, my - 16, lw / 2 + 6, 0, Math.PI * 2); c.fill(); }
-  c.globalAlpha = 0.9; if (logo) { c.save(); c.beginPath(); c.arc(gx + lw / 2, my - 16, lw / 2, 0, Math.PI * 2); c.clip(); c.drawImage(logo, gx, my - 46, lw, lw); c.restore(); }
-  c.textAlign = "left"; c.fillStyle = pal[2]; c.fillText("Tanetto", gx + lw + 14, my); c.globalAlpha = 1;
+  /* 1.0.11: marchio uguale a quello della cartolina della settimana ("Tanetto" e sotto #tanettoapp), dentro la fascia sicura */
+  if (SQ) w111Brand(c, logo, 300, 1000, pal, FD, FB, 38); else w111Brand(c, logo, GR20_W / 2, 1606, pal, FD, FB, 46);
   const url = cv.toDataURL("image/png");
   gr20Memo = { key, url };
   return { url, sp };
@@ -41342,24 +41590,30 @@ let gr20Cur = null, gr20SharedAt = 0;
 async function gr20Open(kind, ck) {
   const t = gr20t(), L0 = L();
   if (kind === "card") { try { if (!ck || !cardInfo(ck)) return; } catch (e) { return; } }
-  gr20Cur = null;
-  layer.innerHTML = `<div class="overlay gr20ov" role="dialog" aria-modal="true" aria-labelledby="gr20T"><div class="box gr20box"><h2 id="gr20T">${esc(L0.share)}</h2>
-    <div class="gr20prev" id="gr20Prev"><span class="gr20wait" aria-hidden="true"></span></div><p class="small muted gr20msg" id="gr20Msg" aria-live="polite">${esc(L0.shareMaking || "")}</p>
-    <div class="gr20btns"><button class="btn" id="gr20Send" type="button" disabled>${icon("share")}<span>${esc(L0.share)}</span></button><button class="btn ghost" id="gr20Save" type="button" disabled>${icon("download")}<span>${esc(L0.saveImg)}</span></button></div>
+  gr20Cur = null; gr20Fmt = "story"; gr20Last = { kind, ck };
+  /* 1.0.11: sotto i 13 anni e con l'eta' non detta la cartolina si guarda ma non si condivide ne' si salva */
+  const share = w111ShareOk();
+  layer.innerHTML = `<div class="overlay gr20ov" role="dialog" aria-modal="true" aria-labelledby="gr20T"><div class="box gr20box"><h2 id="gr20T">${esc(share ? L0.share : (kind === "card" ? t.by(w111Name()) : L0.levelUpT(S.level)))}</h2>
+    ${share ? w111FmtTabs() : ""}<div class="gr20prev" id="gr20Prev"><span class="gr20wait" aria-hidden="true"></span></div><p class="small muted gr20msg" id="gr20Msg" aria-live="polite">${esc(L0.shareMaking || "")}</p>
+    ${share ? `<div class="gr20btns"><button class="btn" id="gr20Send" type="button" disabled>${icon("share")}<span>${esc(L0.share)}</span></button><button class="btn ghost" id="gr20Save" type="button" disabled>${icon("download")}<span>${esc(L0.saveImg)}</span></button></div>` : ""}
     <button class="link" id="closeLayer" type="button">${esc(L0.close)}</button></div></div>`;
   const cl = layer.querySelector("#closeLayer"); if (cl) cl.focus();
   if (gr20anim()) G.from(".gr20box", { y: 24, opacity: 0, duration: 0.35, ease: "power3.out" });
   try { SND.play("pop"); } catch (e) { /* niente */ }
-  const box = layer.querySelector(".gr20box");
+  trackOnce(kind === "card" ? "cartolina-anteprima" : "livello-anteprima");
+  return gr20Refill();
+}
+async function gr20Refill() {
+  const box = layer.querySelector(".gr20ov .gr20box"); if (!box || !gr20Last) return; const { kind, ck } = gr20Last; const t = gr20t(), L0 = L();
+  const pv0 = box.querySelector("#gr20Prev"); if (pv0) pv0.classList.toggle("sq", gr20Fmt === "square");
   try {
     const r = await gr20Make(kind, ck);
     if (!box.isConnected) return; /* chiusa nel frattempo */
-    gr20Cur = { kind, ck, url: r.url, name: r.sp.name, text: r.sp.text };
+    gr20Cur = { kind, ck, url: r.url, name: gr20Fmt === "square" ? r.sp.name.replace(".png", "-1x1.png") : r.sp.name, text: r.sp.text };
     const pv = box.querySelector("#gr20Prev"); pv.innerHTML = `<img class="gr20img" src="${r.url}" alt="${esc(r.sp.alt)}">`;
     if (gr20anim()) G.from(pv.firstChild, { scale: 0.94, opacity: 0, duration: 0.35, ease: "power2.out" });
-    box.querySelector("#gr20Msg").textContent = t.hint;
+    box.querySelector("#gr20Msg").textContent = w111ShareOk() ? t.hint : w111t().kid(w111Name());
     box.querySelectorAll("#gr20Send, #gr20Save").forEach((b) => { b.disabled = false; });
-    trackOnce(kind === "card" ? "cartolina-anteprima" : "livello-anteprima");
   } catch (e) {
     if (box.isConnected) { const m = box.querySelector("#gr20Msg"); if (m) m.textContent = L0.weekErr || ""; const pv = box.querySelector("#gr20Prev"); if (pv) pv.classList.add("err"); }
   }
@@ -41370,8 +41624,9 @@ function gr20Download(url, name) {
 }
 /* condividere: app Android -> TanettoShare (PNG in cache + FileProvider + ACTION_SEND); web -> navigator.share con il file; altrimenti si scarica */
 async function gr20Send(cur) {
-  if (!cur) return "none";
-  const label = cur.kind === "card" ? "cartolina-condivisa" : "livello-condiviso";
+  if (!cur || !w111ShareOk()) return "none";
+  const label = cur.kind === "card" ? "cartolina-condivisa" : cur.kind === "week" ? "settimana-condivisa" : "livello-condiviso";
+  if (label !== "livello-condiviso") w111Path("cartolina-condivisa");
   const p = gr20native() && typeof sharePlugin === "function" ? sharePlugin() : null;
   if (p && p.share) {
     try { await p.share({ data: cur.url.split(",")[1] || "", name: cur.name, mime: "image/png", text: cur.text, title: "Tanetto" }); gr20SharedAt = Date.now(); trackOnce(label); return "native"; }
@@ -41394,7 +41649,7 @@ const _storyCardGr20 = storyCard;
 storyCard = function () {
   let h = _storyCardGr20();
   try {
-    if (!story || !story.card || typeof h !== "string" || h.includes('id="gr20Story"')) return h;
+    if (!story || !story.card || typeof h !== "string" || h.includes('id="gr20Story"') || !w111ShareOk()) return h;
     const m = h.match(/<button class="btn" id="storyOk">[\s\S]*?<\/button>/); if (!m) return h;
     const sh = `<button class="btn ghost gr20sh" id="gr20Story" type="button" data-pc="${esc(story.card)}">${icon("share")}<span>${esc(L().share)}</span></button>`;
     h = h.replace(m[0], `<div class="row gr20row">${sh}${m[0]}</div>`);
@@ -46838,6 +47093,413 @@ document.addEventListener("submit", (ev) => {
   if (lv) setTimeout(() => { try { v26HelpSheet(lv); } catch (e) { /* niente */ } }, 900);
   if (todayGoals().includes("journal") && !S.done.includes("journal")) { tab = "today"; render(); window.scrollTo(0, 0); completeGoal("journal"); toast(t.saved); return; }
   render(); toast(t.saved);
+}, true);
+
+/* =================== 1.0.11: "La settimana con Germo" + cartoline nello stesso formato + statistiche di percorso ===================
+   1) CARTOLINA SETTIMANALE (modello Wordle / Spotify Wrapped / Locket Rollcall: formato fisso e riconoscibile, nessun dato privato)
+      - Immagine 9:16 (1080x1920, storie) e 1:1 (1080x1080, post), stessa famiglia della cartolina del viaggio: sopra chi la manda
+        e un titolo affettuoso che cambia; al centro la stanza com'e' adesso dentro una cartolina con il francobollo della
+        stagione e sotto il nome dell'evento (Natale, Nuovo inizio, Stagione delle Lanterne / delle Stelle / degli Aquiloni);
+        poi i 7 giorni come piccoli simboli (germoglio = fatto, germoglio con spunta = tutto fatto, luna = riposo, cerchio = niente,
+        puntini = deve ancora arrivare), quanti giorni su 7, il marchio "Tanetto" e #tanettoapp.
+      - Niente obiettivi, niente umore, niente diario, niente numeri di Tanì o livelli: solo i giorni e la stagione.
+      - La settimana e' quella del calendario del telefono (lunedi'-domenica in Italia, domenica-sabato dove si usa cosi'):
+        l'ultimo giorno della settimana dalle 18 e tutto il primo giorno della settimana dopo, in Oggi compare una scheda
+        discreta "La settimana con Germo e' pronta" (si chiude con la X, una volta a settimana). Dal Diario ("Crea la
+        cartolina") si apre quando si vuole: il primo giorno della settimana mostra la settimana appena finita.
+   2) REGOLE PER ETA' (come la storia della 1.0.10): sotto i 13 anni e con l'eta' non detta la cartolina si guarda nell'app ma
+      non c'e' "Condividi" ne' "Salva"; il nome scelto per il compagno compare nell'immagine e nel testo solo dai 18 anni
+      (prima il nome normale: Germo, Ondi...). Le stesse regole valgono ora anche per la cartolina del viaggio e del livello.
+   3) TESTO CONDIVISO: frase breve + link con l'origine (app: Google Play con referrer utm_source=share&utm_medium=postcard&
+      utm_campaign=week|trip|level; sito: ?src=postcard&utm_... cosi' resta la scheda verso Google Play) + #tanettoapp.
+   4) STATISTICHE DI PERCORSO (anonime, con lo stesso interruttore e le stesse regole per eta' di v26TrackGate: spente per i
+      minori, niente prima della domanda sull'eta'): "percorso-..." una volta sola per installazione, solo per chi installa
+      con la 1.0.11 (chi aveva gia' l'app non altera i conteggi). Nessun identificativo, nessun testo scritto dall'utente. */
+
+const W111_T = {
+  it: { kick: (p) => `La settimana con ${p}`, full: ["Una settimana piena di luce", "Sette giorni, sempre insieme", "Che bella settimana, davvero"],
+    good: ["Un passo alla volta, insieme", "Una settimana di cose buone", "Piano piano, ma insieme"], some: ["Anche un giorno conta", "Un piccolo passo è già tanto", "Ci siamo presi un momento"],
+    calm: ["Una settimana tranquilla", "Ci si riposa, poi si riparte", "Ci rivediamo con calma"], days: (n) => (n === 1 ? "1 giorno su 7 insieme" : `${n} giorni su 7 insieme`),
+    sq: "Quadrata", ready: (p) => `La settimana con ${p} è pronta`, readyP: "Una cartolina dei vostri ultimi sette giorni.", open: "Guarda",
+    txt: (p) => `La mia settimana con ${p} su Tanetto`, kid: (p) => `Una cartolina tutta per te, con i tuoi giorni insieme a ${p}.`, xmas: "Natale" },
+  en: { kick: (p) => `A week with ${p}`, full: ["A week full of light", "Seven days, side by side", "What a lovely week"],
+    good: ["One step at a time, together", "A week of good things", "Slowly, but together"], some: ["Every day counts", "A small step is still a step", "We took a moment for us"],
+    calm: ["A quiet week", "Rest now, then off we go", "See you soon, no rush"], days: (n) => (n === 1 ? "1 day out of 7 together" : `${n} days out of 7 together`),
+    sq: "Square", ready: (p) => `Your week with ${p} is ready`, readyP: "A postcard of your last seven days.", open: "Take a look",
+    txt: (p) => `My week with ${p} on Tanetto`, kid: (p) => `A postcard just for you, with your days together with ${p}.`, xmas: "Christmas" },
+  de: { kick: (p) => `Eine Woche mit ${p}`, full: ["Eine Woche voller Licht", "Sieben Tage, immer zusammen", "Was für eine schöne Woche"],
+    good: ["Schritt für Schritt, zusammen", "Eine Woche voller guter Dinge", "Langsam, aber gemeinsam"], some: ["Jeder Tag zählt", "Ein kleiner Schritt ist auch ein Schritt", "Wir haben uns Zeit genommen"],
+    calm: ["Eine ruhige Woche", "Erst ausruhen, dann weiter", "Bis bald, ganz in Ruhe"], days: (n) => (n === 1 ? "1 von 7 Tagen zusammen" : `${n} von 7 Tagen zusammen`),
+    sq: "Quadratisch", ready: (p) => `Deine Woche mit ${p} ist fertig`, readyP: "Eine Postkarte von euren letzten sieben Tagen.", open: "Ansehen",
+    txt: (p) => `Meine Woche mit ${p} in Tanetto`, kid: (p) => `Eine Postkarte nur für dich, mit deinen Tagen mit ${p}.`, xmas: "Weihnachten" },
+  es: { kick: (p) => `Una semana con ${p}`, full: ["Una semana llena de luz", "Siete días, siempre juntos", "Qué semana tan bonita"],
+    good: ["Paso a paso, juntos", "Una semana de cosas buenas", "Despacito, pero juntos"], some: ["Cada día cuenta", "Un pasito también es un paso", "Nos tomamos un momento"],
+    calm: ["Una semana tranquila", "Ahora a descansar, luego seguimos", "Hasta pronto, sin prisas"], days: (n) => (n === 1 ? "1 día de 7 juntos" : `${n} días de 7 juntos`),
+    sq: "Cuadrada", ready: (p) => `Tu semana con ${p} ya está lista`, readyP: "Una postal de tus últimos siete días.", open: "Ver",
+    txt: (p) => `Mi semana con ${p} en Tanetto`, kid: (p) => `Una postal solo para ti, con tus días junto a ${p}.`, xmas: "Navidad" },
+  fr: { kick: (p) => `Une semaine avec ${p}`, full: ["Une semaine pleine de lumière", "Sept jours, toujours ensemble", "Quelle jolie semaine"],
+    good: ["Un pas après l'autre, ensemble", "Une semaine de belles choses", "Doucement, mais ensemble"], some: ["Chaque jour compte", "Un petit pas, c'est déjà un pas", "On s'est accordé un moment"],
+    calm: ["Une semaine tranquille", "On se repose, puis on repart", "À bientôt, sans se presser"], days: (n) => (n === 1 ? "1 jour sur 7 ensemble" : `${n} jours sur 7 ensemble`),
+    sq: "Carrée", ready: (p) => `Ta semaine avec ${p} est prête`, readyP: "Une carte postale de tes sept derniers jours.", open: "Voir",
+    txt: (p) => `Ma semaine avec ${p} dans Tanetto`, kid: (p) => `Une carte rien que pour toi, avec tes jours aux côtés de ${p}.`, xmas: "Noël" },
+  pt: { kick: (p) => `Uma semana com ${p}`, full: ["Uma semana cheia de luz", "Sete dias, sempre juntos", "Que semana bonita"],
+    good: ["Um passo de cada vez, juntos", "Uma semana de coisas boas", "Devagar, mas juntos"], some: ["Cada dia conta", "Um passinho também é um passo", "A gente tirou um momento pra nós"],
+    calm: ["Uma semana tranquila", "Agora descansar, depois seguir", "Até logo, sem pressa"], days: (n) => (n === 1 ? "1 dia de 7 juntos" : `${n} dias de 7 juntos`),
+    sq: "Quadrada", ready: (p) => `Sua semana com ${p} está pronta`, readyP: "Um cartão-postal dos seus últimos sete dias.", open: "Ver",
+    txt: (p) => `Minha semana com ${p} no Tanetto`, kid: (p) => `Um cartão-postal só seu, com os seus dias junto com ${p}.`, xmas: "Natal" },
+  ja: { kick: (p) => `${p}との1週間`, full: ["光いっぱいの1週間", "7日間、ずっといっしょ", "すてきな1週間だったね"],
+    good: ["一歩ずつ、いっしょに", "いいことがたくさんの1週間", "ゆっくり、でもいっしょに"], some: ["どの日も大切な1日", "小さな一歩も、一歩だよ", "ふたりでひと息ついたね"],
+    calm: ["のんびりした1週間", "休んだら、また歩きだそう", "またね、あせらずに"], days: (n) => `7日のうち${n}日いっしょ`,
+    sq: "スクエア", ready: (p) => `${p}との1週間ができあがりました`, readyP: "この7日間のポストカードです。", open: "見てみる",
+    txt: (p) => `Tanettoで${p}と過ごした1週間`, kid: (p) => `${p}との毎日をまとめた、あなただけのポストカード。`, xmas: "クリスマス" },
+  ko: { kick: (p) => `${p} · 함께한 일주일`, full: ["빛으로 가득한 일주일", "7일 내내 함께했어요", "정말 멋진 일주일이었어요"],
+    good: ["한 걸음씩, 함께", "좋은 일이 가득한 일주일", "천천히, 그래도 함께"], some: ["하루하루가 소중해요", "작은 걸음도 걸음이에요", "잠깐 쉬어 가는 시간"],
+    calm: ["조용한 일주일", "푹 쉬고 다시 출발해요", "천천히, 또 만나요"], days: (n) => `7일 중 ${n}일 함께`,
+    sq: "정사각형", ready: () => "일주일 엽서가 준비됐어요", readyP: "지난 7일을 담은 엽서예요.", open: "보기",
+    txt: (p) => `Tanetto에서 보낸 나의 일주일 · ${p}`, kid: (p) => `${p}, 함께한 날들을 담은 나만의 엽서예요.`, xmas: "크리스마스" },
+  zh: { kick: (p) => `和${p}一起的一周`, full: ["满满阳光的一周", "七天，一直在一起", "真是美好的一周"],
+    good: ["一步一步，一起走", "好事满满的一周", "慢慢来，我们一起"], some: ["每一天都算数", "小小一步也是一步", "我们给自己留了点时间"],
+    calm: ["安静的一周", "先休息，再出发", "不着急，下次见"], days: (n) => `7天中有${n}天在一起`,
+    sq: "方形", ready: (p) => `和${p}一起的一周已经准备好了`, readyP: "一张记录你过去七天的明信片。", open: "看看",
+    txt: (p) => `我在 Tanetto 和${p}一起的一周`, kid: (p) => `一张只属于你的明信片，记录你和${p}的每一天。`, xmas: "圣诞节" },
+  zht: { kick: (p) => `和${p}一起的一週`, full: ["滿滿陽光的一週", "七天，一直在一起", "真是美好的一週"],
+    good: ["一步一步，一起走", "好事滿滿的一週", "慢慢來，我們一起"], some: ["每一天都算數", "小小一步也是一步", "我們給自己留了點時間"],
+    calm: ["安靜的一週", "先休息，再出發", "不急，下次見"], days: (n) => `7天中有${n}天在一起`,
+    sq: "方形", ready: (p) => `和${p}一起的一週準備好了`, readyP: "一張記錄你過去七天的明信片。", open: "看看",
+    txt: (p) => `我在 Tanetto 和${p}一起的一週`, kid: (p) => `一張只屬於你的明信片，記錄你和${p}的每一天。`, xmas: "聖誕節" },
+  ru: { kick: (p) => `${p}: наша неделя`, full: ["Неделя, полная света", "Семь дней — всегда вместе", "Какая чудесная неделя"],
+    good: ["Шаг за шагом, вместе", "Неделя хороших дел", "Потихоньку, но вместе"], some: ["Каждый день важен", "Маленький шаг — тоже шаг", "Мы нашли минутку для себя"],
+    calm: ["Спокойная неделя", "Отдохнём — и снова в путь", "До встречи, без спешки"],
+    days: (n) => `${n} ${n % 10 === 1 && n % 100 !== 11 ? "день" : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? "дня" : "дней"} из 7 вместе`,
+    sq: "Квадрат", ready: (p) => `${p}: ваша неделя готова`, readyP: "Открытка о последних семи днях.", open: "Посмотреть",
+    txt: (p) => `${p} и я: наша неделя в Tanetto`, kid: (p) => `Открытка только для тебя: твои дни, где рядом ${p}.`, xmas: "Новый год" },
+  pl: { kick: (p) => `${p}: nasz tydzień`, full: ["Tydzień pełen światła", "Siedem dni zawsze razem", "Jaki piękny tydzień"],
+    good: ["Krok po kroku, razem", "Tydzień pełen dobrych chwil", "Powoli, ale razem"], some: ["Każdy dzień się liczy", "Mały krok to też krok", "Chwila tylko dla nas"],
+    calm: ["Spokojny tydzień", "Odpoczniemy i ruszamy dalej", "Do zobaczenia, bez pośpiechu"], days: (n) => (n === 1 ? "1 dzień z 7 razem" : `${n} dni z 7 razem`),
+    sq: "Kwadrat", ready: (p) => `${p}: wasz tydzień jest gotowy`, readyP: "Pocztówka z ostatnich siedmiu dni.", open: "Zobacz",
+    txt: (p) => `${p} i ja: nasz tydzień w Tanetto`, kid: (p) => `Pocztówka tylko dla ciebie, z twoimi dniami. ${p} też tam jest!`, xmas: "Boże Narodzenie" },
+  nl: { kick: (p) => `Een week met ${p}`, full: ["Een week vol licht", "Zeven dagen, altijd samen", "Wat een fijne week"],
+    good: ["Stapje voor stapje, samen", "Een week vol goede dingen", "Rustig aan, maar samen"], some: ["Elke dag telt", "Een klein stapje is ook een stap", "We namen even tijd voor onszelf"],
+    calm: ["Een rustige week", "Eerst uitrusten, dan weer verder", "Tot gauw, zonder haast"], days: (n) => (n === 1 ? "1 van de 7 dagen samen" : `${n} van de 7 dagen samen`),
+    sq: "Vierkant", ready: (p) => `Je week met ${p} is klaar`, readyP: "Een kaartje van je afgelopen zeven dagen.", open: "Bekijken",
+    txt: (p) => `Mijn week met ${p} in Tanetto`, kid: (p) => `Een kaartje alleen voor jou, met je dagen samen met ${p}.`, xmas: "Kerst" },
+  tr: { kick: (p) => `${p} ile bir hafta`, full: ["Işık dolu bir hafta", "Yedi gün, hep birlikte", "Ne güzel bir hafta"],
+    good: ["Adım adım, birlikte", "Güzel şeylerle dolu bir hafta", "Yavaş yavaş ama birlikte"], some: ["Her gün önemli", "Küçük bir adım da bir adımdır", "Kendimize bir an ayırdık"],
+    calm: ["Sakin bir hafta", "Önce dinlen, sonra devam", "Acele yok, yakında görüşürüz"], days: (n) => `7 günün ${n} günü birlikte`,
+    sq: "Kare", ready: (p) => `${p} ile haftan hazır`, readyP: "Son yedi gününün kartpostalı.", open: "Bak",
+    txt: (p) => `Tanetto'da ${p} ile haftam`, kid: (p) => `Sadece senin için bir kartpostal: ${p} ile geçen günlerin.`, xmas: "Yılbaşı" }
+};
+const w111t = () => W111_T[S.lang] || W111_T.en;
+
+/* ---------- regole comuni (eta', nome, link, caratteri) ---------- */
+/* condividere fuori dall'app: dai 13 anni (come la storia 1.0.10); sotto i 13 e con l'eta' non detta no */
+function w111ShareOk() { try { const b = typeof ageBand === "function" ? ageBand() : "unknown"; return b === "adult" || b === "teen"; } catch (e) { return false; } }
+/* nome nell'immagine e nel testo: quello scelto solo dai 18 anni, prima il nome normale del compagno */
+function w111Name() {
+  const def = ((L().pets || {})[S.pet] || [])[0] || "Germo";
+  let young = true; try { young = typeof v26Young === "function" ? v26Young() : true; } catch (e) { young = true; }
+  return String((!young && S.petName) || def);
+}
+const W111_UTM = (c) => `utm_source=share&utm_medium=postcard&utm_campaign=${c}`;
+function w111Link(campaign) {
+  let native = false; try { native = typeof isNativeApp === "function" && isNativeApp(); } catch (e) { /* niente */ }
+  return native ? PLAY_URL + "&referrer=" + encodeURIComponent(W111_UTM(campaign)) : SITE_URL + "?src=postcard&" + W111_UTM(campaign);
+}
+const w111ShareText = (msg, campaign) => `${msg} ${w111Link(campaign)} #tanettoapp`;
+/* caratteri per il disegno: si caricano anche i pezzi che servono al testo (polacco/turco: il file di riserva di Fredoka) */
+const W111_FILL = "ąćęńśźżĄĆĘŃŚŹŻğĞşŞİ";
+function w111Fonts(texts) {
+  const s = (texts || []).join(" ") + " Tanetto #tanettoapp " + W111_FILL;
+  const want = ['600 80px "Fredoka"', '500 40px "Figtree"', '600 40px "Figtree"', 'italic 500 40px "Figtree"', '700 40px "Fredoka"'];
+  return Promise.race([Promise.all(want.map((f) => document.fonts.load(f, s).catch(() => null))), new Promise((r) => setTimeout(r, 1800))]);
+}
+/* nelle lingue con il file di riserva il carattere si prepara subito (anche per l'interfaccia) */
+if (S.lang === "pl" || S.lang === "tr") setTimeout(() => { try { w111Fonts([]); } catch (e) { /* niente */ } }, 1200);
+
+/* ---------- la settimana del calendario ---------- */
+function w111WeekOrder() { try { return typeof v26WeekOrder === "function" ? v26WeekOrder() : [0, 1, 2, 3, 4, 5, 6]; } catch (e) { return [0, 1, 2, 3, 4, 5, 6]; } }
+/* inizio della settimana da mostrare: quella in corso, ma il primo giorno della settimana quella appena finita */
+function w111WeekStart(now) {
+  now = now || new Date(); const first = w111WeekOrder()[0]; const d = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  let back = (wdIdx(d) - first + 7) % 7; if (back === 0) back = 7;
+  d.setDate(d.getDate() - back); return d;
+}
+function w111Week(now) {
+  now = now || new Date(); const s = w111WeekStart(now); const tk = dkey(now); const out = [];
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(s.getFullYear(), s.getMonth(), s.getDate() + i); const k = dkey(d); const r = (S.days || {})[k];
+    let st = k > tk ? "next" : "none";
+    if (r && k <= tk) { if (r.done > 0) st = r.total && r.done >= r.total ? "all" : "some"; else if (r.rest || r.free) st = "rest"; }
+    out.push({ d, k, st });
+  }
+  return out;
+}
+function w111Count(wk) { return wk.filter((x) => x.st === "all" || x.st === "some").length; }
+function w111Title(wk) {
+  const n = w111Count(wk); const t = w111t(); const pool = n >= 6 ? t.full : n >= 3 ? t.good : n >= 1 ? t.some : t.calm;
+  const wn = Math.floor(new Date(dkey(wk[0].d) + "T12:00:00").getTime() / (7 * 86400000));
+  return pool[((wn % pool.length) + pool.length) % pool.length];
+}
+/* l'evento di adesso: Natale, Nuovo inizio, oppure la stagione del sentiero */
+function w111Event() {
+  try { if (typeof xmOn === "function" && xmOn()) return { kind: "xmas", name: w111t().xmas }; } catch (e) { /* niente */ }
+  try { if (typeof fs20On === "function" && fs20On()) return { kind: "fresh", name: (GR20_T[S.lang] || GR20_T.en).fsPill }; } catch (e) { /* niente */ }
+  try { const se = curSeason(); if (se) return { kind: seaKind(se), name: seaName(se) }; } catch (e) { /* niente */ }
+  return { kind: "lanterns", name: "" };
+}
+
+/* ---------- disegno ---------- */
+const W111_EVPAL = { lanterns: ["#E2654F", "#F2B140", "#3E3866"], stars: ["#FFD25E", "#AEB3F0", "#283260"], kites: ["#E8603C", "#7B6FD0", "#CFE7F3"], xmas: ["#C8503B", "#3E7A4A", "#F2B33D"], fresh: ["#F2B140", "#F29BB8", "#9FD3E8"] };
+/* francobollo e piccoli segni dell'evento (gli stessi disegni che l'app usa nella stanza) */
+function w111EvShape(kind, x, y, s, i) {
+  const c = W111_EVPAL[kind] || W111_EVPAL.lanterns;
+  try {
+    if (kind === "stars") return starShape(x, y, s, i % 2 ? "#FFE7A0" : "#FFD25E", false);
+    if (kind === "kites") return kiteShape(x, y, s * 0.9, c[i % 2], i % 2 === 0, "#F2B140");
+    if (kind === "lanterns") return lanternShape(x, y, s, i % 2 ? "#F2B140" : "#E2654F", true);
+  } catch (e) { /* forme non disponibili: puntini */ }
+  if (kind === "xmas") { const r = 10 * s; return `<g transform="translate(${x} ${y})" stroke="${i % 2 ? "#7FB2D9" : "#C8503B"}" stroke-width="${2.2 * s}" stroke-linecap="round" fill="none"><path d="M0 ${-r}V${r}M${-r * 0.87} ${-r / 2}L${r * 0.87} ${r / 2}M${-r * 0.87} ${r / 2}L${r * 0.87} ${-r / 2}"/></g>`; }
+  const r = 9 * s; return `<g transform="translate(${x} ${y})"><circle r="${r * 0.55}" fill="${c[i % 3]}"/>${[0, 60, 120, 180, 240, 300].map((a) => `<path d="M0 ${-r * 0.85}V${-r * 1.35}" stroke="${c[i % 3]}" stroke-width="${2 * s}" stroke-linecap="round" transform="rotate(${a})"/>`).join("")}</g>`;
+}
+/* simbolo di un giorno (in un quadrato 100x100) */
+function w111DaySym(st, pal) {
+  const sprout = (col) => `<path d="M50 74V52" stroke="${col}" stroke-width="7" stroke-linecap="round"/><path d="M50 56C50 40 38 32 24 32C24 47 34 56 50 56Z" fill="${col}"/><path d="M50 52C50 36 62 27 77 27C77 43 66 52 50 52Z" fill="${col}"/>`;
+  if (st === "all") return `<rect x="4" y="4" width="92" height="92" rx="28" fill="${pal[2]}"/>${sprout("#fff")}<circle cx="78" cy="78" r="17" fill="#fff"/><path d="M70 78l6 6 10-11" stroke="${pal[2]}" stroke-width="5.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
+  if (st === "some") return `<rect x="4" y="4" width="92" height="92" rx="28" fill="${pal[1]}"/>${sprout("#fff")}`;
+  if (st === "rest") return `<rect x="4" y="4" width="92" height="92" rx="28" fill="#EFE6F7"/><path d="M60 26a26 26 0 1 0 16 44A22 22 0 0 1 60 26Z" fill="#9C8BC9"/><circle cx="30" cy="30" r="3" fill="#B9ABDD"/><circle cx="74" cy="26" r="2.4" fill="#B9ABDD"/>`;
+  if (st === "next") return `<rect x="7" y="7" width="86" height="86" rx="26" fill="none" stroke="#C9BBA6" stroke-width="4" stroke-dasharray="3 10" stroke-linecap="round"/>`;
+  return `<rect x="4" y="4" width="92" height="92" rx="28" fill="#FFFDF8"/><rect x="5.5" y="5.5" width="89" height="89" rx="26.5" fill="none" stroke="#E2D6C3" stroke-width="3"/><circle cx="50" cy="50" r="9" fill="#E8DDCB"/>`;
+}
+/* marchio in basso, uguale su tutte le cartoline: Germo dell'icona + "Tanetto" e sotto #tanettoapp */
+function w111Brand(c, logo, cx, y, pal, FD, FB, size) {
+  size = size || 46;
+  c.font = `600 ${size}px ${FD}`; const tw = c.measureText("Tanetto").width; const lw = logo ? Math.round(size * 1.3) : 0; const gx = cx - (tw + lw + 14) / 2;
+  if (logo) {
+    c.fillStyle = "rgba(255,253,248,.9)"; c.beginPath(); c.arc(gx + lw / 2, y - size * 0.35, lw / 2 + 6, 0, Math.PI * 2); c.fill();
+    c.save(); c.beginPath(); c.arc(gx + lw / 2, y - size * 0.35, lw / 2, 0, Math.PI * 2); c.clip(); c.drawImage(logo, gx, y - size * 0.35 - lw / 2, lw, lw); c.restore();
+  }
+  c.textAlign = "left"; c.fillStyle = pal[2]; c.fillText("Tanetto", gx + lw + 14, y);
+  c.textAlign = "center"; c.font = `600 ${Math.round(size * 0.62)}px ${FB}`; c.fillStyle = "#6E655D"; c.fillText("#tanettoapp", cx, y + size * 1.02);
+}
+const W111_FD = '"Fredoka", "Trebuchet MS", "Hiragino Maru Gothic ProN", "Noto Sans CJK JP", Arial, sans-serif';
+const W111_FB = '"Figtree", "Segoe UI", "Noto Sans CJK JP", Arial, sans-serif';
+let w111Memo = { key: "", url: "" };
+async function w111WeekMake(fmt) {
+  const sq = fmt === "square"; const W = 1080, H = sq ? 1080 : 1920;
+  const wk = w111Week(); const ev = w111Event(); const t = w111t(); const name = w111Name();
+  const title = w111Title(wk); const kick = t.kick(name); const n = w111Count(wk); const dline = n ? t.days(n) : "";
+  const key = [fmt, S.lang, S.pet, S.hat, S.wall, (S.furn || []).join(","), name, wk.map((x) => x.st).join(""), dkey(wk[0].d), ev.kind, ev.name, title].join("|");
+  if (w111Memo.key === key && w111Memo.url) return { url: w111Memo.url, title, kick, dline, n };
+  const pal = (typeof WEEK_PAL !== "undefined" && (WEEK_PAL[S.pet] || WEEK_PAL.germo)) || ["#DCEFD3", "#A8D79D", "#4E8A4A"];
+  const si = (() => { try { return season(); } catch (e) { return { id: "autumn" }; } })();
+  /* misure: storia 9:16 (tutto nella fascia centrale, sopra e sotto TikTok e Instagram mettono i loro pulsanti) e quadrata */
+  const L1 = sq ? { kickY: 92, titleY: 168, tMax: 900, tSize: 66, tMin: 44, FX: 196, FY: 212, FW: 688, AW: 640, AH: 380, capH: 64, rot: -1.4, tileY: 720, tile: 96, gap: 16, labY: 852, cntY: 922, brandY: 1004, brand: 38 }
+    : { kickY: 236, titleY: 330, tMax: 920, tSize: 84, tMin: 54, FX: 90, FY: 470, FW: 900, AW: 852, AH: 560, capH: 84, rot: -1.6, tileY: 1222, tile: 112, gap: 16, labY: 1384, cntY: 1470, brandY: 1606, brand: 46 };
+  const FH = 24 + L1.AH + L1.capH; const cx = L1.FX + L1.FW / 2, cy = L1.FY + FH / 2;
+  let room = roomSVG({ ph: "day", pet: S.pet, e: "felice", hat: S.hat, st: stage(), furn: S.furn, wall: S.wall, away: false, glow: 0.95, label: "", season: si.id });
+  const ra = stripSvg(room);
+  const deco = [];
+  const spots = sq ? [[70, 110, 1.6], [1010, 120, 1.9], [80, 660, 1.4], [1012, 640, 1.7], [60, 960, 1.3], [1020, 980, 1.5]]
+    : [[96, 150, 2.1], [985, 132, 2.5], [70, 760, 1.8], [1010, 820, 2.2], [92, 1130, 1.7], [996, 1150, 1.9], [120, 1760, 2.2], [960, 1780, 2.4]];
+  spots.forEach(([x, y, s], i) => deco.push(`<g opacity="${i % 3 === 0 ? 0.9 : 0.75}">${w111EvShape(ev.kind, x, y, s, i)}</g>`));
+  const tw = 7 * L1.tile + 6 * L1.gap; const tx0 = (W - tw) / 2;
+  const tiles = wk.map((x, i) => `<svg x="${tx0 + i * (L1.tile + L1.gap)}" y="${L1.tileY}" width="${L1.tile}" height="${L1.tile}" viewBox="0 0 100 100">${w111DaySym(x.st, pal)}</svg>`).join("");
+  /* striscia dei giorni: un cartoncino chiaro dietro i simboli (come un biglietto) */
+  const strip = `<rect x="${tx0 - 26}" y="${L1.tileY - 22}" width="${tw + 52}" height="${L1.labY - L1.tileY + 44}" rx="40" fill="#FFFDF8" opacity=".78"/>`;
+  const stamp = `<g transform="translate(${L1.FX + L1.FW - (sq ? 96 : 128)} ${L1.FY - (sq ? 26 : 34)}) rotate(6) scale(${sq ? 0.78 : 1})"><rect x="-6" y="-6" width="124" height="148" rx="6" fill="#FFFDF8" stroke="${pal[1]}" stroke-width="3" stroke-dasharray="7 6"/><rect x="6" y="6" width="100" height="124" rx="4" fill="${ev.kind === "stars" ? "#283260" : ev.kind === "lanterns" ? "#3E3866" : pal[0]}"/><g transform="translate(56 64)">${w111EvShape(ev.kind, 0, 0, 2.2, 0)}</g><rect x="30" y="112" width="52" height="7" rx="3.5" fill="${pal[2]}" opacity=".45"/></g>`;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}"><defs>`
+    + `<linearGradient id="w111bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFBF4"/><stop offset=".45" stop-color="${pal[0]}"/><stop offset="1" stop-color="${pal[1]}"/></linearGradient>`
+    + `<clipPath id="w111cl"><rect x="${L1.FX + 24}" y="${L1.FY + 24}" width="${L1.AW}" height="${L1.AH}" rx="14"/></clipPath></defs>`
+    + `<rect width="${W}" height="${H}" fill="url(#w111bg)"/>`
+    + `<circle cx="70" cy="${sq ? 120 : 210}" r="${sq ? 170 : 220}" fill="#fff" opacity=".32"/><circle cx="${W - 60}" cy="${H - 90}" r="${sq ? 200 : 280}" fill="#fff" opacity=".22"/>`
+    + deco.join("")
+    + `<g transform="rotate(${L1.rot} ${cx} ${cy})">`
+    + `<rect x="${L1.FX + 6}" y="${L1.FY + 20}" width="${L1.FW}" height="${FH}" rx="22" fill="#3A2510" opacity=".08"/><rect x="${L1.FX + 3}" y="${L1.FY + 10}" width="${L1.FW}" height="${FH}" rx="22" fill="#3A2510" opacity=".07"/>`
+    + `<rect x="${L1.FX}" y="${L1.FY}" width="${L1.FW}" height="${FH}" rx="22" fill="#FFFDF8"/>`
+    + `<g clip-path="url(#w111cl)"><svg x="${L1.FX + 24}" y="${L1.FY + 24}" width="${L1.AW}" height="${L1.AH}" viewBox="${ra.vb}" preserveAspectRatio="xMidYMid slice">${ra.inner}</svg></g>`
+    + `<rect x="${L1.FX + 24}" y="${L1.FY + 24}" width="${L1.AW}" height="${L1.AH}" rx="14" fill="none" stroke="#000" stroke-opacity=".06" stroke-width="2"/>`
+    + stamp + `</g>` + strip + tiles + `</svg>`;
+  const img = await loadImg("data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg));
+  const logo = await loadImg(typeof BOOT_IMG === "string" ? BOOT_IMG : "").catch(() => null);
+  await w111Fonts([kick, title, dline, ev.name]);
+  const cv = document.createElement("canvas"); cv.width = W; cv.height = H; const c = cv.getContext("2d"); c.drawImage(img, 0, 0);
+  const FD = W111_FD, FB = W111_FB; c.textAlign = "center"; c.textBaseline = "alphabetic";
+  /* in alto: con chi (piccolo) e il titolo affettuoso (grande, al massimo due righe) */
+  const kk = gr20Lines(c, kick, L1.tMax - 40, sq ? 38 : 46, 28, `600 {s}px ${FB}`);
+  c.font = `600 ${kk.size}px ${FB}`; c.fillStyle = pal[2]; c.fillText(kk.lines[0], W / 2, L1.kickY);
+  const tt = gr20Lines(c, title, L1.tMax, L1.tSize, L1.tMin, `600 {s}px ${FD}`);
+  c.font = `600 ${tt.size}px ${FD}`; c.fillStyle = "#2F2A26";
+  if (tt.lines.length > 1) { const y0 = L1.titleY - (sq ? 10 : 18); tt.lines.forEach((ln, i) => c.fillText(ln, W / 2, y0 + i * tt.size * 1.06)); } else c.fillText(tt.lines[0], W / 2, L1.titleY);
+  /* sotto la foto, sul bordo bianco: il nome dell'evento */
+  if (ev.name) {
+    c.save(); c.translate(cx, cy); c.rotate((L1.rot * Math.PI) / 180);
+    const cp = gr20Lines(c, ev.name, L1.FW - 120, sq ? 34 : 42, 24, `italic 500 {s}px ${FB}`);
+    c.font = `italic 500 ${cp.size}px ${FB}`; c.fillStyle = "#6E655D"; c.fillText(cp.lines[0], 0, L1.FY + 24 + L1.AH + (sq ? 46 : 58) - cy); c.restore();
+  }
+  /* iniziali dei giorni sotto i simboli */
+  const tw2 = 7 * L1.tile + 6 * L1.gap; const x0 = (W - tw2) / 2;
+  wk.forEach((x, i) => {
+    const lab = wdName(wdIdx(x.d)); c.font = `600 ${sq ? 26 : 30}px ${FB}`;
+    let fs = sq ? 26 : 30; while (c.measureText(lab).width > L1.tile + L1.gap - 4 && fs > 16) { fs -= 1; c.font = `600 ${fs}px ${FB}`; }
+    c.fillStyle = x.st === "next" ? "#A79C8E" : "#5E564F"; c.fillText(lab, x0 + i * (L1.tile + L1.gap) + L1.tile / 2, L1.labY - (sq ? 2 : 8));
+  });
+  if (dline) { const dl = gr20Lines(c, dline, 900, sq ? 40 : 50, 28, `600 {s}px ${FD}`); c.font = `600 ${dl.size}px ${FD}`; c.fillStyle = pal[2]; c.fillText(dl.lines[0], W / 2, L1.cntY); }
+  w111Brand(c, logo, W / 2, L1.brandY, pal, FD, FB, L1.brand);
+  const url = cv.toDataURL("image/png"); w111Memo = { key, url };
+  return { url, title, kick, dline, n };
+}
+
+/* ---------- finestra: anteprima, formato, condividi / salva ---------- */
+const W111_FMT = () => [(typeof V110_PH !== "undefined" && (V110_PH[S.lang] || V110_PH.en)[1]) || "Story", w111t().sq];
+function w111FmtTabs() {
+  const f = W111_FMT(); const cur = typeof gr20Fmt !== "undefined" ? gr20Fmt : "story";
+  return `<div class="tabsx w111fmt" role="tablist">${[["story", f[0] + " 9:16"], ["square", f[1] + " 1:1"]].map(([k, l]) => `<button role="tab" type="button" data-w111fmt="${k}" aria-selected="${cur === k}">${esc(l)}</button>`).join("")}</div>`;
+}
+async function w111WeekOpen() {
+  if (!S.pet) return;
+  const t = w111t(), L0 = L(); const share = w111ShareOk();
+  gr20Cur = null; gr20Fmt = "story";
+  try { S.w111wk = { wk: dkey(w111WeekStart()), seen: 1 }; save(); } catch (e) { /* niente */ }
+  layer.innerHTML = `<div class="overlay gr20ov w111ov" role="dialog" aria-modal="true" aria-labelledby="gr20T"><div class="box gr20box"><h2 id="gr20T">${esc(t.kick(S.petName || w111Name()))}</h2>
+    ${share ? w111FmtTabs() : ""}<div class="gr20prev" id="gr20Prev"><span class="gr20wait" aria-hidden="true"></span></div><p class="small muted gr20msg" id="gr20Msg" aria-live="polite">${esc(L0.shareMaking || "")}</p>
+    ${share ? `<div class="gr20btns"><button class="btn" id="gr20Send" type="button" disabled>${icon("share")}<span>${esc(L0.share)}</span></button><button class="btn ghost" id="gr20Save" type="button" disabled>${icon("download")}<span>${esc(L0.saveImg)}</span></button></div>` : ""}
+    <button class="link" id="closeLayer" type="button">${esc(L0.close)}</button></div></div>`;
+  const cl = layer.querySelector("#closeLayer"); if (cl) cl.focus();
+  if (gr20anim()) G.from(".gr20box", { y: 24, opacity: 0, duration: 0.35, ease: "power3.out" });
+  try { SND.play("pop"); } catch (e) { /* niente */ }
+  trackOnce("settimana-anteprima");
+  return w111WeekFill();
+}
+async function w111WeekFill() {
+  const box = layer.querySelector(".w111ov .gr20box"); if (!box) return;
+  const t = w111t(); const share = w111ShareOk(); const pv = box.querySelector("#gr20Prev");
+  pv.classList.toggle("sq", gr20Fmt === "square");
+  try {
+    const r = await w111WeekMake(gr20Fmt); if (!box.isConnected) return;
+    const name = w111Name();
+    gr20Cur = { kind: "week", ck: "", url: r.url, name: gr20Fmt === "square" ? "tanetto-settimana-1x1.png" : "tanetto-settimana.png", text: w111ShareText(t.txt(name), "week") };
+    pv.innerHTML = `<img class="gr20img" src="${r.url}" alt="${esc(r.kick + ": " + r.title + (r.dline ? ". " + r.dline : ""))}">`;
+    if (gr20anim()) G.from(pv.firstChild, { scale: 0.96, opacity: 0, duration: 0.3, ease: "power2.out" });
+    box.querySelector("#gr20Msg").textContent = share ? gr20t().hint : t.kid(name);
+    box.querySelectorAll("#gr20Send, #gr20Save").forEach((b) => { b.disabled = false; });
+  } catch (e) {
+    const m = box.querySelector("#gr20Msg"); if (m) m.textContent = L().weekErr || ""; if (pv) pv.classList.add("err");
+  }
+}
+document.addEventListener("click", (ev) => {
+  const b = ev.target.closest && ev.target.closest("[data-w111fmt]"); if (!b) return; ev.stopImmediatePropagation(); ev.preventDefault();
+  const f = b.dataset.w111fmt === "square" ? "square" : "story"; if (f === gr20Fmt) return; gr20Fmt = f;
+  document.querySelectorAll("[data-w111fmt]").forEach((x) => x.setAttribute("aria-selected", String(x === b)));
+  document.querySelectorAll("#gr20Send, #gr20Save").forEach((x) => { x.disabled = true; });
+  if (layer.querySelector(".w111ov")) w111WeekFill(); else if (gr20Cur || gr20Last) gr20Refill();
+}, true);
+/* il pulsante del Diario ("Crea la cartolina") apre la cartolina nuova */
+makeWeekCard = function () { return w111WeekOpen(); };
+
+/* ---------- la scheda in Oggi: ultimo giorno della settimana dalle 18, e tutto il primo giorno della settimana dopo ---------- */
+function w111WeekDue(now) {
+  now = now || new Date(); if (!S.pet || !S.firstDay) return false;
+  const ord = w111WeekOrder(); const wd = wdIdx(now); const last = ord[6], first = ord[0];
+  const inWin = (wd === last && now.getHours() >= 18) || wd === first; if (!inWin) return false;
+  const ws = dkey(w111WeekStart(now)); if (S.w111wk && S.w111wk.wk === ws) return false; /* gia' vista o chiusa */
+  if (dkey(now) === S.firstDay) return false; /* installata oggi: niente da raccontare */
+  return w111Count(w111Week(now)) > 0 || Object.keys(S.days || {}).some((k) => k >= ws && k <= dkey(now) && S.days[k] && (S.days[k].rest || S.days[k].free));
+}
+function w111WeekCard() {
+  if (!w111WeekDue()) return ""; const t = w111t(); const nm = S.petName || w111Name();
+  return `<div class="card namecard w111wk" id="w111Wk"><button class="iconbtn ncx" id="w111WkX" type="button" aria-label="${esc(L().close)}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button>`
+    + `<div class="nchead"><span class="ncpet" aria-hidden="true">${petSVG(S.pet, "felice", S.hat, stage(), "")}</span><div><b>${esc(t.ready(nm))}</b><p class="small muted">${esc(t.readyP)}</p></div></div>`
+    + `<div class="w111days" aria-hidden="true">${w111Week().map((x) => `<i class="w111d ${x.st}"></i>`).join("")}</div>`
+    + `<button class="btn block" id="w111WkGo" type="button">${icon("card")}<span>${esc(t.open)}</span></button></div>`;
+}
+const _viewTodayW111 = viewToday;
+viewToday = function (...a) {
+  const h = _viewTodayW111.apply(this, a);
+  try {
+    if (!S.pet || typeof h !== "string") return h; const c = w111WeekCard(); if (!c) return h;
+    for (const k of ['<button class="nvpass', '<p class="note"']) { const i = h.indexOf(k); if (i >= 0) return h.slice(0, i) + c + h.slice(i); }
+    const j = h.lastIndexOf("</div>"); return j > 0 ? h.slice(0, j) + c + h.slice(j) : h + c;
+  } catch (e) { return h; }
+};
+document.addEventListener("click", (ev) => {
+  const b = ev.target.closest && ev.target.closest("#w111WkGo, #w111WkX"); if (!b) return; ev.stopImmediatePropagation(); ev.preventDefault();
+  if (b.id === "w111WkX") { S.w111wk = { wk: dkey(w111WeekStart()), seen: 0 }; save(); try { SND.play("click"); } catch (e) { /* niente */ } const y = window.scrollY; render(); window.scrollTo(0, y); return; }
+  w111WeekOpen();
+}, true);
+
+/* ---------- statistiche di percorso (una volta per installazione, solo chi installa dalla 1.0.11) ---------- */
+if (!S.pet && !S.w111new) { S.w111new = 1; try { save(); } catch (e) { /* niente */ } }
+function w111Path(name) {
+  try { if (!S.w111new) return; S.w111f = S.w111f || {}; if (S.w111f[name]) return; S.w111f[name] = 1; save(); track("percorso-" + name); } catch (e) { /* niente */ }
+}
+/* passi dell'accoglienza: compagno scelto, nome, obiettivi (= compagno arrivato), guida finita */
+document.addEventListener("click", (ev) => {
+  const b = ev.target.closest && ev.target.closest("button"); if (!b) return;
+  if (b.id === "toName") w111Path("accoglienza-1-compagno");
+  if (b.id === "toGoals") w111Path("accoglienza-2-nome");
+}, true);
+const _renderW111p = render;
+render = function (...a) {
+  const r = _renderW111p.apply(this, a);
+  try { document.documentElement.classList.toggle("w111noshare", !w111ShareOk()); } catch (e) { /* niente */ }
+  try {
+    if (S.w111new && S.pet) {
+      w111Path("accoglienza-3-obiettivi");
+      if (S.tut === 99) w111Path("accoglienza-4-guida");
+      if ((S.log || []).length || Object.values(S.days || {}).some((d) => d && d.done > 0)) w111Path("primo-obiettivo");
+      if (S.away || (S.cards || []).length) w111Path("primo-viaggio");
+      const di = typeof dayIndex === "function" ? dayIndex() : 0; if (di === 1) w111Path("giorno-2"); if (di === 6) w111Path("giorno-7");
+    }
+  } catch (e) { /* niente */ }
+  return r;
+};
+if (typeof openPlus === "function") { const _openPlusW111 = openPlus; openPlus = function (...a) { w111Path("plus-aperto"); return _openPlusW111.apply(this, a); }; }
+/* widget sulla schermata Home: l'app nativa dice quanti ce ne sono (TanettoWidget.info) */
+function w111WidgetCheck() { try { if (typeof widgetInfo !== "undefined" && widgetInfo && widgetInfo.count > 0) w111Path("widget-aggiunto"); } catch (e) { /* niente */ } }
+setTimeout(w111WidgetCheck, 6000);
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") setTimeout(w111WidgetCheck, 4500); });
+
+/* =================== 1.0.11: musiche a tema per ogni evento (motore in 60_sound.js, brani EVS) ===================
+   Con la musica accesa, durante un evento parte da sola la sua musica: Natale (8 dicembre - 6 gennaio), Nuovo inizio
+   (7-31 gennaio), altrimenti la stagione del sentiero (Lanterne, Stelle, Aquiloni). Con la musica spenta non suona niente.
+   In Profilo > Suoni il brano dell'evento e' il primo della lista (con il nome dell'evento); scegliendo un altro brano resta
+   quello per il resto della sessione. */
+function w111MusicEvent(d) {
+  d = d || new Date();
+  try { if (typeof xmOn === "function" && xmOn(d)) return "xmas"; } catch (e) { /* niente */ }
+  try { if (typeof fs20On === "function" && fs20On(d)) return "fresh"; } catch (e) { /* niente */ }
+  try { const se = seasonAt(dkey(d)); if (se) return seaKind(se); } catch (e) { /* niente */ }
+  return null;
+}
+function w111MusicName(id) {
+  try {
+    if (id === "xmas") return w111t().xmas;
+    if (id === "fresh") return (GR20_T[S.lang] || GR20_T.en).fsPill;
+    const se = curSeason(); if (se) return seaName(se);
+  } catch (e) { /* niente */ }
+  return "";
+}
+function w111MusicSync() { try { SND.setEvent(w111MusicEvent()); } catch (e) { /* niente */ } }
+w111MusicSync();
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") w111MusicSync(); });
+setInterval(() => { if (!document.hidden) w111MusicSync(); }, 60000);
+/* scegliere un brano normale: l'evento non riparte da solo in questa sessione */
+document.addEventListener("click", (ev) => { const b = ev.target.closest && ev.target.closest("[data-track]"); if (b) { try { SND.holdEvent(); } catch (e) { /* niente */ } } }, true);
+/* il brano dell'evento in cima alla lista dei brani */
+const _viewMoreW111m = viewMore;
+viewMore = function (...a) {
+  const h = _viewMoreW111m.apply(this, a);
+  try {
+    const id = SND.eventId(); if (!id || typeof h !== "string") return h; const k = h.indexOf('<div class="tracks'); if (k < 0) return h;
+    const j = h.indexOf(">", k) + 1; const on = S.music && SND.eventPlaying(); const nm = w111MusicName(id); if (!nm) return h;
+    return h.slice(0, j) + `<button class="chip w111ev ${on ? "playing" : ""}" aria-pressed="${on}" data-evtrack="1" type="button">${on ? "♪ " : ""}${esc(nm)}</button>` + h.slice(j);
+  } catch (e) { return h; }
+};
+document.addEventListener("click", (ev) => {
+  const b = ev.target.closest && ev.target.closest("[data-evtrack]"); if (!b) return; ev.stopImmediatePropagation(); ev.preventDefault();
+  w111MusicSync();
+  if (!S.music) { S.music = true; save(); SND.playEvent(); SND.musicOn(); } else SND.playEvent();
+  const y = window.scrollY; render(); window.scrollTo(0, y);
 }, true);
 
 splash();

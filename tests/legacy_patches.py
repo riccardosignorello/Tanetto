@@ -97,6 +97,9 @@ P = [
     ('fix109/t38run5/t38_trips.py', 'tags.get("f:city") == f"Ganze Reise · +{TF} Tanì · +15 Punkte" and tags.get("v:fireflies") == f"Ganze Reise · +{WF} Tanì · +16 Punkte"', 'tags.get("f:city") == f"Ganze Reise · +{TF} Tanì" and tags.get("v:fireflies") == f"Ganze Reise · +{WF} Tanì"', '1.0.10: una sola moneta visibile (Tanì), niente punti; Zaino al posto di Energia'),
     ('fix109/t38run5/t38_trips.py', '"So funktionieren Reisen" in sh and "Energie" in sh and "Ganze Reise" in sh', '"So funktionieren Reisen" in sh and "Rucksack" in sh and "ganze Reise" in sh', '1.0.10: una sola moneta visibile (Tanì), niente punti; Zaino al posto di Energia'),
     ('fix109/t38run5/t38_trips.py', '"+15 Punkte" in stx and "Kurzer Ausflug" not in stx', '"Punkte" not in stx and "Kurzer Ausflug" not in stx', '1.0.10: una sola moneta visibile (Tanì), niente punti; Zaino al posto di Energia'),
+    # 1.0.11 (cartoline nello stesso formato della settimana): link con utm_source=share&utm_medium=postcard&utm_campaign=trip e #tanettoapp
+    ("fix109/t38run5/t38_growth.py", 'txt.endswith("https://tanettoapp.github.io/Tanetto/?src=postcard")', '"https://tanettoapp.github.io/Tanetto/?src=postcard&utm_source=share&utm_medium=postcard&utm_campaign=trip" in txt and txt.endswith("#tanettoapp")', "1.0.11: link con UTM e #tanettoapp"),
+    ("fix109/t38run5/t38_growth.py", 'sh["text"].endswith("?src=postcard")', '("utm_campaign%3Dtrip" in sh["text"] or "utm_campaign=trip" in sh["text"]) and sh["text"].endswith("#tanettoapp")', "1.0.11: link con UTM e #tanettoapp (nell'app: Google Play)"),
 ]
 bad = 0
 for f, old, new, why in P:

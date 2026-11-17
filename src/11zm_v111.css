@@ -1,0 +1,17 @@
+/* ===== 1.0.11: cartolina della settimana, formati 9:16 / 1:1, scheda in Oggi ===== */
+.gr20box .w111fmt { width: 100%; max-width: 320px; margin: 0 auto; }
+.gr20box .w111fmt button { min-height: 48px; }
+.gr20prev.sq { aspect-ratio: 1 / 1; height: auto; width: min(100%, 46vh, 340px); }
+@media (max-height: 640px) { .gr20prev.sq { width: min(100%, 40vh, 300px); } }
+/* sotto i 13 anni (e con l'eta' non detta) niente condivisione fuori dall'app: spariscono anche i pulsanti "Condividi" di prima */
+html.w111noshare #shareCard, html.w111noshare #shareLevel { display: none !important; }
+/* scheda "La settimana con ... e' pronta" (stessa base della scheda del nome) */
+.card.w111wk .w111days { display: flex; gap: 6px; justify-content: center; margin: 2px 0 2px; }
+.card.w111wk .w111d { width: 26px; height: 26px; border-radius: 9px; background: var(--paper-2, #F3EDE4); box-shadow: inset 0 0 0 2px var(--line, #E2D6C3); display: block; }
+.card.w111wk .w111d.all { background: var(--accent, #4E8A4A); box-shadow: none; }
+.card.w111wk .w111d.some { background: color-mix(in srgb, var(--accent, #4E8A4A) 45%, #fff); box-shadow: none; }
+.card.w111wk .w111d.rest { background: #EFE6F7; box-shadow: inset 0 0 0 2px #CFC3EA; }
+.card.w111wk .w111d.next { background: none; box-shadow: none; outline: 2px dashed var(--line, #D9CDBA); outline-offset: -3px; }
+.card.w111wk .btn { min-height: 48px; }
+[data-theme="dark"] .card.w111wk .w111d.rest { background: #3A3350; box-shadow: inset 0 0 0 2px #5A4F7A; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .card.w111wk .w111d.rest { background: #3A3350; box-shadow: inset 0 0 0 2px #5A4F7A; } }
