@@ -37,7 +37,7 @@ T.es = {
   breatheT: "Respira conmigo", breatheIn: "Inspira", breatheOut: "Espira", breatheDone: "Muy bien. Un minuto solo para ti.", breatheStart: "Empezar", close: "Cerrar", breatheGo: "Respirar juntos",
   levelUpT: (l) => `¡Nivel ${l}!`, levelUpP: (n) => `${n} ha crecido un poquito. Has recibido 30 Tanì.`, unlocked: (d) => `Nuevo destino: ${d}`, grow: (n) => `Mira a ${n}: ¡ha cambiado!`,
   tripsT: "Aventuras", tripsP: "Cuando la mochila esté llena, elige adónde mandarlo. Volverá con una postal y alguna sorpresa.", hours: (h) => h === 1 ? "1 hora" : `${h} horas`, lockedL: (l) => `Desde el nivel ${l}`, need: "Hace falta la mochila llena: completa tus objetivos de hoy.", depart: (d) => `Rumbo a ${d}`, albumT: "Álbum de postales", albumP: (a, b) => `${a} de ${b} encontradas`,
-  fantasyT: "Mundos de fantasía", realT: "Viajes por España",
+  fantasyT: "Mundos de fantasía", realT: "Viajes por España y Latinoamérica",
   homeT: "Casita", homeP: "Decora su habitación y elige qué se pone. Los Tanì se ganan con los objetivos.", shopFurn: "Muebles", shopWear: "Ropa", shopWall: "Paredes", owned: "Tuyo", using: "En uso", use: "Usar", none: "Nada", notEnough: "Aún no tienes Tanì suficientes", bought: (i) => `¡${i} ya es tuyo!`, foundOnly: "Se encuentra en los viajes", eventOnly: "Premio de temporada",
   diaryT: "Diario", qT: "La pregunta de hoy", moodL: "¿Cómo te sientes?", lineL: "Tu respuesta", linePh: "Basta con una línea", save: "Guardar", saved: "Guardado en el diario", empty: "El diario aún está vacío: la primera página es la más bonita.", calT: "Tu mes", legNone: "Nada", legSome: "Algo", legAll: "Todo", legRest: "Descanso", privacy: "El diario se queda solo en este móvil.",
   moods: ["Mal", "Regular", "Normal", "Bien", "Genial"],

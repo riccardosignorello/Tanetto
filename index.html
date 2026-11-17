@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-j8Otd8kL22sqEUPNetnYa2UdrC7Hgl7sq/0Xv+hhW0g=' 'unsafe-eval' https://apis.google.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.goatcounter.com; media-src 'self' data: blob:; connect-src 'self' data: blob: https://*.googleapis.com https://tanettoapp-pet.firebaseapp.com https://*.goatcounter.com; frame-src https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-95ocj5oDLHGLLP78OIY25JNnO7iHUMXgXBfMD2UCgq0=' 'unsafe-eval' https://apis.google.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.goatcounter.com; media-src 'self' data: blob:; connect-src 'self' data: blob: https://*.googleapis.com https://tanettoapp-pet.firebaseapp.com https://*.goatcounter.com; frame-src https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#F4EFE6">
 <title>Tanetto — a tiny pet for your self-care habits (free app)</title>
@@ -3820,6 +3820,15 @@ html.w111noshare #shareCard, html.w111noshare #shareLevel { display: none !impor
    proprietario: lo toglie del tutto feat-111-icons), quindi qui non se ne aggiungono. */
 #room .e1sky, #room .e1win, #room .e1deco, #room .e1light { pointer-events: none; }
 
+/* ===== 1.0.11: contrasto WCAG AA (4,5:1 testo normale, 3:1 testo grande) misurato sui pixel veri (tests/t110/t_111_polish.py) =====
+   Si scuriscono solo i fondi dei distintivi piccoli con testo bianco, restando nella stessa tinta della palette (BRAND_BOOK.md):
+   il colore resta riconoscibile, la scritta si legge. */
+/* "Nuovo" sulla scheda della stagione: rosso #E2454A con bianco 12 px = 4,05:1 -> #C43A3F = 5,22:1 */
+.seacard.isnew::after { background: #C43A3F; }
+/* titoli dei gruppi del negozio ("Piante", "Tappeti"...): grigio caldo #6B625B sul fondo #E6DDC7 = 4,41:1 -> un po' piu' scuro (5,3:1);
+   nel tema scuro --muted e --ink sono chiari, la miscela resta chiara e leggibile */
+.shopgrp h3, .shopgrp h2 { color: color-mix(in srgb, var(--muted) 80%, var(--ink)); }
+
 /* 1.0.11: modalita' protetta (sotto i 13 anni o eta' non detta, 98zz_v111_age.js): nessun pulsante per condividere fuori dall'app */
 html.a111kid [data-shareimg], html.a111kid #gr20Send, html.a111kid #gr20Story, html.a111kid #invite, html.a111kid .invcard, html.a111kid #v2Invite, html.a111kid .v110ph { display: none !important; }
 
@@ -3999,7 +4008,7 @@ T.es = {
   breatheT: "Respira conmigo", breatheIn: "Inspira", breatheOut: "Espira", breatheDone: "Muy bien. Un minuto solo para ti.", breatheStart: "Empezar", close: "Cerrar", breatheGo: "Respirar juntos",
   levelUpT: (l) => `¡Nivel ${l}!`, levelUpP: (n) => `${n} ha crecido un poquito. Has recibido 30 Tanì.`, unlocked: (d) => `Nuevo destino: ${d}`, grow: (n) => `Mira a ${n}: ¡ha cambiado!`,
   tripsT: "Aventuras", tripsP: "Cuando la mochila esté llena, elige adónde mandarlo. Volverá con una postal y alguna sorpresa.", hours: (h) => h === 1 ? "1 hora" : `${h} horas`, lockedL: (l) => `Desde el nivel ${l}`, need: "Hace falta la mochila llena: completa tus objetivos de hoy.", depart: (d) => `Rumbo a ${d}`, albumT: "Álbum de postales", albumP: (a, b) => `${a} de ${b} encontradas`,
-  fantasyT: "Mundos de fantasía", realT: "Viajes por España",
+  fantasyT: "Mundos de fantasía", realT: "Viajes por España y Latinoamérica",
   homeT: "Casita", homeP: "Decora su habitación y elige qué se pone. Los Tanì se ganan con los objetivos.", shopFurn: "Muebles", shopWear: "Ropa", shopWall: "Paredes", owned: "Tuyo", using: "En uso", use: "Usar", none: "Nada", notEnough: "Aún no tienes Tanì suficientes", bought: (i) => `¡${i} ya es tuyo!`, foundOnly: "Se encuentra en los viajes", eventOnly: "Premio de temporada",
   diaryT: "Diario", qT: "La pregunta de hoy", moodL: "¿Cómo te sientes?", lineL: "Tu respuesta", linePh: "Basta con una línea", save: "Guardar", saved: "Guardado en el diario", empty: "El diario aún está vacío: la primera página es la más bonita.", calT: "Tu mes", legNone: "Nada", legSome: "Algo", legAll: "Todo", legRest: "Descanso", privacy: "El diario se queda solo en este móvil.",
   moods: ["Mal", "Regular", "Normal", "Bien", "Genial"],
@@ -23903,6 +23912,83 @@ Object.keys(N111T).forEach((l) => {
 });
 if (N111_MISS.length) throw new Error("1.0.11 testi nativi: manca " + N111_MISS.join(", "));
 
+/* ===== 1.0.11: voce della marca, niente colpa (VOCE.md, regola 4: "mai colpa, mai fretta") =====
+   Frasi che facevano sentire in colpa o "in debito" riscritte in modo caldo, in tutte le 14 lingue:
+   - bentornato: niente piu' "i giorni che hai saltato" (si dice solo che e' bello rivedersi e si va avanti insieme);
+   - il compagno non "ti aspettava" (notte, chat, sorpresa di domani): e' contento di vederti;
+   - scudo e guida: "un giorno senza obiettivi" / "una pausa" invece di "salti / perdi un giorno";
+   - battitina mancata: la colpa e' del pupazzo, mai della persona (regola 5); giardino vuoto senza "aspetta";
+   - "Torna domani!" diventa un saluto ("A domani!").
+   La finestra di uscita, il premio dell'album e il primo accessorio sono in 98zw_v111_polish.js (tabelle definite dopo). */
+const V111_TX = {
+  it: { night: "Sono un po' assonnato, ma che bello vederti.", greet: "Ehi, eccoti! Che bello vederti.", bye: "A presto! Io resto qui.", tomorrow: "Domani ti preparo una sorpresa. A domani!",
+    shield: "Se un giorno passa senza obiettivi, uno scudo protegge la tua serie in automatico.", high: "Ops, ho mancato il cinque! Riproviamo?", garden: "Al giardino farebbe piacere un primo fiore.",
+    teaser: "A domani!", gq: "E se mi prendo un giorno di pausa?", ga: "Va benissimo. Puoi segnare un giorno di riposo e la serie non si interrompe. Il regalo del giorno ricomincia semplicemente dal primo.",
+    back: (n) => `${n} è felicissimo di rivederti! Ripartiamo da qui, insieme.` },
+  en: { night: "I'm a little sleepy, but so happy to see you.", greet: "Hey, there you are! So good to see you.", bye: null, tomorrow: "Tomorrow I'll have a surprise for you. See you then!",
+    shield: "If a day goes by without goals, a shield keeps your streak safe automatically.", high: "Oops, I missed the high five! One more?", garden: "The garden would love its first flower.",
+    teaser: "See you tomorrow!", gq: "What if I take a day off?", ga: "That's completely fine. You can mark a rest day and your streak stays safe. The daily gift simply starts again from the beginning.",
+    back: (n) => `${n} is so happy to see you again! Let's carry on from here, together.` },
+  de: { night: "Ich bin etwas müde, aber ich freu mich so, dich zu sehen.", greet: "Hey, da bist du ja! Schön, dich zu sehen.", bye: "Bis bald! Ich bin hier.", tomorrow: "Morgen habe ich eine Überraschung für dich. Bis morgen!",
+    shield: "Vergeht ein Tag ohne Ziele, schützt ein Schild automatisch deine Serie.", high: "Hoppla, daneben! Noch mal abklatschen?", garden: "Der Garten freut sich auf die erste Blume.",
+    teaser: "Bis morgen!", gq: "Und wenn ich mal einen Tag Pause mache?", ga: "Das ist völlig in Ordnung. Du kannst einen Ruhetag eintragen, und deine Serie bleibt bestehen. Das Tagesgeschenk fängt einfach wieder von vorne an.",
+    back: (n) => `${n} freut sich riesig, dich wiederzusehen! Wir machen einfach hier weiter, zusammen.` },
+  es: { night: "Tengo un poco de sueño, pero qué alegría verte.", greet: "¡Ey, aquí estás! Qué alegría verte.", bye: "¡Hasta pronto! Aquí estaré.", tomorrow: "Mañana te preparo una sorpresa. ¡Hasta mañana!",
+    shield: "Si un día pasa sin objetivos, un escudo protege tu racha automáticamente.", high: "¡Uy, no atiné! ¿Otra vez?", garden: "Al jardín le encantaría tener su primera flor.",
+    teaser: "¡Hasta mañana!", gq: "¿Y si me tomo un día libre?", ga: "No pasa nada. Puedes marcar un día de descanso y tu racha no se rompe. El regalo del día simplemente vuelve a empezar.",
+    back: (n) => `¡${n} está feliz de volver a verte! Seguimos desde aquí, juntos.` },
+  fr: { night: "J'ai un peu sommeil, mais quelle joie de te voir.", greet: "Hé, te voilà ! Ça me fait plaisir de te voir.", bye: "À bientôt ! Je reste par ici.", tomorrow: "Demain, je te prépare une surprise. À demain !",
+    shield: "Si une journée passe sans objectifs, un bouclier protège ta série automatiquement.", high: "Oups, raté ! On refait un tope-là ?", garden: "Le jardin aimerait bien une première fleur.",
+    teaser: "À demain !", gq: "Et si je fais une pause d'un jour ?", ga: "Aucun souci. Tu peux noter un jour de repos et ta série continue. Le cadeau du jour recommence simplement au début.",
+    back: (n) => `Quelle joie pour ${n} de te revoir ! On repart d'ici, ensemble.` },
+  pt: { night: "Estou com um pouco de sono, mas que bom te ver.", greet: "Ei, você chegou! Que bom te ver.", bye: "Até logo! Vou estar por aqui.", tomorrow: "Amanhã vou te preparar uma surpresa. Até amanhã!",
+    shield: "Se um dia passar sem metas, um escudo protege sua sequência automaticamente.", high: "Opa, errei o toca aqui! De novo?", garden: "O jardim adoraria ganhar a primeira flor.",
+    teaser: "Até amanhã!", gq: "E se eu tirar um dia de folga?", ga: "Tudo bem. Você pode marcar um dia de descanso e sua sequência continua. O presente do dia simplesmente recomeça do início.",
+    back: (n) => `${n} está muito feliz em te ver de novo! A gente segue daqui, juntos.` },
+  ja: { night: "ちょっと眠いけど、会えてうれしいな。", greet: "あ、来てくれた！うれしいな。", bye: null, tomorrow: "明日はサプライズがあるよ。またね！",
+    shield: "目標のない日があっても、シールドが自動で連続記録を守ってくれます。", high: null, garden: "お庭は最初のお花を楽しみにしています。",
+    teaser: "また明日ね！", gq: "一日お休みしたら？", ga: null,
+    back: (n) => `${n}はまた会えてとってもうれしそう! ここからまた、いっしょに始めよう。` },
+  ko: { night: "조금 졸리지만 만나서 정말 기뻐요.", greet: "앗, 왔다! 정말 반가워요.", bye: "또 만나요! 저는 여기 있을게요.", tomorrow: "내일 깜짝 선물이 있어요. 내일 만나요!",
+    shield: "목표 없이 지나간 날이 있어도 방패가 자동으로 연속 기록을 지켜 줘요.", high: null, garden: "정원이 첫 꽃을 기대하고 있어요.",
+    teaser: "내일 만나요!", gq: "하루 쉬면 어떻게 돼요?", ga: null,
+    back: (n) => `다시 만나서 ${n}도 정말 기뻐해요! 여기서부터 다시 함께 시작해요.` },
+  zh: { night: "我有点困了，但见到你真开心。", greet: "嘿，你来啦！见到你真好。", bye: null, tomorrow: "明天我会给你一个惊喜。明天见哦！",
+    shield: "如果某一天没有完成目标，护盾会自动保护你的连续记录。", high: "哎呀，我没击中！再来一次？", garden: "花园很期待第一朵花。",
+    teaser: "明天见哦！", gq: "如果我想休息一天呢？", ga: null,
+    back: (n) => `再次见到你，${n} 开心极了！我们从这里一起出发吧。` },
+  zht: { night: "我有點睏了，但見到你好開心。", greet: "嘿，你來啦！見到你真好。", bye: null, tomorrow: "明天我會給你一個驚喜。明天見喔！",
+    shield: "如果某一天沒有完成目標，護盾會自動保護你的連續紀錄。", high: "哎呀，我沒拍到！再來一次？", garden: "花園很期待第一朵花。",
+    teaser: "明天見喔！", gq: "如果我想休息一天呢？", ga: null,
+    back: (n) => `又見到你了，${n} 超開心！我們從這裡一起出發吧。` },
+  ru: { night: "Глазки слипаются, но как хорошо, что ты здесь.", greet: "Эй, вот и ты! Как здорово тебя видеть.", bye: null, tomorrow: "Завтра у меня будет для тебя сюрприз. До завтра!",
+    shield: "Если день пройдёт без целей, щит автоматически защитит твою серию.", high: "Ой, мимо! Давай ещё разок?", garden: "Сад будет рад первому цветку.",
+    teaser: "До завтра!", gq: "А если я возьму выходной?", ga: "Всё в порядке. Можно отметить день отдыха, и серия останется в безопасности. Ежедневный подарок просто начнётся сначала.",
+    back: (n) => `${n} так радуется новой встрече! Продолжим отсюда, вместе.` },
+  pl: { night: "Trochę chce mi się spać, ale tak się cieszę, że jesteś.", greet: "Hej, jesteś! Fajnie cię widzieć.", bye: null, tomorrow: "Jutro będę mieć dla ciebie niespodziankę. Do jutra!",
+    shield: "Jeśli jakiś dzień minie bez celów, tarcza automatycznie ochroni twoją serię.", high: "Ups, pudło! Jeszcze raz?", garden: "Ogród ucieszy się z pierwszego kwiatu.",
+    teaser: "Do jutra!", gq: "A jeśli zrobię sobie dzień przerwy?", ga: "Wszystko w porządku. Możesz oznaczyć dzień odpoczynku, a twoja seria pozostanie bezpieczna. Codzienny prezent po prostu zacznie się od początku.",
+    back: (n) => `${n} bardzo się cieszy, że znów cię widzi! Ruszamy stąd dalej, razem.` },
+  nl: { night: "Ik ben een beetje slaperig, maar wat fijn om je te zien.", greet: "Hé, daar ben je! Fijn je te zien.", bye: null, tomorrow: "Morgen heb ik een verrassing voor je. Tot morgen!",
+    shield: "Gaat er een dag voorbij zonder doelen? Dan beschermt een schild automatisch je reeks.", high: "Oeps, mis! Nog een keer?", garden: "De tuin kijkt uit naar zijn eerste bloem.",
+    teaser: "Tot morgen!", gq: "En als ik een dagje vrij neem?", ga: null,
+    back: (n) => `${n} is superblij je weer te zien! We gaan vanaf hier verder, samen.` },
+  tr: { night: "Biraz uykum var ama seni gördüğüme çok sevindim.", greet: "Hey, geldin! Seni görmek çok güzel.", bye: null, tomorrow: "Yarın sana bir sürprizim olacak. Yarın görüşürüz!",
+    shield: "Bir gün hedefsiz geçerse bir kalkan serini otomatik olarak korur.", high: "Hay aksi, ıskaladım! Bir daha?", garden: "Bahçe ilk çiçeğine çok sevinecek.",
+    teaser: "Yarın görüşürüz!", gq: "Bir gün ara verirsem ne olur?", ga: null,
+    back: (n) => `${n} seni yeniden gördüğü için çok mutlu! Buradan birlikte devam ediyoruz.` }
+};
+Object.keys(V111_TX).forEach((l) => {
+  const t = T[l], x = V111_TX[l]; if (!t) return;
+  const set = (o, k, v) => { if (o && v != null && k in o) o[k] = v; };
+  if (t.talk && Array.isArray(t.talk.night) && t.talk.night.length > 2) t.talk.night[2] = x.night;
+  if (t.chat && t.chat.R) { if (t.chat.R.greet && t.chat.R.greet.length > 1) t.chat.R.greet[1] = x.greet; if (x.bye && t.chat.R.bye && t.chat.R.bye.length) t.chat.R.bye[0] = x.bye; }
+  set(t, "tomorrow", x.tomorrow); set(t, "gardenEmpty", x.garden); set(t, "teaserT", x.teaser);
+  set(t.shield, "P", x.shield); set(t.play, "highMiss", x.high);
+  if (Array.isArray(t.guide) && Array.isArray(t.guide[3])) { if (x.gq) t.guide[3][0] = x.gq; if (x.ga) t.guide[3][1] = x.ga; }
+  if (t.v12 && Array.isArray(t.v12.backP) && t.v12.backP.length) t.v12.backP[0] = x.back;
+});
+
 /* =================== 1.0.11 (18/11/2026): pubblico dai 13 anni in su, modalita' protetta per chi e' piu' piccolo ===================
    Decisione del proprietario: su Play Console il pubblico di destinazione e' 13-15, 16-17 e 18+ (non sotto i 13), come Finch
    ("Our Services are not directed to children who are under the age of 13"). I bambini possono comunque usare l'app: chi indica
@@ -24919,6 +25005,71 @@ const IMG3D_V = "c012a790";
 const IMG3D_PC = {"f:forest":["f_forest",960,640],"f:lake":["f_lake",960,640],"f:hill":["f_hill",960,640],"f:mountain":["f_mountain",960,640],"f:city":["f_city",960,640],"v:fireflies":["v_fireflies",960,640],"v:shells":["v_shells",960,640],"v:mushrooms":["v_mushrooms",960,640],"v:library":["v_library",960,640],"v:crystal":["v_crystal",960,640],"v:starsea":["v_starsea",960,640],"v:sugar":["v_sugar",960,640],"v:aurora":["v_aurora",960,640],"v:dragon":["v_dragon",960,640],"w:pyramids":["w_pyramids",960,640],"w:santorini":["w_santorini",960,640],"w:matterhorn":["w_matterhorn",960,640],"w:fjords":["w_fjords",960,640],"w:lapland":["w_lapland",960,640],"w:iceland":["w_iceland",960,640],"w:sahara":["w_sahara",960,640],"w:petra":["w_petra",960,640],"w:safari":["w_safari",960,640],"w:victoria":["w_victoria",960,640],"w:tajmahal":["w_tajmahal",960,640],"w:angkor":["w_angkor",960,640],"w:bali":["w_bali",960,640],"w:maldives":["w_maldives",960,640],"w:reef":["w_reef",960,640],"w:sydney":["w_sydney",960,640],"w:banff":["w_banff",960,640],"w:hawaii":["w_hawaii",960,640],"w:galapagos":["w_galapagos",960,640],"w:machupicchu":["w_machupicchu",960,640],"w:uyuni":["w_uyuni",960,640],"w:patagonia":["w_patagonia",960,640],"w:moai":["w_moai",960,640],"w:antarctica":["w_antarctica",960,640],"r:venezia":["r_venezia",960,640],"r:dolomiti":["r_dolomiti",960,640],"r:cinqueterre":["r_cinqueterre",960,640],"r:roma":["r_roma",960,640],"r:neuschwanstein":["r_neuschwanstein",960,640],"r:schwarzwald":["r_schwarzwald",960,640],"r:bodensee":["r_bodensee",960,640],"r:berlin":["r_berlin",960,640],"r:sevilla":["r_sevilla",960,640],"r:granada":["r_granada",960,640],"r:barcelona":["r_barcelona",960,640],"r:tenerife":["r_tenerife",960,640],"r:london":["r_london",960,640],"r:highlands":["r_highlands",960,640],"r:newyork":["r_newyork",960,640],"r:grandcanyon":["r_grandcanyon",960,640],"r:paris":["r_paris",960,640],"r:montsaintmichel":["r_montsaintmichel",960,640],"r:provence":["r_provence",960,640],"r:chamonix":["r_chamonix",960,640],"r:rio":["r_rio",960,640],"r:amazonia":["r_amazonia",960,640],"r:lencois":["r_lencois",960,640],"r:iguacu":["r_iguacu",960,640],"r:tokyo":["r_tokyo",960,640],"r:fuji":["r_fuji",960,640],"r:kyoto":["r_kyoto",960,640],"r:hokkaido":["r_hokkaido",960,640],"r:seoul":["r_seoul",960,640],"r:busan":["r_busan",960,640],"r:seorak":["r_seorak",960,640],"r:jeju":["r_jeju",960,640],"r:greatwall":["r_greatwall",960,640],"r:shanghai":["r_shanghai",960,640],"r:guilin":["r_guilin",960,640],"r:zhangjiajie":["r_zhangjiajie",960,640],"r:taipei101":["r_taipei101",960,640],"r:jiufen":["r_jiufen",960,640],"r:sunmoonlake":["r_sunmoonlake",960,640],"r:taroko":["r_taroko",960,640],"r:moskva":["r_moskva",960,640],"r:piter":["r_piter",960,640],"r:baikal":["r_baikal",960,640],"r:kamchatka":["r_kamchatka",960,640],"r:krakow":["r_krakow",960,640],"r:tatry":["r_tatry",960,640],"r:gdansk":["r_gdansk",960,640],"r:bialowieza":["r_bialowieza",960,640],"r:amsterdam":["r_amsterdam",960,640],"r:kinderdijk":["r_kinderdijk",960,640],"r:keukenhof":["r_keukenhof",960,640],"r:wadden":["r_wadden",960,640],"r:istanbul":["r_istanbul",960,640],"r:kapadokya":["r_kapadokya",960,640],"r:pamukkale":["r_pamukkale",960,640],"r:efes":["r_efes",960,640]};
 const BOOT_IMG = "data:image/webp;base64,UklGRiwVAABXRUJQVlA4ICAVAAAwjwCdASqQAZABPpVKoEulpConpTJJiUASiWVu1RA708aQjVAZMf0dz0x+4a/xXe79Gm4d82PnFPneJxV5p+NfYEW5an4xR25NnEdKtraMYHB7mLXGcxSCB//d72s973ve97uftNAPkGtnVFjclRg9xppERpmZgj1VgXuXl99/bDrbF3d59VTvDsUgcDvU/27FGV/dhwQCgZV3NnvgaX0bZk2Cv92HjGyMWCnV78k1fKT0V36AeIitpJyiQYoL0PLl8On/386HSd7aH71OZbJwWJ8Aju9JMgMVgP0/BIj2/+furIYJymOf7OO+KDfz1vXQ8y4KhxbHj222uK/JlOaAqL7MwxTeF6/ODfSbMZq5hJQXjQBc6IxBNYgro0M/0ot1XsOzSYLEXr5qht3Ne8fIUXTRH9qsXy6PPdWG14IDkvY+lZj49in7J6sMMChMgOwOwCK8IfkaRGZGemXbNox/Nl0EGrrcqqea3dHfwL4/xmxQ3iJtf2qOdaMa6MwwhZjURurks1757FG+XoBHix6VEo4QvU/AsHQmHjkyVbXxDhyd0L3hgXYJQCxMSCZ495i1JJNl4HmVHwOiZSSnDPrytggIJlZ9Oc6yQqkCflTcv3z3PCXRXY9PKLehkFxAYz9WSqPIShJFpM5D8x6MNEKl0YGASuqdI9FAtrAlbQ6GfdYFmlkDIfPVa/uJ0+2qrtnTvx1+lF49ggbKesHfR27MZ5tTveqRTN+/A1s88faPyxOxQTAFi5SyUOh1IZyyVJr1lE/tQsj+W/8Cgqd8JY+K1uOZqk8LOyYX4f0U+KLyIn/0PlRovh7eTAtYnM7xWBcIUTlaugl1uyzGVkR+PTBa1EJYXbJnwKSMfzx68uaO1CXuJokUNdZBOWk8MM452Sra6d37q+Y6YghFV+VvlzpS5E9hMlfVRyyes0KcS/9hy0Wfy/aaBBvxApYda+b0KnBChNSpYh1whoQFeHFf5Fp4OFStW4gO3sEW2BmbN9wQnGJ3We7PAgwRrd+yYehiI/pOxgEqJOy2w9DXMfD8828UoBVAuG+reppCiu3FgJwAJMEHmPKS5QOxCrkRJgZo++6y79tUXfDgg8T44jGFl7qVrkUGnjbMlexUHARkRg/OggbJvxemw+Rg1EQ1ufWGPl1z1aWilxG/eG//5Ey9B4SMgI3KG57890VBLM8R3+w0hlwJN+kFl5xaTksOmcALcJ57hucjC6un3e4YjSpwVCW+gX1Hdza5P+fdg3g+NaU+VNmJgMweEAmM/XDox7xnILEvB2CfZALZjIPFRfBkarjULTykp1NppE/vyh3Fqcf7PVIHejPDrfU/PedMBQDLbrAv4UyxFC79hLHB3BS2ExyWR0UZhvjlGVKBWAy3yBdDr4sZA9GJh7P62XWd+litSeX6IyJ2J3apbIAIDP3EnNjhUApateW2t/SGmEYPWuOYP3vNX4TGDqNCIFv1nJRw+mWk5FPrdhKITudXJ4l27vTP6wFAyaW163tDUvkdRm8gauVx19erKKDG7QYC8+s1yjB61AD+9abv+NSuzraKio9UJgRI5xTs6f1dmYfGVy+bI7SNIzuNNZwUjV8qsQXPeFSFsTnGkcrIh79uoP3/M7aw7GJpZ2FhVGZ5dG0RfjZ6EUca8q3Bb8TECFDhcASkaF0pXm6090iNAwloB6u9izelUj3ngu37lnt+MeNgAbcALMJhVoBOVc7iijSGMWoNAGdPw06S+FQT3K5lZ8fMQCb7nRnEDaLE12pMi8wBnYH3yeiWOzrEfFTwA4QuG6EOI5/JDd3zUzbNi/lYNErbDILRwScmKxnEIGhwiK2dlF25n3FpkK6lDB+oeVl0TGMyQ3QCQ1NijK2eEFnclBrjM58WCR1ecvKYCRIk1W91T0YRP4T4tfMFk9RjwV5oR7Rb3Vflz1bCRnP7F1+5l8fheTTg0r3iPB3B1q4Gkenk+IT/01ZJqxLyaZum7SLYox0sXWrStohFHj9VdlDPx4qKLcWOLcLhtaEMtHUGn/IXkHctVDj5kLbUtF48Mer8fSAWHPvHifaWvpgahRlQEPc/k/zMmlwdm3SgIIsnkVcFCFAEopbBmbXvAdgZwuSaEEDRjZZb76N1ALy2LUY/OftQngyo++BySOI3ICF0QK1DXvyrNHQ0i7kTVk96dSX+ZA9zm63eXNtJudLQMmYJQdFEUVewrgQJKPgT5AMq963+Q02DyhG17cPYn6LS3NDQ3lplDe6JNl71wPrlJ4a13gi4FzWhX8eXdFXs7XFwQJOMNes6sptiyncVTA5/kaa837hxI5uztQYV8541ULB3zRH4BlcuNNyIM8oCRkcVUDa/u/YHGcqWmiyTh6KZzaO9ovsw1X+VkhI5ypuffAl3lZC6xpn5muoJnPuF5x6R0/i6T/IXvFbQqbEb0Lm7Ob+jcAWIZClGC8iBjwJyAnkzGKGWQi5LahDjqReAJnNdozMSbmadWQxRyDGoSUl86aQTN+d42se8eWYMLClmZw2JFpEcqP2ZFynAgvJToZPbkxLAQjvcLTFMRg9+v7ruyct4KX9LL3Dycx5r92GsNx9dIPwN/gq38ho0XXG6hGOb2O2BR7ro0my7Qunp1GefNeVjqcrpJP6XikNu8NT8rbcufKeBFcYAytEpe/2NBLa7FYR2D7rTu8ZUaFHCARVgPRXIdIvQdG01kbMQC+WsBWj1CYfoo3fkBiSvqlRMV2NUXsu10K0YJZ/+HvZKbKSuIUbK6lv1youqYxbje3AkR8RCoggpIgUrNlLlLD1j42MO0GFOCQnasIbSnJrMMK/kP4Cwj9E/rmkAnkU+yKHMdlTHkwtkTVsT0GhF313hJbTkAYTrprc5MgNKsTRg5SJGZIP2KdRvgbFvHg2nhAcqaUMTLH3NTtZqcmIqeBCtA0lAP8UI1SyDGdI3OfLzrMuEDxRxQryAOgpzrytcXhMCcVKMRrQP+qb6Z1akcCmDvQZmM/ajuEq5BHDygmt0mqoNzZsDKRi8vps1un+L68kIz3imc1TkITwxKBygSgav9vFttFH+XT8AO87BOmsiw4d0VklCnUDdNpQ4tvE6b/N9M5MaFI2lxWxi0UYwYEo6D5S6/U7jQplQ6AGBqdfRmC7a+swJuAt4ECQWR5JbLYXgu03RmfbxnPixORHkUvH7w/4zt1E5htspxSW8d6v0LFxbDTI4YQn0eEBK35AADA3fxX4Zp9TDfyajKh0x9qEy3ehdIh2w7GfbvSz+xFS08UkTt8xiXwHTuBPcp7Hg6fcoJ3bfhp8O7I7JGPxmJiCq/Ea69PL0qIT5OL0JgwG0TT1QuXq1kKNqzIQ3yA1wi/xrI9RzlK1QwlUPJhR/YtKOSApy0GbtlhjLo+kr4SuSkR4fezJRZh1QuGbGCpfj9dfzerad0tErfLi0Z54GpJZtip1K5rNcNfYCaD30Lwwv2qotRKH8fStxy+DLg09CsKcOAKELkYoG1f878AD/x88Ehlwap9HVYeskH/Oeo5cd0FaYJxEXTLXnF7upqVu5trP0TUhLVIQVuSRg29HTa9w09sdKrCt6IreYcGZHyvy7y2esuI4ka/JJjsPydUrFYnDzEM5KxNEJEuieyQLhV7XBa2QPhVIKwQf+7ebZwSP39Px4XlM06cqw1xAcPs4hDiTjaCXd3aPTIWFp0hcaC7Ka2H5UeXQvG0K3/eVs/QIADgiYtfU0PCJyGK9M156zek+ljoIdtz8wg31cs6QNYXS4z5Kcv1nu5L9GlNyBf0FtQLUL4l+P4POycxAdrjPlBgReZyNL86EDJK11Y+8ufboLNk0bALfDlKxF5E0tiq1I9/bOXQsc597eMUgaD5SkIy4EW3EBBhDdlrHsJOCFPKabK1HNX/JeiFlJ3y7f3CyZyuPGDe6oefmjUInzew4EvZ+r2TkJLkrpPX+30mgIu7u/NKCUohsES2vv8shb5CLwHgSB4v5GZf5PXpSZ9p2msiNMUGb4Y8Ff2IB351JYv3r2ovJT+ir87bR1tJoBQ4licRDiS8Kp1Ja5dYTbwV+b9pV2mOgYGL0lRHpBo+nv6nSz3B4CX73vGLuTl6GY9S4z8SPAFPW9Ian37IqXLrc/wvPvsnTYovuufRjCnu3EWWBrdFeONRMR9wPMHAnePEMsCeItOTy6kfJCnKdPYRwNiGfXKrwn4/XAjSEl4Bd1dI0K848cP1YwXQKmTOQa9v2AkjELeH1qsH6pYcyVvvOKmcHDo0iAH6R97vqLTA700cVmMwnIqwv3fjg+x4t/fqgu0HMlYT15s0HDVAE9KsNI7vjrcQZO4yC8gESGB+cxtAAUhlHX0EI3jHW3csTxHungyVYwWGG9BwT12yaf697Msr6iLrZMNqsqbiw7iRiTOnPf48+HtqZCWnD/nJ0KVTjq3AypDWzzA3+k5B87klxT6tz5LhD14Rn4L14v8dtvR26Tzq0GJZui6iksfVN3iQU0wS1iKNwc89c3WyZkGfkFSQhs+od2R9LK9C8vqWmzjqNjDDk+VALxB9qfaRkugF/01GgvNn/dlwMBEyPf+DgBeh269/b6DjyT9nz4MgNJJVe6SFnSPufmURAthazfo0msQa5OMh6I46Uv/eXNVSB4pd1QwFEzQNB4ayihkKMFMZW/uqw0odQwq3T/arll32kLUTQAlalQbk4clFLAkSqCj9HBP0i+raxev2//7UW225APEsHXHZEHriyQ8zlZB4gHlC6e1c77YMnPLsEuyM2mGEzI1P+diPINbV/Nh94rOCaGS+2jnh1w7ON9ZPfjrezS3gsiOgmeqCKgo2y9ZTq9cjCJaOeYPYrPPiH1LQwzZQMGQ0DYyS8QwvrqLAbSeoO/fdXwMJKVjifLTbDjyq6ELQ7MfxEIrZkM59DmXQ3DQjIocz1MDPWj3NbDeU5uR47tMU295eVtIJYpNaTI98LCXke6fqV232ZXLWsV9VsIm3cLpd5IP0pVoOrBqW8IhsRJ0uff1Y9ysBU81CHjoayDmmGFoOgalnRz8Zb7xu/Tw/7oHyA2KB9rdN/wtUN2rwrI8Of2y2GoBh5u/niJgl/fUucL2hLJQG410epFgCSo1rcV1uPpHICci1SVOc1Rj/Ni81XGcXvBPqciyY51FaybB4E5U4yDBh3hfrXp2W6Jg04JJcl6u7YKetochbZzUM1TT7kcG5KGTk8AHEMOaMBD+hYhXRXw09+nq54HEzZI68NxpSgflDe+OKb26lKx+sYJtwmiAQE3DSOqiGAxxhRcSg9ImT0Ec0AO0pMjxdgqdeFYK+/I3TLE7NMDzsufgCWkcT6JyF+/1A39RxNJvCWYdzEsjxamheox6sYCtERuIpW3K0CQONAe/EHPYZhZfpCp8MFfiU8USNC3CHZwkmNeVX+CIJGnLNOs/GF3xfYkK59os3QlrVhjzD/Xc6NxzG3fJhsYHYhjQt8dX6pCRiFUZZ47DOftArZJdYNEaItlew8qSaeFeCg3cy62RhFORPkgEr0uRA7jsXtTVeX2BbQ1jguEW+KHa5LZWILgcV12mKaTulIH9KVtu+uzdzpmYjQnacTH4AaF9Qklj6MHevQk/Srp43C9tRsTZ9vuhbw7Ki3e6O/IY2ut8JLgNHBL/mYgwGZE9MFODNbaohb5F/r4XOsc8tpGbn0CXBRSZsnF26bL6OiDCTXIaDzjVcWO6QlDNmAZDDhxrrZsy0/zAY6pJD+U2nCBjq1qNiDDVVFm3fNDGESd+o9aLOdWnWZIsObJZOmAecvBWtaGfml6rKJXXklWmUnyApyrT/CgFHeLoiuN3Fm9/fJymmVjNzw1ScMsGlSyoK9XzMzY2uNS8ARmp+eT9pdldVa/ImhZcjxn87f+piG2NA5KtpAwgK3jU7T/PKFLD/6y1MktOJl8OjGpbEY106421x9kNd6KS13DxvTEM3uYP92WQsX/cp/SvQIgKC15I0UqhvxrS0aUwff7ciSROltYakcmiqJCPAUllUCj58yw4KhFiame36iMlM03LaFchWDF4JaR/98/8P76/4X4v8Xj3NUGILgosqqHnqFsLQhpG2qV8n8yS+hB/MlXfx6Vzcd8NK9sXwTsQlZas/0cPr/VpwDOVVi8dki4GfzY13K8p6teSfTSAn1b3jV+144sIMgQwuzMp22egfqAUqaGdXdgRvu1D/aJeOzfJ2nAbHa+b0DgvTm7+7V90VLikdtqE9GJ1hl+8kZtNyGXHk61qaKK70oGDOixgdIYJBTfFOIULkFVm6RNTCpxpm6Rk0Jj+BSnSSSQWIbR0azlWmK5ot1PXzwTDj2zAcCJVk5c1zERtRq2RZWGYQy81q/NqlAtGTgRN+3UOKf9eE+dwWtyvofCK93TlAV1nrjNz8xpJauHcrORmvEsp/eB08FSlyY3F8UgwaS3ZcN4KMxdd4HvS3RGboZDHTc/OM/tNDwZ11mwkHn7H8SaappFPDcVmmrIb+P3mhnVIsvXdQILj1TFd1iYM2RKcBCFuMXiU+q/60v1SCI9IU/9ihOTK3CV9wD0cqRbsrM9PqlW0am0eHUZTKA5nLsbOddwwcdZB7A8XGLUQmp+PVCJcdxF3zY0yE7fPMSyz+pH0+Xh0yukP1QVbPpDhq1sYC7HrUnbXXzq4L1xT+2eJPrbo49Kfhv9NDphIBFFKIZeCo06w8CP+J+1vM3zBFoH2Qit/MBhBmMJScHEjh33P6Bw6pTWiQVSGpxJ+Ce9lGlmaW6ECVlfRJTzdLxH35osX4QMB8O7pv2vG6i+mma0ZsvakcLz8qtuxD/TVMQjZ0vejs6TazWzU1wkELWV5J6ISeoaMERvf39MU8Ec+b9MGHqG7JeTzmE5K7JTp0Xd420PhQazdkUeVr+6UVonSqNlRiBRSJ0lb6HR2pLx1OqzszXPNtpVFxAW3Aw6aB7oAT2/d3uFkEOuh6w1m3C22mIxwnIHv9BtKZKx6NoGHsp9BLtroFFVcYGrSnOyUqTfY8CxoTOPQgcaYsWzTT2IU5Tp5g1vhzlAgXQa1IlSSwE3r7HouALJ0Xix61cHCW1T0cDgKTOGkvOID3J5L8CcwYA1m2HVXat/8oibCIPnb9OJLk2DEz5pyaFGCr7E/rtxgQSsQRDmZPon9KTJJ5IpteD9tt3EnQZoTmPsZsCgYd+2lrxaedARS4F8X/RZwO1FGKkuO86YhvLVqlKdr1cq1cdgmUd4YyQayhRkFEN2lI7+HxAAAA==";
 
+/* ===== 1.0.11: posti veri dell'America Latina per lo spagnolo =====
+   Chi usa l'app in spagnolo vive soprattutto in Messico, Colombia, Argentina (dove va la pubblicita'): ai 4 posti della
+   Spagna se ne aggiungono 4 dell'America Latina, nello stesso formato (titolo, testo vero, cartolina 3D in plastilina e
+   disegno vettoriale di riserva). Sblocco e premi identici: il posto n. 4+k usa livello e ore del posto n. k
+   (REAL_LVL / REAL_H in 45_state.js), e nella lista si alternano Spagna e America Latina per livello.
+   Fatti verificati il 17/11/2026: equinozi di Chichen Itza (INAH, Meteored); palma de cera albero nazionale (Ley 61 de 1985),
+   oltre 40 m; isole dei uros fatte di totora, lago a circa 3810 m (Puno, Peru'); Cerro de los Siete Colores (Jujuy),
+   Quebrada de Humahuaca patrimonio UNESCO 2003. Le chiavi esistenti r:es:0..3 non cambiano (album e diario restano validi). */
+REAL.es.push(
+  { art: "chichenitza", name: "Chichén Itzá", t: "La serpiente de luz", s: "{n} visitó la gran pirámide de Chichén Itzá, en México. En los equinoccios, la luz y la sombra dibujan en su escalinata una serpiente que parece bajar hasta el suelo." },
+  { art: "cocora", name: "Valle de Cocora", t: "Palmeras hasta las nubes", s: "En el Valle de Cocora, en Colombia, {n} caminó entre palmas de cera, el árbol nacional del país. Algunas miden más de 40 metros: ¡había que mirar muy, muy arriba!" },
+  { art: "titicaca", name: "Lago Titicaca", t: "Islas de totora", s: "En el lago Titicaca, en Perú, {n} pisó una isla flotante de los uros. Está hecha de totora, una planta del lago, y el suelo se hunde un poquito a cada paso." },
+  { art: "purmamarca", name: "Purmamarca", t: "El cerro de los siete colores", s: "En Purmamarca, en el norte de Argentina, {n} contó los colores del cerro: rojo, rosa, morado, ocre, verde… Cada franja es una roca distinta, formada hace millones de años." }
+);
+Object.assign(IMG3D_PC, { "r:chichenitza": ["r_chichenitza", 960, 640], "r:cocora": ["r_cocora", 960, 640], "r:titicaca": ["r_titicaca", 960, 640], "r:purmamarca": ["r_purmamarca", 960, 640] });
+Object.assign(REAL_SKY2, { chichenitza: ["#BFE0F7", "#FBEBD2"], cocora: ["#CFE4F2", "#EEF3EA"], titicaca: ["#7FB6EC", "#E2EFF8"], purmamarca: ["#9FCBF0", "#EAF3FA"] });
+Object.assign(REAL_ART2, {
+  chichenitza: (h) => {
+    let o = h.sun(128, 20, 7) + `<rect x="0" y="80" width="160" height="20" fill="#8DB25E"/><path d="M0 80 Q20 70 40 78 T80 76 T120 78 T160 74 V82 H0 Z" fill="#4E8A44"/>`;
+    for (let k = 0; k < 9; k++) { const w = 104 - k * 9, y = 80 - (k + 1) * 4.6; o += `<rect x="${80 - w / 2}" y="${y}" width="${w}" height="4.8" fill="${k % 2 ? "#CBBC9C" : "#DCCFB4"}"/>`; }
+    o += `<path d="M72 80 L76 38.6 H84 L88 80 Z" fill="#B8AA8E"/>`;
+    for (let k = 0; k < 10; k++) o += `<rect x="${72.6 + k * 0.4}" y="${76 - k * 4}" width="${14.8 - k * 0.8}" height="1.2" fill="#9C8E78" opacity=".7"/>`;
+    for (let k = 0; k < 6; k++) { const x = 72 - k * 0.66, y = 74 - k * 6.4; o += `<path d="M${x - 1.6} ${y + 2} L${x + 1.6} ${y + 2} L${x} ${y - 2.4} Z" fill="#FFE2A8"/>`; }
+    o += `<rect x="70" y="25" width="20" height="14" fill="#DCCFB4"/><rect x="69" y="24" width="22" height="3" fill="#CBBC9C"/>`;
+    [74, 80, 86].forEach((x) => { o += `<rect x="${x - 1.6}" y="${30}" width="3.2" height="9" fill="#3E3530"/>`; });
+    o += `<ellipse cx="71" cy="81" rx="2.6" ry="1.8" fill="#CBBC9C"/><ellipse cx="89" cy="81" rx="2.6" ry="1.8" fill="#CBBC9C"/>`;
+    return o;
+  },
+  cocora: (h) => {
+    let o = h.sun(30, 22, 6, "#FFF2C8") + `<path d="M0 60 Q30 40 60 54 T120 46 T160 52 V100 H0 Z" fill="#4E8A4E"/><path d="M0 72 Q40 58 80 70 T160 64 V100 H0 Z" fill="#6FA752"/>`;
+    o += `<path d="M0 84 Q50 74 100 82 T160 80 V100 H0 Z" fill="#7DB25A"/><rect x="0" y="56" width="160" height="5" fill="#F4F7F2" opacity=".55"/>`;
+    [[24, 88, 62], [46, 84, 70], [70, 86, 58], [96, 82, 68], [122, 86, 60], [140, 80, 50], [12, 78, 44]].forEach(([x, y, hh]) => {
+      o += `<path d="M${x} ${y} L${x + 0.6} ${y - hh}" stroke="#D8D2C2" stroke-width="1.6"/>`;
+      o += `<path d="M${x + 0.6} ${y - hh} q-7 -1 -9 5 M${x + 0.6} ${y - hh} q7 -2 9 4 M${x + 0.6} ${y - hh} q-3 -6 -8 -6 M${x + 0.6} ${y - hh} q4 -6 8 -5" stroke="#4E8C4A" stroke-width="2.2" fill="none" stroke-linecap="round"/>`;
+    });
+    for (let k = 0; k < 6; k++) o += `<rect x="${8 + k * 9}" y="${88 + k * 0.3}" width="1.4" height="7" fill="#8A6646"/>`;
+    o += `<path d="M8 90 L58 91.6 M8 93.4 L58 95" stroke="#8A6646" stroke-width="1"/>`;
+    return o;
+  },
+  titicaca: (h) => {
+    let o = h.sun(132, 18, 6, "#FFF8E0") + `<path d="M0 58 L18 40 L30 50 L48 30 L64 48 L84 26 L104 46 L122 34 L142 50 L160 42 V62 H0 Z" fill="#8C8AA6"/>`;
+    o += `<path d="M44 34 L48 30 L52 35 Z M80 31 L84 26 L88 31 Z M119 37 L122 34 L125 38 Z" fill="#FAFCFF"/><rect x="0" y="60" width="160" height="40" fill="${h.water}"/>` + h.waves(68, 5) + h.waves(90, 4);
+    o += `<ellipse cx="62" cy="80" rx="46" ry="8" fill="#C9AC62"/><ellipse cx="62" cy="78.5" rx="44" ry="6.6" fill="#E2C77E"/>`;
+    [[34, 76, "#D8423A"], [58, 74, "#2F86C8"], [82, 76, "#F2B140"]].forEach(([x, y, c]) => {
+      o += `<rect x="${x - 7}" y="${y - 8}" width="14" height="8" fill="#D9BC72"/><path d="M${x - 8} ${y - 8} L${x} ${y - 15} L${x + 8} ${y - 8} Z" fill="#CDAE62"/><rect x="${x + 1}" y="${y - 6}" width="3.4" height="6" fill="#5A4632"/><rect x="${x - 5}" y="${y - 6}" width="3.4" height="3.4" fill="${c}"/>`;
+    });
+    o += `<path d="M98 78 V58 M106 78 V58" stroke="#D6B868" stroke-width="2.4"/><rect x="96" y="56" width="12" height="3" fill="#D6B868"/><path d="M96 56 Q102 46 108 56" stroke="#D6B868" stroke-width="2.2" fill="none"/>`;
+    o += `<path d="M112 90 Q126 96 144 90 Q146 84 150 82 Q148 88 144 92 L114 92 Z" fill="#D6B868"/><circle cx="150" cy="81" r="3" fill="#D6B868"/><circle cx="151" cy="80.4" r=".7" fill="#2E2622"/>`;
+    for (let k = 0; k < 14; k++) o += `<path d="M${6 + k * 1.6} 72 v-${5 + (k % 4) * 2}" stroke="${k % 2 ? "#7FA04E" : "#9AB45A"}" stroke-width="1"/>`;
+    return o;
+  },
+  purmamarca: (h) => {
+    const cols = ["#C24E3A", "#E39A86", "#8C5C86", "#D9A64C", "#8FA27C", "#E8D6B4", "#9A5A3C"];
+    const id = nid("pm");
+    let o = `<path d="M0 64 L22 40 L40 52 L60 36 L78 50 L100 30 L120 46 L140 38 L160 52 V70 H0 Z" fill="#B0563E"/>`;
+    o += `<defs><clipPath id="${id}"><path d="M26 76 L52 34 Q80 22 104 36 L134 76 Z"/></clipPath></defs><g clip-path="url(#${id})">`;
+    cols.concat(cols).forEach((c, k) => { o += `<path d="M10 ${86 - k * 5.5} L150 ${60 - k * 5.5} L150 ${66 - k * 5.5} L10 ${92 - k * 5.5} Z" fill="${c}"/>`; });
+    o += `</g><rect x="0" y="76" width="160" height="24" fill="#C9A27A"/>`;
+    [[20, 74, 16, 9], [40, 76, 14, 8], [104, 75, 16, 9], [124, 77, 14, 8], [140, 74, 14, 9]].forEach(([x, y, w, hh]) => { o += `<rect x="${x}" y="${y - hh}" width="${w}" height="${hh}" fill="#C89A6C"/><rect x="${x - 1}" y="${y - hh - 1.4}" width="${w + 2}" height="1.6" fill="#9C7350"/><rect x="${x + w * 0.6}" y="${y - 5}" width="2.6" height="5" fill="#3E6E9A"/>`; });
+    o += `<rect x="64" y="62" width="16" height="14" fill="#F2EBDD"/><path d="M62 62 L72 55 L82 62 Z" fill="#8E6A4C"/><rect x="56" y="54" width="8" height="22" fill="#F2EBDD"/><path d="M55 54 L60 48 L65 54 Z" fill="#F2EBDD"/><path d="M58.5 59 a1.5 1.5 0 0 1 3 0 V62 h-3 Z" fill="#3A2E28"/><path d="M60 48 V44 M58.6 45.4 H61.4" stroke="#6A4A32" stroke-width=".8"/>`;
+    [[12, 96, 22], [148, 94, 20], [92, 92, 14]].forEach(([x, y, hh]) => { o += `<rect x="${x - 1.8}" y="${y - hh}" width="3.6" height="${hh}" rx="1.8" fill="#5E8A52"/><path d="M${x - 1.8} ${y - hh * 0.5} h-4 v-${hh * 0.3}" stroke="#5E8A52" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M${x + 1.8} ${y - hh * 0.6} h4 v-${hh * 0.25}" stroke="#5E8A52" stroke-width="3" fill="none" stroke-linecap="round"/>`; });
+    return o;
+  }
+});
+
 /* =================== STATO (solo su questo dispositivo) =================== */
 const G = window.gsap || null;
 const REDUCED = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -25025,13 +25176,14 @@ function seasonState() {
 /* Mete e cartoline: "f:forest" (mondo fantastico) oppure "r:it:0" (luogo vero) */
 function destList() {
   const fant = DESTS.map((d) => ({ key: `f:${d.id}`, h: d.h, lvl: d.lvl, name: L().dests[d.id], art: () => postcard(d.id, 0, L().dests[d.id]), cards: [0, 1, 2].map((i) => `f:${d.id}:${i}`) }));
-  const real = (REAL[S.lang] || []).map((p, i) => ({ key: `r:${S.lang}:${i}`, h: REAL_H[i], lvl: REAL_LVL[i], name: p.name, art: () => realArt(p.art, p.name), cards: [`r:${S.lang}:${i}`] }));
+  /* 1.0.11: piu' di 4 posti (spagnolo: Spagna + America Latina): il posto n. 4+k ha livello e ore del posto n. k; si alternano per livello */
+  const real = (REAL[S.lang] || []).map((p, i) => ({ key: `r:${S.lang}:${i}`, h: REAL_H[i % 4], lvl: REAL_LVL[i % 4], name: p.name, art: () => realArt(p.art, p.name), cards: [`r:${S.lang}:${i}`], i })).sort((x, y) => x.lvl - y.lvl || x.i - y.i);
   return { fant, real };
 }
 function destByKey(key) {
   const [k, a, b] = key.split(":");
   if (k === "f") { const d = DESTS.find((x) => x.id === a); return { key, h: d.h, lvl: d.lvl, name: L().dests[a], cards: [0, 1, 2].map((i) => `f:${a}:${i}`) }; }
-  const p = REAL[a][+b]; return { key, h: REAL_H[+b], lvl: REAL_LVL[+b], name: p.name, cards: [`r:${a}:${b}`] };
+  const p = REAL[a][+b]; return { key, h: REAL_H[+b % 4], lvl: REAL_LVL[+b % 4], name: p.name, cards: [`r:${a}:${b}`] };
 }
 function cardInfo(ck) {
   const [k, a, b] = ck.split(":");
@@ -48381,6 +48533,110 @@ ambientExtra = function (root, q) {
       tl.fromTo(g, { y: -20, x: 0 }, { y: 150, x: i % 2 ? 26 : -26, duration: D, ease: "none" }, 0)
         .fromTo(g, { opacity: 0 }, { opacity: 0.9, duration: D * 0.2, ease: "none" }, 0).to(g, { opacity: 0, duration: D * 0.25, ease: "none" }, D * 0.75); ambient.push(tl); });
   } catch (e) { /* la stanza resta ferma */ }
+};
+
+/* =================== 1.0.11: rifiniture della marca (voce, contrasto, stella polare) ===================
+   1) VOCE (VOCE.md, regola 4 "mai colpa, mai fretta"): la finestra di uscita non dice piu' "Vuoi davvero uscire? ... ti aspetta"
+      ma "Vuoi chiudere Tanetto? A presto! {n} ti tiene il posto bello caldo."; il premio dell'album "e' pronto" (non "ti aspetta");
+      il primo accessorio dice dove trovare gli altri, senza "ti aspettano". Le frasi in T sono in 3zzm_v111_texts.js.
+   2) STELLA POLARE (MISURA.md, punto 1): "compagni curati nella settimana". Quando un telefono arriva al terzo giorno diverso
+      della settimana con almeno un obiettivo spuntato, l'app segna UNA volta per quella settimana l'evento anonimo
+      "compagno-curato-settimana" (GoatCounter, stesso track() di tutti gli altri: spento per i minori e per l'eta' non detta,
+      spento con l'interruttore in Profilo, niente prima della domanda sull'eta'; in attesa al massimo 20 eventi, come oggi).
+      Settimana = lunedi'-domenica del calendario del telefono (ISO 8601), uguale per tutti cosi' i conteggi si sommano per
+      settimana. Vale per chiunque (non solo per le installazioni nuove come gli eventi "percorso-..."), perche' la stella
+      polare misura tutte le persone attive. Nessun identificativo, nessun dato scritto dall'utente, nessun numero di giorni.
+   Il contrasto dei pulsanti (testo bianco su verde) e' in 11zo_v111_polish.css. */
+
+/* ---------- 1) voce ---------- */
+const V111_EXIT = {
+  it: { t: "Vuoi chiudere Tanetto?", p: (n) => `A presto! ${n} ti tiene il posto bello caldo.`, exit: "Chiudi" },
+  en: { t: "Close Tanetto?", p: (n) => `See you soon! ${n} will keep your spot nice and cosy.`, exit: "Close" },
+  de: { t: "Tanetto schließen?", p: (n) => `Bis bald! ${n} hält dir dein Plätzchen schön warm.`, exit: "Schließen" },
+  es: { t: "¿Quieres cerrar Tanetto?", p: (n) => `¡Hasta pronto! ${n} te guarda tu lugar calentito.`, exit: "Cerrar" },
+  fr: { t: "Fermer Tanetto ?", p: (n) => `À bientôt ! ${n} te garde ta place bien au chaud.`, exit: "Fermer" },
+  pt: { t: "Quer fechar o Tanetto?", p: (n) => `Até logo! ${n} guarda seu lugarzinho bem quentinho.`, exit: "Fechar" },
+  ja: { t: "Tanettoを閉じますか？", p: (n) => `またね！${n}があなたの場所をぽかぽかにしておくよ。`, exit: "閉じる" },
+  ko: { t: "Tanetto를 닫을까요?", p: () => "또 만나요! 따뜻한 자리를 그대로 남겨 둘게요.", exit: "닫기" },
+  zh: { t: "要关闭 Tanetto 吗？", p: (n) => `下次见！${n} 会帮你把位置捂得暖暖的。`, exit: "关闭" },
+  zht: { t: "要關閉 Tanetto 嗎？", p: (n) => `下次見！${n} 會幫你把位子留得暖呼呼的。`, exit: "關閉" },
+  ru: { t: "Закрыть Tanetto?", p: (n) => `До скорой встречи! ${n} сбережёт для тебя тёплое местечко.`, exit: "Закрыть" },
+  pl: { t: "Zamknąć Tanetto?", p: (n) => `Do zobaczenia! ${n} zachowa dla ciebie cieplutkie miejsce.`, exit: "Zamknij" },
+  nl: { t: "Tanetto sluiten?", p: (n) => `Tot snel! ${n} houdt je plekje lekker warm.`, exit: "Sluiten" },
+  tr: { t: "Tanetto kapatılsın mı?", p: (n) => `Görüşmek üzere! ${n} yerini sıcacık tutacak.`, exit: "Kapat" }
+};
+Object.keys(V111_EXIT).forEach((l) => { if (V18B[l]) Object.assign(V18B[l], V111_EXIT[l]); });
+const V111_READY = {
+  it: "Pagina completata: il premio è pronto nell'album.", en: "Page complete: your reward is ready in the album.",
+  de: "Seite komplett: Deine Belohnung liegt im Album bereit.", es: "Página completa: tu premio está listo en el álbum.",
+  fr: "Page complète : ta récompense est prête dans l'album.", pt: "Página completa: seu prêmio está pronto no álbum.",
+  ja: "ページ完成：アルバムでごほうびを受け取れます。", ko: "페이지 완성: 앨범에서 보상을 받을 수 있어요.",
+  zh: "本页集满：去相册领取奖励吧。", zht: "本頁集滿：去相簿領取獎勵吧。", ru: "Страница собрана: награда уже в альбоме.",
+  pl: "Strona pełna: nagroda jest gotowa w albumie.", nl: "Pagina vol: je beloning staat klaar in het album.", tr: "Sayfa tamam: ödülün albümde hazır."
+};
+if (typeof V19A !== "undefined") Object.keys(V111_READY).forEach((l) => { if (V19A[l] && "ready" in V19A[l]) V19A[l].ready = V111_READY[l]; });
+const V111_GP = {
+  it: (n, h, w) => `Un papillon a pois, il primo accessorio di ${n}. Altri vestiti e accessori li trovi in ${h}, alla voce ${w}.`,
+  en: (n, h, w) => `A polka-dot bow tie, ${n}'s very first accessory. You'll find more clothes and accessories in ${h}, under ${w}.`,
+  de: (n, h, w) => `Eine gepunktete Fliege – das allererste Accessoire für ${n}. Weitere Kleidung und Accessoires findest du unter ${h} › ${w}.`,
+  es: (n, h, w) => `Una pajarita de lunares, el primer accesorio de ${n}. Encontrarás más ropa y accesorios en ${h}, en ${w}.`,
+  fr: (n, h, w) => `Un nœud papillon à pois, le tout premier accessoire de ${n}. Tu trouveras d'autres vêtements et accessoires dans ${h}, rubrique ${w}.`,
+  pt: (n, h, w) => `Uma gravata-borboleta de bolinhas, o primeiro acessório de ${n}. Você encontra mais roupas e acessórios em ${h}, na aba ${w}.`,
+  ja: (n, h, w) => `水玉の蝶ネクタイ。${n}のはじめてのアクセサリーです。ほかの服やアクセサリーは「${h}」の「${w}」にありますよ。`,
+  ko: (n, h, w) => `물방울무늬 나비넥타이예요. ${n}의 첫 액세서리랍니다. 다른 옷과 액세서리는 ${h}의 ${w}에서 찾을 수 있어요.`,
+  zh: (n, h, w) => `一个波点领结，是${n}的第一件配饰。更多衣服和配饰可以在「${h}」的「${w}」里找到。`,
+  zht: (n, h, w) => `一個點點領結，是${n}的第一件配件。更多衣服和配件可以在「${h}」的「${w}」裡找到。`,
+  ru: (n, h, w) => `${n} получает свой самый первый аксессуар — бабочку в горошек. Другую одежду и аксессуары ты найдёшь в разделе «${h}» › «${w}».`,
+  pl: (n, h, w) => `${n} dostaje swój pierwszy dodatek: muszkę w kropki. Więcej ubrań i dodatków znajdziesz w zakładce ${h} › ${w}.`,
+  tr: (n, h, w) => `Puantiyeli bir papyon: ${n} için ilk aksesuar. Daha fazla kıyafet ve aksesuarı ${h} › ${w} bölümünde bulabilirsin.`
+};
+if (typeof W20T !== "undefined") Object.keys(V111_GP).forEach((l) => { if (W20T[l] && typeof W20T[l].gP === "function") W20T[l].gP = V111_GP[l]; });
+
+/* inglese semplice (VOCE.md, regola 1: niente modi di dire britannici come "Fancy ...?", che chi ha studiato l'inglese a scuola
+   puo' non capire): "How about ...?" / "Would you like to ...?" */
+try {
+  const vx = (p, i, t) => { const a = V110_VOICE[p] && V110_VOICE[p].notif && V110_VOICE[p].notif.en; if (Array.isArray(a) && /^\{n\}.*Fancy/.test(a[i] || "")) a[i] = t; };
+  vx("germo", 0, "{n} opened a new little leaf in the sun. How about one tiny goal, if you feel like it?");
+  vx("miko", 2, "{n} made the nest even fluffier. How about one small step, nice and slow?");
+  vx("pingo", 0, "{n} just did a funny slide on the ice. How about a tiny step of your own, if you like?");
+  if (V19N.en && /Fancy/.test(V19N.en.msgs[9] || "")) V19N.en.msgs[9] = "{n} tidied up the room. How about one small goal together?";
+  if (T.en.v26 && T.en.v26.notif && /Fancy/.test(T.en.v26.notif.m9 || "")) T.en.v26.notif.m9 = "{n} tidied up the room. How about one small goal together?";
+  if (typeof NAV20_T !== "undefined" && NAV20_T.en && /Fancy/.test(NAV20_T.en.plusT || "")) NAV20_T.en.plusT = "Would you like to try Tanetto Plus?";
+} catch (e) { /* niente */ }
+
+/* ---------- 2) stella polare: "compagno-curato-settimana" ---------- */
+function v111WeekStart(d) { const x = d ? new Date(d) : new Date(); x.setHours(12, 0, 0, 0); x.setDate(x.getDate() - ((x.getDay() + 6) % 7)); return x; }
+function v111CaredDays(d) {
+  const s = v111WeekStart(d); let n = 0;
+  for (let i = 0; i < 7; i++) { const x = new Date(s); x.setDate(s.getDate() + i); const r = S.days && S.days[dkey(x)]; if (r && r.done > 0) n++; }
+  return n;
+}
+function v111NorthStar() {
+  try {
+    if (!S || !S.pet) return;
+    const wk = dkey(v111WeekStart()); if (S.v111cw === wk) return;
+    if (v111CaredDays() < 3) return;
+    S.v111cw = wk; save(); track("compagno-curato-settimana");
+  } catch (e) { /* niente: le statistiche non devono mai disturbare l'app */ }
+}
+/* ---------- 3) il fuoco non si perde nei ridisegni "di sfondo" ----------
+   Alcuni ridisegni partono da soli (per esempio quando un video con premio finisce di caricarsi): prima il fuoco della tastiera e
+   del lettore di schermo finiva sul <body> (la pagina del Profilo appena aperta perdeva il titolo a fuoco). Se dopo il ridisegno il
+   fuoco e' sul <body>, torna sullo stesso elemento nel disegno nuovo (stesso id, stessa pagina del Profilo, stessa voce, stessa scheda). */
+function v111FocusKey(e) {
+  if (!e || e === document.body || !e.matches) return null;
+  if (e.id) return "#" + CSS.escape(e.id);
+  if (e.matches(".psubt")) { const h = e.closest(".psubhd"); return h && h.dataset.pg ? `.psubhd[data-pg="${CSS.escape(h.dataset.pg)}"] .psubt` : null; }
+  if (e.dataset && e.dataset.psub) return `.prow[data-psub="${CSS.escape(e.dataset.psub)}"]`;
+  if (e.dataset && e.dataset.tab) return `.tab[data-tab="${CSS.escape(e.dataset.tab)}"]`;
+  return null;
+}
+const _renderV111ns = render;
+render = function (...a) {
+  let fk = null; try { fk = v111FocusKey(document.activeElement); } catch (e) { /* niente */ }
+  const r = _renderV111ns.apply(this, a);
+  try { if (fk && (!document.activeElement || document.activeElement === document.body)) { const n = document.querySelector(fk); if (n && n.offsetParent !== null) n.focus({ preventScroll: true }); } } catch (e) { /* niente */ }
+  v111NorthStar(); return r;
 };
 
 /* =================== 1.0.11 (parte nativa Android): widget della Home, recensione nei momenti felici, Invita un amico ===================

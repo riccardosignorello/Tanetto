@@ -104,13 +104,14 @@ function seasonState() {
 /* Mete e cartoline: "f:forest" (mondo fantastico) oppure "r:it:0" (luogo vero) */
 function destList() {
   const fant = DESTS.map((d) => ({ key: `f:${d.id}`, h: d.h, lvl: d.lvl, name: L().dests[d.id], art: () => postcard(d.id, 0, L().dests[d.id]), cards: [0, 1, 2].map((i) => `f:${d.id}:${i}`) }));
-  const real = (REAL[S.lang] || []).map((p, i) => ({ key: `r:${S.lang}:${i}`, h: REAL_H[i], lvl: REAL_LVL[i], name: p.name, art: () => realArt(p.art, p.name), cards: [`r:${S.lang}:${i}`] }));
+  /* 1.0.11: piu' di 4 posti (spagnolo: Spagna + America Latina): il posto n. 4+k ha livello e ore del posto n. k; si alternano per livello */
+  const real = (REAL[S.lang] || []).map((p, i) => ({ key: `r:${S.lang}:${i}`, h: REAL_H[i % 4], lvl: REAL_LVL[i % 4], name: p.name, art: () => realArt(p.art, p.name), cards: [`r:${S.lang}:${i}`], i })).sort((x, y) => x.lvl - y.lvl || x.i - y.i);
   return { fant, real };
 }
 function destByKey(key) {
   const [k, a, b] = key.split(":");
   if (k === "f") { const d = DESTS.find((x) => x.id === a); return { key, h: d.h, lvl: d.lvl, name: L().dests[a], cards: [0, 1, 2].map((i) => `f:${a}:${i}`) }; }
-  const p = REAL[a][+b]; return { key, h: REAL_H[+b], lvl: REAL_LVL[+b], name: p.name, cards: [`r:${a}:${b}`] };
+  const p = REAL[a][+b]; return { key, h: REAL_H[+b % 4], lvl: REAL_LVL[+b % 4], name: p.name, cards: [`r:${a}:${b}`] };
 }
 function cardInfo(ck) {
   const [k, a, b] = ck.split(":");
