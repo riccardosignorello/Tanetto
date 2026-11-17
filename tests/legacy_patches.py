@@ -134,6 +134,18 @@ P += [
 P += [
     ("fix109/suites/p3b/t6.py", "tot < 3.8e6, tot)", "tot < 3.9e6, tot)", "1.0.11: icone accanto al nome + cartoline America Latina"),
 ]
+# 1.0.11 (pubblico 13+, 98zz_v111_age.js): a chi non ha detto l'eta' (modalita' protetta) non si propone la prova gratuita di
+# Plus; la prova storica dell'offerta di prova di Google Play usa quindi un adulto
+P += [
+    ("p1/t109.py", """    ctx, pg = await page(b, "en", state=base_state("en"))
+    await ev(pg, "openPlus('t')"); await pg.wait_for_timeout(1300)
+    t = await ev(pg, "document.getElementById('plusFoot').innerText")
+    check("annual plan with Play trial offer""", """    ctx, pg = await page(b, "en", state=base_state("en"))
+    await pg.evaluate("localStorage.setItem('tanetto-eta', JSON.stringify({y: 1990, m: 5}))"); await pg.reload(); await pg.wait_for_timeout(3500)
+    await ev(pg, "openPlus('t')"); await pg.wait_for_timeout(1300)
+    t = await ev(pg, "document.getElementById('plusFoot').innerText")
+    check("annual plan with Play trial offer""", "1.0.11: prova gratuita di Plus solo da 13 anni in su (la prova usa un adulto)"),
+]
 bad = 0
 for f, old, new, why in P:
     p = os.path.join(DST, f)

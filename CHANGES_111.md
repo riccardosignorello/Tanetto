@@ -67,6 +67,12 @@ del sito che finivano con "/").
 5) **Immagini:** le 24 icone nuove ricompresse senza differenze visibili (da 124 a 83 KB). Totale immagini 3,84 MB
 (soglia della prova portata da 3,8 a 3,9 MB, motivata: icone e cartoline nuove).
 
+6) **Icona dell'app:** l'ombra morbida sotto Germo usciva di poco dalla zona sicura di 66 dp (alcune forme di icona dei
+telefoni l'avrebbero tagliata). Ora sfuma prima del bordo; Germo è identico.
+
+7) **Stanza a schermo intero:** se scorrevi la fila delle scene e l'app si ridisegnava da sola (per esempio dopo il controllo
+degli acquisti), la fila tornava all'inizio. Ora resta dove l'hai lasciata.
+
 
 ## 4) Da fare su Play Console (con il caricamento)
 
