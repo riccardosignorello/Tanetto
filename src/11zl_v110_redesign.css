@@ -114,3 +114,85 @@ html.v110x body.v110onb .w3hero, html.v110x body.v110onb .field input { border-r
 html.v110x body.v110onb .field input { border: 2px solid var(--k-line); border-bottom-width: 4px; box-shadow: none; }
 html.v110x #app .btn.gold:not(.link):not(.ghost), html.v110x .plusbox .btn.gold { box-shadow: 0 5px 0 #B9801C; }
 html.v110x #app .btn.gold:not(.link):not(.ghost):active { box-shadow: 0 1px 0 #B9801C; }
+
+/* ===== correzioni del proprietario (17/11/2026, 01:12) ===== */
+/* 1) primo avvio: niente pupazzino accanto al nome, selettore della lingua in rilievo con il mappamondo */
+html.v110x body.v110onb #app .top .brand .logo3d, html.v110x body.v110onb #app .top .brand > svg { display: none; }
+html.v110x #app .top select.lang { -webkit-appearance: none; appearance: none; height: 46px; padding: 0 40px 0 44px; border-radius: 16px; border: 2px solid var(--k-line); border-bottom-width: 4px; box-shadow: none;
+  font: 700 15.5px/1 var(--font-body, inherit); color: var(--ink); background-color: var(--paper); cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b5b48' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M3 12h18M12 3c2.5 2.6 3.7 5.6 3.7 9s-1.2 6.4-3.7 9c-2.5-2.6-3.7-5.6-3.7-9S9.5 5.6 12 3Z'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b5b48' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat, no-repeat; background-position: 14px 50%, right 14px center; background-size: 20px, 15px; }
+html.v110x #app .top select.lang:active { border-bottom-width: 2px; translate: 0 2px; }
+:root.v110x[data-theme="dark"] #app .top select.lang { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e3d6c2' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M3 12h18M12 3c2.5 2.6 3.7 5.6 3.7 9s-1.2 6.4-3.7 9c-2.5-2.6-3.7-5.6-3.7-9S9.5 5.6 12 3Z'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e3d6c2' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); }
+@media (prefers-color-scheme: dark) { :root.v110x:not([data-theme="light"]) #app .top select.lang { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e3d6c2' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M3 12h18M12 3c2.5 2.6 3.7 5.6 3.7 9s-1.2 6.4-3.7 9c-2.5-2.6-3.7-5.6-3.7-9S9.5 5.6 12 3Z'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e3d6c2' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); } }
+
+/* 2) obiettivi del primo avvio: tessere tutte uguali, due per riga, con l'icona della categoria e il segno in alto a destra */
+html.v110x body.v110onb #app .chips.onbsug { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+html.v110x body.v110onb #app .chips.onbsug .chip { display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 10px; width: 100%; min-height: 116px; margin: 0; padding: 12px; position: relative;
+  text-align: left; white-space: normal; line-height: 1.25; font-size: 15.5px; font-weight: 700; color: var(--ink); background: var(--paper); }
+html.v110x body.v110onb #app .chips.onbsug .chip[aria-pressed="true"] { background: color-mix(in srgb, var(--accent) 13%, var(--paper)); color: var(--ink); border-color: var(--accent); border-bottom-color: color-mix(in srgb, var(--accent) 60%, #000); }
+html.v110x body.v110onb #app .chips.onbsug .chip::before { content: ""; position: absolute; top: 12px; right: 12px; width: 26px; height: 26px; margin: 0; box-sizing: border-box; border-radius: 50%; border: 2.5px solid var(--k-line); display: grid; place-items: center; font-size: 14px; line-height: 1; }
+html.v110x body.v110onb #app .chips.onbsug .chip[aria-pressed="true"]::before { content: "✓"; background: var(--accent); border-color: var(--accent); color: var(--on-accent, #fff); }
+html.v110x #app .v110ci { width: 40px; height: 40px; border-radius: 13px; display: grid; place-items: center; background: var(--cc); color: #fff; box-shadow: inset 0 -3px 0 rgba(0, 0, 0, .15); flex: none; }
+html.v110x #app .v110ci svg { width: 22px; height: 22px; }
+/* elenco completo degli obiettivi (primo avvio e Profilo): anche qui caselle uguali, due per riga */
+html.v110x #app .catgroup .chips { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+html.v110x #app .catgroup .chips .chip { width: 100%; margin: 0; min-height: 60px; padding: 10px 12px; display: flex; align-items: center; text-align: left; white-space: normal; line-height: 1.25; }
+
+/* 3) zaino: "Viaggio completo" solo sotto l'ultima casella (anche su due righe), "Gita breve" sotto la sua */
+html.v110x #app .nven .nvscale { position: relative; min-height: 34px; margin-top: 6px; }
+html.v110x #app .nven .nvscale > span { position: absolute; top: 0; width: max(66px, calc((100% - (var(--v110n, 5) - 1) * 5px) / var(--v110n, 5))); text-align: center; white-space: normal; line-height: 1.15; font-size: 12.5px; left: auto; transform: none; }
+html.v110x #app .nven .nvscale > .f { right: 0; }
+
+/* 4) Viaggi: l'album con le stesse misure delle altre righe, piu' aria tra un riquadro e l'altro */
+html.v110x #app .albumbtn { display: grid; grid-template-columns: 46px minmax(0, 1fr) 18px; gap: 14px; align-items: center; padding: 14px 16px; text-align: left; }
+html.v110x #app .albumbtn .abic { width: 46px; height: 46px; border-radius: 15px; display: grid; place-items: center; box-shadow: inset 0 -4px 0 rgba(0, 0, 0, .12); }
+html.v110x #app .albumbtn .abic svg { width: 26px; height: 26px; }
+html.v110x #app .albumbtn .abtx b { font-size: 17px; line-height: 1.25; }
+html.v110x #app .albumbtn .abtx small { font-size: 13.5px; }
+html.v110x[data-v110tab="trips"] #app .stack { row-gap: 18px; }
+
+/* 5) percorso: i cerchi non toccano mai le didascalie (ne' la propria ne' quella accanto) */
+html.v110x #app .v110path > .dest { width: 47%; gap: 16px; }
+html.v110x #app .v110path > .dest + .dest { margin-top: -44px; }
+html.v110x #app .v110path > .dest .pc { width: 124px; height: 124px; }
+html.v110x #app .v110path > .dest .meta { padding: 7px 10px 8px; }
+@media (max-width: 360px) { html.v110x #app .v110path > .dest { width: 48%; } html.v110x #app .v110path > .dest .pc { width: 104px; height: 104px; } html.v110x #app .v110path > .dest + .dest { margin-top: -30px; } }
+
+/* 6) "Prendi Tani'": scritta proporzionata al pulsante */
+html.v110x #app .homehead { align-items: center; gap: 12px; }
+html.v110x #app .homehead .btn { font-size: 17px; min-height: 48px; padding: 0 20px; gap: 8px; border-radius: 16px; line-height: 1.1; }
+html.v110x #app .homehead .btn svg, html.v110x #app .homehead .btn img { width: 24px; height: 24px; }
+
+/* 7) Introvabili: in fondo al negozio e piu' discreti */
+html.v110x #app .xvshow { margin-top: 14px; padding: 14px 12px 10px; }
+html.v110x #app .xvshow .xvhd h2 { font-size: 19px; }
+html.v110x #app .xvshow .xvhd p { font-size: 13.5px; }
+html.v110x #app .xvshow .xvbadge { transform: scale(.85); }
+
+/* 8) Diario: la domanda di oggi da sola; sotto, la pagina libera con i compagni */
+html.v110x #app #diaryForm .m3read { display: none; }
+html.v110x #app #diaryForm.v110q .question { font-size: 21px; line-height: 1.3; }
+html.v110x #app .v110free .v110fhd { display: grid; gap: 2px; }
+html.v110x #app .v110free .v110fhd h2 { font-size: 22px; margin: 0; }
+html.v110x #app .v110free .v110moods { border: 0; padding: 0; margin: 0; }
+html.v110x #app .v110free .v110moods legend { margin-bottom: 6px; }
+html.v110x #app .v110stage { position: relative; height: 196px; border-radius: 20px; overflow: hidden; display: flex; align-items: flex-end; justify-content: center;
+  background: radial-gradient(120% 90% at 50% 100%, color-mix(in srgb, var(--tb-diary, #8B6CC4) 20%, var(--paper)) 0%, color-mix(in srgb, var(--tb-diary-s, #EFE7FA) 85%, var(--paper)) 62%);
+  border: 2px solid var(--k-line); }
+html.v110x #app .v110stage::after { content: ""; position: absolute; left: 12%; right: 12%; bottom: 10px; height: 22px; border-radius: 50%; background: color-mix(in srgb, var(--tb-diary, #8B6CC4) 18%, transparent); filter: blur(2px); }
+html.v110x #app .v110stage > span { position: relative; z-index: 1; display: block; }
+html.v110x #app .v110stage .v110sm img { width: 188px; height: 188px; display: block; margin-bottom: -8px; animation: v110bob 3.4s ease-in-out infinite; }
+html.v110x #app .v110stage .v110sf img { width: 138px; height: 138px; display: block; margin: 0 0 -4px -26px; animation: v110bob 3.4s ease-in-out -1.7s infinite; }
+@keyframes v110bob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -5px; } }
+html.calm #app .v110stage img, html.lite #app .v110stage img { animation: none !important; }
+@media (prefers-reduced-motion: reduce) { #app .v110stage img { animation: none !important; } }
+html.v110x #app #v110FreeTx { width: 100%; min-height: 168px; resize: vertical; box-sizing: border-box; padding: 4px 14px; border-radius: 16px; border: 2px solid var(--k-line); border-bottom-width: 4px; box-shadow: none;
+  font: 400 17px/32px var(--font-body, inherit); color: var(--ink); background-color: var(--paper); background-attachment: local;
+  background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 31px, color-mix(in srgb, var(--k-line) 70%, transparent) 31px, color-mix(in srgb, var(--k-line) 70%, transparent) 32px); background-position: 0 4px; }
+html.v110x #app #v110FreeTx:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 55%, transparent); outline-offset: 2px; }
+@media (max-width: 360px) { html.v110x #app .v110stage { height: 172px; } html.v110x #app .v110stage .v110sm img { width: 160px; height: 160px; } html.v110x #app .v110stage .v110sf img { width: 118px; height: 118px; } }
+/* zaino: oggetti piu' grandi e leggibili */
+html.v110x #app .v110pack.v110pack i:nth-child(n) { height: 36px; }
+html.v110x #app .v110pack i svg { width: 21px; height: 21px; opacity: .7; }
+html.v110x #app .v110pack i.on svg { opacity: 1; }

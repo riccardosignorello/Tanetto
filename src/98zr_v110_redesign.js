@@ -1,4 +1,5 @@
-/* ===== 1.0.10 — NUOVO ASPETTO (proposta 2): spostamenti e pezzi in piu' nella pagina (attivi solo con html.v110x) ===== */
+/* ===== 1.0.10 — NUOVO ASPETTO (proposta 3, approvata dal proprietario il 17/11/2026): spostamenti e pezzi in piu' nella pagina ===== */
+document.documentElement.classList.add("v110x");
 const V2_T = {
   it: { next: "Verso il", goals: "obiettivi", cards: "cartoline", streak: "giorni di fila", troph: "trofei", invT: "Invita un amico", invP: "Prendersi cura di sé è più bello in due." },
   en: { next: "Next:", goals: "goals", cards: "postcards", streak: "days in a row", troph: "trophies", invT: "Invite a friend", invP: "Looking after yourself is nicer with two." },
@@ -24,6 +25,13 @@ function v110Redesign() {
     const h2 = app.querySelector(".sec h2"); const g = app.querySelectorAll(".goals .goal");
     if (h2 && g.length && !h2.querySelector(".v110cnt")) { const d = app.querySelectorAll('.goals .goal[aria-pressed="true"]').length; h2.insertAdjacentHTML("beforeend", `<span class="v110cnt">${d}/${g.length}</span>`); }
   }
+  /* primo avvio: ogni obiettivo suggerito ha l'icona della sua categoria */
+  app.querySelectorAll(".chips.onbsug .chip[data-goal]").forEach((c) => {
+    if (c.querySelector(".v110ci")) return; const k = goalCat(c.dataset.goal);
+    c.insertAdjacentHTML("afterbegin", `<i class="v110ci" style="--cc:${CAT_COLOR[k] || "var(--accent)"}" aria-hidden="true">${catIcon(k)}</i>`);
+  });
+  /* zaino: quante caselle ci sono (per mettere le scritte sotto la casella giusta) */
+  app.querySelectorAll(".nven").forEach((n) => { const s = n.querySelector(".nvseg"); if (s) n.style.setProperty("--v110n", String(Math.max(1, s.children.length))); });
   /* Viaggi: percorso a tappe */
   app.querySelectorAll(".stack-s").forEach((s) => { if (s.querySelector(":scope > .dest")) s.classList.add("v110path"); });
   /* Profilo: il compagno sul palco, livello e numeri; "Invita un amico" in vista (solo se l'invito esiste per questa eta') */

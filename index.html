@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-MNZBK8AJ4d+jHE91UxelZGHFO+d9tuCpiN7NNX7Iv4M=' 'unsafe-eval' https://apis.google.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.goatcounter.com; media-src 'self' data: blob:; connect-src 'self' data: blob: https://*.googleapis.com https://tanettoapp-pet.firebaseapp.com https://*.goatcounter.com; frame-src https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-jiMGOBP6V1TwoJ0brakUwQ52UvsROVPsdTw1hfO0RRw=' 'unsafe-eval' https://apis.google.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.goatcounter.com; media-src 'self' data: blob:; connect-src 'self' data: blob: https://*.googleapis.com https://tanettoapp-pet.firebaseapp.com https://*.goatcounter.com; frame-src https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#F4EFE6">
 <title>Tanetto — a tiny pet for your self-care habits (free app)</title>
@@ -3532,6 +3532,88 @@ html.v110x body.v110onb .w3hero, html.v110x body.v110onb .field input { border-r
 html.v110x body.v110onb .field input { border: 2px solid var(--k-line); border-bottom-width: 4px; box-shadow: none; }
 html.v110x #app .btn.gold:not(.link):not(.ghost), html.v110x .plusbox .btn.gold { box-shadow: 0 5px 0 #B9801C; }
 html.v110x #app .btn.gold:not(.link):not(.ghost):active { box-shadow: 0 1px 0 #B9801C; }
+
+/* ===== correzioni del proprietario (17/11/2026, 01:12) ===== */
+/* 1) primo avvio: niente pupazzino accanto al nome, selettore della lingua in rilievo con il mappamondo */
+html.v110x body.v110onb #app .top .brand .logo3d, html.v110x body.v110onb #app .top .brand > svg { display: none; }
+html.v110x #app .top select.lang { -webkit-appearance: none; appearance: none; height: 46px; padding: 0 40px 0 44px; border-radius: 16px; border: 2px solid var(--k-line); border-bottom-width: 4px; box-shadow: none;
+  font: 700 15.5px/1 var(--font-body, inherit); color: var(--ink); background-color: var(--paper); cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b5b48' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M3 12h18M12 3c2.5 2.6 3.7 5.6 3.7 9s-1.2 6.4-3.7 9c-2.5-2.6-3.7-5.6-3.7-9S9.5 5.6 12 3Z'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b5b48' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat, no-repeat; background-position: 14px 50%, right 14px center; background-size: 20px, 15px; }
+html.v110x #app .top select.lang:active { border-bottom-width: 2px; translate: 0 2px; }
+:root.v110x[data-theme="dark"] #app .top select.lang { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e3d6c2' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M3 12h18M12 3c2.5 2.6 3.7 5.6 3.7 9s-1.2 6.4-3.7 9c-2.5-2.6-3.7-5.6-3.7-9S9.5 5.6 12 3Z'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e3d6c2' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); }
+@media (prefers-color-scheme: dark) { :root.v110x:not([data-theme="light"]) #app .top select.lang { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e3d6c2' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M3 12h18M12 3c2.5 2.6 3.7 5.6 3.7 9s-1.2 6.4-3.7 9c-2.5-2.6-3.7-5.6-3.7-9S9.5 5.6 12 3Z'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e3d6c2' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); } }
+
+/* 2) obiettivi del primo avvio: tessere tutte uguali, due per riga, con l'icona della categoria e il segno in alto a destra */
+html.v110x body.v110onb #app .chips.onbsug { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+html.v110x body.v110onb #app .chips.onbsug .chip { display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 10px; width: 100%; min-height: 116px; margin: 0; padding: 12px; position: relative;
+  text-align: left; white-space: normal; line-height: 1.25; font-size: 15.5px; font-weight: 700; color: var(--ink); background: var(--paper); }
+html.v110x body.v110onb #app .chips.onbsug .chip[aria-pressed="true"] { background: color-mix(in srgb, var(--accent) 13%, var(--paper)); color: var(--ink); border-color: var(--accent); border-bottom-color: color-mix(in srgb, var(--accent) 60%, #000); }
+html.v110x body.v110onb #app .chips.onbsug .chip::before { content: ""; position: absolute; top: 12px; right: 12px; width: 26px; height: 26px; margin: 0; box-sizing: border-box; border-radius: 50%; border: 2.5px solid var(--k-line); display: grid; place-items: center; font-size: 14px; line-height: 1; }
+html.v110x body.v110onb #app .chips.onbsug .chip[aria-pressed="true"]::before { content: "✓"; background: var(--accent); border-color: var(--accent); color: var(--on-accent, #fff); }
+html.v110x #app .v110ci { width: 40px; height: 40px; border-radius: 13px; display: grid; place-items: center; background: var(--cc); color: #fff; box-shadow: inset 0 -3px 0 rgba(0, 0, 0, .15); flex: none; }
+html.v110x #app .v110ci svg { width: 22px; height: 22px; }
+/* elenco completo degli obiettivi (primo avvio e Profilo): anche qui caselle uguali, due per riga */
+html.v110x #app .catgroup .chips { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+html.v110x #app .catgroup .chips .chip { width: 100%; margin: 0; min-height: 60px; padding: 10px 12px; display: flex; align-items: center; text-align: left; white-space: normal; line-height: 1.25; }
+
+/* 3) zaino: "Viaggio completo" solo sotto l'ultima casella (anche su due righe), "Gita breve" sotto la sua */
+html.v110x #app .nven .nvscale { position: relative; min-height: 34px; margin-top: 6px; }
+html.v110x #app .nven .nvscale > span { position: absolute; top: 0; width: max(66px, calc((100% - (var(--v110n, 5) - 1) * 5px) / var(--v110n, 5))); text-align: center; white-space: normal; line-height: 1.15; font-size: 12.5px; left: auto; transform: none; }
+html.v110x #app .nven .nvscale > .f { right: 0; }
+
+/* 4) Viaggi: l'album con le stesse misure delle altre righe, piu' aria tra un riquadro e l'altro */
+html.v110x #app .albumbtn { display: grid; grid-template-columns: 46px minmax(0, 1fr) 18px; gap: 14px; align-items: center; padding: 14px 16px; text-align: left; }
+html.v110x #app .albumbtn .abic { width: 46px; height: 46px; border-radius: 15px; display: grid; place-items: center; box-shadow: inset 0 -4px 0 rgba(0, 0, 0, .12); }
+html.v110x #app .albumbtn .abic svg { width: 26px; height: 26px; }
+html.v110x #app .albumbtn .abtx b { font-size: 17px; line-height: 1.25; }
+html.v110x #app .albumbtn .abtx small { font-size: 13.5px; }
+html.v110x[data-v110tab="trips"] #app .stack { row-gap: 18px; }
+
+/* 5) percorso: i cerchi non toccano mai le didascalie (ne' la propria ne' quella accanto) */
+html.v110x #app .v110path > .dest { width: 47%; gap: 16px; }
+html.v110x #app .v110path > .dest + .dest { margin-top: -44px; }
+html.v110x #app .v110path > .dest .pc { width: 124px; height: 124px; }
+html.v110x #app .v110path > .dest .meta { padding: 7px 10px 8px; }
+@media (max-width: 360px) { html.v110x #app .v110path > .dest { width: 48%; } html.v110x #app .v110path > .dest .pc { width: 104px; height: 104px; } html.v110x #app .v110path > .dest + .dest { margin-top: -30px; } }
+
+/* 6) "Prendi Tani'": scritta proporzionata al pulsante */
+html.v110x #app .homehead { align-items: center; gap: 12px; }
+html.v110x #app .homehead .btn { font-size: 17px; min-height: 48px; padding: 0 20px; gap: 8px; border-radius: 16px; line-height: 1.1; }
+html.v110x #app .homehead .btn svg, html.v110x #app .homehead .btn img { width: 24px; height: 24px; }
+
+/* 7) Introvabili: in fondo al negozio e piu' discreti */
+html.v110x #app .xvshow { margin-top: 14px; padding: 14px 12px 10px; }
+html.v110x #app .xvshow .xvhd h2 { font-size: 19px; }
+html.v110x #app .xvshow .xvhd p { font-size: 13.5px; }
+html.v110x #app .xvshow .xvbadge { transform: scale(.85); }
+
+/* 8) Diario: la domanda di oggi da sola; sotto, la pagina libera con i compagni */
+html.v110x #app #diaryForm .m3read { display: none; }
+html.v110x #app #diaryForm.v110q .question { font-size: 21px; line-height: 1.3; }
+html.v110x #app .v110free .v110fhd { display: grid; gap: 2px; }
+html.v110x #app .v110free .v110fhd h2 { font-size: 22px; margin: 0; }
+html.v110x #app .v110free .v110moods { border: 0; padding: 0; margin: 0; }
+html.v110x #app .v110free .v110moods legend { margin-bottom: 6px; }
+html.v110x #app .v110stage { position: relative; height: 196px; border-radius: 20px; overflow: hidden; display: flex; align-items: flex-end; justify-content: center;
+  background: radial-gradient(120% 90% at 50% 100%, color-mix(in srgb, var(--tb-diary, #8B6CC4) 20%, var(--paper)) 0%, color-mix(in srgb, var(--tb-diary-s, #EFE7FA) 85%, var(--paper)) 62%);
+  border: 2px solid var(--k-line); }
+html.v110x #app .v110stage::after { content: ""; position: absolute; left: 12%; right: 12%; bottom: 10px; height: 22px; border-radius: 50%; background: color-mix(in srgb, var(--tb-diary, #8B6CC4) 18%, transparent); filter: blur(2px); }
+html.v110x #app .v110stage > span { position: relative; z-index: 1; display: block; }
+html.v110x #app .v110stage .v110sm img { width: 188px; height: 188px; display: block; margin-bottom: -8px; animation: v110bob 3.4s cubic-bezier(.65, 0, .35, 1) infinite; }
+html.v110x #app .v110stage .v110sf img { width: 138px; height: 138px; display: block; margin: 0 0 -4px -26px; animation: v110bob 3.4s cubic-bezier(.65, 0, .35, 1) -1.7s infinite; }
+@keyframes v110bob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -5px; } }
+html.calm #app .v110stage img, html.lite #app .v110stage img { animation: none !important; }
+@media (prefers-reduced-motion: reduce) { #app .v110stage img { animation: none !important; } }
+html.v110x #app #v110FreeTx { width: 100%; min-height: 168px; resize: vertical; box-sizing: border-box; padding: 4px 14px; border-radius: 16px; border: 2px solid var(--k-line); border-bottom-width: 4px; box-shadow: none;
+  font: 400 17px/32px var(--font-body, inherit); color: var(--ink); background-color: var(--paper); background-attachment: local;
+  background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 31px, color-mix(in srgb, var(--k-line) 70%, transparent) 31px, color-mix(in srgb, var(--k-line) 70%, transparent) 32px); background-position: 0 4px; }
+html.v110x #app #v110FreeTx:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 55%, transparent); outline-offset: 2px; }
+@media (max-width: 360px) { html.v110x #app .v110stage { height: 172px; } html.v110x #app .v110stage .v110sm img { width: 160px; height: 160px; } html.v110x #app .v110stage .v110sf img { width: 118px; height: 118px; } }
+/* zaino: oggetti piu' grandi e leggibili */
+html.v110x #app .v110pack.v110pack i:nth-child(n) { height: 36px; }
+html.v110x #app .v110pack i svg { width: 21px; height: 21px; opacity: .7; }
+html.v110x #app .v110pack i.on svg { opacity: 1; }
 
 </style>
 
@@ -42404,72 +42486,72 @@ Object.keys(T).forEach((l) => {
    ferme con "riduci movimento", con la modalita' calma e con la modalita' leggera). Cornice e etichetta loro. */
 const XV_IDS = ["x_crown", "x_cloak", "x_tree", "x_fountain", "x_galaxy", "x_aura"];
 const XV = {
-  it: { chip: "Introvabile", title: "Introvabili", intro: "Le cose più belle di tutto il negozio. Si comprano solo con i Tanì, risparmiando a lungo: sono il traguardo di tanti mesi di cura.",
+  it: { chip: "Introvabile", title: "Introvabili", intro: "Le cose più rare del negozio. Si comprano solo con i Tanì che guadagni con le tue abitudini.",
     have: (a, b) => `Hai ${a} di ${b} Tanì`, pace: (n) => (n < 60 ? `Al tuo ritmo di oggi: circa ${n} giorni` : `Al tuo ritmo di oggi: circa ${Math.round(n / 30.4)} mesi`), owned: (n, m) => `Ne hai ${n} su ${m}`, plusNo: "Plus non le sconta: valgono lo stesso per tutti.",
     wishSet: "Fissa come desiderio", wishIs: "Il tuo desiderio", wishL: "Il tuo desiderio: ", mile: (p, n) => `Sei al ${p}% della strada verso ${n}!`, back: (n) => (n === 1 ? "Il tuo desiderio si allontana di circa 1 giorno" : `Il tuo desiderio si allontana di circa ${n} giorni`),
     paidOnly: "I Tanì dei pacchetti valgono per tutto il negozio, tranne gli Introvabili: questi si comprano solo con i Tanì guadagnati prendendoti cura di te.", paidBlock: "Gli Introvabili si comprano solo con i Tanì guadagnati prendendoti cura di te.",
     items: { x_crown: "Corona dell'aurora", x_cloak: "Mantello della cometa", x_tree: "Albero dei desideri", x_fountain: "Fontana di luna", x_galaxy: "Galassia", x_aura: "Aura di stelle" } },
-  en: { chip: "Elusive", title: "Elusive treasures", intro: "The most beautiful things in the whole shop. You can only get them with Tanì, saving for a long time: they crown many months of care.",
+  en: { chip: "Elusive", title: "Elusive treasures", intro: "The rarest things in the shop. You can only get them with the Tanì you earn from your habits.",
     have: (a, b) => `You have ${a} of ${b} Tanì`, pace: (n) => (n < 60 ? `At today's pace: about ${n} days` : `At today's pace: about ${Math.round(n / 30.4)} months`), owned: (n, m) => `You own ${n} of ${m}`, plusNo: "Plus gives no discount: they cost the same for everyone.",
     wishSet: "Make it my wish", wishIs: "Your wish", wishL: "Your wish: ", mile: (p, n) => `You are ${p}% of the way to the ${n}!`, back: (n) => (n === 1 ? "Your wish moves back by about 1 day" : `Your wish moves back by about ${n} days`),
     paidOnly: "Tanì from packs work for the whole shop except the Elusive treasures: those are bought only with Tanì you earn by taking care of yourself.", paidBlock: "Elusive treasures are bought only with the Tanì you earn by taking care of yourself.",
     items: { x_crown: "Aurora crown", x_cloak: "Comet cloak", x_tree: "Wishing tree", x_fountain: "Moon fountain", x_galaxy: "Galaxy", x_aura: "Starlight aura" } },
-  de: { chip: "Unikat", title: "Unauffindbare Schätze", intro: "Die schönsten Dinge im ganzen Laden. Es gibt sie nur für Tanì, wenn du lange sparst: Sie krönen viele Monate voller Fürsorge.",
+  de: { chip: "Unikat", title: "Unauffindbare Schätze", intro: "Die seltensten Dinge im Laden. Es gibt sie nur für Tanì, die du mit deinen Gewohnheiten verdienst.",
     have: (a, b) => `Du hast ${a} von ${b} Tanì`, pace: (n) => (n < 60 ? `In deinem heutigen Tempo: etwa ${n} Tage` : `In deinem heutigen Tempo: etwa ${Math.round(n / 30.4)} Monate`), owned: (n, m) => `Du hast ${n} von ${m}`, plusNo: "Plus gibt keinen Rabatt: Sie kosten für alle gleich viel.",
     wishSet: "Als Wunsch festlegen", wishIs: "Dein Wunsch", wishL: "Dein Wunsch: ", mile: (p, n) => `Du hast ${p} % des Weges zu ${n} geschafft!`, back: (n) => (n === 1 ? "Dein Wunsch rückt etwa 1 Tag weiter weg" : `Dein Wunsch rückt etwa ${n} Tage weiter weg`),
     paidOnly: "Tanì aus Paketen gelten im ganzen Laden außer für die unauffindbaren Schätze: Die gibt es nur für Tanì, die du verdienst, indem du gut für dich sorgst.", paidBlock: "Unauffindbare Schätze gibt es nur für Tanì, die du verdienst, indem du gut für dich sorgst.",
     items: { x_crown: "Polarlicht-Krone", x_cloak: "Kometenumhang", x_tree: "Wunschbaum", x_fountain: "Mondbrunnen", x_galaxy: "Galaxie", x_aura: "Sternenaura" } },
-  es: { chip: "Inencontrable", title: "Inencontrables", intro: "Las cosas más bonitas de toda la tienda. Solo se consiguen con Tanì, ahorrando mucho tiempo: son la corona de muchos meses de cuidado.",
+  es: { chip: "Inencontrable", title: "Inencontrables", intro: "Las cosas más raras de la tienda. Solo se consiguen con los Tanì que ganas con tus hábitos.",
     have: (a, b) => `Tienes ${a} de ${b} Tanì`, pace: (n) => (n < 60 ? `A tu ritmo de hoy: unos ${n} días` : `A tu ritmo de hoy: unos ${Math.round(n / 30.4)} meses`), owned: (n, m) => `Tienes ${n} de ${m}`, plusNo: "Plus no les hace descuento: cuestan lo mismo para todos.",
     wishSet: "Elegir como deseo", wishIs: "Tu deseo", wishL: "Tu deseo: ", mile: (p, n) => `¡Llevas el ${p} % del camino hacia ${n}!`, back: (n) => (n === 1 ? "Tu deseo se aleja alrededor de 1 día" : `Tu deseo se aleja alrededor de ${n} días`),
     paidOnly: "Los Tanì de los paquetes sirven para toda la tienda menos para los Inencontrables: esos solo se compran con los Tanì que ganas cuidándote.", paidBlock: "Los Inencontrables solo se compran con los Tanì que ganas cuidándote.",
     items: { x_crown: "Corona de aurora", x_cloak: "Capa del cometa", x_tree: "Árbol de los deseos", x_fountain: "Fuente de la luna", x_galaxy: "Galaxia", x_aura: "Aura de estrellas" } },
-  fr: { chip: "Introuvable", title: "Introuvables", intro: "Les plus belles choses de toute la boutique. On ne les obtient qu'avec des Tanì, en économisant longtemps : elles couronnent de longs mois de soin.",
+  fr: { chip: "Introuvable", title: "Introuvables", intro: "Les choses les plus rares de la boutique. On ne les obtient qu'avec les Tanì gagnés grâce à tes habitudes.",
     have: (a, b) => `Tu as ${a} sur ${b} Tanì`, pace: (n) => (n < 60 ? `À ton rythme d'aujourd'hui : environ ${n} jours` : `À ton rythme d'aujourd'hui : environ ${Math.round(n / 30.4)} mois`), owned: (n, m) => `Tu en as ${n} sur ${m}`, plusNo: "Plus ne fait aucune remise : elles coûtent pareil pour tout le monde.",
     wishSet: "En faire mon vœu", wishIs: "Ton vœu", wishL: "Ton vœu : ", mile: (p, n) => `Tu as fait ${p} % du chemin vers ${n} !`, back: (n) => (n === 1 ? "Ton vœu s'éloigne d'environ 1 jour" : `Ton vœu s'éloigne d'environ ${n} jours`),
     paidOnly: "Les Tanì des packs valent pour toute la boutique sauf les Introuvables : ceux-là s'achètent seulement avec les Tanì gagnés en prenant soin de toi.", paidBlock: "Les Introuvables s'achètent seulement avec les Tanì gagnés en prenant soin de toi.",
     items: { x_crown: "Couronne d'aurore", x_cloak: "Cape de la comète", x_tree: "Arbre à vœux", x_fountain: "Fontaine de lune", x_galaxy: "Galaxie", x_aura: "Aura d'étoiles" } },
-  pt: { chip: "Raríssimo", title: "Raríssimos", intro: "As coisas mais bonitas de toda a loja. Só se compram com Tanì, juntando por muito tempo: são a coroa de muitos meses de cuidado.",
+  pt: { chip: "Raríssimo", title: "Raríssimos", intro: "As coisas mais raras da loja. Só se compram com os Tanì que você ganha com seus hábitos.",
     have: (a, b) => `Você tem ${a} de ${b} Tanì`, pace: (n) => (n < 60 ? `No seu ritmo de hoje: cerca de ${n} dias` : `No seu ritmo de hoje: cerca de ${Math.round(n / 30.4)} meses`), owned: (n, m) => `Você tem ${n} de ${m}`, plusNo: "O Plus não dá desconto: custam o mesmo para todo mundo.",
     wishSet: "Escolher como desejo", wishIs: "Seu desejo", wishL: "Seu desejo: ", mile: (p, n) => `Você já fez ${p}% do caminho até ${n}!`, back: (n) => (n === 1 ? "Seu desejo fica cerca de 1 dia mais longe" : `Seu desejo fica cerca de ${n} dias mais longe`),
     paidOnly: "Os Tanì dos pacotes valem para toda a loja, menos os Raríssimos: esses só se compram com os Tanì que você ganha cuidando de si.", paidBlock: "Os Raríssimos só se compram com os Tanì que você ganha cuidando de si.",
     items: { x_crown: "Coroa da aurora", x_cloak: "Capa do cometa", x_tree: "Árvore dos desejos", x_fountain: "Fonte da lua", x_galaxy: "Galáxia", x_aura: "Aura de estrelas" } },
-  ja: { chip: "幻", title: "幻のアイテム", intro: "ショップでいちばん美しいものたち。Tanìだけで、長い時間をかけて貯めて手に入れます。何か月ものセルフケアのごほうびです。",
+  ja: { chip: "幻", title: "幻のアイテム", intro: "ショップでいちばん珍しいものたち。習慣で集めたTanìだけで手に入ります。",
     have: (a, b) => `${b} Tanìのうち ${a} Tanì`, pace: (n) => (n < 60 ? `今日のペースで：約${n}日` : `今日のペースで：約${Math.round(n / 30.4)}か月`), owned: (n, m) => `${m}個中 ${n}個を持っています`, plusNo: "Plusでも割引はありません。みんな同じ値段です。",
     wishSet: "願いにする", wishIs: "あなたの願い", wishL: "あなたの願い：", mile: (p, n) => `「${n}」まで${p}%のところまで来ました！`, back: (n) => `願いが約${n}日遠くなります`,
     paidOnly: "パックのTanìはショップ全体で使えますが、幻のアイテムだけは使えません。幻のアイテムは、セルフケアでためたTanìだけで買えます。", paidBlock: "幻のアイテムは、セルフケアでためたTanìだけで買えます。",
     items: { x_crown: "オーロラの王冠", x_cloak: "彗星のマント", x_tree: "願いの木", x_fountain: "月の噴水", x_galaxy: "銀河", x_aura: "星のオーラ" } },
-  ko: { chip: "환상", title: "환상의 보물", intro: "상점에서 가장 아름다운 것들이에요. Tanì로만 살 수 있고, 오래 모아야 해요. 여러 달 동안 나를 돌본 끝에 받는 선물이에요.",
+  ko: { chip: "환상", title: "환상의 보물", intro: "상점에서 가장 귀한 것들이에요. 습관으로 모은 Tanì로만 살 수 있어요.",
     have: (a, b) => `Tanì ${b}개 중 ${a}개`, pace: (n) => (n < 60 ? `오늘 속도라면: 약 ${n}일` : `오늘 속도라면: 약 ${Math.round(n / 30.4)}개월`), owned: (n, m) => `${m}개 중 ${n}개 보유`, plusNo: "Plus도 할인은 없어요. 모두에게 같은 가격이에요.",
     wishSet: "소원으로 정하기", wishIs: "나의 소원", wishL: "나의 소원: ", mile: (p, n) => `${n}까지 ${p}% 왔어요!`, back: (n) => `소원이 약 ${n}일 멀어져요`,
     paidOnly: "패키지로 산 Tanì는 상점 어디서나 쓸 수 있지만, 환상의 보물에는 쓸 수 없어요. 환상의 보물은 나를 돌보며 모은 Tanì로만 살 수 있어요.", paidBlock: "환상의 보물은 나를 돌보며 모은 Tanì로만 살 수 있어요.",
     items: { x_crown: "오로라 왕관", x_cloak: "혜성 망토", x_tree: "소원 나무", x_fountain: "달의 분수", x_galaxy: "은하수", x_aura: "별빛 오라" } },
-  zh: { chip: "稀世珍品", title: "稀世珍品", intro: "整个商店里最美的东西。只能用 Tanì 购买，需要攒很久：它们是许多个月好好照顾自己的见证。",
+  zh: { chip: "稀世珍品", title: "稀世珍品", intro: "商店里最稀有的东西。只能用你通过好习惯赚到的 Tanì 购买。",
     have: (a, b) => `已有 ${a} / ${b} Tanì`, pace: (n) => (n < 60 ? `按你今天的节奏：大约 ${n} 天` : `按你今天的节奏：大约 ${Math.round(n / 30.4)} 个月`), owned: (n, m) => `已拥有 ${n} / ${m}`, plusNo: "Plus 也不打折：对所有人都是同样的价格。",
     wishSet: "设为心愿", wishIs: "你的心愿", wishL: "你的心愿：", mile: (p, n) => `离「${n}」已经走了 ${p}%！`, back: (n) => `你的心愿会推迟大约 ${n} 天`,
     paidOnly: "礼包里的 Tanì 可以在整个商店使用，但不能用来买稀世珍品：稀世珍品只能用照顾自己赚到的 Tanì 购买。", paidBlock: "稀世珍品只能用照顾自己赚到的 Tanì 购买。",
     items: { x_crown: "极光王冠", x_cloak: "彗星斗篷", x_tree: "许愿树", x_fountain: "月光喷泉", x_galaxy: "银河", x_aura: "星光光环" } },
-  zht: { chip: "稀世珍品", title: "稀世珍品", intro: "整個商店裡最美的東西。只能用 Tanì 購買，需要存很久：它們是許多個月好好照顧自己的見證。",
+  zht: { chip: "稀世珍品", title: "稀世珍品", intro: "商店裡最稀有的東西。只能用你透過好習慣賺到的 Tanì 購買。",
     have: (a, b) => `已有 ${a} / ${b} Tanì`, pace: (n) => (n < 60 ? `照你今天的節奏：大約 ${n} 天` : `照你今天的節奏：大約 ${Math.round(n / 30.4)} 個月`), owned: (n, m) => `已擁有 ${n} / ${m}`, plusNo: "Plus 也不打折：對所有人都是同樣的價格。",
     wishSet: "設為心願", wishIs: "你的心願", wishL: "你的心願：", mile: (p, n) => `離「${n}」已經走了 ${p}%！`, back: (n) => `你的心願會延後大約 ${n} 天`,
     paidOnly: "禮包裡的 Tanì 可以在整個商店使用，但不能用來買稀世珍品：稀世珍品只能用照顧自己賺到的 Tanì 購買。", paidBlock: "稀世珍品只能用照顧自己賺到的 Tanì 購買。",
     items: { x_crown: "極光王冠", x_cloak: "彗星斗篷", x_tree: "許願樹", x_fountain: "月光噴泉", x_galaxy: "銀河", x_aura: "星光光環" } },
-  ru: { chip: "Редчайший", title: "Редчайшие вещи", intro: "Самые красивые вещи во всём магазине. Их можно получить только за Tanì, если долго копить: это награда за много месяцев заботы о себе.",
+  ru: { chip: "Редчайший", title: "Редчайшие вещи", intro: "Самые редкие вещи в магазине. Их можно получить только за Tanì, заработанные полезными привычками.",
     have: (a, b) => `У тебя ${a} из ${b} Tanì`, pace: (n) => (n < 60 ? `В сегодняшнем темпе: примерно ${n} дн.` : `В сегодняшнем темпе: примерно ${Math.round(n / 30.4)} мес.`), owned: (n, m) => `У тебя ${n} из ${m}`, plusNo: "Plus не даёт скидку: для всех цена одинаковая.",
     wishSet: "Сделать мечтой", wishIs: "Твоя мечта", wishL: "Твоя мечта: ", mile: (p, n) => `Пройдено ${p}% пути к вещи «${n}»!`, back: (n) => `Твоя мечта отдалится примерно на ${n} дн.`,
     paidOnly: "Tanì из наборов подходят для всего магазина, кроме редчайших вещей: их можно купить только за Tanì, заработанные заботой о себе.", paidBlock: "Редчайшие вещи можно купить только за Tanì, заработанные заботой о себе.",
     items: { x_crown: "Корона северного сияния", x_cloak: "Плащ кометы", x_tree: "Дерево желаний", x_fountain: "Лунный фонтан", x_galaxy: "Галактика", x_aura: "Звёздная аура" } },
-  pl: { chip: "Unikatowy", title: "Unikaty", intro: "Najpiękniejsze rzeczy w całym sklepie. Można je zdobyć tylko za Tanì, długo oszczędzając: to ukoronowanie wielu miesięcy dbania o siebie.",
+  pl: { chip: "Unikatowy", title: "Unikaty", intro: "Najrzadsze rzeczy w sklepie. Można je zdobyć tylko za Tanì zarobione dzięki twoim nawykom.",
     have: (a, b) => `Masz ${a} z ${b} Tanì`, pace: (n) => (n < 60 ? `W dzisiejszym tempie: około ${n} dni` : `W dzisiejszym tempie: około ${Math.round(n / 30.4)} mies.`), owned: (n, m) => `Masz ${n} z ${m}`, plusNo: "Plus nie daje zniżki: dla wszystkich cena jest taka sama.",
     wishSet: "Ustaw jako marzenie", wishIs: "Twoje marzenie", wishL: "Twoje marzenie: ", mile: (p, n) => `Masz już ${p}% drogi do: ${n}!`, back: (n) => (n === 1 ? "Twoje marzenie oddali się o około 1 dzień" : `Twoje marzenie oddali się o około ${n} dni`),
     paidOnly: "Tanì z pakietów działają w całym sklepie oprócz Unikatów: te kupisz tylko za Tanì zdobyte dzięki dbaniu o siebie.", paidBlock: "Unikaty kupisz tylko za Tanì zdobyte dzięki dbaniu o siebie.",
     items: { x_crown: "Korona zorzy", x_cloak: "Płaszcz komety", x_tree: "Drzewo życzeń", x_fountain: "Księżycowa fontanna", x_galaxy: "Galaktyka", x_aura: "Gwiezdna aura" } },
-  nl: { chip: "Onvindbaar", title: "Onvindbare schatten", intro: "De mooiste dingen van de hele winkel. Je krijgt ze alleen met Tanì, door lang te sparen: ze bekronen vele maanden zorg voor jezelf.",
+  nl: { chip: "Onvindbaar", title: "Onvindbare schatten", intro: "De zeldzaamste dingen van de winkel. Je krijgt ze alleen met Tanì die je met je gewoontes verdient.",
     have: (a, b) => `Je hebt ${a} van ${b} Tanì`, pace: (n) => (n < 60 ? `In je tempo van vandaag: ongeveer ${n} dagen` : `In je tempo van vandaag: ongeveer ${Math.round(n / 30.4)} maanden`), owned: (n, m) => `Je hebt er ${n} van ${m}`, plusNo: "Plus geeft geen korting: ze kosten voor iedereen hetzelfde.",
     wishSet: "Maak het mijn wens", wishIs: "Jouw wens", wishL: "Jouw wens: ", mile: (p, n) => `Je bent op ${p}% van de weg naar ${n}!`, back: (n) => (n === 1 ? "Je wens schuift ongeveer 1 dag op" : `Je wens schuift ongeveer ${n} dagen op`),
     paidOnly: "Tanì uit pakketten gelden in de hele winkel behalve voor de onvindbare schatten: die koop je alleen met Tanì die je verdient door goed voor jezelf te zorgen.", paidBlock: "Onvindbare schatten koop je alleen met Tanì die je verdient door goed voor jezelf te zorgen.",
     items: { x_crown: "Noorderlichtkroon", x_cloak: "Kometencape", x_tree: "Wensboom", x_fountain: "Maanfontein", x_galaxy: "Melkweg", x_aura: "Sterrenaura" } },
-  tr: { chip: "Bulunmaz", title: "Bulunmaz hazineler", intro: "Tüm dükkândaki en güzel şeyler. Yalnızca Tanì ile, uzun süre biriktirerek alınır: aylarca kendine iyi bakmanın tacıdır.",
+  tr: { chip: "Bulunmaz", title: "Bulunmaz hazineler", intro: "Dükkândaki en nadir şeyler. Yalnızca alışkanlıklarınla kazandığın Tanì ile alınır.",
     have: (a, b) => `${a} / ${b} Tanì sende`, pace: (n) => (n < 60 ? `Bugünkü hızınla: yaklaşık ${n} gün` : `Bugünkü hızınla: yaklaşık ${Math.round(n / 30.4)} ay`), owned: (n, m) => `${m} taneden ${n} tanesi sende`, plusNo: "Plus indirim yapmaz: herkes için fiyat aynı.",
     wishSet: "Dileğim yap", wishIs: "Dileğin", wishL: "Dileğin: ", mile: (p, n) => `${n} yolunun %${p} kadarını geldin!`, back: (n) => `Dileğin yaklaşık ${n} gün uzaklaşır`,
     paidOnly: "Paketlerden gelen Tanì dükkânın her yerinde geçer, bulunmaz hazineler hariç: onlar yalnızca kendine bakarak kazandığın Tanì ile alınır.", paidBlock: "Bulunmaz hazineler yalnızca kendine bakarak kazandığın Tanì ile alınır.",
@@ -42667,7 +42749,7 @@ function xvShowcase() {
   if (next) {
     const have = Math.min(S.seeds, next.price), pct = Math.max(0, Math.min(100, (have / next.price) * 100));
     const nf = (n) => n.toLocaleString(loc(), NUMG);
-    prog = `<div class="xvprog"><div class="xvbar" role="progressbar" aria-valuemin="0" aria-valuemax="${next.price}" aria-valuenow="${have}" aria-label="${esc(x.have(nf(have), nf(next.price)))}"><i style="width:${pct.toFixed(1)}%"></i></div><p class="small"><b>${esc(x.have(nf(have), nf(next.price)))}</b>${S.seeds < next.price ? ` · ${esc(xvPace(next.price - S.seeds))}` : ""}</p></div>`;
+    prog = `<div class="xvprog"><div class="xvbar" role="progressbar" aria-valuemin="0" aria-valuemax="${next.price}" aria-valuenow="${have}" aria-label="${esc(x.have(nf(have), nf(next.price)))}"><i style="width:${pct.toFixed(1)}%"></i></div><p class="small"><b>${esc(x.have(nf(have), nf(next.price)))}</b></p></div>`;
   }
   return `<section class="xvshow" aria-labelledby="xvT"><div class="xvhd"><span class="xvbadge" aria-hidden="true">${xStarIcon()}</span><div><h2 id="xvT">${esc(x.title)}</h2><p class="small">${esc(x.intro)}</p></div></div>${prog}<div class="xvrow">${items.map(shopItem).join("")}</div><p class="small xvfoot">${own ? `${esc(x.owned(own, items.length))} · ` : ""}${esc(x.plusNo)}</p></section>`;
 }
@@ -42678,7 +42760,9 @@ viewHome = function () {
   try {
     const i = h.indexOf('<div class="tabsx" role="tablist">'); if (i < 0) return h;
     const e = h.indexOf("</div>", i); if (e < 0) return h;
-    return h.slice(0, e + 6) + xvShowcase() + h.slice(e + 6);
+    /* 1.0.10: gli Introvabili in fondo al negozio, non in vista per primi (richiesta del proprietario, 17/11/2026) */
+    const x = xvShowcase(); const j = h.lastIndexOf("</div>");
+    return j > e ? h.slice(0, j) + x + h.slice(j) : h.slice(0, e + 6) + x + h.slice(e + 6);
   } catch (err) { return h; }
 };
 if (!xvOn()) document.documentElement.classList.add("xvstill");
@@ -42785,7 +42869,7 @@ xvShowcase = function () {
   const nf = (n) => n.toLocaleString(loc(), NUMG); let prog = "";
   if (next) {
     const use = next.xv ? xvUsable() : S.seeds, have = Math.min(use, next.price), pct = xvPct(next);
-    prog = `<div class="xvprog"><p class="small xvwl">${xStarIcon()}<span>${esc(x.wishL)}<b>${esc((L().items || {})[next.id] || "")}</b></span></p><div class="xvbar" role="progressbar" aria-valuemin="0" aria-valuemax="${next.price}" aria-valuenow="${have}" aria-label="${esc(x.have(nf(have), nf(next.price)))}"><i style="width:${pct.toFixed(1)}%"></i>${[25, 50, 75].map((p) => `<span class="xvm${pct >= p ? " on" : ""}" style="left:${p}%"></span>`).join("")}</div><p class="small"><b>${esc(x.have(nf(have), nf(next.price)))}</b>${use < next.price ? ` · ${esc(xvPace(next.price - use))}` : ""}</p></div>`;
+    prog = `<div class="xvprog"><p class="small xvwl">${xStarIcon()}<span>${esc(x.wishL)}<b>${esc((L().items || {})[next.id] || "")}</b></span></p><div class="xvbar" role="progressbar" aria-valuemin="0" aria-valuemax="${next.price}" aria-valuenow="${have}" aria-label="${esc(x.have(nf(have), nf(next.price)))}"><i style="width:${pct.toFixed(1)}%"></i>${[25, 50, 75].map((p) => `<span class="xvm${pct >= p ? " on" : ""}" style="left:${p}%"></span>`).join("")}</div><p class="small"><b>${esc(x.have(nf(have), nf(next.price)))}</b></p></div>`;
   }
   const paid = xvPaidLeft() > 0 ? `<p class="small xvpaid">${esc(x.paidOnly)}</p>` : "";
   return `<section class="xvshow" aria-labelledby="xvT"><div class="xvhd"><span class="xvbadge" aria-hidden="true">${xStarIcon()}</span><div><h2 id="xvT">${esc(x.title)}</h2><p class="small">${esc(x.intro)}</p></div></div>${prog}${paid}<div class="xvrow">${items.map(shopItem).join("")}</div><p class="small xvfoot">${own ? `${esc(x.owned(own, items.length))} · ` : ""}${esc(x.plusNo)}</p></section>`;
@@ -45978,7 +46062,7 @@ if (typeof openChat === "function") {
   const _a = openChat;
   openChat = function (...a) { const r = _a.apply(this, a); try { const n = layer.querySelector(".chatbox .chnote"); if (n && !layer.querySelector("#v110ChatHelp")) n.insertAdjacentHTML("afterend", v110HelpBtn("v110ChatHelp")); } catch (e) { /* niente */ } return r; };
 }
-try { new MutationObserver(() => { try { const f = document.getElementById("diaryForm"); if (f && !document.getElementById("v110DiaryHelp")) f.insertAdjacentHTML("afterend", v110HelpBtn("v110DiaryHelp")); } catch (e) { /* niente */ } }).observe(document.getElementById("app"), { childList: true, subtree: true }); } catch (e) { /* niente */ }
+try { new MutationObserver(() => { try { const f = document.getElementById("v110Free") || document.getElementById("diaryForm"); if (f && !document.getElementById("v110DiaryHelp")) f.insertAdjacentHTML("afterend", v110HelpBtn("v110DiaryHelp")); } catch (e) { /* niente */ } }).observe(document.getElementById("app"), { childList: true, subtree: true }); } catch (e) { /* niente */ }
 document.addEventListener("click", (ev) => {
   const b = ev.target.closest && ev.target.closest("#v110ChatHelp, #v110DiaryHelp"); if (!b) return; ev.stopImmediatePropagation();
   try { if (b.id === "v110ChatHelp") { const box = layer.querySelector(".chatbox .v26sos"); if (box) { box.scrollIntoView({ block: "nearest" }); return; } } v26HelpSheet(1); } catch (e) { /* niente */ }
@@ -46403,15 +46487,15 @@ Object.keys(T).forEach((l) => { const c = T[l] && T[l].credits; if (!Array.isArr
   c[i] = c[i].replace(/Fredoka(\s*\S{0,4}\s*)Figtree/, (m, conj) => `Fredoka, Figtree, Nunito, M PLUS Rounded 1c${conj}Jua`); });
 
 /* ---------- 6) "Zaino" al posto di "Energia": distintivo con lo zaino e una casella-oggetto per ogni obiettivo ---------- */
-const V110_PACK = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 7V5.5a3.5 3.5 0 0 1 7 0V7"/><path d="M5 10a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v9a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2Z"/><path d="M9 13.5h6v3.5H9Z"/></svg>';
+const V110_PACK = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6.5V5a3 3 0 0 1 6 0v1.5"/><path d="M5.5 11a4.5 4.5 0 0 1 4.5-4.5h4a4.5 4.5 0 0 1 4.5 4.5v8.5a1.5 1.5 0 0 1-1.5 1.5H7a1.5 1.5 0 0 1-1.5-1.5Z"/><path d="M5.5 12.5h13"/><path d="M8.5 21v-4.5a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1V21"/></svg>';
 const V110_ITEMS = [
   '<path d="M10 3h4v3l1.5 2v11a2 2 0 0 1-2 2h-3a2 2 0 0 1-2-2V8L10 6Z"/><path d="M8.5 12.5h7"/>',
   '<path d="M4 6l5-2 6 2 5-2v14l-5 2-6-2-5 2Z"/><path d="M9 4v14M15 6v14"/>',
   '<path d="M12 8c-3-2-7 0-7 4.5 0 4 3 7.5 5 7.5 1 0 1.4-.5 2-.5s1 .5 2 .5c2 0 5-3.5 5-7.5C19 8 15 6 12 8Z"/><path d="M12 8c0-2 1-3.5 3-4.5"/>',
-  '<path d="M4.5 15c0-4.6 3.4-7.8 7.5-7.8s7.5 3.2 7.5 7.8Z"/><path d="M2.5 15h19"/>',
+  '<path d="M2.5 16c0-1.3 4.3-2.4 9.5-2.4s9.5 1.1 9.5 2.4-4.3 2.6-9.5 2.6-9.5-1.3-9.5-2.6Z"/><path d="M7 14c.2-4.2 2.3-6.8 5-6.8s4.8 2.6 5 6.8"/><path d="M7.4 12.2c3 .9 6.2.9 9.2 0"/>',
   '<path d="M4 8h3l2-3h6l2 3h3v11H4Z"/><circle cx="12" cy="13" r="3.4"/>',
   '<circle cx="12" cy="12" r="8.5"/><path d="M15 9l-1.8 4.2L9 15l1.8-4.2Z"/>',
-  '<path d="M6 5h12v4H6Z"/><path d="M9 9v10l3-2 3 2V9"/>',
+  '<circle cx="7" cy="15.5" r="3.6"/><circle cx="17" cy="15.5" r="3.6"/><path d="M5 12.3 6.3 6.5h3.4l.6 5.8M19 12.3l-1.3-5.8h-3.4l-.6 5.8M10.3 11h3.4"/>',
   '<path d="M10 3h4M12 3v3M8 6h8l1 12H7Z"/><path d="M12 10v4"/>'
 ];
 function v110Pack() {
@@ -46533,7 +46617,8 @@ backPress = function () {
   return _backPressV110g.apply(this, arguments);
 };
 
-/* ===== 1.0.10 — NUOVO ASPETTO (proposta 2): spostamenti e pezzi in piu' nella pagina (attivi solo con html.v110x) ===== */
+/* ===== 1.0.10 — NUOVO ASPETTO (proposta 3, approvata dal proprietario il 17/11/2026): spostamenti e pezzi in piu' nella pagina ===== */
+document.documentElement.classList.add("v110x");
 const V2_T = {
   it: { next: "Verso il", goals: "obiettivi", cards: "cartoline", streak: "giorni di fila", troph: "trofei", invT: "Invita un amico", invP: "Prendersi cura di sé è più bello in due." },
   en: { next: "Next:", goals: "goals", cards: "postcards", streak: "days in a row", troph: "trophies", invT: "Invite a friend", invP: "Looking after yourself is nicer with two." },
@@ -46559,6 +46644,13 @@ function v110Redesign() {
     const h2 = app.querySelector(".sec h2"); const g = app.querySelectorAll(".goals .goal");
     if (h2 && g.length && !h2.querySelector(".v110cnt")) { const d = app.querySelectorAll('.goals .goal[aria-pressed="true"]').length; h2.insertAdjacentHTML("beforeend", `<span class="v110cnt">${d}/${g.length}</span>`); }
   }
+  /* primo avvio: ogni obiettivo suggerito ha l'icona della sua categoria */
+  app.querySelectorAll(".chips.onbsug .chip[data-goal]").forEach((c) => {
+    if (c.querySelector(".v110ci")) return; const k = goalCat(c.dataset.goal);
+    c.insertAdjacentHTML("afterbegin", `<i class="v110ci" style="--cc:${CAT_COLOR[k] || "var(--accent)"}" aria-hidden="true">${catIcon(k)}</i>`);
+  });
+  /* zaino: quante caselle ci sono (per mettere le scritte sotto la casella giusta) */
+  app.querySelectorAll(".nven").forEach((n) => { const s = n.querySelector(".nvseg"); if (s) n.style.setProperty("--v110n", String(Math.max(1, s.children.length))); });
   /* Viaggi: percorso a tappe */
   app.querySelectorAll(".stack-s").forEach((s) => { if (s.querySelector(":scope > .dest")) s.classList.add("v110path"); });
   /* Profilo: il compagno sul palco, livello e numeri; "Invita un amico" in vista (solo se l'invito esiste per questa eta') */
@@ -46606,6 +46698,112 @@ Object.keys(V110_LV).forEach((l) => {
   if (x) { x.lvLeft = () => v[0]; x.lvHow = v[1]; x.lvGoal = v[2]; x.lvTrip = v[3]; x.lvPts = (a, b) => v110Pct(a, b, l); }
   if (T[l]) T[l].xpTo = (a, b) => v110Pct(a, b, l);
 });
+
+/* ===== 1.0.10 — DIARIO: la domanda del giorno e il diario libero sono due cose diverse (richiesta del proprietario, 17/11/2026) =====
+   1) "La domanda di oggi": una domanda diversa ogni giorno (40 domande, nessuna si ripete per 40 giorni), con la risposta.
+      Sotto non c'e' un'altra domanda.
+   2) "Il tuo diario di oggi": una pagina libera per scrivere quello che si vuole, con l'umore della giornata e i compagni
+      grandi in una posa sempre diversa (leggono, scrivono, giocano a palla, bevono qualcosa di caldo...). Ogni volta che
+      si apre il Diario la scena cambia.
+   I testi della pagina libera passano dagli stessi controlli del diario (frasi di crisi -> scheda d'aiuto). */
+const V110_Q = {
+  it: ["Qual è un suono che ti piace?", "Cosa ti ha incuriosito oggi?", "Qual è un posto dove ti senti a casa?", "Cosa hai imparato oggi, anche di piccolo?", "Di che colore è stata la tua giornata?", "Cosa ti ha dato un po' di energia oggi?", "Cosa ti piacerebbe fare questo fine settimana?", "Qual è un profumo che ti mette di buon umore?", "A chi vorresti mandare un pensiero gentile?", "Cosa ti ha fatto ridere di recente?", "Qual è una cosa di te che ti piace?", "Cosa hai mangiato di buono oggi?", "Quale canzone ti accompagna in questi giorni?", "Cosa hai visto di bello fuori dalla finestra?", "Qual è un tuo piccolo sogno?", "Cosa ti aiuta a calmarti quando serve?", "Qual è stato il momento più tranquillo di oggi?", "Qual è un piccolo traguardo di questa settimana?", "Se oggi fosse un animale, quale sarebbe?", "Cosa ti è riuscito un po' meglio di ieri?", "Qual è un gesto gentile che hai ricevuto?", "Qual è un gesto gentile che hai fatto per qualcuno?", "Cosa ti piacerebbe imparare?", "Qual è un ricordo che ti fa sorridere?", "Dove ti piacerebbe andare in viaggio?", "Cosa ti ha sorpreso oggi?", "Qual è la tua parte preferita della giornata?", "Cosa ti fa sentire al sicuro?", "Qual è la tua bevanda calda preferita?", "Qual è una cosa bella che hai fatto per te oggi?", "Un libro, un film o un gioco che ti è piaciuto?", "Cosa ti mette di buon umore la mattina?"],
+  en: ["What's a sound you love?", "What made you curious today?", "Where is a place that feels like home?", "What did you learn today, even something small?", "What colour was your day?", "What gave you a bit of energy today?", "What would you like to do this weekend?", "What's a smell that puts you in a good mood?", "Who would you like to send a kind thought to?", "What made you laugh lately?", "What's something you like about yourself?", "What tasty thing did you eat today?", "What song is keeping you company these days?", "What nice thing did you see out of the window?", "What's a little dream you have?", "What helps you calm down when you need it?", "What was the calmest moment of your day?", "What's a small win from this week?", "If today were an animal, which one would it be?", "What went a little better today than yesterday?", "What's a kind thing someone did for you?", "What's a kind thing you did for someone?", "What would you love to learn?", "What's a memory that makes you smile?", "Where would you love to travel?", "What surprised you today?", "What's your favourite part of the day?", "What makes you feel safe?", "What's your favourite warm drink?", "What nice thing did you do for yourself today?", "A book, film or game you enjoyed?", "What puts you in a good mood in the morning?"],
+  de: ["Welches Geräusch magst du gern?", "Was hat dich heute neugierig gemacht?", "Wo fühlst du dich wie zu Hause?", "Was hast du heute gelernt, auch wenn es klein war?", "Welche Farbe hatte dein Tag?", "Was hat dir heute ein bisschen Energie gegeben?", "Was möchtest du am Wochenende machen?", "Welcher Duft macht dir gute Laune?", "Wem würdest du gern einen lieben Gedanken schicken?", "Worüber hast du zuletzt gelacht?", "Was magst du an dir?", "Was Leckeres hast du heute gegessen?", "Welches Lied begleitet dich gerade?", "Was Schönes hast du heute draußen gesehen?", "Was ist ein kleiner Traum von dir?", "Was hilft dir, ruhig zu werden, wenn du es brauchst?", "Was war der ruhigste Moment deines Tages?", "Was ist ein kleiner Erfolg dieser Woche?", "Wenn heute ein Tier wäre, welches wäre es?", "Was hat heute ein bisschen besser geklappt als gestern?", "Welche nette Geste hast du bekommen?", "Welche nette Geste hast du jemandem geschenkt?", "Was würdest du gern lernen?", "Welche Erinnerung bringt dich zum Lächeln?", "Wohin würdest du gern reisen?", "Was hat dich heute überrascht?", "Was ist dein liebster Teil des Tages?", "Was gibt dir ein Gefühl von Sicherheit?", "Was ist dein liebstes warmes Getränk?", "Was Schönes hast du heute für dich getan?", "Ein Buch, ein Film oder ein Spiel, das dir gefallen hat?", "Was macht dir morgens gute Laune?"],
+  es: ["¿Qué sonido te gusta?", "¿Qué te ha despertado la curiosidad hoy?", "¿Qué lugar te hace sentir en casa?", "¿Qué has aprendido hoy, aunque sea pequeño?", "¿De qué color ha sido tu día?", "¿Qué te ha dado un poco de energía hoy?", "¿Qué te gustaría hacer este fin de semana?", "¿Qué olor te pone de buen humor?", "¿A quién te gustaría enviarle un pensamiento bonito?", "¿Qué te ha hecho reír últimamente?", "¿Qué es algo que te gusta de ti?", "¿Qué has comido rico hoy?", "¿Qué canción te acompaña estos días?", "¿Qué has visto de bonito hoy al mirar afuera?", "¿Cuál es un pequeño sueño que tienes?", "¿Qué te ayuda a calmarte cuando lo necesitas?", "¿Cuál fue el momento más tranquilo de tu día?", "¿Cuál es un pequeño logro de esta semana?", "Si hoy fuera un animal, ¿cuál sería?", "¿Qué te ha salido un poco mejor hoy que ayer?", "¿Qué gesto amable has recibido?", "¿Qué gesto amable has tenido con alguien?", "¿Qué te encantaría aprender?", "¿Qué recuerdo te hace sonreír?", "¿Adónde te encantaría viajar?", "¿Qué te ha sorprendido hoy?", "¿Cuál es tu momento favorito del día?", "¿Qué te hace sentir a salvo?", "¿Cuál es tu bebida caliente favorita?", "¿Qué cosa bonita has hecho hoy por ti?", "¿Un libro, una película o un juego que te haya gustado?", "¿Qué te pone de buen humor por la mañana?"],
+  fr: ["Quel son aimes-tu ?", "Qu'est-ce qui a éveillé ta curiosité aujourd'hui ?", "Quel endroit te fait te sentir chez toi ?", "Qu'as-tu appris aujourd'hui, même tout petit ?", "De quelle couleur était ta journée ?", "Qu'est-ce qui t'a donné un peu d'énergie aujourd'hui ?", "Qu'aimerais-tu faire ce week-end ?", "Quelle odeur te met de bonne humeur ?", "À qui aimerais-tu envoyer une pensée douce ?", "Qu'est-ce qui t'a fait rire dernièrement ?", "Qu'est-ce que tu aimes chez toi ?", "Qu'as-tu mangé de bon aujourd'hui ?", "Quelle chanson t'accompagne ces jours-ci ?", "Qu'as-tu vu de joli dehors aujourd'hui ?", "Quel est un petit rêve que tu as ?", "Qu'est-ce qui t'aide à te calmer quand il le faut ?", "Quel a été le moment le plus calme de ta journée ?", "Quelle est une petite victoire de cette semaine ?", "Si aujourd'hui était un animal, lequel serait-ce ?", "Qu'est-ce qui s'est un peu mieux passé aujourd'hui qu'hier ?", "Quel geste gentil as-tu reçu ?", "Quel geste gentil as-tu fait pour quelqu'un ?", "Qu'aimerais-tu apprendre ?", "Quel souvenir te fait sourire ?", "Où aimerais-tu voyager ?", "Quelle surprise as-tu eue aujourd'hui ?", "Quel est ton moment préféré de la journée ?", "Qu'est-ce qui te fait te sentir en sécurité ?", "Quelle est ta boisson chaude préférée ?", "Quelle jolie chose as-tu faite pour toi aujourd'hui ?", "Un livre, un film ou un jeu qui t'a plu ?", "Qu'est-ce qui te met de bonne humeur le matin ?"],
+  pt: ["Qual é um som de que você gosta?", "O que despertou sua curiosidade hoje?", "Qual lugar faz você se sentir em casa?", "O que você aprendeu hoje, mesmo que pequeno?", "De que cor foi o seu dia?", "O que te deu um pouco de energia hoje?", "O que você gostaria de fazer neste fim de semana?", "Que cheiro deixa você de bom humor?", "Para quem você gostaria de mandar um pensamento carinhoso?", "O que te fez rir ultimamente?", "O que você gosta em você?", "O que você comeu de gostoso hoje?", "Que música tem te acompanhado esses dias?", "O que você viu de bonito lá fora hoje?", "Qual é um pequeno sonho seu?", "O que te ajuda a se acalmar quando precisa?", "Qual foi o momento mais tranquilo do seu dia?", "Qual foi uma pequena conquista desta semana?", "Se hoje fosse um animal, qual seria?", "O que deu um pouco mais certo hoje do que ontem?", "Que gesto gentil você recebeu?", "Que gesto gentil você fez por alguém?", "O que você adoraria aprender?", "Qual lembrança te faz sorrir?", "Para onde você adoraria viajar?", "O que te surpreendeu hoje?", "Qual é a sua parte favorita do dia?", "O que te traz uma sensação de segurança?", "Qual é a sua bebida quente favorita?", "Que coisa boa você fez por você hoje?", "Um livro, filme ou jogo que você curtiu?", "O que te deixa de bom humor de manhã?"],
+  ja: ["好きな音は？", "今日、気になったことは？", "ほっとできる場所はどこ？", "今日学んだ小さなことは？", "今日を色にたとえると？", "今日、元気をくれたものは？", "この週末にしたいことは？", "気分が上がる香りは？", "やさしい気持ちを届けたい人は？", "最近笑ったことは？", "自分の好きなところは？", "今日食べたおいしいものは？", "最近よく聴いている曲は？", "今日、外で見つけたすてきなものは？", "小さな夢は？", "落ち着きたいとき、助けになることは？", "今日いちばん穏やかだった時間は？", "今週の小さながんばりは？", "今日を動物にたとえると？", "昨日より少しうまくいったことは？", "受け取ったやさしさは？", "だれかにしたやさしいことは？", "学んでみたいことは？", "思い出すと笑顔になることは？", "行ってみたい場所は？", "今日おどろいたことは？", "一日のなかで好きな時間は？", "安心できるものは？", "好きなあたたかい飲み物は？", "今日、自分のためにしたいいことは？", "好きな本・映画・ゲームは？", "朝、気分が上がることは？"],
+  ko: ["좋아하는 소리는 무엇인가요?", "오늘 궁금했던 것은 무엇인가요?", "마음이 편안해지는 장소는 어디인가요?", "오늘 배운 작은 것은 무엇인가요?", "오늘 하루를 색으로 표현하면?", "오늘 힘이 되어 준 것은 무엇인가요?", "이번 주말에 하고 싶은 일은?", "기분이 좋아지는 향기는?", "따뜻한 마음을 전하고 싶은 사람은 누구인가요?", "최근에 웃었던 일은?", "나에게서 좋아하는 점은?", "오늘 먹은 맛있는 음식은?", "요즘 함께하는 노래는?", "오늘 밖에서 본 예쁜 것은?", "나의 작은 꿈은?", "마음을 진정시키는 데 도움이 되는 것은?", "오늘 가장 평온했던 순간은?", "이번 주의 작은 성취는?", "오늘이 동물이라면 어떤 동물일까요?", "어제보다 조금 더 잘된 일은?", "오늘 받은 친절은?", "누군가에게 베푼 친절은?", "배워 보고 싶은 것은?", "떠올리면 미소 짓게 되는 추억은?", "여행 가 보고 싶은 곳은?", "오늘 놀랐던 일은?", "하루 중 가장 좋아하는 시간은?", "안심이 되는 것은 무엇인가요?", "좋아하는 따뜻한 음료는?", "오늘 나를 위해 한 좋은 일은?", "재미있었던 책, 영화, 게임은?", "아침에 기분이 좋아지는 것은?"],
+  zh: ["你喜欢什么声音？", "今天有什么让你好奇？", "哪个地方让你有家的感觉？", "今天学到了什么小事？", "如果今天是一种颜色，会是什么颜色？", "今天什么给了你一点能量？", "这个周末你想做什么？", "什么气味让你心情变好？", "你想给谁送去一个温暖的念头？", "最近什么让你笑了？", "你喜欢自己的哪一点？", "今天吃了什么好吃的？", "这些天陪伴你的是哪首歌？", "今天在外面看到了什么美好的东西？", "你有什么小小的梦想？", "需要的时候，什么能帮你平静下来？", "今天最安静的时刻是什么时候？", "这周有什么小小的成就？", "如果今天是一种动物，会是什么？", "今天有什么比昨天做得好一点？", "你收到了什么善意？", "你为别人做了什么善意的事？", "你想学什么？", "什么回忆让你微笑？", "你想去哪里旅行？", "今天什么让你惊讶？", "一天中你最喜欢的时刻是？", "什么让你感到安心？", "你最喜欢的热饮是什么？", "今天你为自己做了什么好事？", "你喜欢的书、电影或游戏是什么？", "早上什么让你心情好？"],
+  zht: ["你喜歡什麼聲音？", "今天有什麼讓你好奇？", "哪個地方讓你有家的感覺？", "今天學到了什麼小事？", "如果今天是一種顏色，會是什麼顏色？", "今天什麼給了你一點能量？", "這個週末你想做什麼？", "什麼氣味讓你心情變好？", "你想給誰送去一個溫暖的念頭？", "最近什麼讓你笑了？", "你喜歡自己的哪一點？", "今天吃了什麼好吃的？", "這些天陪伴你的是哪首歌？", "今天在外面看到了什麼美好的東西？", "你有什麼小小的夢想？", "需要的時候，什麼能幫你平靜下來？", "今天最安靜的時刻是什麼時候？", "這週有什麼小小的成就？", "如果今天是一種動物，會是什麼？", "今天有什麼比昨天做得好一點？", "你收到了什麼善意？", "你為別人做了什麼善意的事？", "你想學什麼？", "什麼回憶讓你微笑？", "你想去哪裡旅行？", "今天什麼讓你驚訝？", "一天中你最喜歡的時刻是？", "什麼讓你感到安心？", "你最喜歡的熱飲是什麼？", "今天你為自己做了什麼好事？", "你喜歡的書、電影或遊戲是什麼？", "早上什麼讓你心情好？"],
+  ru: ["Какой звук тебе нравится?", "Что сегодня вызвало у тебя любопытство?", "Где тебе по-настоящему уютно?", "Что нового удалось узнать сегодня, пусть даже мелочь?", "Какого цвета был твой день?", "Что сегодня придало тебе сил?", "Чем хочется заняться в эти выходные?", "Какой запах поднимает тебе настроение?", "Кому хочется послать добрую мысль?", "Что недавно тебя рассмешило?", "Что тебе нравится в себе?", "Что вкусного было сегодня?", "Какая песня сопровождает тебя в эти дни?", "Что красивого сегодня было за окном?", "Какая у тебя есть маленькая мечта?", "Что помогает тебе успокоиться, когда нужно?", "Какой момент сегодня был самым спокойным?", "Какая маленькая победа была на этой неделе?", "Если бы сегодняшний день был животным, то каким?", "Что сегодня получилось чуть лучше, чем вчера?", "Какое доброе дело сделали для тебя?", "Какое доброе дело получилось сделать тебе?", "Чему хочется научиться?", "Какое воспоминание вызывает у тебя улыбку?", "Куда хочется поехать?", "Что тебя сегодня удивило?", "Какое время дня тебе нравится больше всего?", "Что даёт тебе чувство безопасности?", "Какой твой любимый тёплый напиток?", "Что приятного получилось сделать сегодня для себя?", "Какая книга, фильм или игра тебе понравились?", "Что поднимает тебе настроение по утрам?"],
+  pl: ["Jaki dźwięk lubisz?", "Co dziś wzbudziło twoją ciekawość?", "Gdzie czujesz się jak w domu?", "Co małego, ale nowego, przyniósł ci dzisiejszy dzień?", "Jakiego koloru był twój dzień?", "Co dziś dodało ci energii?", "Co chcesz robić w ten weekend?", "Jaki zapach poprawia ci humor?", "Komu chcesz wysłać miłą myśl?", "Co ostatnio cię rozśmieszyło?", "Co lubisz w sobie?", "Co pysznego było dziś do jedzenia?", "Jaka piosenka towarzyszy ci w tych dniach?", "Co ładnego było dziś widać za oknem?", "Jakie masz małe marzenie?", "Co pomaga ci się uspokoić, kiedy trzeba?", "Jaki był najspokojniejszy moment dnia?", "Jaki mały sukces przyniósł ten tydzień?", "Gdyby dzisiejszy dzień był zwierzęciem, to jakim?", "Co dziś poszło trochę lepiej niż wczoraj?", "Jaki miły gest cię dziś spotkał?", "Jaki miły gest możesz dziś komuś podarować?", "Czego chcesz się nauczyć?", "Jakie wspomnienie wywołuje twój uśmiech?", "Dokąd chcesz pojechać?", "Co cię dziś zaskoczyło?", "Jaka pora dnia jest twoją ulubioną?", "Co daje ci poczucie bezpieczeństwa?", "Jaki jest twój ulubiony ciepły napój?", "Co miłego dziś robisz dla siebie?", "Jaka książka, film albo gra ci się spodobały?", "Co poprawia ci humor rano?"],
+  nl: ["Welk geluid vind je fijn?", "Wat maakte je vandaag nieuwsgierig?", "Waar voel je je thuis?", "Wat heb je vandaag geleerd, al is het iets kleins?", "Welke kleur had je dag?", "Wat gaf je vandaag een beetje energie?", "Wat wil je dit weekend doen?", "Van welke geur krijg je een goed humeur?", "Naar wie zou je een lieve gedachte willen sturen?", "Waar moest je laatst om lachen?", "Wat vind je leuk aan jezelf?", "Wat lekkers heb je vandaag gegeten?", "Welk liedje gaat deze dagen met je mee?", "Wat moois zag je vandaag buiten?", "Wat is een kleine droom van je?", "Wat helpt je om rustig te worden als dat nodig is?", "Wat was het rustigste moment van je dag?", "Wat is een kleine overwinning van deze week?", "Als vandaag een dier was, welk dier zou het zijn?", "Wat ging vandaag een beetje beter dan gisteren?", "Welk lief gebaar heb je gekregen?", "Welk lief gebaar heb je voor iemand gedaan?", "Wat zou je graag willen leren?", "Van welke herinnering moet je glimlachen?", "Waar zou je graag naartoe reizen?", "Wat verraste je vandaag?", "Wat is je favoriete moment van de dag?", "Waardoor voel je je veilig?", "Wat is je favoriete warme drankje?", "Wat leuks heb je vandaag voor jezelf gedaan?", "Een boek, film of spel dat je leuk vond?", "Waar word je 's ochtends vrolijk van?"],
+  tr: ["Sevdiğin bir ses hangisi?", "Bugün seni ne meraklandırdı?", "Kendini evinde gibi hissettiğin yer neresi?", "Bugün küçük de olsa ne öğrendin?", "Günün bir renk olsaydı hangisi olurdu?", "Bugün sana biraz enerji veren ne oldu?", "Bu hafta sonu ne yapmak istersin?", "Hangi koku moralini yükseltir?", "Kime güzel bir düşünce göndermek isterdin?", "Son zamanlarda seni ne güldürdü?", "Kendinde sevdiğin bir şey ne?", "Bugün ne güzel bir şey yedin?", "Bu günlerde sana hangi şarkı eşlik ediyor?", "Bugün dışarıda ne güzel bir şey gördün?", "Küçük bir hayalin ne?", "Gerektiğinde sakinleşmene ne yardımcı olur?", "Bugünün en sakin anı hangisiydi?", "Bu haftanın küçük bir başarısı ne?", "Bugün bir hayvan olsaydı hangisi olurdu?", "Bugün dünden biraz daha iyi giden ne oldu?", "Sana yapılan nazik bir davranış neydi?", "Birine yaptığın nazik bir davranış neydi?", "Ne öğrenmeyi çok isterdin?", "Seni gülümseten bir anı hangisi?", "Nereye seyahat etmek isterdin?", "Bugün seni ne şaşırttı?", "Günün en sevdiğin kısmı hangisi?", "Kendini güvende hissettiren ne?", "En sevdiğin sıcak içecek ne?", "Bugün kendin için yaptığın güzel bir şey ne?", "Sevdiğin bir kitap, film ya da oyun hangisi?", "Sabahları moralini ne yükseltir?"]
+};
+Object.keys(V110_Q).forEach((l) => { if (T[l] && Array.isArray(T[l].questions) && T[l].questions.length < 20) T[l].questions = T[l].questions.concat(V110_Q[l]); });
+
+/* testi della pagina libera */
+const V110_DT = {
+  it: { t: "Il tuo diario di oggi", p: "Uno spazio tutto tuo: scrivi quello che vuoi.", ph: "Caro diario, oggi…", l: "Il tuo diario di oggi" },
+  en: { t: "Your diary today", p: "A space all yours: write whatever you like.", ph: "Dear diary, today…", l: "Your diary today" },
+  de: { t: "Dein Tagebuch für heute", p: "Ein Platz nur für dich: Schreib, was du möchtest.", ph: "Liebes Tagebuch, heute…", l: "Dein Tagebuch für heute" },
+  es: { t: "Tu diario de hoy", p: "Un espacio solo tuyo: escribe lo que quieras.", ph: "Querido diario, hoy…", l: "Tu diario de hoy" },
+  fr: { t: "Ton journal du jour", p: "Un espace rien qu'à toi : écris ce que tu veux.", ph: "Cher journal, aujourd'hui…", l: "Ton journal du jour" },
+  pt: { t: "Seu diário de hoje", p: "Um espaço só seu: escreva o que quiser.", ph: "Querido diário, hoje…", l: "Seu diário de hoje" },
+  ja: { t: "きょうの日記", p: "あなただけの場所。なんでも自由に書いてね。", ph: "日記へ。きょうは…", l: "きょうの日記" },
+  ko: { t: "오늘의 일기", p: "나만의 공간이에요. 쓰고 싶은 대로 써 보세요.", ph: "일기야, 오늘은…", l: "오늘의 일기" },
+  zh: { t: "今天的日记", p: "专属于你的空间：想写什么都可以。", ph: "亲爱的日记，今天……", l: "今天的日记" },
+  zht: { t: "今天的日記", p: "專屬於你的空間：想寫什麼都可以。", ph: "親愛的日記，今天……", l: "今天的日記" },
+  ru: { t: "Твой дневник за сегодня", p: "Место только для тебя: пиши что хочется.", ph: "Дорогой дневник, сегодня…", l: "Твой дневник за сегодня" },
+  pl: { t: "Twój dziennik na dziś", p: "Miejsce tylko dla ciebie: pisz, co chcesz.", ph: "Drogi pamiętniku, dziś…", l: "Twój dziennik na dziś" },
+  nl: { t: "Je dagboek van vandaag", p: "Een plekje helemaal voor jou: schrijf wat je wilt.", ph: "Lief dagboek, vandaag…", l: "Je dagboek van vandaag" },
+  tr: { t: "Bugünkü günlüğün", p: "Sadece sana ait bir alan: ne istersen yaz.", ph: "Sevgili günlük, bugün…", l: "Bugünkü günlüğün" }
+};
+const v110dt = () => V110_DT[S.lang] || V110_DT.en;
+
+/* le scene: [posa del tuo compagno, posa dell'amico]. Le pose nuove (palla, scrittura, tazza) si usano solo se ci sono. */
+const V110_DPOSE_NEW = typeof V110_DPOSE_READY !== "undefined" ? V110_DPOSE_READY : [];
+V110_DPOSE_NEW.forEach((p) => { if (!POSES3D.includes(p)) POSES3D.push(p); });
+const V110_SCENES = [["reading", "reading"], ["postcard", "wave"], ["love", "love"], ["wave", "gift"], ["ball", "ball"], ["writing", "tea"], ["tea", "reading"], ["writing", "writing"], ["reading", "tea"], ["gift", "love"]]
+  .filter((s) => s.every((p) => POSES3D.includes(p)));
+let v110Scene = null, v110SceneLast = -1;
+function v110PickScene() {
+  const pets = PETS3D.filter((p) => p !== (S.pet || "germo"));
+  let i = Math.floor(Math.random() * V110_SCENES.length); if (V110_SCENES.length > 1 && i === v110SceneLast) i = (i + 1) % V110_SCENES.length;
+  v110SceneLast = i; return { s: V110_SCENES[i], f: pets[Math.floor(Math.random() * pets.length)] };
+}
+function v110FreeCard() {
+  const t = L(); const w = v110dt(); if (!v110Scene) v110Scene = v110PickScene();
+  const sc = v110Scene;
+  return `<form class="card stack v110free" id="v110Free" data-scene="${esc(sc.s[0])}"><div class="v110fhd"><h2>${esc(w.t)}</h2><p class="small muted">${esc(w.p)}</p></div>
+  <div class="v110stage" aria-hidden="true"><span class="v110sm">${moment3d(sc.s[0], "v110sa")}</span><span class="v110sf">${moment3d(sc.s[1], "v110sb", sc.f)}</span></div>
+  <fieldset class="stack-s v110moods"><legend class="small muted">${esc(t.moodL)}</legend>
+  <div class="moods">${t.moods.map((m, i) => `<button type="button" class="mood" aria-pressed="${mood === i}" data-mood="${i}">${MOOD_FACE[i]}<span>${m}</span></button>`).join("")}</div></fieldset>
+  <div class="field"><label for="v110FreeTx" class="sr">${esc(w.l)}</label><textarea id="v110FreeTx" maxlength="800" rows="5" autocomplete="off" placeholder="${esc(w.ph)}"></textarea></div>
+  <button class="btn" type="submit">${esc(t.save)}</button><p class="note">${esc(t.privacy)}</p></form>`;
+}
+const _viewDiaryV110d = viewDiary;
+viewDiary = function () {
+  const h = _viewDiaryV110d(); if (!S.pet) return h;
+  try {
+    const tpl = document.createElement("template"); tpl.innerHTML = h;
+    const f = tpl.content.getElementById("diaryForm"); if (!f) return h;
+    f.classList.add("v110q");
+    const fs = f.querySelector("fieldset"); if (fs) fs.remove();
+    const note = f.querySelector(".note"); if (note) note.remove();
+    const fr = document.createElement("template"); fr.innerHTML = v110FreeCard();
+    f.after(fr.content);
+    return tpl.innerHTML;
+  } catch (e) { return h; }
+};
+/* uscendo dal Diario la scena si cambia: la prossima volta i compagni fanno un'altra cosa */
+let v110Draft = "";
+const _renderV110d = render;
+render = function (...a) {
+  if (tab !== "diary") v110Scene = null;
+  const r = _renderV110d.apply(this, a);
+  /* se la pagina si ridisegna mentre si scrive, il testo non si perde */
+  try { const x = document.getElementById("v110FreeTx"); if (x && !x.value && v110Draft) x.value = v110Draft; } catch (e) { /* niente */ }
+  return r;
+};
+document.addEventListener("input", (ev) => { if (ev.target && ev.target.id === "v110FreeTx") v110Draft = ev.target.value; });
+
+/* la pagina libera si salva come una voce del diario (senza domanda) */
+document.addEventListener("submit", (ev) => {
+  if (!ev.target || ev.target.id !== "v110Free") return;
+  ev.preventDefault(); ev.stopImmediatePropagation();
+  const t = L(); const i = document.getElementById("v110FreeTx"); const text = i ? i.value.trim().slice(0, 800) : "";
+  if (!text && mood == null) return;
+  let lv = 0; try { lv = crisisLevel(text); } catch (e) { lv = 0; }
+  S.diary.push({ day: dkey(), mood, text, free: 1 }); v110Draft = ""; if (i) i.value = "";
+  if (S.diary.length > 400) S.diary.shift();
+  mood = null; save(); SND.play("coin");
+  if (lv) setTimeout(() => { try { v26HelpSheet(lv); } catch (e) { /* niente */ } }, 900);
+  if (todayGoals().includes("journal") && !S.done.includes("journal")) { tab = "today"; render(); window.scrollTo(0, 0); completeGoal("journal"); toast(t.saved); return; }
+  render(); toast(t.saved);
+}, true);
 
 splash();
 render();

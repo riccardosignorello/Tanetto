@@ -124,15 +124,15 @@ Object.keys(T).forEach((l) => { const c = T[l] && T[l].credits; if (!Array.isArr
   c[i] = c[i].replace(/Fredoka(\s*\S{0,4}\s*)Figtree/, (m, conj) => `Fredoka, Figtree, Nunito, M PLUS Rounded 1c${conj}Jua`); });
 
 /* ---------- 6) "Zaino" al posto di "Energia": distintivo con lo zaino e una casella-oggetto per ogni obiettivo ---------- */
-const V110_PACK = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 7V5.5a3.5 3.5 0 0 1 7 0V7"/><path d="M5 10a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v9a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2Z"/><path d="M9 13.5h6v3.5H9Z"/></svg>';
+const V110_PACK = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6.5V5a3 3 0 0 1 6 0v1.5"/><path d="M5.5 11a4.5 4.5 0 0 1 4.5-4.5h4a4.5 4.5 0 0 1 4.5 4.5v8.5a1.5 1.5 0 0 1-1.5 1.5H7a1.5 1.5 0 0 1-1.5-1.5Z"/><path d="M5.5 12.5h13"/><path d="M8.5 21v-4.5a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1V21"/></svg>';
 const V110_ITEMS = [
   '<path d="M10 3h4v3l1.5 2v11a2 2 0 0 1-2 2h-3a2 2 0 0 1-2-2V8L10 6Z"/><path d="M8.5 12.5h7"/>',
   '<path d="M4 6l5-2 6 2 5-2v14l-5 2-6-2-5 2Z"/><path d="M9 4v14M15 6v14"/>',
   '<path d="M12 8c-3-2-7 0-7 4.5 0 4 3 7.5 5 7.5 1 0 1.4-.5 2-.5s1 .5 2 .5c2 0 5-3.5 5-7.5C19 8 15 6 12 8Z"/><path d="M12 8c0-2 1-3.5 3-4.5"/>',
-  '<path d="M4.5 15c0-4.6 3.4-7.8 7.5-7.8s7.5 3.2 7.5 7.8Z"/><path d="M2.5 15h19"/>',
+  '<path d="M2.5 16c0-1.3 4.3-2.4 9.5-2.4s9.5 1.1 9.5 2.4-4.3 2.6-9.5 2.6-9.5-1.3-9.5-2.6Z"/><path d="M7 14c.2-4.2 2.3-6.8 5-6.8s4.8 2.6 5 6.8"/><path d="M7.4 12.2c3 .9 6.2.9 9.2 0"/>',
   '<path d="M4 8h3l2-3h6l2 3h3v11H4Z"/><circle cx="12" cy="13" r="3.4"/>',
   '<circle cx="12" cy="12" r="8.5"/><path d="M15 9l-1.8 4.2L9 15l1.8-4.2Z"/>',
-  '<path d="M6 5h12v4H6Z"/><path d="M9 9v10l3-2 3 2V9"/>',
+  '<circle cx="7" cy="15.5" r="3.6"/><circle cx="17" cy="15.5" r="3.6"/><path d="M5 12.3 6.3 6.5h3.4l.6 5.8M19 12.3l-1.3-5.8h-3.4l-.6 5.8M10.3 11h3.4"/>',
   '<path d="M10 3h4M12 3v3M8 6h8l1 12H7Z"/><path d="M12 10v4"/>'
 ];
 function v110Pack() {

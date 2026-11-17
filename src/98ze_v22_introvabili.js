@@ -13,72 +13,72 @@
    ferme con "riduci movimento", con la modalita' calma e con la modalita' leggera). Cornice e etichetta loro. */
 const XV_IDS = ["x_crown", "x_cloak", "x_tree", "x_fountain", "x_galaxy", "x_aura"];
 const XV = {
-  it: { chip: "Introvabile", title: "Introvabili", intro: "Le cose più belle di tutto il negozio. Si comprano solo con i Tanì, risparmiando a lungo: sono il traguardo di tanti mesi di cura.",
+  it: { chip: "Introvabile", title: "Introvabili", intro: "Le cose più rare del negozio. Si comprano solo con i Tanì che guadagni con le tue abitudini.",
     have: (a, b) => `Hai ${a} di ${b} Tanì`, pace: (n) => (n < 60 ? `Al tuo ritmo di oggi: circa ${n} giorni` : `Al tuo ritmo di oggi: circa ${Math.round(n / 30.4)} mesi`), owned: (n, m) => `Ne hai ${n} su ${m}`, plusNo: "Plus non le sconta: valgono lo stesso per tutti.",
     wishSet: "Fissa come desiderio", wishIs: "Il tuo desiderio", wishL: "Il tuo desiderio: ", mile: (p, n) => `Sei al ${p}% della strada verso ${n}!`, back: (n) => (n === 1 ? "Il tuo desiderio si allontana di circa 1 giorno" : `Il tuo desiderio si allontana di circa ${n} giorni`),
     paidOnly: "I Tanì dei pacchetti valgono per tutto il negozio, tranne gli Introvabili: questi si comprano solo con i Tanì guadagnati prendendoti cura di te.", paidBlock: "Gli Introvabili si comprano solo con i Tanì guadagnati prendendoti cura di te.",
     items: { x_crown: "Corona dell'aurora", x_cloak: "Mantello della cometa", x_tree: "Albero dei desideri", x_fountain: "Fontana di luna", x_galaxy: "Galassia", x_aura: "Aura di stelle" } },
-  en: { chip: "Elusive", title: "Elusive treasures", intro: "The most beautiful things in the whole shop. You can only get them with Tanì, saving for a long time: they crown many months of care.",
+  en: { chip: "Elusive", title: "Elusive treasures", intro: "The rarest things in the shop. You can only get them with the Tanì you earn from your habits.",
     have: (a, b) => `You have ${a} of ${b} Tanì`, pace: (n) => (n < 60 ? `At today's pace: about ${n} days` : `At today's pace: about ${Math.round(n / 30.4)} months`), owned: (n, m) => `You own ${n} of ${m}`, plusNo: "Plus gives no discount: they cost the same for everyone.",
     wishSet: "Make it my wish", wishIs: "Your wish", wishL: "Your wish: ", mile: (p, n) => `You are ${p}% of the way to the ${n}!`, back: (n) => (n === 1 ? "Your wish moves back by about 1 day" : `Your wish moves back by about ${n} days`),
     paidOnly: "Tanì from packs work for the whole shop except the Elusive treasures: those are bought only with Tanì you earn by taking care of yourself.", paidBlock: "Elusive treasures are bought only with the Tanì you earn by taking care of yourself.",
     items: { x_crown: "Aurora crown", x_cloak: "Comet cloak", x_tree: "Wishing tree", x_fountain: "Moon fountain", x_galaxy: "Galaxy", x_aura: "Starlight aura" } },
-  de: { chip: "Unikat", title: "Unauffindbare Schätze", intro: "Die schönsten Dinge im ganzen Laden. Es gibt sie nur für Tanì, wenn du lange sparst: Sie krönen viele Monate voller Fürsorge.",
+  de: { chip: "Unikat", title: "Unauffindbare Schätze", intro: "Die seltensten Dinge im Laden. Es gibt sie nur für Tanì, die du mit deinen Gewohnheiten verdienst.",
     have: (a, b) => `Du hast ${a} von ${b} Tanì`, pace: (n) => (n < 60 ? `In deinem heutigen Tempo: etwa ${n} Tage` : `In deinem heutigen Tempo: etwa ${Math.round(n / 30.4)} Monate`), owned: (n, m) => `Du hast ${n} von ${m}`, plusNo: "Plus gibt keinen Rabatt: Sie kosten für alle gleich viel.",
     wishSet: "Als Wunsch festlegen", wishIs: "Dein Wunsch", wishL: "Dein Wunsch: ", mile: (p, n) => `Du hast ${p} % des Weges zu ${n} geschafft!`, back: (n) => (n === 1 ? "Dein Wunsch rückt etwa 1 Tag weiter weg" : `Dein Wunsch rückt etwa ${n} Tage weiter weg`),
     paidOnly: "Tanì aus Paketen gelten im ganzen Laden außer für die unauffindbaren Schätze: Die gibt es nur für Tanì, die du verdienst, indem du gut für dich sorgst.", paidBlock: "Unauffindbare Schätze gibt es nur für Tanì, die du verdienst, indem du gut für dich sorgst.",
     items: { x_crown: "Polarlicht-Krone", x_cloak: "Kometenumhang", x_tree: "Wunschbaum", x_fountain: "Mondbrunnen", x_galaxy: "Galaxie", x_aura: "Sternenaura" } },
-  es: { chip: "Inencontrable", title: "Inencontrables", intro: "Las cosas más bonitas de toda la tienda. Solo se consiguen con Tanì, ahorrando mucho tiempo: son la corona de muchos meses de cuidado.",
+  es: { chip: "Inencontrable", title: "Inencontrables", intro: "Las cosas más raras de la tienda. Solo se consiguen con los Tanì que ganas con tus hábitos.",
     have: (a, b) => `Tienes ${a} de ${b} Tanì`, pace: (n) => (n < 60 ? `A tu ritmo de hoy: unos ${n} días` : `A tu ritmo de hoy: unos ${Math.round(n / 30.4)} meses`), owned: (n, m) => `Tienes ${n} de ${m}`, plusNo: "Plus no les hace descuento: cuestan lo mismo para todos.",
     wishSet: "Elegir como deseo", wishIs: "Tu deseo", wishL: "Tu deseo: ", mile: (p, n) => `¡Llevas el ${p} % del camino hacia ${n}!`, back: (n) => (n === 1 ? "Tu deseo se aleja alrededor de 1 día" : `Tu deseo se aleja alrededor de ${n} días`),
     paidOnly: "Los Tanì de los paquetes sirven para toda la tienda menos para los Inencontrables: esos solo se compran con los Tanì que ganas cuidándote.", paidBlock: "Los Inencontrables solo se compran con los Tanì que ganas cuidándote.",
     items: { x_crown: "Corona de aurora", x_cloak: "Capa del cometa", x_tree: "Árbol de los deseos", x_fountain: "Fuente de la luna", x_galaxy: "Galaxia", x_aura: "Aura de estrellas" } },
-  fr: { chip: "Introuvable", title: "Introuvables", intro: "Les plus belles choses de toute la boutique. On ne les obtient qu'avec des Tanì, en économisant longtemps : elles couronnent de longs mois de soin.",
+  fr: { chip: "Introuvable", title: "Introuvables", intro: "Les choses les plus rares de la boutique. On ne les obtient qu'avec les Tanì gagnés grâce à tes habitudes.",
     have: (a, b) => `Tu as ${a} sur ${b} Tanì`, pace: (n) => (n < 60 ? `À ton rythme d'aujourd'hui : environ ${n} jours` : `À ton rythme d'aujourd'hui : environ ${Math.round(n / 30.4)} mois`), owned: (n, m) => `Tu en as ${n} sur ${m}`, plusNo: "Plus ne fait aucune remise : elles coûtent pareil pour tout le monde.",
     wishSet: "En faire mon vœu", wishIs: "Ton vœu", wishL: "Ton vœu : ", mile: (p, n) => `Tu as fait ${p} % du chemin vers ${n} !`, back: (n) => (n === 1 ? "Ton vœu s'éloigne d'environ 1 jour" : `Ton vœu s'éloigne d'environ ${n} jours`),
     paidOnly: "Les Tanì des packs valent pour toute la boutique sauf les Introuvables : ceux-là s'achètent seulement avec les Tanì gagnés en prenant soin de toi.", paidBlock: "Les Introuvables s'achètent seulement avec les Tanì gagnés en prenant soin de toi.",
     items: { x_crown: "Couronne d'aurore", x_cloak: "Cape de la comète", x_tree: "Arbre à vœux", x_fountain: "Fontaine de lune", x_galaxy: "Galaxie", x_aura: "Aura d'étoiles" } },
-  pt: { chip: "Raríssimo", title: "Raríssimos", intro: "As coisas mais bonitas de toda a loja. Só se compram com Tanì, juntando por muito tempo: são a coroa de muitos meses de cuidado.",
+  pt: { chip: "Raríssimo", title: "Raríssimos", intro: "As coisas mais raras da loja. Só se compram com os Tanì que você ganha com seus hábitos.",
     have: (a, b) => `Você tem ${a} de ${b} Tanì`, pace: (n) => (n < 60 ? `No seu ritmo de hoje: cerca de ${n} dias` : `No seu ritmo de hoje: cerca de ${Math.round(n / 30.4)} meses`), owned: (n, m) => `Você tem ${n} de ${m}`, plusNo: "O Plus não dá desconto: custam o mesmo para todo mundo.",
     wishSet: "Escolher como desejo", wishIs: "Seu desejo", wishL: "Seu desejo: ", mile: (p, n) => `Você já fez ${p}% do caminho até ${n}!`, back: (n) => (n === 1 ? "Seu desejo fica cerca de 1 dia mais longe" : `Seu desejo fica cerca de ${n} dias mais longe`),
     paidOnly: "Os Tanì dos pacotes valem para toda a loja, menos os Raríssimos: esses só se compram com os Tanì que você ganha cuidando de si.", paidBlock: "Os Raríssimos só se compram com os Tanì que você ganha cuidando de si.",
     items: { x_crown: "Coroa da aurora", x_cloak: "Capa do cometa", x_tree: "Árvore dos desejos", x_fountain: "Fonte da lua", x_galaxy: "Galáxia", x_aura: "Aura de estrelas" } },
-  ja: { chip: "幻", title: "幻のアイテム", intro: "ショップでいちばん美しいものたち。Tanìだけで、長い時間をかけて貯めて手に入れます。何か月ものセルフケアのごほうびです。",
+  ja: { chip: "幻", title: "幻のアイテム", intro: "ショップでいちばん珍しいものたち。習慣で集めたTanìだけで手に入ります。",
     have: (a, b) => `${b} Tanìのうち ${a} Tanì`, pace: (n) => (n < 60 ? `今日のペースで：約${n}日` : `今日のペースで：約${Math.round(n / 30.4)}か月`), owned: (n, m) => `${m}個中 ${n}個を持っています`, plusNo: "Plusでも割引はありません。みんな同じ値段です。",
     wishSet: "願いにする", wishIs: "あなたの願い", wishL: "あなたの願い：", mile: (p, n) => `「${n}」まで${p}%のところまで来ました！`, back: (n) => `願いが約${n}日遠くなります`,
     paidOnly: "パックのTanìはショップ全体で使えますが、幻のアイテムだけは使えません。幻のアイテムは、セルフケアでためたTanìだけで買えます。", paidBlock: "幻のアイテムは、セルフケアでためたTanìだけで買えます。",
     items: { x_crown: "オーロラの王冠", x_cloak: "彗星のマント", x_tree: "願いの木", x_fountain: "月の噴水", x_galaxy: "銀河", x_aura: "星のオーラ" } },
-  ko: { chip: "환상", title: "환상의 보물", intro: "상점에서 가장 아름다운 것들이에요. Tanì로만 살 수 있고, 오래 모아야 해요. 여러 달 동안 나를 돌본 끝에 받는 선물이에요.",
+  ko: { chip: "환상", title: "환상의 보물", intro: "상점에서 가장 귀한 것들이에요. 습관으로 모은 Tanì로만 살 수 있어요.",
     have: (a, b) => `Tanì ${b}개 중 ${a}개`, pace: (n) => (n < 60 ? `오늘 속도라면: 약 ${n}일` : `오늘 속도라면: 약 ${Math.round(n / 30.4)}개월`), owned: (n, m) => `${m}개 중 ${n}개 보유`, plusNo: "Plus도 할인은 없어요. 모두에게 같은 가격이에요.",
     wishSet: "소원으로 정하기", wishIs: "나의 소원", wishL: "나의 소원: ", mile: (p, n) => `${n}까지 ${p}% 왔어요!`, back: (n) => `소원이 약 ${n}일 멀어져요`,
     paidOnly: "패키지로 산 Tanì는 상점 어디서나 쓸 수 있지만, 환상의 보물에는 쓸 수 없어요. 환상의 보물은 나를 돌보며 모은 Tanì로만 살 수 있어요.", paidBlock: "환상의 보물은 나를 돌보며 모은 Tanì로만 살 수 있어요.",
     items: { x_crown: "오로라 왕관", x_cloak: "혜성 망토", x_tree: "소원 나무", x_fountain: "달의 분수", x_galaxy: "은하수", x_aura: "별빛 오라" } },
-  zh: { chip: "稀世珍品", title: "稀世珍品", intro: "整个商店里最美的东西。只能用 Tanì 购买，需要攒很久：它们是许多个月好好照顾自己的见证。",
+  zh: { chip: "稀世珍品", title: "稀世珍品", intro: "商店里最稀有的东西。只能用你通过好习惯赚到的 Tanì 购买。",
     have: (a, b) => `已有 ${a} / ${b} Tanì`, pace: (n) => (n < 60 ? `按你今天的节奏：大约 ${n} 天` : `按你今天的节奏：大约 ${Math.round(n / 30.4)} 个月`), owned: (n, m) => `已拥有 ${n} / ${m}`, plusNo: "Plus 也不打折：对所有人都是同样的价格。",
     wishSet: "设为心愿", wishIs: "你的心愿", wishL: "你的心愿：", mile: (p, n) => `离「${n}」已经走了 ${p}%！`, back: (n) => `你的心愿会推迟大约 ${n} 天`,
     paidOnly: "礼包里的 Tanì 可以在整个商店使用，但不能用来买稀世珍品：稀世珍品只能用照顾自己赚到的 Tanì 购买。", paidBlock: "稀世珍品只能用照顾自己赚到的 Tanì 购买。",
     items: { x_crown: "极光王冠", x_cloak: "彗星斗篷", x_tree: "许愿树", x_fountain: "月光喷泉", x_galaxy: "银河", x_aura: "星光光环" } },
-  zht: { chip: "稀世珍品", title: "稀世珍品", intro: "整個商店裡最美的東西。只能用 Tanì 購買，需要存很久：它們是許多個月好好照顧自己的見證。",
+  zht: { chip: "稀世珍品", title: "稀世珍品", intro: "商店裡最稀有的東西。只能用你透過好習慣賺到的 Tanì 購買。",
     have: (a, b) => `已有 ${a} / ${b} Tanì`, pace: (n) => (n < 60 ? `照你今天的節奏：大約 ${n} 天` : `照你今天的節奏：大約 ${Math.round(n / 30.4)} 個月`), owned: (n, m) => `已擁有 ${n} / ${m}`, plusNo: "Plus 也不打折：對所有人都是同樣的價格。",
     wishSet: "設為心願", wishIs: "你的心願", wishL: "你的心願：", mile: (p, n) => `離「${n}」已經走了 ${p}%！`, back: (n) => `你的心願會延後大約 ${n} 天`,
     paidOnly: "禮包裡的 Tanì 可以在整個商店使用，但不能用來買稀世珍品：稀世珍品只能用照顧自己賺到的 Tanì 購買。", paidBlock: "稀世珍品只能用照顧自己賺到的 Tanì 購買。",
     items: { x_crown: "極光王冠", x_cloak: "彗星斗篷", x_tree: "許願樹", x_fountain: "月光噴泉", x_galaxy: "銀河", x_aura: "星光光環" } },
-  ru: { chip: "Редчайший", title: "Редчайшие вещи", intro: "Самые красивые вещи во всём магазине. Их можно получить только за Tanì, если долго копить: это награда за много месяцев заботы о себе.",
+  ru: { chip: "Редчайший", title: "Редчайшие вещи", intro: "Самые редкие вещи в магазине. Их можно получить только за Tanì, заработанные полезными привычками.",
     have: (a, b) => `У тебя ${a} из ${b} Tanì`, pace: (n) => (n < 60 ? `В сегодняшнем темпе: примерно ${n} дн.` : `В сегодняшнем темпе: примерно ${Math.round(n / 30.4)} мес.`), owned: (n, m) => `У тебя ${n} из ${m}`, plusNo: "Plus не даёт скидку: для всех цена одинаковая.",
     wishSet: "Сделать мечтой", wishIs: "Твоя мечта", wishL: "Твоя мечта: ", mile: (p, n) => `Пройдено ${p}% пути к вещи «${n}»!`, back: (n) => `Твоя мечта отдалится примерно на ${n} дн.`,
     paidOnly: "Tanì из наборов подходят для всего магазина, кроме редчайших вещей: их можно купить только за Tanì, заработанные заботой о себе.", paidBlock: "Редчайшие вещи можно купить только за Tanì, заработанные заботой о себе.",
     items: { x_crown: "Корона северного сияния", x_cloak: "Плащ кометы", x_tree: "Дерево желаний", x_fountain: "Лунный фонтан", x_galaxy: "Галактика", x_aura: "Звёздная аура" } },
-  pl: { chip: "Unikatowy", title: "Unikaty", intro: "Najpiękniejsze rzeczy w całym sklepie. Można je zdobyć tylko za Tanì, długo oszczędzając: to ukoronowanie wielu miesięcy dbania o siebie.",
+  pl: { chip: "Unikatowy", title: "Unikaty", intro: "Najrzadsze rzeczy w sklepie. Można je zdobyć tylko za Tanì zarobione dzięki twoim nawykom.",
     have: (a, b) => `Masz ${a} z ${b} Tanì`, pace: (n) => (n < 60 ? `W dzisiejszym tempie: około ${n} dni` : `W dzisiejszym tempie: około ${Math.round(n / 30.4)} mies.`), owned: (n, m) => `Masz ${n} z ${m}`, plusNo: "Plus nie daje zniżki: dla wszystkich cena jest taka sama.",
     wishSet: "Ustaw jako marzenie", wishIs: "Twoje marzenie", wishL: "Twoje marzenie: ", mile: (p, n) => `Masz już ${p}% drogi do: ${n}!`, back: (n) => (n === 1 ? "Twoje marzenie oddali się o około 1 dzień" : `Twoje marzenie oddali się o około ${n} dni`),
     paidOnly: "Tanì z pakietów działają w całym sklepie oprócz Unikatów: te kupisz tylko za Tanì zdobyte dzięki dbaniu o siebie.", paidBlock: "Unikaty kupisz tylko za Tanì zdobyte dzięki dbaniu o siebie.",
     items: { x_crown: "Korona zorzy", x_cloak: "Płaszcz komety", x_tree: "Drzewo życzeń", x_fountain: "Księżycowa fontanna", x_galaxy: "Galaktyka", x_aura: "Gwiezdna aura" } },
-  nl: { chip: "Onvindbaar", title: "Onvindbare schatten", intro: "De mooiste dingen van de hele winkel. Je krijgt ze alleen met Tanì, door lang te sparen: ze bekronen vele maanden zorg voor jezelf.",
+  nl: { chip: "Onvindbaar", title: "Onvindbare schatten", intro: "De zeldzaamste dingen van de winkel. Je krijgt ze alleen met Tanì die je met je gewoontes verdient.",
     have: (a, b) => `Je hebt ${a} van ${b} Tanì`, pace: (n) => (n < 60 ? `In je tempo van vandaag: ongeveer ${n} dagen` : `In je tempo van vandaag: ongeveer ${Math.round(n / 30.4)} maanden`), owned: (n, m) => `Je hebt er ${n} van ${m}`, plusNo: "Plus geeft geen korting: ze kosten voor iedereen hetzelfde.",
     wishSet: "Maak het mijn wens", wishIs: "Jouw wens", wishL: "Jouw wens: ", mile: (p, n) => `Je bent op ${p}% van de weg naar ${n}!`, back: (n) => (n === 1 ? "Je wens schuift ongeveer 1 dag op" : `Je wens schuift ongeveer ${n} dagen op`),
     paidOnly: "Tanì uit pakketten gelden in de hele winkel behalve voor de onvindbare schatten: die koop je alleen met Tanì die je verdient door goed voor jezelf te zorgen.", paidBlock: "Onvindbare schatten koop je alleen met Tanì die je verdient door goed voor jezelf te zorgen.",
     items: { x_crown: "Noorderlichtkroon", x_cloak: "Kometencape", x_tree: "Wensboom", x_fountain: "Maanfontein", x_galaxy: "Melkweg", x_aura: "Sterrenaura" } },
-  tr: { chip: "Bulunmaz", title: "Bulunmaz hazineler", intro: "Tüm dükkândaki en güzel şeyler. Yalnızca Tanì ile, uzun süre biriktirerek alınır: aylarca kendine iyi bakmanın tacıdır.",
+  tr: { chip: "Bulunmaz", title: "Bulunmaz hazineler", intro: "Dükkândaki en nadir şeyler. Yalnızca alışkanlıklarınla kazandığın Tanì ile alınır.",
     have: (a, b) => `${a} / ${b} Tanì sende`, pace: (n) => (n < 60 ? `Bugünkü hızınla: yaklaşık ${n} gün` : `Bugünkü hızınla: yaklaşık ${Math.round(n / 30.4)} ay`), owned: (n, m) => `${m} taneden ${n} tanesi sende`, plusNo: "Plus indirim yapmaz: herkes için fiyat aynı.",
     wishSet: "Dileğim yap", wishIs: "Dileğin", wishL: "Dileğin: ", mile: (p, n) => `${n} yolunun %${p} kadarını geldin!`, back: (n) => `Dileğin yaklaşık ${n} gün uzaklaşır`,
     paidOnly: "Paketlerden gelen Tanì dükkânın her yerinde geçer, bulunmaz hazineler hariç: onlar yalnızca kendine bakarak kazandığın Tanì ile alınır.", paidBlock: "Bulunmaz hazineler yalnızca kendine bakarak kazandığın Tanì ile alınır.",
@@ -276,7 +276,7 @@ function xvShowcase() {
   if (next) {
     const have = Math.min(S.seeds, next.price), pct = Math.max(0, Math.min(100, (have / next.price) * 100));
     const nf = (n) => n.toLocaleString(loc(), NUMG);
-    prog = `<div class="xvprog"><div class="xvbar" role="progressbar" aria-valuemin="0" aria-valuemax="${next.price}" aria-valuenow="${have}" aria-label="${esc(x.have(nf(have), nf(next.price)))}"><i style="width:${pct.toFixed(1)}%"></i></div><p class="small"><b>${esc(x.have(nf(have), nf(next.price)))}</b>${S.seeds < next.price ? ` · ${esc(xvPace(next.price - S.seeds))}` : ""}</p></div>`;
+    prog = `<div class="xvprog"><div class="xvbar" role="progressbar" aria-valuemin="0" aria-valuemax="${next.price}" aria-valuenow="${have}" aria-label="${esc(x.have(nf(have), nf(next.price)))}"><i style="width:${pct.toFixed(1)}%"></i></div><p class="small"><b>${esc(x.have(nf(have), nf(next.price)))}</b></p></div>`;
   }
   return `<section class="xvshow" aria-labelledby="xvT"><div class="xvhd"><span class="xvbadge" aria-hidden="true">${xStarIcon()}</span><div><h2 id="xvT">${esc(x.title)}</h2><p class="small">${esc(x.intro)}</p></div></div>${prog}<div class="xvrow">${items.map(shopItem).join("")}</div><p class="small xvfoot">${own ? `${esc(x.owned(own, items.length))} · ` : ""}${esc(x.plusNo)}</p></section>`;
 }
@@ -287,7 +287,9 @@ viewHome = function () {
   try {
     const i = h.indexOf('<div class="tabsx" role="tablist">'); if (i < 0) return h;
     const e = h.indexOf("</div>", i); if (e < 0) return h;
-    return h.slice(0, e + 6) + xvShowcase() + h.slice(e + 6);
+    /* 1.0.10: gli Introvabili in fondo al negozio, non in vista per primi (richiesta del proprietario, 17/11/2026) */
+    const x = xvShowcase(); const j = h.lastIndexOf("</div>");
+    return j > e ? h.slice(0, j) + x + h.slice(j) : h.slice(0, e + 6) + x + h.slice(e + 6);
   } catch (err) { return h; }
 };
 if (!xvOn()) document.documentElement.classList.add("xvstill");
@@ -394,7 +396,7 @@ xvShowcase = function () {
   const nf = (n) => n.toLocaleString(loc(), NUMG); let prog = "";
   if (next) {
     const use = next.xv ? xvUsable() : S.seeds, have = Math.min(use, next.price), pct = xvPct(next);
-    prog = `<div class="xvprog"><p class="small xvwl">${xStarIcon()}<span>${esc(x.wishL)}<b>${esc((L().items || {})[next.id] || "")}</b></span></p><div class="xvbar" role="progressbar" aria-valuemin="0" aria-valuemax="${next.price}" aria-valuenow="${have}" aria-label="${esc(x.have(nf(have), nf(next.price)))}"><i style="width:${pct.toFixed(1)}%"></i>${[25, 50, 75].map((p) => `<span class="xvm${pct >= p ? " on" : ""}" style="left:${p}%"></span>`).join("")}</div><p class="small"><b>${esc(x.have(nf(have), nf(next.price)))}</b>${use < next.price ? ` · ${esc(xvPace(next.price - use))}` : ""}</p></div>`;
+    prog = `<div class="xvprog"><p class="small xvwl">${xStarIcon()}<span>${esc(x.wishL)}<b>${esc((L().items || {})[next.id] || "")}</b></span></p><div class="xvbar" role="progressbar" aria-valuemin="0" aria-valuemax="${next.price}" aria-valuenow="${have}" aria-label="${esc(x.have(nf(have), nf(next.price)))}"><i style="width:${pct.toFixed(1)}%"></i>${[25, 50, 75].map((p) => `<span class="xvm${pct >= p ? " on" : ""}" style="left:${p}%"></span>`).join("")}</div><p class="small"><b>${esc(x.have(nf(have), nf(next.price)))}</b></p></div>`;
   }
   const paid = xvPaidLeft() > 0 ? `<p class="small xvpaid">${esc(x.paidOnly)}</p>` : "";
   return `<section class="xvshow" aria-labelledby="xvT"><div class="xvhd"><span class="xvbadge" aria-hidden="true">${xStarIcon()}</span><div><h2 id="xvT">${esc(x.title)}</h2><p class="small">${esc(x.intro)}</p></div></div>${prog}${paid}<div class="xvrow">${items.map(shopItem).join("")}</div><p class="small xvfoot">${own ? `${esc(x.owned(own, items.length))} · ` : ""}${esc(x.plusNo)}</p></section>`;

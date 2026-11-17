@@ -188,7 +188,7 @@ if (typeof openChat === "function") {
   const _a = openChat;
   openChat = function (...a) { const r = _a.apply(this, a); try { const n = layer.querySelector(".chatbox .chnote"); if (n && !layer.querySelector("#v110ChatHelp")) n.insertAdjacentHTML("afterend", v110HelpBtn("v110ChatHelp")); } catch (e) { /* niente */ } return r; };
 }
-try { new MutationObserver(() => { try { const f = document.getElementById("diaryForm"); if (f && !document.getElementById("v110DiaryHelp")) f.insertAdjacentHTML("afterend", v110HelpBtn("v110DiaryHelp")); } catch (e) { /* niente */ } }).observe(document.getElementById("app"), { childList: true, subtree: true }); } catch (e) { /* niente */ }
+try { new MutationObserver(() => { try { const f = document.getElementById("v110Free") || document.getElementById("diaryForm"); if (f && !document.getElementById("v110DiaryHelp")) f.insertAdjacentHTML("afterend", v110HelpBtn("v110DiaryHelp")); } catch (e) { /* niente */ } }).observe(document.getElementById("app"), { childList: true, subtree: true }); } catch (e) { /* niente */ }
 document.addEventListener("click", (ev) => {
   const b = ev.target.closest && ev.target.closest("#v110ChatHelp, #v110DiaryHelp"); if (!b) return; ev.stopImmediatePropagation();
   try { if (b.id === "v110ChatHelp") { const box = layer.querySelector(".chatbox .v26sos"); if (box) { box.scrollIntoView({ block: "nearest" }); return; } } v26HelpSheet(1); } catch (e) { /* niente */ }
