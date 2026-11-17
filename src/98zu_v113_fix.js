@@ -6,7 +6,7 @@
       a) una riga, centrata, carattere 12,5 px (o un poco piu' piccolo, non sotto 11 px);
       b) due righe, centrate (larghezza uguale a destra e a sinistra del centro della casella);
       c) solo se non c'e' altro modo: la scritta resta dentro la scheda anche se non e' piu' esattamente centrata.
-   2) ornamento della stagione subito dopo l'ultima parola del saluto (o del nome), mai da solo su una riga (v113Greet + 11zm).
+   2) (1.0.11) icona scelta subito dopo l'ultima parola del saluto (o del nome), mai da sola su una riga (v113Greet + 98zv + 11zm).
    3) Stagione, colonna "Fila d'oro": senza Plus, toccare una ricompensa d'oro (bloccata o gia' raggiunta) apre Tanetto Plus,
       come gia' faceva solo la piccola corona. Con Plus resta tutto com'era (pulsante "Prendi").
       Aspetto (11zm): oro caldo e pieno (prima sbiadito), corona in una pillola dorata con "Con Plus", le ricompense gia'
@@ -60,15 +60,16 @@ function v113ScaleFit(sc) {
   sc.style.minHeight = Math.ceil(mh) + "px"; sc.style.height = Math.ceil(mh) + "px";
 }
 function v113ScalesFit() { try { document.querySelectorAll("#app .nven .nvscale, #app .tr20scale").forEach(v113ScaleFit); } catch (e) { /* niente */ } }
-/* 2) ornamento della stagione nel saluto: un elemento vuoto (aria-hidden) dentro l'ultima parola, che non va a capo.
+/* 2) 1.0.11: dentro l'ultima parola del saluto, che non va a capo, c'e' l'icona scelta da chi usa l'app (98zv, v111IconEl);
+   l'ornamento della stagione non c'e' piu' (decisione del proprietario, 17/11/2026).
    Parola lunga senza spazi (nomi lunghi, giapponese, cinese): si lega solo agli ultimi 4 caratteri, cosi' ci sta sempre. */
 function v113Greet() {
   try {
-    const gw = document.querySelector("#app h1.greet.g19 .gw"); if (!gw || gw.querySelector(".gwo")) return;
+    const gw = document.querySelector("#app h1.greet.g19 .gw"); if (!gw || gw.querySelector(".gwi")) return;
     const txt = gw.textContent.trimEnd(); const m = /(\S+)$/.exec(txt); if (!m) return;
     const chars = Array.from(m[1]); const tail = chars.slice(-4).join(""); const head = txt.slice(0, txt.length - tail.length);
     gw.textContent = head; const w = document.createElement("span"); w.className = "gwl"; w.textContent = tail;
-    const o = document.createElement("span"); o.className = "gwo"; o.setAttribute("aria-hidden", "true"); w.appendChild(o); gw.appendChild(w);
+    w.appendChild(v111IconEl()); gw.appendChild(w);
   } catch (e) { /* niente */ }
 }
 const _renderV113 = render;

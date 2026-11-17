@@ -70,7 +70,7 @@ async def main(b):
         ctx, pg = await T.page(b, T.base_state("en", day=f"{date[0]}-{date[1]:02d}-{date[2]:02d}"), age="adult", date=date)
         await T.close_layer(pg); await T.ev(pg, "tab = 'trips'; render(); 1"); await pg.wait_for_timeout(400)
         bi = await T.ev(pg, "(() => { const h = document.querySelector('#app h1'); return h ? getComputedStyle(h, '::after').backgroundImage : ''; })()")
-        T.check(f"M-39 {cls}: ornamento della stagione anche nella scheda Viaggi", "svg" in bi, bi[:80])
+        T.check(f"M-39 {cls}: 1.0.11, nessun simbolo della stagione dopo il titolo della scheda Viaggi (decisione del proprietario)", "svg" not in bi, bi[:80])
         await ctx.close()
     # --- testi: plurali, coreano, francese, chi sei, titolo, viaggio
     ctx, pg = await T.page(b, T.base_state("en", pet="ondi"), age="adult")

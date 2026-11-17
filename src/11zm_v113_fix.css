@@ -1,16 +1,7 @@
 /* =================== 1.0.10 (113): correzioni richieste dal proprietario il 17/11/2026 =================== */
-/* Ornamento della stagione (11zg, M-39): nel saluto di Casa l'h1 e' una colonna (data sopra, saluto sotto) e l'ornamento
-   finiva da solo su una riga in basso. Ora e' un piccolo elemento (98zu) dentro l'ultima parola del saluto (o del nome),
-   che non va mai a capo: sta sempre accanto a quella parola, centrato in altezza sul testo, anche con nomi lunghi. */
-:root[data-xmas] #app h1.greet.g19::after, :root.sea-stars #app h1.greet.g19::after, :root.sea-kites #app h1.greet.g19::after { content: none; display: none; }
+/* Saluto di Casa: l'ultima parola (o le ultime 4 lettere) e l'icona scelta (98zv) stanno insieme e non vanno a capo.
+   1.0.11: l'ornamento della stagione qui (e dopo i titoli, 11zg) e' stato tolto (decisione del proprietario, 17/11/2026). */
 #app h1.greet.g19 .gwl { white-space: nowrap; }
-#app h1.greet.g19 .gwo { display: none; }
-:root[data-xmas] #app h1.greet.g19 .gwo, :root.sea-stars #app h1.greet.g19 .gwo, :root.sea-kites #app h1.greet.g19 .gwo {
-  display: inline-block; width: 18px; height: 18px; margin-left: 7px; vertical-align: middle; position: relative; top: -1px; background: no-repeat center / contain;
-}
-:root[data-xmas] #app h1.greet.g19 .gwo { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Crect x='8.5' y='1' width='3' height='3' rx='1' fill='%23C9962E'/%3E%3Ccircle cx='10' cy='11.5' r='7' fill='%23B23A3F'/%3E%3Cpath d='M4.5 10.5 Q10 13.5 15.5 10.5' stroke='%23F6E4E1' stroke-width='1.3' fill='none'/%3E%3Ccircle cx='7.5' cy='8.5' r='1.4' fill='%23fff' opacity='.7'/%3E%3C/svg%3E"); }
-:root.sea-stars:not([data-xmas]) #app h1.greet.g19 .gwo { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 1.5 L12.6 7 L18.5 7.6 L14 11.6 L15.3 17.5 L10 14.5 L4.7 17.5 L6 11.6 L1.5 7.6 L7.4 7 Z' fill='%237B6CD9'/%3E%3C/svg%3E"); }
-:root.sea-kites:not([data-xmas]) #app h1.greet.g19 .gwo { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 1 L17 8 L10 15 L3 8 Z' fill='%233E9BC7'/%3E%3Cpath d='M10 1 L10 15 M3 8 L17 8' stroke='%23fff' stroke-width='1'/%3E%3Cpath d='M10 15 Q12 17 10 19' stroke='%233E9BC7' stroke-width='1.2' fill='none'/%3E%3C/svg%3E"); }
 /* Fila d'oro senza Plus: tutta la ricompensa si tocca e apre Tanetto Plus (98zu) */
 .pathlist .pcell.g.lockg:not(.done) { cursor: pointer; }
 /* Zaino: la tacca della gita breve e' al centro dello spazio tra due caselle (5 px; 3 px fino a 360 px, 11zj) e sporge di

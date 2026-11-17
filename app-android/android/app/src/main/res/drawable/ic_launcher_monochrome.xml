@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 1.0.9: icona a tema (Android 13+): la sagoma del germoglio, dentro la zona sicura -->
+<!-- 1.0.9: icona a tema (Android 13+), dentro la zona sicura. 1.0.11: la sagoma di Germo con il viso (ic_launcher_mono_glyph) -->
 <inset xmlns:android="http://schemas.android.com/apk/res/android"
-    android:drawable="@drawable/ic_stat_tanetto"
-    android:inset="28%" />
+    android:drawable="@drawable/ic_launcher_mono_glyph"
+    android:inset="27%" />

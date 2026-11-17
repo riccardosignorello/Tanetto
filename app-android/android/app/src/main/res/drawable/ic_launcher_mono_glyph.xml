@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 1.0.11: sagoma di Germo per l'icona a tema (Android 13+): corpo, piedini, germoglio (gambo e due foglie aperte, come nel 3D) e il viso (occhi e sorriso
+     "scavati", fillType evenOdd), cosi' anche a un solo colore si riconosce il personaggio e non solo una foglia.
+     Le notifiche continuano a usare ic_stat_tanetto (a 24 dp il viso non si leggerebbe). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp" android:height="24dp" android:viewportWidth="24" android:viewportHeight="24">
+    <path android:fillColor="#FFFFFFFF" android:fillType="evenOdd"
+        android:pathData="M12,21.2c-4.3,0 -7.4,-2.5 -7.4,-6.2c0,-3.4 3,-5.8 7.4,-5.8s7.4,2.4 7.4,5.8c0,3.7 -3.1,6.2 -7.4,6.2z
+        M8.05,14.2a1.2,1.2 0,1 0,2.4 0a1.2,1.2 0,1 0,-2.4 0z
+        M13.55,14.2a1.2,1.2 0,1 0,2.4 0a1.2,1.2 0,1 0,-2.4 0z
+        M10.2,16.7c0.9,1.25 2.7,1.25 3.6,0c-0.2,1.15 -0.95,1.8 -1.8,1.8s-1.6,-0.65 -1.8,-1.8z"/>
+    <path android:fillColor="#FFFFFFFF"
+        android:pathData="M8.4,22.6c-1.1,0 -1.9,-0.45 -1.9,-1c0,-0.35 0.3,-0.6 0.75,-0.75c0.7,0.35 1.5,0.6 2.4,0.75c0.25,0.15 0.4,0.3 0.4,0.45c0,0.35 -0.75,0.55 -1.65,0.55z
+        M15.6,22.6c1.1,0 1.9,-0.45 1.9,-1c0,-0.35 -0.3,-0.6 -0.75,-0.75c-0.7,0.35 -1.5,0.6 -2.4,0.75c-0.25,0.15 -0.4,0.3 -0.4,0.45c0,0.35 0.75,0.55 1.65,0.55z"/>
+    <path android:fillColor="#FFFFFFFF"
+        android:pathData="M11.45,9.9V6.9c0,-0.35 0.25,-0.6 0.55,-0.6s0.55,0.25 0.55,0.6V9.9z
+        M11.7,6.75C10.3,4.75 7.5,4.1 5.1,5.1C6.3,7.15 9.35,7.8 11.7,6.75z
+        M12.3,6.4C13.75,4.05 16.85,3.35 19.35,4.4C18.15,6.75 14.75,7.4 12.3,6.4z"/>
+</vector>

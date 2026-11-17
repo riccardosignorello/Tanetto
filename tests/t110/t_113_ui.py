@@ -2,8 +2,8 @@
 1) Zaino in Casa e scheda in cima alle Avventure: "Gita breve" e "Viaggio completo" centrate sotto la loro casella
    (la casella con la tacca e l'ultima), su una riga quando ci sta, mai fuori dalla scheda, mai sovrapposte:
    14 lingue, 360 / 412 / tablet, 3 situazioni dello zaino (1, 3 e 5 obiettivi fatti) e 4 o 6 obiettivi.
-2) Ornamento della stagione: in Casa subito dopo il saluto (stessa riga dell'ultima parola, centrato sul testo), mai da solo;
-   nelle altre schede resta dopo il titolo.
+2) (1.0.11) Niente simbolo della stagione (ne' nel saluto ne' nei titoli): accanto al saluto solo l'icona scelta, sulla
+   stessa riga dell'ultima parola, centrata sul testo, mai da sola.
 3) Stagione, "Fila d'oro": senza Plus toccare una ricompensa d'oro (bloccata o raggiunta) apre Tanetto Plus; con Plus
    resta "Prendi" (si prende il premio, nessuna finestra di Plus).
 Le foto vanno in T110_SHOTS/113 (per il controllo a occhio)."""
@@ -79,17 +79,19 @@ async def zaino(b):
 
 NAMES = ["", "Luca", "Massimiliano", "Maria Alessandra Ro", "Wwwwwwwwwwwwwwwwwwww"]  # fino a 20 caratteri (NAME_MAX)
 ORN = """JSON.stringify((() => { const h = document.querySelector('#app h1.greet'); if (!h) return null; const gw = h.querySelector('.gw');
-  const ha = getComputedStyle(h, '::after'); const o = gw.querySelector('.gwo'); const l = gw.querySelector('.gwl');
-  if (!o || !l) return { hAfter: ha.content, o: !!o, l: !!l };
-  const or = o.getBoundingClientRect(), oc = getComputedStyle(o);
-  /* riga dell'ultima parola: il testo dentro .gwl (senza l'ornamento) */
+  const ha = getComputedStyle(h, '::after'); const o = gw.querySelector('.gwi'); const l = gw.querySelector('.gwl');
+  if (!o || !l) return { hAfter: ha.content, o: !!o, l: !!l, orn: !!gw.querySelector('.gwo') };
+  const or = o.getBoundingClientRect();
+  /* riga dell'ultima parola: il testo dentro .gwl (senza l'icona) */
   const rg = document.createRange(); rg.selectNodeContents(l.firstChild); const tr = [...rg.getClientRects()]; const t = tr[tr.length - 1];
   const hr = h.getBoundingClientRect();
-  return { hAfter: ha.content, disp: oc.display, img: oc.backgroundImage.slice(0, 4), ow: or.width, oRight: or.right, hRight: hr.right,
-           sameLine: or.left >= t.right - 0.5 && or.left - t.right <= 9 && or.top < t.bottom && or.bottom > t.top, dy: Math.abs((or.top + or.bottom) / 2 - (t.top + t.bottom) / 2),
-           txt: gw.textContent, aria: o.getAttribute('aria-hidden') }; })())"""
+  return { hAfter: ha.content, orn: !!gw.querySelector('.gwo'), ow: or.width, oRight: or.right, hRight: hr.right, vw: innerWidth,
+           sameLine: or.left >= t.right - 0.5 && or.left - t.right <= 12 && or.top < t.bottom && or.bottom > t.top, dy: Math.abs((or.top + or.bottom) / 2 - (t.top + t.bottom) / 2),
+           txt: gw.textContent, aria: o.getAttribute('aria-label') || '' }; })())"""
 
 async def ornament(b):
+    """1.0.11 (decisione del proprietario, 17/11/2026): il simbolo della stagione non c'e' piu' ne' nel saluto ne' nei titoli.
+    Accanto al saluto c'e' solo l'icona scelta (predefinita: il germoglio), mai da sola su una riga, in ogni stagione."""
     for lang in T.LANGS:
         for w in ((360, 412) if lang in ("it", "de", "ru", "ja") else (360,)):
             ctx, pg = await T.page(b, T.base_state(lang), age="adult", w=w, h=900, lang="en-US", wait=1800)
@@ -103,22 +105,19 @@ async def ornament(b):
                 for nm in NAMES:
                     await T.ev(pg, js + f"; S.uname = {json.dumps(nm)}; layer.innerHTML = ''; tab = 'today'; render(); 1"); await pg.wait_for_timeout(120)
                     r = json.loads(await T.ev(pg, ORN))
-                    ok = r and r["hAfter"] in ("none", "normal") and r.get("disp") == "inline-block" and r["img"].startswith("url") and r["ow"] == 18 and r["sameLine"] and r["dy"] <= 3 and r["oRight"] <= r["hRight"] + 0.5 and r["aria"] == "true" and r["txt"].strip() == r["txt"]
+                    ok = r and r["hAfter"] in ("none", "normal") and not r["orn"] and r.get("ow", 0) >= 24 and r["sameLine"] and r["dy"] <= 3 and r["oRight"] <= min(r["hRight"], r["vw"]) + 0.5 and len(r["aria"]) > 4 and r["txt"].strip() == r["txt"]
                     if not ok: bad.append((cls, nm, r))
                     if cls == "xmas" and nm in ("Massimiliano", "Wwwwwwwwwwwwwwwwwwww") and (w == 360):
                         el = await pg.query_selector("#app h1.greet")
                         if el: await el.screenshot(path=f"{SH}/orn_{lang}_{w}_{len(nm)}.png")
-            T.check(f"ornamento {lang} {w}px (3 stagioni, nomi fino a 20 caratteri): subito dopo il saluto, mai da solo su una riga, dentro lo schermo", not bad, bad[:2])
-            # altre schede: il titolo h1 ha ancora l'ornamento dopo il testo
+            T.check(f"saluto {lang} {w}px (3 stagioni, nomi fino a 20 caratteri): niente simbolo della stagione, l'icona subito dopo l'ultima parola, mai da sola su una riga, dentro lo schermo", not bad, bad[:2])
+            # altre schede: nessun simbolo della stagione dopo il titolo
             for tab in ("home", "trips", "shop", "more"):
                 await T.ev(pg, f"tab = '{tab}'; moreSub = null; render(); 1"); await pg.wait_for_timeout(250)
                 o = json.loads(await T.ev(pg, """JSON.stringify((() => { const h = document.querySelector('#app h1:not(.greet)'); if (!h) return null; const a = getComputedStyle(h, '::after');
                   return { c: a.content, img: a.backgroundImage.slice(0, 4) }; })())"""))
-                T.check(f"  {lang} {w}px scheda {tab}: titolo con l'ornamento come prima", o is None or (o["c"] == '""' and o["img"].startswith("url")), o)
-                if lang == "it" and w == 412 and o:
-                    el = await pg.query_selector("#app h1:not(.greet)")
-                    if el: await el.screenshot(path=f"{SH}/orn_tab_{tab}.png")
-            T.check(f"  nessun errore (ornamento {lang} {w})", not pg.errs, pg.errs[:2])
+                T.check(f"  {lang} {w}px scheda {tab}: titolo senza simbolo della stagione", o is None or (o["c"] in ("none", "normal") and not o["img"].startswith("url")), o)
+            T.check(f"  nessun errore (saluto {lang} {w})", not pg.errs, pg.errs[:2])
             await ctx.close()
 
 async def gold(b):
