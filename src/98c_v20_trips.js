@@ -788,7 +788,9 @@ function tr20StatusCard() {
   let bar = "";
   if (st.n && st.why !== "used") {
     const seg = Array.from({ length: st.n }, (_, k) => `<i class="${k < st.dn ? "on" : ""}${k === st.half - 1 && st.half < st.n ? " half" : ""}"></i>`).join("");
-    bar = `<div class="tr20seg" aria-hidden="true">${seg}</div><div class="tr20segl"><span>${esc(t.prog(st.dn, st.n))}</span>${st.half < st.n ? `<span class="tr20lg"><i></i>${esc(t.kShort)}</span>` : ""}</div>`;
+    /* 1.0.10: come in Casa, "Gita breve" sotto la sua casella e "Viaggio completo" sotto l'ultima */
+    const sc = `<div class="nvscale tr20scale" aria-hidden="true" style="--v110n:${st.n}">${st.half < st.n ? `<span class="h" style="right:${(100 - (st.half / st.n) * 100).toFixed(2)}%">${esc(t.kShort)}</span>` : ""}<span class="f">${esc(t.kFull)}</span></div>`;
+    bar = `<div class="tr20seg" aria-hidden="true">${seg}</div>${sc}<div class="tr20segl"><span>${esc(t.prog(st.dn, st.n))}</span></div>`;
   }
   const steps = !(S.cards || []).length ? `<div class="tr20how"><b>${esc(t.howT)}</b><ol>${[t.s1, t.s2, t.s3].map((s, k) => `<li><span class="tr20n">${k + 1}</span><span>${esc(s)}</span></li>`).join("")}</ol></div>` : "";
   return `<div class="tr20st tr20-${st.why}" role="status"><div class="tr20sth"><span class="tr20en"><span class="tr20bdg">${LEAF}</span><b>${esc(L().energy)}</b></span><span class="tr20r">${badge}<span class="spacer"></span>${tr20iBtn()}</span></div><p class="tr20tx">${esc(txt)}</p>${bar}${note ? `<p class="tr20note">${esc(note)}</p>` : ""}${steps}</div>`;

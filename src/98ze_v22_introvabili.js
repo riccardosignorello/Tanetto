@@ -265,10 +265,6 @@ document.addEventListener("click", (ev) => {
 /* ---------- Negozio: la vetrina degli Introvabili, in cima a ogni scheda della Casa ---------- */
 const _shopListXV = shopList;
 shopList = function (kind) { return _shopListXV(kind).filter((s) => !s.xv); };
-function xvPace(miss) {
-  let d = 0; try { d = dailyTaniGuess(); } catch (e) { d = 0; } if (!(d > 0)) return "";
-  return xv().pace(Math.max(1, Math.ceil(miss / d)));
-}
 function xvShowcase() {
   const x = xv(); const items = XV_IDS.map((id) => SHOP.find((s) => s.id === id)).filter(Boolean);
   const own = items.filter((s) => ownsItem(s)).length; const next = items.filter((s) => !ownsItem(s)).sort((a, b) => a.price - b.price)[0];
@@ -323,6 +319,8 @@ needSheet = function (s) {
   /* per un Introvabile i pacchetti non servono: niente proposta di pacchetti, solo la regola detta chiara */
   const box = document.querySelector(".ndsheet"); if (!box) return;
   box.querySelectorAll("p.small").forEach((p) => { if (!p.classList.contains("muted")) p.remove(); });
+  /* 1.0.10 (richiesta del proprietario 17/11/2026): per gli Introvabili mai una stima del tempo ("circa N giorni") */
+  box.querySelectorAll(":scope > p:not([class])").forEach((p) => p.remove());
   const sh = box.querySelector("#ndShop"); if (sh) sh.remove(); const ad = box.querySelector("#adShop"); if (ad) ad.remove();
   const k = box.querySelector("#ndKeep"); if (k) k.insertAdjacentHTML("beforebegin", `<p class="small xvpaid">${esc(xv().paidBlock)}</p>`);
 };
@@ -380,8 +378,7 @@ tryBar = function () {
   }
   try {
     const w = xvWish(); if (!w || w.id === s.id || ownsItem(s) || lockedItem(s) || !(s.price > 0) || S.seeds < s.price) return h;
-    const d = dailyTaniGuess(); if (!(d > 0)) return h; const n = Math.max(1, Math.round(s.price / d));
-    h = h.replace(/<b>([^<]*)<\/b><\/div>/, (m, nm) => `<span class="xvtx"><b>${nm}</b><small class="xvback">${esc(x.back(n))}</small></span></div>`);
+    /* 1.0.10: niente piu' "il tuo desiderio si allontana di circa N giorni" (nessuna stima del tempo) */
   } catch (e) { /* niente */ }
   return h;
 };
@@ -394,7 +391,7 @@ xvShowcase = function () {
   const x = xv(); const items = XV_IDS.map((id) => SHOP.find((s) => s.id === id)).filter(Boolean);
   const own = items.filter((s) => ownsItem(s)).length; const w = xvWish(); const next = w && SHOP.find((s) => s.id === w.id);
   const nf = (n) => n.toLocaleString(loc(), NUMG); let prog = "";
-  if (next) {
+  if (next && S.x22wish && S.x22wish.id === next.id) { /* 1.0.10: la barra solo per un desiderio scelto da te */
     const use = next.xv ? xvUsable() : S.seeds, have = Math.min(use, next.price), pct = xvPct(next);
     prog = `<div class="xvprog"><p class="small xvwl">${xStarIcon()}<span>${esc(x.wishL)}<b>${esc((L().items || {})[next.id] || "")}</b></span></p><div class="xvbar" role="progressbar" aria-valuemin="0" aria-valuemax="${next.price}" aria-valuenow="${have}" aria-label="${esc(x.have(nf(have), nf(next.price)))}"><i style="width:${pct.toFixed(1)}%"></i>${[25, 50, 75].map((p) => `<span class="xvm${pct >= p ? " on" : ""}" style="left:${p}%"></span>`).join("")}</div><p class="small"><b>${esc(x.have(nf(have), nf(next.price)))}</b></p></div>`;
   }

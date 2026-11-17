@@ -198,3 +198,32 @@ html.v110x #app #v110FreeTx:focus-visible { outline: 3px solid color-mix(in srgb
 html.v110x #app .v110pack.v110pack i:nth-child(n) { height: 36px; }
 html.v110x #app .v110pack i svg { width: 21px; height: 21px; opacity: .7; }
 html.v110x #app .v110pack i.on svg { opacity: 1; }
+
+/* ===== dal controllo del critico (17/11/2026, notte) ===== */
+/* tessere degli obiettivi: righe tutte alte uguali e bordi/segni leggibili (3:1) anche al buio */
+html.v110x body.v110onb #app .chips.onbsug { grid-auto-rows: 1fr; }
+html.v110x body.v110onb #app .chips.onbsug .chip::before { border-color: var(--inpline, var(--line)); }
+:root.v110x[data-theme="dark"] body.v110onb #app .chips.onbsug .chip { border-color: var(--inpline, var(--line)); }
+@media (prefers-color-scheme: dark) { :root.v110x:not([data-theme="light"]) body.v110onb #app .chips.onbsug .chip { border-color: var(--inpline, var(--line)); } }
+/* "Invita un amico": testo bianco ad almeno 4,5:1 */
+html.v110x #app .v2invite { background: #AD456C; border-bottom-color: #7E2E4C; }
+/* segnaposto del Diario leggibili */
+html.v110x #app #v110FreeTx::placeholder, html.v110x #app #line::placeholder { color: var(--muted); opacity: 1; }
+/* Diario: le due schede con lo stesso tipo di titolo; la domanda va a capo in modo equilibrato */
+html.v110x #app #diaryForm.v110q .v110qt { font-size: 22px; font-weight: 700; margin: 0; line-height: 1.25; }
+html.v110x #app #diaryForm.v110q .question { font-size: 19px; text-wrap: balance; }
+:root[lang^="ja"] #app #diaryForm .question { word-break: auto-phrase; }
+@media (max-width: 360px) { html.v110x #app .v110free .moods { justify-content: center; } }
+/* Profilo: niente doppioni (cartoline e livello sono gia' nei numeri e nella barra) */
+html.v110x #app .profcard.v2stage .pftx p { display: none; }
+/* Introvabili ancora piu' discreti: riquadro normale, come gli altri */
+html.v110x #app .xvshow { background: var(--paper); box-shadow: none; border: 2px solid var(--k-line); border-bottom-width: 6px; border-bottom-color: var(--k-edge); }
+html.v110x #app .xvshow .rar { max-width: calc(100% - 12px); }
+/* percorso: didascalie tutte larghe uguali, lo zig-zag resta regolare */
+html.v110x #app .v110path > .dest .meta { width: 100%; box-sizing: border-box; }
+
+/* Viaggi: le scritte dello zaino come in Casa */
+#app .tr20scale { position: relative; min-height: 34px; margin-top: 6px; }
+#app .tr20scale > span { position: absolute; top: 0; width: max(66px, calc((100% - (var(--v110n, 5) - 1) * 5px) / var(--v110n, 5))); text-align: center; white-space: normal; line-height: 1.15; font-size: 12.5px; font-weight: 700; }
+#app .tr20scale > .h { color: var(--nv-energy-ink); }
+#app .tr20scale > .f { right: 0; color: var(--accent); }
