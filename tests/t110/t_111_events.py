@@ -1,8 +1,8 @@
 """1.0.11: gli eventi trasformano la stanza (98zw_v111_events.js, 11zn_v111_events.css).
 Per ogni evento (Lanterne, Natale tappa 0 e 3, Nuovo inizio, Stelle, Aquiloni): decorazioni presenti nella scheda e nello
 schermo intero, SVG valido (serve anche a foto e cartoline), nessun errore, nessuno scorrimento orizzontale a 360/412/800,
-fermo con "riduci movimento" e con la modalita' leggera, animato altrimenti, prestazioni a riposo, ornamento del saluto sulla
-stessa riga, niente decorazioni fuori stagione o nelle altre scene. Nessun dato personale."""
+fermo con "riduci movimento" e con la modalita' leggera, animato altrimenti, prestazioni a riposo,
+nessun simbolo aggiunto ai titoli, niente decorazioni fuori stagione o nelle altre scene. Nessun dato personale."""
 import asyncio, sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import lib110 as T
@@ -108,12 +108,11 @@ async def motion(b):
         await ctx.close()
 
 async def misc(b):
-    # ornamento del saluto sulla stessa riga; fuori stagione e nelle altre scene niente decorazioni
+    # nessun simbolo accanto ai titoli; fuori stagione e nelle altre scene niente decorazioni
     ctx, pg = await T.page(b, st_for((2027, 2, 10, 11, 0), None), date=(2027, 2, 10, 11, 0), lang="it-IT")
     await T.close_layer(pg); await T.ev(pg, "tab = 'today'; render(); 1"); await pg.wait_for_timeout(500)
-    o = await pg.evaluate("""(() => { const h = document.querySelector('h1.greet'), w = h && h.querySelector('.gw'); if (!w) return null;
-      return { h1: getComputedStyle(h, '::after').content, gw: getComputedStyle(w, '::after').content, lines: Math.round(w.getBoundingClientRect().height / parseFloat(getComputedStyle(w).lineHeight || 24)) }; })()""")
-    T.check("Saluto: l'ornamento della stagione sta accanto alla parola, non su una riga a parte", o and o["h1"] in ("none", "normal") and o["gw"] not in ("none", "normal"), o)
+    o = await pg.evaluate("""(() => { const w = document.querySelector('h1.greet .gw'); return w ? getComputedStyle(w, '::after').content : null; })()""")
+    T.check("Saluto: gli eventi non aggiungono simboli di stagione accanto ai titoli (decisione del proprietario)", o in ("none", "normal"), o)
     fest = await T.ev(pg, "(() => { const f0 = full, s0 = sceneId; full = true; sceneId = 'festival'; let s = ''; try { s = roomSVG({ ph: 'day', pet: S.pet, e: 'felice', hat: null, st: 1, furn: S.furn, wall: S.wall, away: false, glow: 1, label: '', season: 'winter', top: 120, bot: 140 }); } finally { full = f0; sceneId = s0; } return s.indexOf('e1deco'); })()")
     T.check("Scena della festa (schermo intero): nessuna decorazione della stanza", fest == -1, fest)
     T.check("  nessun errore", not pg.errs, pg.errs[:2])

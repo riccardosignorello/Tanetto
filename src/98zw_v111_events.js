@@ -36,7 +36,7 @@ const f1 = (v) => (Math.round(v * 10) / 10).toString();
 /* lanterna di carta (stanza): x,y = centro, s = scala, c = [colore, ombra, luce] */
 function e111Lantern(x, y, s, c, lit, halo) {
   return `<g transform="translate(${x} ${y}) scale(${s})">`
-    + (halo ? `<circle r="30" fill="url(#${halo})" opacity="${lit ? 1 : 0.5}"/>` : "")
+    + (halo && lit ? `<circle r="30" fill="url(#${halo})"/>` : "")
     + `<rect x="-7" y="-17.5" width="14" height="4.5" rx="1.6" fill="#5A3E2B"/>`
     + `<ellipse rx="14" ry="14.5" fill="${c[0]}"/>`
     + `<ellipse rx="8.5" ry="11.5" fill="${c[2]}" opacity="${lit ? 0.75 : 0.45}"/>`
@@ -51,7 +51,7 @@ const e111SkyLan = (x, y, s, glow) => `<g transform="translate(${f1(x)} ${f1(y)}
 /* stella di carta appesa */
 function e111PaperStar(x, y, s, c, lit, halo) {
   let d = ""; for (let i = 0; i < 10; i++) { const r = i % 2 ? 5.6 : 13, a = -Math.PI / 2 + (i * Math.PI) / 5; d += `${i ? "L" : "M"}${f1(r * Math.cos(a))} ${f1(r * Math.sin(a))}`; }
-  return `<g transform="translate(${x} ${y}) scale(${s})">` + (halo ? `<circle r="28" fill="url(#${halo})" opacity="${lit ? 1 : 0.45}"/>` : "")
+  return `<g transform="translate(${x} ${y}) scale(${s})">` + (halo && lit ? `<circle r="28" fill="url(#${halo})"/>` : "")
     + `<path d="${d}Z" fill="${c[0]}" stroke="${c[1]}" stroke-width="1.4" stroke-linejoin="round"/>`
     + `<path d="M0 -13 L0 0 M12.4 -4 L0 0 M7.6 10.5 L0 0 M-7.6 10.5 L0 0 M-12.4 -4 L0 0" stroke="${c[1]}" stroke-width=".8" opacity=".45"/>`
     + `<path d="M-2.2 -7 L0 -11 L1 -6.6 Z" fill="#fff" opacity=".6"/><circle r="1.6" fill="${c[1]}" opacity=".6"/></g>`;
@@ -97,14 +97,14 @@ function e111Sky(ev, ph) {
     o += `<g class="cloud"><path d="M44 72 a7 7 0 0 1 12 -5 a9 9 0 0 1 16 3 a6 6 0 0 1 3 10 h-28 a5 5 0 0 1 -3 -8 Z" fill="#fff" opacity=".92"/></g><g class="cloud2"><path d="M96 92 a5 5 0 0 1 9 -3 a6.5 6.5 0 0 1 11 2 a4.4 4.4 0 0 1 2 7 h-20 a3.6 3.6 0 0 1 -2 -6 Z" fill="#fff" opacity=".8"/></g>`;
   } else if (ev.k === "fresh") {
     o += rect([[0, "#9CD2E8"], [0.5, "#FFE3CC"], [1, "#FFB98A"]]);
-    o += `<g opacity=".5">${[[48, 52, 1], [70, 47, 0.8], [128, 50, 0.9]].map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#fff"/>`).join("")}</g>`;
-    o += `<g stroke="#FFF6E0" stroke-width="2.2" stroke-linecap="round" opacity=".55">${[-62, -38, -14, 10, 34].map((a) => { const r = (a * Math.PI) / 180; return `<path d="M${f1(104 + Math.sin(r) * 20)} ${f1(104 - Math.cos(r) * 20)} L${f1(104 + Math.sin(r) * 34)} ${f1(104 - Math.cos(r) * 34)}"/>`; }).join("")}</g>`;
+    o += [[48, 52, 1], [70, 47, 0.8], [128, 50, 0.9]].map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#fff" opacity=".5"/>`).join("");
+    o += `<g stroke="#FFF6E0" stroke-width="2.2" stroke-linecap="round" stroke-opacity=".55">${[-62, -38, -14, 10, 34].map((a) => { const r = (a * Math.PI) / 180; return `<path d="M${f1(104 + Math.sin(r) * 20)} ${f1(104 - Math.cos(r) * 20)} L${f1(104 + Math.sin(r) * 34)} ${f1(104 - Math.cos(r) * 34)}"/>`; }).join("")}</g>`;
     o += `<circle cx="104" cy="104" r="24" fill="#FFE6B8" opacity=".55"/><circle cx="104" cy="104" r="14" fill="#FFB660"/><circle cx="104" cy="104" r="10" fill="#FFC97E"/>`;
     o += `<path d="M56 66 q3 -3 6 0 q3 -3 6 0 M74 74 q2.4 -2.4 4.8 0 q2.4 -2.4 4.8 0" stroke="#7A6A78" stroke-width="1.2" fill="none" stroke-linecap="round"/>`;
   } else if (ev.k === "stars") {
     o += night ? rect([[0, "#111737"], [0.55, "#212B62"], [1, "#3F4588"]]) : eve ? rect([[0, "#252B66"], [0.55, "#6D64AA"], [1, "#E2A3A2"]]) : rect([[0, "#5862B4"], [0.55, "#9EA3DE"], [1, "#DCDDF4"]]);
     /* Via Lattea */
-    o += `<g opacity="${night ? 0.5 : eve ? 0.36 : 0.22}"><ellipse cx="86" cy="76" rx="70" ry="9" fill="#C9C6FF" opacity=".35" transform="rotate(-28 86 76)"/><ellipse cx="86" cy="76" rx="60" ry="4.5" fill="#EDEBFF" opacity=".45" transform="rotate(-28 86 76)"/></g>`;
+    const mw = night ? 0.5 : eve ? 0.36 : 0.22; o += `<ellipse cx="86" cy="76" rx="70" ry="9" fill="#C9C6FF" opacity="${f1(0.35 * mw * 100) / 100}" transform="rotate(-28 86 76)"/><ellipse cx="86" cy="76" rx="60" ry="4.5" fill="#EDEBFF" opacity="${f1(0.45 * mw * 100) / 100}" transform="rotate(-28 86 76)"/>`;
     for (let i = 0; i < 16; i++) { const x = 38 + e111R(i, 11) * 96, y = 46 + e111R(i, 17) * (night ? 56 : 44); o += i % 3 ? `<circle class="star" cx="${f1(x)}" cy="${f1(y)}" r="${night ? (i % 2 ? 0.8 : 1.15) : (i % 2 ? 1 : 1.4)}" fill="#FFF8E0"/>` : e111Spark(x, y, night ? 2.6 : 3.2, "#FFF4C8", "star"); }
     o += `<circle cx="118" cy="60" r="15" fill="#FFF3C8" opacity=".14"/><path d="M113 51 a10 10 0 1 0 12 15 a8 8 0 1 1 -12 -15 Z" fill="#FFEFB8"/>`;
     o += `<g class="e1shoot" opacity="0"><path d="M100 50 L124 41" stroke="#FFF6D6" stroke-width="1.2" stroke-linecap="round" opacity=".9"/><circle cx="100" cy="50" r="1.4" fill="#fff"/></g>`;
@@ -117,7 +117,7 @@ function e111Win(ev, ph, lit) {
   if (ev.k === "lanterns") {
     /* lucine del villaggio sulle colline e lanterne che salgono */
     if (night || eve) [[50, 114], [64, 118], [98, 110], [118, 116], [130, 112]].forEach(([x, y]) => { o += `<circle cx="${x}" cy="${y}" r="2.6" fill="#FFC56B" opacity=".35"/><rect x="${x - 1}" y="${y - 1}" width="2" height="2" rx=".4" fill="#FFE2A0"/>`; });
-    [[48, 96, 1.5], [72, 76, 1.2], [96, 104, 1.6], [114, 66, 1.1], [128, 90, 1.35], [58, 56, 1]].forEach(([x, y, s], i) => { o += `<g class="e1rise" data-y="${y}" data-i="${i}">${e111SkyLan(x, y, s, night || eve)}</g>`; });
+    [[48, 96, 1.5], [74, 74, 1.2], [98, 104, 1.6], [116, 64, 1.1], [128, 90, 1.35]].forEach(([x, y, s], i) => { o += `<g class="e1rise" data-y="${y}" data-i="${i}">${e111SkyLan(x, y, s, night || eve)}</g>`; });
   } else if (ev.k === "xmas") {
     const sn = night ? ["#B9C6DE", "#9FB0CE"] : ["#FBFDFF", "#E1EAF3"];
     o += `<path d="M34 110 C52 102 70 108 92 103 C112 99 126 104 138 102 L138 128 L34 128 Z" fill="${sn[1]}"/><path d="M34 118 C58 108 82 116 106 110 C120 107 132 111 138 113 L138 128 L34 128 Z" fill="${sn[0]}"/>`;
