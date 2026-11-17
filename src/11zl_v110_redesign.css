@@ -19,6 +19,7 @@ html.v110x #app .btn.ghost { border-radius: 18px; border: 2px solid var(--k-line
 
 /* ---------------- CASA ---------------- */
 html.v110x[data-v110tab="today"] #app .room { border-radius: 26px; box-shadow: none; border: 3px solid var(--k-line); border-bottom-width: 8px; border-bottom-color: var(--k-edge); }
+html.v110x[data-v110tab="today"] body.isfull #app .room { border: 0; border-radius: 0; }
 html.v110x #app .actions { gap: 8px; }
 html.v110x #app .act { border-radius: 20px; box-shadow: none; border: 2px solid var(--k-line); border-bottom-width: 5px; border-bottom-color: var(--k-edge); min-height: 74px; transition: transform .08s ease; }
 html.v110x #app .act:active { transform: translateY(3px); border-bottom-width: 2px; }

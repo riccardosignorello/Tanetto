@@ -86,6 +86,7 @@ P = [
     ("p2/t2.py", 'and "0px 3px 0px" in tr2[3], [rip, tr, tr2])', 'and ("0px 3px 0px" in tr2[3] or "0px 5px 0px" in tr2[3]), [rip, tr, tr2])', "nuovo aspetto 1.0.10: bordo inferiore 5 px"),
     ("p2/t2.py", "const r = document.querySelector('button.goal').getBoundingClientRect(); return document.elementFromPoint", "const g0 = document.querySelector('button.goal'); g0.scrollIntoView({ block: 'center' }); const r = g0.getBoundingClientRect(); return document.elementFromPoint", "nuovo aspetto 1.0.10: la prima scheda sta sotto il menu sospeso"),
     ("fix109/suites/p2b/t3.py", 'check("showcase text: title \'Introvabili\', the wish and \'Hai 120 di 51.000 Tanì\' + honest pace", "Introvabili" in r["furn"][1] and "Hai 120 di 54.000 Tanì" in r["furn"][1] and "Al tuo ritmo di oggi" in r["furn"][1] and "Il tuo desiderio" in r["furn"][1], r["furn"][1][:300])', 'check("showcase text: title \'Introvabili\', the wish and \'Hai 120 di 54.000 Tanì\', and never a time estimate (richiesta del proprietario 1.0.10)", "Introvabili" in r["furn"][1] and "Hai 120 di 54.000 Tanì" in r["furn"][1] and "ritmo" not in r["furn"][1] and "mesi" not in r["furn"][1] and "Il tuo desiderio" in r["furn"][1], r["furn"][1][:300])', "Introvabili senza tempi (1.0.10)"),
+    ("fix109/t38run5/t38_devices.py", '("#app .prow", 8, False)', '("#app .prow", 4, False)', "profilo a 4 voci"),
 ]
 bad = 0
 for f, old, new, why in P:
