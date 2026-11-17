@@ -43,6 +43,8 @@ async def main(b):
     await T.close_layer(pg); await T.ev(pg, "tab='today'; render(); 1"); await pg.wait_for_timeout(500)
     has = await T.ev(pg, "!!document.getElementById('w111Wk')")
     T.check("lunedi' in Oggi c'e' la scheda 'La settimana con Germo e' pronta'", has)
+    asks = await T.ev(pg, "document.querySelectorAll('#app .stack .iossafe, #app .stack .remcard, #app .stack .namecard, #app .stack .nudgecard').length")
+    T.check("in Casa resta al massimo UNA scheda in piu' (la cartolina prende il posto di 'Come ti chiami?')", asks == 1 and not await T.ev(pg, "!!document.getElementById('nameCard')"), asks)
     if has:
         await T.ev(pg, "document.getElementById('w111Wk').scrollIntoView({block:'center'}); 1"); await pg.wait_for_timeout(300)
         await pg.screenshot(path=f"{SH}/oggi_scheda_it.png")
