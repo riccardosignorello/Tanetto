@@ -298,7 +298,7 @@ const TR20T = {
     tFar: (p) => `Per ${p} serve il viaggio completo: completa tutti gli obiettivi di oggi.`,
     tUsed: (n) => `${n} ha già viaggiato oggi: domani si riparte!`,
     pts: (b) => `un po' di crescita`, cta: (n) => `${n} può fare una gita breve!`, ctaB: "Scegli la gita",
-    tripsP: "Ogni tuo obiettivo riempie lo zaino del tuo compagno, poi scegli dove mandarlo. Torna con una cartolina e qualche sorpresa."
+    tripsP: "Ogni obiettivo che completi mette qualcosa nello zaino del tuo compagno. Poi scegli tu dove mandarlo: torna con una cartolina e qualche sorpresa."
   },
   en: {
     kShort: "Short trip", kFull: "Full trip", kFullS: "Full trip", infoL: "What does this mean?", infoT: "How trips work",
@@ -322,7 +322,7 @@ const TR20T = {
     tFar: (p) => `${p} needs a full trip: complete all of today's goals.`,
     tUsed: (n) => `${n} already traveled today: new trip tomorrow!`,
     pts: (b) => `a little growth`, cta: (n) => `${n} can take a short trip!`, ctaB: "Pick a trip",
-    tripsP: "Each of your goals fills your companion's backpack, then choose where to send them. They'll come back with a postcard and a few surprises."
+    tripsP: "Every goal you complete puts something in your companion's backpack. Then you choose where to send them: they'll come back with a postcard and a few surprises."
   },
   de: {
     kShort: "Kurzer Ausflug", kFull: "Ganze Reise", kFullS: "Ganze Reise", infoL: "Was heißt das?", infoT: "So funktionieren Reisen",
@@ -346,7 +346,7 @@ const TR20T = {
     tFar: (p) => `Für ${p} braucht es eine ganze Reise: Erledige alle Ziele für heute.`,
     tUsed: (n) => `${n} war heute schon unterwegs: Morgen geht's weiter!`,
     pts: (b) => `ein bisschen Wachstum`, cta: (n) => `${n} kann einen kurzen Ausflug machen!`, ctaB: "Ausflug wählen",
-    tripsP: "Jedes deiner Ziele füllt den Rucksack deines Begleiters, dann wähle ein Reiseziel. Mit zurück kommen eine Postkarte und ein paar Überraschungen."
+    tripsP: "Jedes Ziel, das du erreichst, packt etwas in den Rucksack deines Begleiters. Dann wählst du das Reiseziel. Zurück bringt er eine Postkarte und ein paar Überraschungen mit."
   },
   es: {
     kShort: "Excursión corta", kFull: "Viaje completo", kFullS: "Viaje", infoL: "¿Qué significa?", infoT: "Cómo funcionan los viajes",
@@ -370,7 +370,7 @@ const TR20T = {
     tFar: (p) => `Para ${p} hace falta el viaje completo: completa todos tus objetivos de hoy.`,
     tUsed: (n) => `${n} ya viajó hoy: ¡mañana, más!`,
     pts: (b) => `un poco de crecimiento`, cta: (n) => `¡${n} puede hacer una excursión corta!`, ctaB: "Elegir excursión",
-    tripsP: "Cada objetivo tuyo llena la mochila de tu compañero; luego elige adónde mandarlo. Volverá con una postal y alguna sorpresa."
+    tripsP: "Cada objetivo que cumples mete algo en la mochila de tu compañero. Luego eliges adónde mandarlo: volverá con una postal y alguna sorpresa."
   },
   fr: {
     kShort: "Petite balade", kFull: "Grand voyage", kFullS: "Voyage", infoL: "Qu'est-ce que ça veut dire ?", infoT: "Comment marchent les voyages",
@@ -394,7 +394,7 @@ const TR20T = {
     tFar: (p) => `${p} demande un grand voyage : termine tous tes objectifs du jour.`,
     tUsed: (n) => `${n} a déjà voyagé aujourd'hui : on repart demain !`,
     pts: (b) => `un peu de croissance`, cta: (n) => `${n} peut faire une petite balade !`, ctaB: "Choisir la balade",
-    tripsP: "Chacun de tes objectifs remplit le sac à dos de ton compagnon, puis choisis où l'envoyer. Il revient avec une carte postale et quelques surprises."
+    tripsP: "Chaque objectif que tu atteins met quelque chose dans le sac à dos de ton compagnon. Ensuite, tu choisis où l'envoyer. Il revient avec une carte postale et quelques surprises."
   },
   pt: {
     kShort: "Passeio curto", kFull: "Viagem completa", kFullS: "Viagem", infoL: "O que isso quer dizer?", infoT: "Como funcionam as viagens",
@@ -418,7 +418,7 @@ const TR20T = {
     tFar: (p) => `${p} pede uma viagem completa: complete todas as metas de hoje.`,
     tUsed: (n) => `${n} já viajou hoje: amanhã tem mais!`,
     pts: (b) => `um pouco de crescimento`, cta: (n) => `${n} pode fazer um passeio curto!`, ctaB: "Escolher o passeio",
-    tripsP: "Cada meta sua enche a mochila do seu companheiro; depois escolha para onde mandá-lo. Ele volta com um cartão-postal e algumas surpresas."
+    tripsP: "Cada meta que você cumpre coloca algo na mochila do seu companheiro. Depois, você escolhe para onde mandá-lo. Ele volta com um cartão-postal e algumas surpresas."
   },
   ja: {
     kShort: "ちょっとおでかけ", kFull: "本格的な旅", kFullS: "本格的な旅", infoL: "これってどういうこと？", infoT: "おでかけのしくみ",
@@ -442,7 +442,7 @@ const TR20T = {
     tFar: (p) => `${p}へは本格的な旅が必要です。今日の目標を全部達成しましょう。`,
     tUsed: (n) => `${n}は今日もう旅をしました。また明日！`,
     pts: (b) => `ちょっと成長`, cta: (n) => `${n}はちょっとおでかけできます！`, ctaB: "おでかけ先を選ぶ",
-    tripsP: "あなたが目標を達成するたびに、パートナーのリュックがいっぱいに。行き先を選んで送り出しましょう。ポストカードとちょっとしたおみやげを持って帰ってきます。"
+    tripsP: "目標をひとつ達成するたびに、パートナーのリュックに何かが入ります。それから行き先を選んで送り出しましょう。ポストカードとちょっとしたおみやげを持って帰ってきます。"
   },
   ko: {
     kShort: "짧은 나들이", kFull: "본격 여행", kFullS: "본격 여행", infoL: "무슨 뜻이에요?", infoT: "여행은 이렇게 돼요",
@@ -466,7 +466,7 @@ const TR20T = {
     tFar: (p) => `${p}: 본격 여행이 필요해요. 오늘의 목표를 모두 마쳐 봐요.`,
     tUsed: () => "오늘은 이미 여행을 다녀왔어요. 내일 또 떠나요!",
     pts: (b) => `조금 성장`, cta: () => "짧은 나들이를 갈 수 있어요!", ctaB: "나들이 고르기",
-    tripsP: "내 목표를 하나 마칠 때마다 친구의 배낭이 채워져요. 그다음 어디로 보낼지 골라요. 엽서와 깜짝 선물을 들고 돌아올 거예요."
+    tripsP: "목표를 하나 이룰 때마다 친구의 배낭에 무언가가 담겨요. 그다음 어디로 보낼지 골라 주세요. 엽서와 깜짝 선물을 들고 돌아올 거예요."
   },
   zh: {
     kShort: "短途出游", kFull: "完整旅行", kFullS: "完整旅行", infoL: "这是什么意思？", infoT: "旅行是怎么回事",
@@ -490,7 +490,7 @@ const TR20T = {
     tFar: (p) => `去“${p}”需要完整旅行：完成今天所有的目标吧。`,
     tUsed: (n) => `${n} 今天已经旅行过了，明天再出发！`,
     pts: (b) => `长大一点`, cta: (n) => `${n} 可以去短途出游了！`, ctaB: "选择出游地点",
-    tripsP: "你完成的每个目标都会装进小伙伴的背包，然后选一个地方让它去吧。它会带回一张明信片和一些惊喜。"
+    tripsP: "每完成一个目标，就会往小伙伴的背包里放一样东西。然后选一个地方让它出发吧。它会带回一张明信片和一些惊喜。"
   },
   zht: {
     kShort: "短途出遊", kFull: "完整旅行", kFullS: "完整旅行", infoL: "這是什麼意思？", infoT: "旅行是怎麼一回事",
@@ -514,7 +514,7 @@ const TR20T = {
     tFar: (p) => `去「${p}」需要完整旅行：完成今天所有的目標吧。`,
     tUsed: (n) => `${n} 今天已經旅行過了，明天再出發！`,
     pts: (b) => `長大一點`, cta: (n) => `${n} 可以去短途出遊了！`, ctaB: "選擇出遊地點",
-    tripsP: "你完成的每個目標都會裝進小夥伴的背包，然後選一個地方送牠去吧。牠會帶著明信片和一些驚喜回來。"
+    tripsP: "每完成一個目標，就會往小夥伴的背包裡放一樣東西。然後選一個地方讓牠出發吧。牠會帶著明信片和一些驚喜回來。"
   },
   ru: {
     kShort: "Короткая прогулка", kFull: "Большое путешествие", kFullS: "Поездка", infoL: "Что это значит?", infoT: "Как устроены поездки",
@@ -538,7 +538,7 @@ const TR20T = {
     tFar: (p) => `«${p}» только для большого путешествия: выполни все цели на сегодня.`,
     tUsed: () => "Сегодня путешествие уже было: завтра снова в путь!",
     pts: (b) => `немного роста`, cta: (n) => `${n} может сходить на короткую прогулку!`, ctaB: "Выбрать прогулку",
-    tripsP: "Каждая твоя выполненная цель наполняет рюкзак питомца, а потом ты выбираешь, куда его отправить. Он вернётся с открыткой и парой сюрпризов."
+    tripsP: "За каждую выполненную цель в рюкзак питомца попадает что-то новое. Потом выбери, куда отправить питомца. Он вернётся с открыткой и парой сюрпризов."
   },
   pl: {
     kShort: "Krótka wycieczka", kFull: "Pełna podróż", kFullS: "Podróż", infoL: "Co to znaczy?", infoT: "Jak działają podróże",
@@ -562,7 +562,7 @@ const TR20T = {
     tFar: (p) => `${p}: potrzebna pełna podróż. Zrealizuj wszystkie dzisiejsze cele.`,
     tUsed: () => "Dzisiejsza podróż już była: jutro znowu w drogę!",
     pts: (b) => `trochę wzrostu`, cta: () => "Czas na krótką wycieczkę!", ctaB: "Wybierz wycieczkę",
-    tripsP: "Każdy twój zrealizowany cel napełnia plecak towarzysza. Potem wybierz, dokąd go wysłać. Wróci z pocztówką i kilkoma niespodziankami."
+    tripsP: "Każdy osiągnięty cel to coś nowego w plecaku twojego towarzysza. Potem wybierz, dokąd ma wyruszyć. Wróci z pocztówką i kilkoma niespodziankami."
   },
   nl: {
     kShort: "Kort uitje", kFull: "Hele reis", kFullS: "Hele reis", infoL: "Wat betekent dit?", infoT: "Zo werken reizen",
@@ -586,7 +586,7 @@ const TR20T = {
     tFar: (p) => `Voor ${p} is een hele reis nodig: rond al je doelen van vandaag af.`,
     tUsed: (n) => `${n} is vandaag al op reis geweest: morgen weer!`,
     pts: (b) => `een beetje groei`, cta: (n) => `${n} kan een kort uitje maken!`, ctaB: "Kies een uitje",
-    tripsP: "Elk doel dat je afrondt vult de rugzak van je maatje. Kies daarna waar het heen gaat. Het komt terug met een ansichtkaart en een paar verrassingen."
+    tripsP: "Elk doel dat je haalt stopt iets in de rugzak van je maatje. Daarna kies jij waar het heen gaat. Het komt terug met een ansichtkaart en een paar verrassingen."
   },
   tr: {
     kShort: "Kısa gezinti", kFull: "Tam yolculuk", kFullS: "Yolculuk", infoL: "Bu ne demek?", infoT: "Geziler nasıl işler",
@@ -610,7 +610,7 @@ const TR20T = {
     tFar: (p) => `${p} için tam yolculuk gerekir: bugünkü tüm hedeflerini tamamla.`,
     tUsed: (n) => `${n} bugün zaten yolculuk yaptı: yarın yine!`,
     pts: (b) => `biraz büyüme`, cta: (n) => `${n} kısa bir gezintiye çıkabilir!`, ctaB: "Gezinti seç",
-    tripsP: "Tamamladığın her hedef arkadaşının sırt çantasını doldurur. Sonra onu nereye göndereceğini seç. Bir kartpostal ve birkaç sürprizle dönecek."
+    tripsP: "Tamamladığın her hedef, arkadaşının sırt çantasına bir şey ekler. Sonra onu nereye göndereceğini seç. Bir kartpostal ve birkaç sürprizle dönecek."
   }
 };
 const tr20t = () => TR20T[S.lang] || TR20T.en;

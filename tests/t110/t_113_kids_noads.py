@@ -204,6 +204,33 @@ async def main(b):
         T.check(f"  {lang}: Plus senza 'senza pubblicità' per il bambino", r["k"] in r["t"] and r["a"] not in r["t"] and r["k"] != r["a"], r["t"][:160])
         T.check(f"  nessun errore ({lang})", not pg.errs, pg.errs[:2])
         await ctx.close()
+    # 1b) 1.0.11 (10/10): in modalita' protetta niente inviti a Plus; Plus resta raggiungibile da Profilo > Acquisti e Plus
+    PROMO = """JSON.stringify((() => { layer.innerHTML = ''; tab = 'more'; moreSub = null; render();
+      const card = !!document.querySelector('button#plusCard'); const txt = document.body.innerText.includes(L().plus.card);
+      layer.innerHTML = '<div class="overlay"><div class="sheet nvplus"><button id="nvPlusGo">x</button></div></div><button id="xmPlusGo">y</button>';
+      return { card, txt, due: nav20plusDue('story') }; })())"""
+    for lang, age, kid in [("en", "child", True), ("en", "skip", True), ("en", "none", True), ("it", "child", True), ("ja", "skip", True), ("en", "teen", False), ("it", "adult", False)]:
+        ctx, pg = await T.page(b, st0(lang, tut=99, firstDay="2026-11-10"), native=True, age=age, lang="en-US", wait=2500, extra_js=SPY)
+        await T.close_layer(pg)
+        r = json.loads(await T.ev(pg, PROMO)); await pg.wait_for_timeout(300)
+        r["left"] = await T.ev(pg, "[!!document.querySelector('.nvplus'), !!document.getElementById('xmPlusGo')].join()")
+        # l'offerta che si apre da sola: chiamata direttamente, con i prezzi finti
+        r["offer"] = await T.ev(pg, """(() => { layer.innerHTML = ''; billProducts = { plans: { year: { price: '9,99 EUR' } } }; nav20plusOffer('story'); return !!document.querySelector('.nvplus'); })()""")
+        await T.ev(pg, "layer.innerHTML = ''; tab = 'more'; moreSub = 'buy'; render(); 1"); await pg.wait_for_timeout(300)
+        q = json.loads(await T.ev(pg, """JSON.stringify((() => { const b = document.getElementById('psPlus'); const o = { has: !!b, lab: b ? b.textContent.trim() : '' };
+          if (b) b.click(); return o; })())"""))
+        await pg.wait_for_timeout(700)
+        q["plus"] = await T.ev(pg, "!!document.querySelector('.plusbox')")
+        q["note"] = await T.ev(pg, "!!document.querySelector('.plusbox .ageadult') && document.querySelector('.plusbox .ageadult').textContent === ageT().adult")
+        if kid:
+            T.check(f"protetta {age} ({lang}): niente scheda 'Scopri Tanetto Plus' in cima al profilo", not r["card"] and not r["txt"], r)
+            T.check(f"  {age} ({lang}): niente proposta di Plus che si apre da sola, niente pulsante Plus dell'albero", r["due"] is False and r["left"] == "false,false" and r["offer"] is False, r)
+            T.check(f"  {age} ({lang}): Plus raggiungibile da Profilo > Acquisti e Plus, pulsante neutro, con l'avviso per gli adulti", q["has"] and q["lab"] == "Tanetto Plus" and q["plus"] and q["note"], q)
+        else:
+            T.check(f"{age} ({lang}): scheda 'Scopri Tanetto Plus' e inviti come prima", r["card"] and r["left"] == "true,true", r)
+            T.check(f"  {age} ({lang}): Plus da Profilo > Acquisti e Plus come prima", q["has"] and q["plus"], q)
+        T.check(f"  nessun errore ({age}, {lang})", not pg.errs, pg.errs[:2])
+        await ctx.close()
     # 2) ragazzi e adulti: come prima
     await grown_case(b, "adult", "double your gift")
     await grown_case(b, "teen", "extra gift")

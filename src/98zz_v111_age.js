@@ -77,7 +77,24 @@ function a111PlusWeb() {
 if (typeof openPlus === "function") { const _a = openPlus; openPlus = function (...a) { const r = _a.apply(this, a); a111PlusWeb(); return r; }; }
 document.addEventListener("click", (ev) => { const b = ev.target.closest && ev.target.closest("[data-plan]"); if (b) setTimeout(a111PlusWeb, 0); });
 
+/* ---------- 3) niente inviti a Plus (1.0.11, 10/10) ----------
+   In modalita' protetta spariscono la scheda "Scopri Tanetto Plus" in cima al profilo, la proposta di Plus che si apre da sola
+   (98f) e il pulsante di Plus dell'albero di Natale (98d). Tanetto Plus resta raggiungibile da Profilo > Acquisti e Plus, con un
+   pulsante neutro ("Tanetto Plus") e il suo avviso per gli adulti; i contenuti di Plus restano segnati col lucchetto come prima. */
+const A111_PROMO = "button#plusCard, #xmPlusGo, .nvplus";
+function a111NoPromo(root) {
+  if (!a111Kid() || !root || !root.querySelectorAll) return;
+  root.querySelectorAll(A111_PROMO).forEach((el) => { const o = el.classList.contains("nvplus") && el.closest(".overlay"); (o || el).remove(); });
+}
+if (typeof viewMore === "function") { const _a = viewMore; viewMore = function (...a) { const h = _a.apply(this, a); if (!a111Kid() || typeof h !== "string") return h; return h.replace(/<button class="pluscard" id="plusCard">[\s\S]*?<\/button>/g, ""); }; }
+if (typeof psBuyCards === "function") { const _a = psBuyCards; psBuyCards = function (...a) { if (!a111Kid()) return _a.apply(this, a); const h = _a.call(this, null); return typeof h === "string" ? h.replace(/<p class="small muted"><\/p>/, "").replace('btn block gold" id="psPlus"', 'btn block ghost" id="psPlus"') : h; }; }
+if (typeof nav20plusDue === "function") { const _a = nav20plusDue; nav20plusDue = function (...a) { if (a111Kid()) return false; return _a.apply(this, a); }; }
+if (typeof nav20plusOffer === "function") { const _a = nav20plusOffer; nav20plusOffer = function (...a) { if (a111Kid()) return; return _a.apply(this, a); }; }
+try { new MutationObserver(() => { if (document.documentElement.classList.contains("a111kid")) a111NoPromo(document.body); }).observe(document.body, { childList: true, subtree: true }); } catch (e) { /* niente */ }
+
 /* ---------- l'eta' cambia (risposta data, "Preferisco non dirlo" poi detta): tutto si riallinea ---------- */
 if (typeof ageSet === "function") { const _a = ageSet; ageSet = function (...a) { const r = _a.apply(this, a); a111Mark(); a111Trial(); return r; }; }
 if (typeof render === "function") { const _a = render; render = function (...a) { a111Mark(); a111Trial(); return _a.apply(this, a); }; }
+/* dopo ogni disegno: via subito gli inviti a Plus (anche dove il profilo li ricompone, 98zh) */
+if (typeof render === "function") { const _a = render; render = function (...a) { const r = _a.apply(this, a); try { a111NoPromo(document.body); } catch (e) { /* niente */ } return r; }; }
 a111Mark();
