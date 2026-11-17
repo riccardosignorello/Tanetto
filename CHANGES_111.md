@@ -91,6 +91,15 @@ dettagli in `docs/PLAY_DATA_SAFETY_111.md`.
 3) **Facoltativo:** pubblicare le regole di Firestore per accendere i premi di Invita un amico (`CHANGES_111_NATIVE.md`).
 
 
-## 5) Prove
+## 5) Prove (17/11/2026, tutte verdi)
 
-(vedi il resoconto dell'unione: numeri di ogni suite)
+1) **Prove nuove e della 1.0.10 (tests/t110):** 25 suite, **2134 controlli OK, 0 NO**; parte nativa nel browser
+(widget, recensione, invito) **190 OK, 0 NO**.
+
+2) **Prove storiche (1.0.8/1.0.9):** tfix_a-f, t7, t109, tcrit, t2-t6, accessibilità (36 schermate, 0 problemi),
+11 suite t38 e controllo delle 14 lingue: **tutte TUTTO OK** (oltre 1.770 controlli).
+
+3) **Widget disegnato con la grafica vera di Android (Robolectric):** 10 prove su 10.
+**Regole di Firestore con l'emulatore:** 25 casi su 25 (abusi compresi).
+
+4) **Build:** AAB e APK firmati con la stessa chiave di caricamento della 1.0.10, versionCode 114, versionName 1.0.11.
