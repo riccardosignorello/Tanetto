@@ -277,7 +277,7 @@ const tr20ruN = (n, a, b, c) => { const m10 = n % 10, m100 = n % 100; return m10
 const tr20plN = (n, a, b, c) => { const m10 = n % 10, m100 = n % 100; return n === 1 ? a : m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14) ? b : c; };
 const TR20T = {
   it: {
-    kShort: "Gita breve", kFull: "Viaggio completo", infoL: "Cosa vuol dire?", infoT: "Come funzionano i viaggi",
+    kShort: "Gita breve", kFull: "Viaggio completo", kFullS: "Viaggio", infoL: "Cosa vuol dire?", infoT: "Come funzionano i viaggi",
     b1: (n) => `Ogni obiettivo mette una cosa nello zaino di ${n}.`,
     b2: (n) => `Con metà degli obiettivi fatti, ${n} può fare una gita breve qui vicino. Con tutti, un viaggio completo, anche nei mondi lontani.`,
     b3: (n) => `Mentre è via la stanza resta vuota: ${n} torna da solo dopo il tempo indicato. Intanto puoi continuare con i tuoi obiettivi.`,
@@ -349,7 +349,7 @@ const TR20T = {
     tripsP: "Erledige deine Ziele, um den Rucksack zu füllen, und wähle dann ein Reiseziel. Mit zurück kommen eine Postkarte und ein paar Überraschungen."
   },
   es: {
-    kShort: "Excursión corta", kFull: "Viaje completo", infoL: "¿Qué significa?", infoT: "Cómo funcionan los viajes",
+    kShort: "Excursión corta", kFull: "Viaje completo", kFullS: "Viaje", infoL: "¿Qué significa?", infoT: "Cómo funcionan los viajes",
     b1: (n) => `Cada objetivo guarda algo en la mochila de ${n}.`,
     b2: (n) => `Con la mitad de tus objetivos hechos, ${n} puede hacer una excursión corta aquí cerca. Con todos, un viaje completo, incluso a los mundos lejanos.`,
     b3: (n) => `Mientras está fuera, la habitación se queda vacía: ${n} vuelve cuando pasa el tiempo indicado. Mientras tanto, puedes seguir con tus objetivos.`,
@@ -373,7 +373,7 @@ const TR20T = {
     tripsP: "Completa tus objetivos para llenarle la mochila y luego elige adónde mandarlo. Volverá con una postal y alguna sorpresa."
   },
   fr: {
-    kShort: "Petite balade", kFull: "Grand voyage", infoL: "Qu'est-ce que ça veut dire ?", infoT: "Comment marchent les voyages",
+    kShort: "Petite balade", kFull: "Grand voyage", kFullS: "Voyage", infoL: "Qu'est-ce que ça veut dire ?", infoT: "Comment marchent les voyages",
     b1: (n) => `Chaque objectif met quelque chose dans le sac à dos de ${n}.`,
     b2: (n) => `Avec la moitié de tes objectifs faits, ${n} peut faire une petite balade tout près. Avec tous, un grand voyage, même vers les mondes lointains.`,
     b3: (n) => `Pendant l'absence, la chambre reste vide : ${n} revient une fois le temps indiqué écoulé. En attendant, tu peux continuer tes objectifs.`,
@@ -397,7 +397,7 @@ const TR20T = {
     tripsP: "Termine tes objectifs pour remplir son sac à dos, puis choisis où l'envoyer. Il revient avec une carte postale et quelques surprises."
   },
   pt: {
-    kShort: "Passeio curto", kFull: "Viagem completa", infoL: "O que isso quer dizer?", infoT: "Como funcionam as viagens",
+    kShort: "Passeio curto", kFull: "Viagem completa", kFullS: "Viagem", infoL: "O que isso quer dizer?", infoT: "Como funcionam as viagens",
     b1: (n) => `Cada meta coloca algo na mochila de ${n}.`,
     b2: (n) => `Com metade das metas feitas, ${n} pode fazer um passeio curto aqui perto. Com todas, uma viagem completa, até para os mundos distantes.`,
     b3: (n) => `Durante a viagem, o quarto fica vazio: ${n} volta quando o tempo indicado acabar. Enquanto isso, você pode continuar com suas metas.`,
@@ -517,7 +517,7 @@ const TR20T = {
     tripsP: "完成目標為牠裝滿背包，然後選一個地方送牠去吧。牠會帶著明信片和一些驚喜回來。"
   },
   ru: {
-    kShort: "Короткая прогулка", kFull: "Большое путешествие", infoL: "Что это значит?", infoT: "Как устроены поездки",
+    kShort: "Короткая прогулка", kFull: "Большое путешествие", kFullS: "Поездка", infoL: "Что это значит?", infoT: "Как устроены поездки",
     b1: (n) => `За каждую выполненную цель ${n} кладёт что-то в рюкзак.`,
     b2: (n) => `Когда выполнена половина целей, ${n} может сходить на короткую прогулку неподалёку. Когда выполнены все, можно отправиться в большое путешествие, даже в далёкие миры.`,
     b3: (n) => `Пока ${n} в пути, комната пустует. Через указанное время ${n} вернётся домой. А ты пока можешь выполнять свои цели.`,
@@ -541,7 +541,7 @@ const TR20T = {
     tripsP: "Выполняй цели, чтобы наполнить рюкзак, а потом выбери, куда отправить питомца. Он вернётся с открыткой и парой сюрпризов."
   },
   pl: {
-    kShort: "Krótka wycieczka", kFull: "Pełna podróż", infoL: "Co to znaczy?", infoT: "Jak działają podróże",
+    kShort: "Krótka wycieczka", kFull: "Pełna podróż", kFullS: "Podróż", infoL: "Co to znaczy?", infoT: "Jak działają podróże",
     b1: (n) => `Za każdy ukończony cel ${n} wkłada coś do plecaka na podróż.`,
     b2: (n) => `Gdy połowa celów jest zrobiona, ${n} może wyruszyć na krótką wycieczkę w pobliże. Gdy wszystkie, w pełną podróż, nawet do dalekich światów.`,
     b3: (n) => `W czasie podróży pokój jest pusty. Po podanym czasie ${n} wraca do domu. A ty możesz dalej realizować swoje cele.`,
@@ -589,7 +589,7 @@ const TR20T = {
     tripsP: "Rond je doelen af om de rugzak te vullen en kies dan waar je maatje heen gaat. Het komt terug met een ansichtkaart en een paar verrassingen."
   },
   tr: {
-    kShort: "Kısa gezinti", kFull: "Tam yolculuk", infoL: "Bu ne demek?", infoT: "Geziler nasıl işler",
+    kShort: "Kısa gezinti", kFull: "Tam yolculuk", kFullS: "Yolculuk", infoL: "Bu ne demek?", infoT: "Geziler nasıl işler",
     b1: (n) => `Her hedefte ${n} sırt çantasına bir şey koyar.`,
     b2: (n) => `Hedeflerinin yarısını bitirince ${n} yakına kısa bir gezintiye çıkabilir. Hepsini bitirince uzak dünyalara bile tam bir yolculuğa çıkabilir.`,
     b3: (n) => `Yoldayken oda boş kalır. Gösterilen süre dolunca ${n} kendiliğinden döner. Bu arada hedeflerine devam edebilirsin.`,
@@ -788,8 +788,9 @@ function tr20StatusCard() {
   let bar = "";
   if (st.n && st.why !== "used") {
     const seg = Array.from({ length: st.n }, (_, k) => `<i class="${k < st.dn ? "on" : ""}${k === st.half - 1 && st.half < st.n ? " half" : ""}"></i>`).join("");
-    /* 1.0.10: come in Casa, "Gita breve" sotto la sua casella e "Viaggio completo" sotto l'ultima */
-    const sc = `<div class="nvscale tr20scale" aria-hidden="true" style="--v110n:${st.n}">${st.half < st.n ? `<span class="h" style="right:${(100 - (st.half / st.n) * 100).toFixed(2)}%">${esc(t.kShort)}</span>` : ""}<span class="f">${esc(t.kFull)}</span></div>`;
+    /* 1.0.10: come in Casa, "Gita breve" sotto la sua casella e "Viaggio completo" sotto l'ultima. 1.0.11: sotto la casella la
+       scritta corta (kFullS: "Viaggio", "Viaje", "Voyage"...) dove quella lunga andava a capo; kFull resta negli altri punti */
+    const sc = `<div class="nvscale tr20scale" aria-hidden="true" style="--v110n:${st.n}">${st.half < st.n ? `<span class="h" style="right:${(100 - (st.half / st.n) * 100).toFixed(2)}%">${esc(t.kShort)}</span>` : ""}<span class="f">${esc(t.kFullS || t.kFull)}</span></div>`;
     bar = `<div class="tr20seg" aria-hidden="true">${seg}</div>${sc}<div class="tr20segl"><span>${esc(t.prog(st.dn, st.n))}</span></div>`;
   }
   const steps = !(S.cards || []).length ? `<div class="tr20how"><b>${esc(t.howT)}</b><ol>${[t.s1, t.s2, t.s3].map((s, k) => `<li><span class="tr20n">${k + 1}</span><span>${esc(s)}</span></li>`).join("")}</ol></div>` : "";

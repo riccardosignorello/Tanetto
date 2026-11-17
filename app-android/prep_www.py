@@ -21,9 +21,13 @@ for fam, ws in [("fredoka", [500, 600, 700]), ("figtree", [400, 500, 600, 700])]
 _sf = open(f"{SITE}/fonts.css", encoding="utf-8").read(); _k = _sf.find("/* 1.0.10 (M-36)")
 assert _k > 0, "caratteri 1.0.10 non trovati in fonts.css"
 css += "\n" + _sf[_k:]
+# 1.0.11: anche le lettere polacche e turche che Fredoka non ha (t111-fredoka-fill-*, fonts.css): senza questi file il
+# telefono le prendeva da un carattere di sistema diverso ("Cześć", "Şekerleme", "İstanbul" nelle schermate dello Store)
 for _f in os.listdir(f"{SITE}/fonts"):
-    if _f.startswith("t110-"): shutil.copy(f"{SITE}/fonts/{_f}", f"{W}/fonts/{_f}")
+    if _f.startswith(("t110-", "t111-")): shutil.copy(f"{SITE}/fonts/{_f}", f"{W}/fonts/{_f}")
 assert len([x for x in os.listdir(f"{W}/fonts") if x.startswith("t110-")]) >= 200, "caratteri 1.0.10 non copiati"
+for _u in re.findall(r"url\((fonts/t11[01]-[^)]+)\)", css):  # ogni carattere nominato in fonts.css deve esserci davvero
+    assert os.path.exists(f"{W}/{_u}"), "manca il carattere " + _u
 open(f"{W}/fonts.css", "w").write(css)
 h = open(f"{SITE}/index.html").read()
 h = h.replace('<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"', '<script src="gsap.min.js"')

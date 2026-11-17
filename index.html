@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-VVhD8pleo5fHSLT+VX8+xVABy1LEBALle/hWO8Z9x98=' 'unsafe-eval' https://apis.google.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.goatcounter.com; media-src 'self' data: blob:; connect-src 'self' data: blob: https://*.googleapis.com https://tanettoapp-pet.firebaseapp.com https://*.goatcounter.com; frame-src https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-9V5QtO2jlFjrjdtDEsZt1KSmIESc6EPCLkKsXLarRAQ=' 'unsafe-eval' https://apis.google.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.goatcounter.com; media-src 'self' data: blob:; connect-src 'self' data: blob: https://*.googleapis.com https://tanettoapp-pet.firebaseapp.com https://*.goatcounter.com; frame-src https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#F4EFE6">
 <title>Tanetto — a tiny pet for your self-care habits (free app)</title>
@@ -3325,6 +3325,7 @@ html.calm .tutwrap.v110tut .tutbox, html.lite .tutwrap.v110tut .tutbox { transit
 .overlay.v110open > * { animation: v110sheet .34s cubic-bezier(.2, .9, .3, 1) both; }
 @keyframes v110veil { from { opacity: 0; } to { opacity: 1; } }
 @keyframes v110sheet { from { translate: 0 28px; } to { translate: 0 0; } }
+.overlay.v110open > .v111gs { animation: none; } /* 1.0.11: ha gia' la sua entrata GSAP (98zo, punto 7) */
 html.calm .overlay.v110open, html.lite .overlay.v110open, html.calm .overlay.v110open > *, html.lite .overlay.v110open > * { animation: none; }
 @media (prefers-reduced-motion: reduce) { .overlay.v110open, .overlay.v110open > * { animation: none !important; } }
 
@@ -38166,7 +38167,7 @@ const tr20ruN = (n, a, b, c) => { const m10 = n % 10, m100 = n % 100; return m10
 const tr20plN = (n, a, b, c) => { const m10 = n % 10, m100 = n % 100; return n === 1 ? a : m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14) ? b : c; };
 const TR20T = {
   it: {
-    kShort: "Gita breve", kFull: "Viaggio completo", infoL: "Cosa vuol dire?", infoT: "Come funzionano i viaggi",
+    kShort: "Gita breve", kFull: "Viaggio completo", kFullS: "Viaggio", infoL: "Cosa vuol dire?", infoT: "Come funzionano i viaggi",
     b1: (n) => `Ogni obiettivo mette una cosa nello zaino di ${n}.`,
     b2: (n) => `Con metà degli obiettivi fatti, ${n} può fare una gita breve qui vicino. Con tutti, un viaggio completo, anche nei mondi lontani.`,
     b3: (n) => `Mentre è via la stanza resta vuota: ${n} torna da solo dopo il tempo indicato. Intanto puoi continuare con i tuoi obiettivi.`,
@@ -38238,7 +38239,7 @@ const TR20T = {
     tripsP: "Erledige deine Ziele, um den Rucksack zu füllen, und wähle dann ein Reiseziel. Mit zurück kommen eine Postkarte und ein paar Überraschungen."
   },
   es: {
-    kShort: "Excursión corta", kFull: "Viaje completo", infoL: "¿Qué significa?", infoT: "Cómo funcionan los viajes",
+    kShort: "Excursión corta", kFull: "Viaje completo", kFullS: "Viaje", infoL: "¿Qué significa?", infoT: "Cómo funcionan los viajes",
     b1: (n) => `Cada objetivo guarda algo en la mochila de ${n}.`,
     b2: (n) => `Con la mitad de tus objetivos hechos, ${n} puede hacer una excursión corta aquí cerca. Con todos, un viaje completo, incluso a los mundos lejanos.`,
     b3: (n) => `Mientras está fuera, la habitación se queda vacía: ${n} vuelve cuando pasa el tiempo indicado. Mientras tanto, puedes seguir con tus objetivos.`,
@@ -38262,7 +38263,7 @@ const TR20T = {
     tripsP: "Completa tus objetivos para llenarle la mochila y luego elige adónde mandarlo. Volverá con una postal y alguna sorpresa."
   },
   fr: {
-    kShort: "Petite balade", kFull: "Grand voyage", infoL: "Qu'est-ce que ça veut dire ?", infoT: "Comment marchent les voyages",
+    kShort: "Petite balade", kFull: "Grand voyage", kFullS: "Voyage", infoL: "Qu'est-ce que ça veut dire ?", infoT: "Comment marchent les voyages",
     b1: (n) => `Chaque objectif met quelque chose dans le sac à dos de ${n}.`,
     b2: (n) => `Avec la moitié de tes objectifs faits, ${n} peut faire une petite balade tout près. Avec tous, un grand voyage, même vers les mondes lointains.`,
     b3: (n) => `Pendant l'absence, la chambre reste vide : ${n} revient une fois le temps indiqué écoulé. En attendant, tu peux continuer tes objectifs.`,
@@ -38286,7 +38287,7 @@ const TR20T = {
     tripsP: "Termine tes objectifs pour remplir son sac à dos, puis choisis où l'envoyer. Il revient avec une carte postale et quelques surprises."
   },
   pt: {
-    kShort: "Passeio curto", kFull: "Viagem completa", infoL: "O que isso quer dizer?", infoT: "Como funcionam as viagens",
+    kShort: "Passeio curto", kFull: "Viagem completa", kFullS: "Viagem", infoL: "O que isso quer dizer?", infoT: "Como funcionam as viagens",
     b1: (n) => `Cada meta coloca algo na mochila de ${n}.`,
     b2: (n) => `Com metade das metas feitas, ${n} pode fazer um passeio curto aqui perto. Com todas, uma viagem completa, até para os mundos distantes.`,
     b3: (n) => `Durante a viagem, o quarto fica vazio: ${n} volta quando o tempo indicado acabar. Enquanto isso, você pode continuar com suas metas.`,
@@ -38406,7 +38407,7 @@ const TR20T = {
     tripsP: "完成目標為牠裝滿背包，然後選一個地方送牠去吧。牠會帶著明信片和一些驚喜回來。"
   },
   ru: {
-    kShort: "Короткая прогулка", kFull: "Большое путешествие", infoL: "Что это значит?", infoT: "Как устроены поездки",
+    kShort: "Короткая прогулка", kFull: "Большое путешествие", kFullS: "Поездка", infoL: "Что это значит?", infoT: "Как устроены поездки",
     b1: (n) => `За каждую выполненную цель ${n} кладёт что-то в рюкзак.`,
     b2: (n) => `Когда выполнена половина целей, ${n} может сходить на короткую прогулку неподалёку. Когда выполнены все, можно отправиться в большое путешествие, даже в далёкие миры.`,
     b3: (n) => `Пока ${n} в пути, комната пустует. Через указанное время ${n} вернётся домой. А ты пока можешь выполнять свои цели.`,
@@ -38430,7 +38431,7 @@ const TR20T = {
     tripsP: "Выполняй цели, чтобы наполнить рюкзак, а потом выбери, куда отправить питомца. Он вернётся с открыткой и парой сюрпризов."
   },
   pl: {
-    kShort: "Krótka wycieczka", kFull: "Pełna podróż", infoL: "Co to znaczy?", infoT: "Jak działają podróże",
+    kShort: "Krótka wycieczka", kFull: "Pełna podróż", kFullS: "Podróż", infoL: "Co to znaczy?", infoT: "Jak działają podróże",
     b1: (n) => `Za każdy ukończony cel ${n} wkłada coś do plecaka na podróż.`,
     b2: (n) => `Gdy połowa celów jest zrobiona, ${n} może wyruszyć na krótką wycieczkę w pobliże. Gdy wszystkie, w pełną podróż, nawet do dalekich światów.`,
     b3: (n) => `W czasie podróży pokój jest pusty. Po podanym czasie ${n} wraca do domu. A ty możesz dalej realizować swoje cele.`,
@@ -38478,7 +38479,7 @@ const TR20T = {
     tripsP: "Rond je doelen af om de rugzak te vullen en kies dan waar je maatje heen gaat. Het komt terug met een ansichtkaart en een paar verrassingen."
   },
   tr: {
-    kShort: "Kısa gezinti", kFull: "Tam yolculuk", infoL: "Bu ne demek?", infoT: "Geziler nasıl işler",
+    kShort: "Kısa gezinti", kFull: "Tam yolculuk", kFullS: "Yolculuk", infoL: "Bu ne demek?", infoT: "Geziler nasıl işler",
     b1: (n) => `Her hedefte ${n} sırt çantasına bir şey koyar.`,
     b2: (n) => `Hedeflerinin yarısını bitirince ${n} yakına kısa bir gezintiye çıkabilir. Hepsini bitirince uzak dünyalara bile tam bir yolculuğa çıkabilir.`,
     b3: (n) => `Yoldayken oda boş kalır. Gösterilen süre dolunca ${n} kendiliğinden döner. Bu arada hedeflerine devam edebilirsin.`,
@@ -38677,8 +38678,9 @@ function tr20StatusCard() {
   let bar = "";
   if (st.n && st.why !== "used") {
     const seg = Array.from({ length: st.n }, (_, k) => `<i class="${k < st.dn ? "on" : ""}${k === st.half - 1 && st.half < st.n ? " half" : ""}"></i>`).join("");
-    /* 1.0.10: come in Casa, "Gita breve" sotto la sua casella e "Viaggio completo" sotto l'ultima */
-    const sc = `<div class="nvscale tr20scale" aria-hidden="true" style="--v110n:${st.n}">${st.half < st.n ? `<span class="h" style="right:${(100 - (st.half / st.n) * 100).toFixed(2)}%">${esc(t.kShort)}</span>` : ""}<span class="f">${esc(t.kFull)}</span></div>`;
+    /* 1.0.10: come in Casa, "Gita breve" sotto la sua casella e "Viaggio completo" sotto l'ultima. 1.0.11: sotto la casella la
+       scritta corta (kFullS: "Viaggio", "Viaje", "Voyage"...) dove quella lunga andava a capo; kFull resta negli altri punti */
+    const sc = `<div class="nvscale tr20scale" aria-hidden="true" style="--v110n:${st.n}">${st.half < st.n ? `<span class="h" style="right:${(100 - (st.half / st.n) * 100).toFixed(2)}%">${esc(t.kShort)}</span>` : ""}<span class="f">${esc(t.kFullS || t.kFull)}</span></div>`;
     bar = `<div class="tr20seg" aria-hidden="true">${seg}</div>${sc}<div class="tr20segl"><span>${esc(t.prog(st.dn, st.n))}</span></div>`;
   }
   const steps = !(S.cards || []).length ? `<div class="tr20how"><b>${esc(t.howT)}</b><ol>${[t.s1, t.s2, t.s3].map((s, k) => `<li><span class="tr20n">${k + 1}</span><span>${esc(s)}</span></li>`).join("")}</ol></div>` : "";
@@ -40737,7 +40739,7 @@ function nav20energy() {
   const half = st.half < st.n && st.why !== "used";
   const seg = Array.from({ length: st.n }, (_, k) => `<i class="${k < st.dn && st.why !== "used" ? "on" : ""}${half && k === st.half - 1 ? " half" : ""}"></i>`).join("");
   /* sotto la barra: dove arriva la gita breve (fine del segmento a meta') e dove il viaggio completo */
-  const scale = tt && st.why !== "used" ? `<div class="nvscale" aria-hidden="true">${half ? `<span class="h" style="right:${(100 - (st.half / st.n) * 100).toFixed(2)}%">${esc(tt.kShort)}</span>` : ""}<span class="f">${esc(tt.kFull)}</span></div>` : "";
+  const scale = tt && st.why !== "used" ? `<div class="nvscale" aria-hidden="true">${half ? `<span class="h" style="right:${(100 - (st.half / st.n) * 100).toFixed(2)}%">${esc(tt.kShort)}</span>` : ""}<span class="f">${esc(tt.kFullS || tt.kFull)}</span></div>` : "";
   return `<div class="nven nv-${cls}" id="nvEnergy"><div class="nvenhd"><span class="nvbadge">${typeof LEAF !== "undefined" ? LEAF : icon("nvbolt")}</span><b>${esc(t.en)}</b><span class="nvenv">${esc(t.enOf(st.why === "used" ? 0 : st.dn, st.n))}</span><span class="spacer"></span><button class="nvi" type="button" ${typeof tr20InfoSheet === "function" ? 'data-tr20info="1"' : 'data-nvinfo="energy"'} aria-label="${esc(t.enI)}">${icon("nvinfo")}</button></div>
   <div class="nvseg" role="progressbar" aria-label="${esc(t.en)}" aria-valuemin="0" aria-valuemax="${st.n}" aria-valuenow="${st.why === "used" ? 0 : st.dn}">${seg}</div>${scale}
   <div class="nvenrow"><p class="nvtx">${esc(txt)}</p>${btn}</div></div>`;
@@ -44645,10 +44647,14 @@ try {
 } catch (e) { /* niente */ }
 /* Plus e negozio dei Tanì: "Chiudi" diventa una striscia piena quando si scorre */
 /* (il negozio dei Tanì e' un foglio dal basso: a scorrere e' la finestra intorno, non il foglio) */
+/* 1.0.11: se si scorre mentre il foglio sta ancora entrando (animazione di 0,4 s, piu' lunga su un telefono lento), l'entrata
+   finisce subito: prima la striscia di "Chiudi" restava per un attimo a meta' schermo (28 px piu' in basso, con la pagina
+   visibile sopra) invece che in alto */
+function v111SettleSheet(el) { try { if (G && el && el.classList.contains("scrolled")) G.getTweensOf(el).forEach((tw) => tw.progress(1)); } catch (e) { /* niente */ } }
 document.addEventListener("scroll", (ev) => {
   const b = ev.target; if (!b || !b.classList) return;
-  if (b.classList.contains("plusbox") || b.classList.contains("tshop")) { b.classList.toggle("scrolled", b.scrollTop > 6); return; }
-  if (b.classList.contains("overlay")) { const t = b.querySelector(":scope > .tshop"); if (t) t.classList.toggle("scrolled", b.scrollTop > 6); }
+  if (b.classList.contains("plusbox") || b.classList.contains("tshop")) { b.classList.toggle("scrolled", b.scrollTop > 6); v111SettleSheet(b); return; }
+  if (b.classList.contains("overlay")) { const t = b.querySelector(":scope > .tshop"); if (t) { t.classList.toggle("scrolled", b.scrollTop > 6); v111SettleSheet(t); } }
 }, true);
 
 /* ---------- 11) senza internet (sito installato): una cartolina mai vista mostra il disegno di prima, non un'immagine rotta ---------- */
@@ -47439,7 +47445,17 @@ try {
   let v110WasEmpty = !layer.innerHTML.trim();
   new MutationObserver(() => {
     const empty = !layer.innerHTML.trim();
-    if (v110WasEmpty && !empty && anim) { const ov = layer.querySelector(".overlay"); if (ov) { ov.classList.add("v110open"); setTimeout(() => ov.classList.remove("v110open"), 450); } }
+    if (v110WasEmpty && !empty && anim) {
+      const ov = layer.querySelector(".overlay");
+      if (ov) {
+        /* 1.0.11: se il riquadro ha gia' la sua entrata GSAP (negozio dei Tanì, Plus, fogli dal basso) qui sale solo il velo.
+           Prima GSAP leggeva come punto d'arrivo i 28 px della salita CSS ("translate") e il riquadro restava 28 px piu' in basso
+           per sempre: nel negozio la striscia di "Chiudi" stava a 44 px dal bordo con la pagina visibile sopra, e i fogli dal
+           basso perdevano 28 px sotto il bordo dello schermo. */
+        [...ov.children].forEach((c) => { try { if (G && G.getTweensOf(c).length) c.classList.add("v111gs"); } catch (e) { /* niente */ } });
+        ov.classList.add("v110open"); setTimeout(() => ov.classList.remove("v110open"), 450);
+      }
+    }
     v110WasEmpty = empty;
   }).observe(layer, { childList: true });
 } catch (e) { /* niente */ }

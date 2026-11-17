@@ -49,6 +49,7 @@ async def zaino(b):
                             if x["dc"] > 1.5: bad.append(("non centrata", x["txt"], round(x["dc"], 1)))
                             if x["l"] < m["card"][0] + 4 or x["r"] > m["card"][1] - 4: bad.append(("fuori dalla scheda", x["txt"]))
                             if x["lines"] > 2: bad.append(("piu' di 2 righe", x["txt"]))
+                            if x is m["f"] and x["lines"] != 1: bad.append(("1.0.11: la scritta del viaggio (kFullS) va su una riga", x["txt"]))
                             if x["top"] < m["segBottom"] or x["bottom"] > m["nxt"] + 0.5: bad.append(("si sovrappone alle caselle o al testo sotto", x["txt"]))
                             if x["fs"] < 10: bad.append(("carattere troppo piccolo", x["txt"], x["fs"]))
                             worst["one" if x["lines"] == 1 else "two"] += 1
@@ -63,14 +64,14 @@ async def zaino(b):
                 T.check(f"  nessun errore ({lang} {w}px {done}/{goals})", not pg.errs, pg.errs[:2])
                 await ctx.close()
     print("scritte su una riga:", worst["one"], "su due righe:", worst["two"])
-    # su un telefono normale (412) e in italiano "Viaggio completo" e "Gita breve" stanno su una riga
+    # su un telefono normale (412) e in italiano "Viaggio" e "Gita breve" stanno su una riga
     st = T.base_state("it", done=["water"])
     ctx, pg = await T.page(b, st, age="adult", w=412, h=1000, lang="it-IT", wait=1800)
     await T.close_layer(pg)
     m = json.loads(await T.ev(pg, MEASURE))[0]
-    # 412 px: "Gita breve" su una riga; "Viaggio completo" (circa 90 px anche a 11 px) non sta centrato su una riga sotto
-    # l'ultima casella (ci sono circa 41 px per lato): due righe, centrate
-    T.check("it 412 px: 'Gita breve' su una riga, 'Viaggio completo' centrato (due righe: su una non starebbe centrato)", m["h"]["lines"] == 1 and m["f"]["dc"] <= 1.5 and m["f"]["lines"] == 2, (m["f"], m["h"]))
+    # 1.0.11 (richiesta del proprietario): sotto l'ultima casella "Viaggio" (prima "Viaggio completo", su due righe): ora
+    # "Gita breve" e "Viaggio" stanno tutte e due su una riga, centrate, a 12,5 px
+    T.check("it 412 px: 'Gita breve' e 'Viaggio' su una riga, centrate, 12,5 px", m["h"]["txt"] == "Gita breve" and m["f"]["txt"] == "Viaggio" and m["h"]["lines"] == 1 and m["f"]["lines"] == 1 and m["f"]["dc"] <= 1.5 and m["h"]["dc"] <= 1.5 and m["f"]["fs"] == 12.5, (m["f"], m["h"]))
     # dopo un cambio di larghezza (tablet / telefono girato) le scritte si risistemano: c'e' posto, una riga sola
     await pg.set_viewport_size({"width": 820, "height": 1000}); await pg.wait_for_timeout(600)
     m = json.loads(await T.ev(pg, MEASURE))[0]

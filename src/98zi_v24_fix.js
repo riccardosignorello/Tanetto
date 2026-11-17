@@ -201,10 +201,14 @@ try {
 } catch (e) { /* niente */ }
 /* Plus e negozio dei Tanì: "Chiudi" diventa una striscia piena quando si scorre */
 /* (il negozio dei Tanì e' un foglio dal basso: a scorrere e' la finestra intorno, non il foglio) */
+/* 1.0.11: se si scorre mentre il foglio sta ancora entrando (animazione di 0,4 s, piu' lunga su un telefono lento), l'entrata
+   finisce subito: prima la striscia di "Chiudi" restava per un attimo a meta' schermo (28 px piu' in basso, con la pagina
+   visibile sopra) invece che in alto */
+function v111SettleSheet(el) { try { if (G && el && el.classList.contains("scrolled")) G.getTweensOf(el).forEach((tw) => tw.progress(1)); } catch (e) { /* niente */ } }
 document.addEventListener("scroll", (ev) => {
   const b = ev.target; if (!b || !b.classList) return;
-  if (b.classList.contains("plusbox") || b.classList.contains("tshop")) { b.classList.toggle("scrolled", b.scrollTop > 6); return; }
-  if (b.classList.contains("overlay")) { const t = b.querySelector(":scope > .tshop"); if (t) t.classList.toggle("scrolled", b.scrollTop > 6); }
+  if (b.classList.contains("plusbox") || b.classList.contains("tshop")) { b.classList.toggle("scrolled", b.scrollTop > 6); v111SettleSheet(b); return; }
+  if (b.classList.contains("overlay")) { const t = b.querySelector(":scope > .tshop"); if (t) { t.classList.toggle("scrolled", b.scrollTop > 6); v111SettleSheet(t); } }
 }, true);
 
 /* ---------- 11) senza internet (sito installato): una cartolina mai vista mostra il disegno di prima, non un'immagine rotta ---------- */

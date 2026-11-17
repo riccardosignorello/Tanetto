@@ -50,6 +50,6 @@ async def main(b):
     T.check("M-45/G-07 'Esci' = moveTaskToBack (avvio successivo immediato)", "moveTaskToBack(true)" in bp and "finish()" not in bp)
     T.check("G-13 splash scuro uguale al fondo dell'app (#1A1714)", "#1A1714" in open(os.path.join(AND, "res/values-night/colors_splash.xml")).read())
     gr = open(os.path.join(T.REPO, "app-android/android/app/build.gradle")).read()
-    T.check("versione 114 / 1.0.11 (ramo feat-111-native; il numero finale lo decide l'unione)", "versionCode 114" in gr and 'versionName "1.0.11"' in gr)
+    T.check("versione 114 / 1.0.11 (versione finale della 1.0.11)", "versionCode 114" in gr and 'versionName "1.0.11"' in gr)
 
 T.run(main)

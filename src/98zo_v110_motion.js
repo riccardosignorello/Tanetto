@@ -150,7 +150,17 @@ try {
   let v110WasEmpty = !layer.innerHTML.trim();
   new MutationObserver(() => {
     const empty = !layer.innerHTML.trim();
-    if (v110WasEmpty && !empty && anim) { const ov = layer.querySelector(".overlay"); if (ov) { ov.classList.add("v110open"); setTimeout(() => ov.classList.remove("v110open"), 450); } }
+    if (v110WasEmpty && !empty && anim) {
+      const ov = layer.querySelector(".overlay");
+      if (ov) {
+        /* 1.0.11: se il riquadro ha gia' la sua entrata GSAP (negozio dei Tanì, Plus, fogli dal basso) qui sale solo il velo.
+           Prima GSAP leggeva come punto d'arrivo i 28 px della salita CSS ("translate") e il riquadro restava 28 px piu' in basso
+           per sempre: nel negozio la striscia di "Chiudi" stava a 44 px dal bordo con la pagina visibile sopra, e i fogli dal
+           basso perdevano 28 px sotto il bordo dello schermo. */
+        [...ov.children].forEach((c) => { try { if (G && G.getTweensOf(c).length) c.classList.add("v111gs"); } catch (e) { /* niente */ } });
+        ov.classList.add("v110open"); setTimeout(() => ov.classList.remove("v110open"), 450);
+      }
+    }
     v110WasEmpty = empty;
   }).observe(layer, { childList: true });
 } catch (e) { /* niente */ }

@@ -594,7 +594,7 @@ function nav20energy() {
   const half = st.half < st.n && st.why !== "used";
   const seg = Array.from({ length: st.n }, (_, k) => `<i class="${k < st.dn && st.why !== "used" ? "on" : ""}${half && k === st.half - 1 ? " half" : ""}"></i>`).join("");
   /* sotto la barra: dove arriva la gita breve (fine del segmento a meta') e dove il viaggio completo */
-  const scale = tt && st.why !== "used" ? `<div class="nvscale" aria-hidden="true">${half ? `<span class="h" style="right:${(100 - (st.half / st.n) * 100).toFixed(2)}%">${esc(tt.kShort)}</span>` : ""}<span class="f">${esc(tt.kFull)}</span></div>` : "";
+  const scale = tt && st.why !== "used" ? `<div class="nvscale" aria-hidden="true">${half ? `<span class="h" style="right:${(100 - (st.half / st.n) * 100).toFixed(2)}%">${esc(tt.kShort)}</span>` : ""}<span class="f">${esc(tt.kFullS || tt.kFull)}</span></div>` : "";
   return `<div class="nven nv-${cls}" id="nvEnergy"><div class="nvenhd"><span class="nvbadge">${typeof LEAF !== "undefined" ? LEAF : icon("nvbolt")}</span><b>${esc(t.en)}</b><span class="nvenv">${esc(t.enOf(st.why === "used" ? 0 : st.dn, st.n))}</span><span class="spacer"></span><button class="nvi" type="button" ${typeof tr20InfoSheet === "function" ? 'data-tr20info="1"' : 'data-nvinfo="energy"'} aria-label="${esc(t.enI)}">${icon("nvinfo")}</button></div>
   <div class="nvseg" role="progressbar" aria-label="${esc(t.en)}" aria-valuemin="0" aria-valuemax="${st.n}" aria-valuenow="${st.why === "used" ? 0 : st.dn}">${seg}</div>${scale}
   <div class="nvenrow"><p class="nvtx">${esc(txt)}</p>${btn}</div></div>`;

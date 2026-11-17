@@ -119,6 +119,21 @@ P = [
 P += [
     ("p1/t109.py", 'ADS = """window.__adsInit = 0;', 'ADS = """localStorage.setItem(`tanetto-eta`, JSON.stringify({y: 1990, m: 5})); window.__adsInit = 0;', "113: video e consenso solo da 13 anni in su (la prova usa un adulto)"),
 ]
+# 1.0.11: versione finale dell'unione = versionCode 114, versionName "1.0.11" (110-113 gia' usati)
+P += [
+    ("fix109/tfix_a.py", """check("Android: versionCode 114 e versionName 1.0.10 (110 e 111 gia' caricati su Play)", "versionCode 114" in g and 'versionName "1.0.10"' in g)""",
+     """check("Android: versionCode 114 e versionName 1.0.11 (110-113 gia' usati)", "versionCode 114" in g and 'versionName "1.0.11"' in g)""", "versione 1.0.11 (114)"),
+    ("fix109/t38run5/t38_devices.py", """check("Versione 1.0.10 (112) per Google Play (1.0.10: R8, widget, App Check; 110 e 111 gia' caricati)", "versionCode 114" in vs.replace("  ", " ") and 'versionName "1.0.10"' in vs,""",
+     """check("Versione 1.0.11 (114) per Google Play (R8, widget, App Check; 110-113 gia' usati)", "versionCode 114" in vs.replace("  ", " ") and 'versionName "1.0.11"' in vs,""", "versione 1.0.11 (114)"),
+]
+# 1.0.11: budget delle immagini. Si aggiungono le 24 icone accanto al nome (img/ni, richiesta del proprietario 17/11/2026, gia'
+# ricompresse dai PNG originali senza differenze visibili: 124 -> 83 KB) e 4 cartoline 3D dell'America Latina (img/pc, 79 KB, gia'
+# piu' leggere della media). Totale 3,84 MB: sopra 3,8 MB di 37 KB senza togliere qualita' alle immagini. Le cartoline (img/pc) non
+# sono nella cache iniziale (si scaricano quando si vedono); la crescita dell'AAB resta molto sotto il limite del proprietario
+# (~5 MB). Nuova soglia 3,9 MB.
+P += [
+    ("fix109/suites/p3b/t6.py", "tot < 3.8e6, tot)", "tot < 3.9e6, tot)", "1.0.11: icone accanto al nome + cartoline America Latina"),
+]
 bad = 0
 for f, old, new, why in P:
     p = os.path.join(DST, f)

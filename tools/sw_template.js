@@ -14,7 +14,9 @@ self.addEventListener("fetch", (e) => {
   let u; try { u = new URL(r.url); } catch (x) { return; }
   const same = u.origin === self.location.origin, font = /^https:\/\/fonts\.(googleapis|gstatic)\.com$/.test(u.origin);
   if (r.mode === "navigate") {
-    const app = same && /(\/|\/index\.html)$/.test(u.pathname);
+    /* 1.0.11 (sicurezza): solo la pagina principale dell'app (radice dello scope o index.html dello scope) diventa la copia
+       senza internet; prima bastava un percorso che finisse con "/" (es. /Tanetto/press/) per sovrascriverla. Nome "rt" e non "r": "r" e' gia' la richiesta */
+    const rt = new URL("./", self.registration.scope).pathname; const app = same && (u.pathname === rt || u.pathname === rt + "index.html");
     e.respondWith(fetch(r).then((res) => { if (app && res.ok && res.type === "basic") { const cp = res.clone(); caches.open(C).then((c) => c.put("index.html", cp)); } return res; })
       .catch(() => (app ? caches.match("index.html") : caches.match(r).then((x) => x || caches.match("index.html")))));
     return;
