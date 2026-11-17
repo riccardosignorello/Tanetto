@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-yA+/8EKnQAA4Yme9JlteBD0to9HE3YD8MtqLFB6+8RI=' 'unsafe-eval' https://apis.google.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.goatcounter.com; media-src 'self' data: blob:; connect-src 'self' data: blob: https://*.googleapis.com https://tanettoapp-pet.firebaseapp.com https://*.goatcounter.com; frame-src https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-aird8An4UnBLPbRBHmMNTl2gBsqVZa0t0dOr5XjSj3Y=' 'unsafe-eval' https://apis.google.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.goatcounter.com; media-src 'self' data: blob:; connect-src 'self' data: blob: https://*.googleapis.com https://tanettoapp-pet.firebaseapp.com https://*.goatcounter.com; frame-src https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#F4EFE6">
 <title>Tanetto — a tiny pet for your self-care habits (free app)</title>
@@ -25631,7 +25631,7 @@ const SND = (() => {
     if (ctx && evCur) { evTick(); return; }
     if (!ctx || !song) return;
     const { tr, bars } = song; const L = MODES[tr.mode].length; const I = INST[tr.mel], A = INST[tr.accI];
-    while (nextT < ctx.currentTime + 0.5) {
+    while (nextT < (fakeNow != null ? fakeNow : ctx.currentTime + 0.5)) {
       const bi = Math.floor(step / tr.per), si = step % tr.per;
       if (bi >= bars.length) { next(); return; }
       const d = tr.prog[bi % 4]; const ch = chordIdx(tr, d); const t = nextT + (tr.swing && si % 2 ? tr.beat * tr.swing : 0);
@@ -25745,29 +25745,29 @@ const SND = (() => {
     kick: (c, d, t, v) => { const os = c.createOscillator(), g = c.createGain(); os.frequency.setValueAtTime(105, t); os.frequency.exponentialRampToValueAtTime(48, t + 0.16); g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(v, t + 0.004); g.gain.setTargetAtTime(0, t + 0.004, 0.06); os.connect(g); g.connect(d); os.start(t); os.stop(t + 0.45); },
     wind: (c, d, t, v, k) => { const len = 2.6; const s = c.createBufferSource(), bp = c.createBiquadFilter(), g = c.createGain(); s.buffer = evNoiseBuf(c); s.loop = true; bp.type = "bandpass"; bp.Q.value = 2.2; bp.frequency.setValueAtTime(420, t); bp.frequency.exponentialRampToValueAtTime(1500, t + len * 0.55); bp.frequency.exponentialRampToValueAtTime(600, t + len); g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(v, t + len * 0.5); g.gain.linearRampToValueAtTime(0, t + len); s.connect(bp); bp.connect(g); g.connect(d); s.start(t, (k * 0.13) % 0.5); s.stop(t + len + 0.05); }
   };
-  /* --- i brani --- */
+  /* --- i brani --- (g: volume tarato perche' ogni brano suoni come la media dei 21 brani normali, circa -28 LUFS) */
   const EVS = {
-    lanterns: { step: 60 / 168, per: 6, g: 1.0,
+    lanterns: { step: 60 / 168, per: 6, g: 0.6,
       intro: ["Dm9", "Bbmaj7"],
       ch: ["Dm9", "Bbmaj7", "F", "C/E", "Dm9", "Bbmaj7", "Gm7", "A7", "Bbmaj7", "C", "Am7", "Dm", "Gm7", "C", "Bbmaj7", "A7"],
       mel: "A4:3 C5:1 D5:2 | F5:3 E5:1 D5:2 | C5:3 A4:1 C5:2 | G4:6 | A4:3 C5:1 D5:2 | F5:2 G5:1 A5:3 | G5:2 F5:1 E5:2 D5:1 | E5:3 C#5:3 | D5:2 F5:1 A5:3 | G5:2 E5:1 C5:3 | E5:2 G5:1 C6:2 A5:1 | A5:6 | Bb5:2 A5:1 G5:3 | G5:2 F5:1 E5:3 | F5:2 E5:1 D5:2 C5:1 | C#5:3 E5:3",
       cnt: "r:6 | D5:3 C5:3 | A4:3 C5:3 | E5:3 D5:3 | r:6 | D5:3 F5:3 | Bb4:3 D5:3 | A4:6 | F4:3 A4:3 | E4:3 G4:3 | C5:3 E5:3 | D5:3 F5:3 | D5:3 Bb4:3 | G4:3 C5:3 | D5:3 Bb4:3 | E5:3 A4:3" },
-    xmas: { step: 60 / 200, per: 8, swing: 0.16, g: 0.95,
+    xmas: { step: 60 / 200, per: 8, swing: 0.16, g: 1.52,
       intro: ["G", "D7"],
       ch: ["G", "Em7", "Am7", "D7", "G", "B7/F#", "Em", "G7/D", "C", "Cm6", "G/B", "E7", "Am7", "D7", "G", "D7"],
       mel: "D5:2 G5:2 F#5:1 G5:1 A5:2 | B5:3 A5:1 G5:4 | E5:2 A5:2 G5:1 F#5:1 E5:2 | F#5:6 r:2 | D5:2 G5:2 F#5:1 G5:1 B5:2 | A5:2 F#5:2 D#5:4 | E5:2 G5:2 B5:2 E6:2 | D6:4 B5:2 F5:2 | E6:3 D6:1 C6:2 G5:2 | Eb6:3 D6:1 C6:2 A5:2 | B5:2 D6:2 G5:2 B5:2 | G#5:4 E5:2 D5:2 | C6:3 B5:1 A5:2 E5:2 | F#5:2 A5:2 C6:2 A5:2 | B5:4 A5:2 G5:2 | A5:3 G5:1 F#5:2 E5:2",
       cnt: "B4:4 D5:4 | G4:4 B4:4 | C5:4 E5:4 | D5:4 C5:4 | B4:4 D5:4 | D#5:4 F#5:4 | G5:4 E5:4 | F5:4 D5:4 | G5:4 E5:4 | G5:4 Eb5:4 | D5:4 G5:4 | E5:4 D5:4 | E5:4 C5:4 | C5:4 D5:4 | D5:4 B4:4 | C5:4 A4:4" },
-    fresh: { step: 60 / 184, per: 8, g: 0.95,
+    fresh: { step: 60 / 184, per: 8, g: 0.64,
       intro: ["Cmaj7", "D/C"],
       ch: ["Cmaj7", "D/C", "Em7", "Fmaj7", "Am7", "G/B", "Fmaj7", "Gsus4", "Fmaj7", "G", "Em7", "Am7", "Dm7", "G", "Csus2", "G7"],
       mel: "E5:2 G5:2 B5:3 r:1 | A5:2 F#5:2 D5:4 | G5:2 B5:2 D6:3 B5:1 | C6:6 A5:2 | E5:2 A5:2 C6:3 B5:1 | D6:2 B5:2 G5:4 | A5:2 C6:2 E6:2 D6:2 | C6:4 B5:4 | A5:3 G5:1 F5:2 A5:2 | B5:3 A5:1 G5:2 B5:2 | D6:3 C6:1 B5:2 G5:2 | C6:6 r:2 | F5:2 A5:2 D6:2 C6:2 | B5:2 D6:2 B5:2 G5:2 | D6:4 C6:2 G5:2 | F5:4 D5:4",
       cnt: "G4:8 | F#4:8 | B4:8 | A4:8 | C5:8 | B4:8 | A4:8 | G4:4 D5:4 | C5:8 | D5:8 | G4:8 | E5:8 | D5:8 | D5:8 | G4:8 | C5:8" },
-    stars: { step: 60 / 144, per: 8, g: 1.1,
+    stars: { step: 60 / 144, per: 8, g: 0.93,
       intro: ["Dmaj7", "Gmaj7"],
       ch: ["Dmaj7", "E/D", "Bm7", "Gmaj7", "Em7", "A", "F#m7", "Bm7", "Gmaj7", "A/G", "F#m7", "Bm7", "Em9", "A", "Dmaj7", "A7sus4"],
       mel: "F#5:3 A5:1 C#6:4 | B5:3 G#5:1 E5:4 | D6:3 C#6:1 A5:2 F#5:2 | F#5:8 | G5:3 B5:1 D6:4 | C#6:3 B5:1 A5:4 | A5:2 C#6:2 E6:2 C#6:2 | B5:8 | D6:3 C#6:1 B5:2 F#5:2 | E6:3 D6:1 C#6:2 A5:2 | C#6:3 B5:1 A5:2 F#5:2 | D6:6 C#6:2 | B5:3 A5:1 G5:2 F#5:2 | E5:2 A5:2 D6:2 C#6:2 | A5:4 F#5:4 | E5:6 r:2",
       cnt: "D5:8 | B4:8 | F#4:8 | B4:4 D5:4 | B4:8 | E5:4 C#5:4 | C#5:8 | D5:4 F#5:4 | B4:8 | A4:8 | A4:8 | F#4:8 | G4:8 | G4:4 A4:4 | D5:8 | C#5:8" },
-    kites: { step: 60 / 224, per: 8, g: 0.9,
+    kites: { step: 60 / 224, per: 8, g: 1.11,
       intro: ["F", "C/E"],
       ch: ["F", "C/E", "Dm7", "Bb", "F/A", "Gm7", "C", "C7", "Bb", "C", "Am7", "Dm7", "Gm7", "C", "F", "C7"],
       mel: "C5:1 F5:1 A5:2 G5:1 A5:1 C6:2 | G5:2 E5:2 C5:4 | D5:1 F5:1 A5:2 C6:1 A5:1 F5:2 | D5:2 F5:2 Bb5:4 | A5:2 C6:2 F6:3 E6:1 | D6:2 Bb5:2 G5:4 | E5:1 G5:1 C6:2 Bb5:1 A5:1 G5:2 | E5:6 r:2 | F5:2 Bb5:2 D6:3 C6:1 | C6:2 G5:2 E5:4 | E5:1 A5:1 C6:2 E6:2 C6:2 | D6:6 r:2 | Bb5:2 G5:1 A5:1 Bb5:2 D6:2 | C6:2 E5:2 G5:2 Bb5:2 | A5:4 C6:2 A5:2 | Bb5:2 G5:2 E5:2 G5:2",
@@ -25780,7 +25780,7 @@ const SND = (() => {
   /* dinamica della forma: introduzione piano, A piu' raccolta, B piu' piena, il secondo giro un po' piu' ricco */
   function evBus(c, d) { let g = evDyn.get(d); if (!g || g.context !== c) { g = c.createGain(); g.gain.value = 0.85; g.connect(d); evDyn.set(d, g); } return g; }
   function evStep(c, d0, id, pos, t0) {
-    const s = EVS[id]; const per = s.per, st = s.step; const d = evBus(c, d0);
+    const s = EVS[id]; const per = s.per, st = s.step; const d = evBus(c, d0); evHum = (pos * 7919 + 13) & 0x7fffffff; /* tocco diverso a ogni nota ma sempre uguale per lo stesso passo */
     const intro = pos < s.introSteps; const q = intro ? pos : pos - s.introSteps;
     const bar = Math.floor(q / per) % (intro ? s.IN.length : s.bars), si = q % per; const pass = intro ? -1 : Math.floor(q / s.pass);
     const half = !intro && bar >= s.CH.length ? 1 : 0; /* 0 = prima volta, 1 = seconda volta (arrangiamento diverso) */
@@ -25835,7 +25835,11 @@ const SND = (() => {
       /* arioso: marimba sui tempi deboli, pizzicato, shaker leggero, flauto; folate di vento all'inizio delle frasi; seconda volta: kalimba */
       if (si === 0 || si === 4) EVI.pizz(c, d, si === 0 ? bassF : HZ(near(ch.bass, 36) + 7), t, 0.14);
       if (!breath && (si === 2 || si === 6)) chordNotes(ch, 60, 3).forEach((m, j) => EVI.marimba(c, d, HZ(m), t + j * 0.008, 0.035, 0.4, (j - 1) * 0.3));
-      if (si === 0) EVI.pad(c, d, HZ(notes[1]), t, 0.012, barLen, 0.3, 1500);
+      /* un tappeto d'aria leggero sotto tutto (niente buchi tra una frase e l'altra) e, dove la melodia respira, un piccolo
+         riempimento di marimba che sale */
+      if (si === 0) { EVI.pad(c, d, HZ(notes[1]), t, intro ? 0.03 : 0.022, barLen * 1.02, 0.3, 1600); EVI.pad(c, d, HZ(notes[2]), t, intro ? 0.026 : 0.018, barLen * 1.02, -0.3, 1600); }
+      if (!breath && !intro && si === 6 && (b16 === 7 || b16 === 11)) chordNotes(ch, 72, 3).forEach((m, j) => EVI.marimba(c, d, HZ(m), t + j * st * 0.5, 0.045, 0.4, 0.2 + j * 0.15));
+      if (intro && (si === 3 || si === 7)) EVI.kal(c, d, HZ(chordNotes(ch, 76, 3)[si === 3 ? 1 : 2]), t, 0.06, 0, 0.3);
       if (!breath) EVI.shaker(c, d, t, si % 2 ? 0.02 : 0.011, k);
       if (si === 0 && (bar === 0 || (!intro && b16 === 8))) EVI.wind(c, d, t, 0.045, k);
       (mel || []).forEach(([, m, l]) => EVI.flute(c, d, HZ(m), t, 0.075, l * st * 0.9, 0.05));
@@ -25860,7 +25864,14 @@ const SND = (() => {
     return [loopAt, t];
   }
   /* --- musica dell'evento dal vivo: un passo dopo l'altro, il giro ricomincia senza azzerare il tempo (nessuno stacco) --- */
-  let evId = null, evSkip = false, evCur = null;
+  let evId = null, evSkip = false, evCur = null, fakeNow = null;
+  /* per i test: un brano normale in un contesto offline (per confrontare il volume con le musiche degli eventi) */
+  function trRender(c, d, i, secs) {
+    const sv = [ctx, musicBus, song, step, nextT, cur, evCur];
+    try { ctx = c; musicBus = d; evCur = null; cur = i; song = buildSong(i); step = 0; nextT = 0.1; fakeNow = secs; schedule(); }
+    finally { [ctx, musicBus, song, step, nextT, cur, evCur] = sv; fakeNow = null; }
+    return TRACKS[i].g;
+  }
   const curGain = () => (evCur ? EVS[evCur.id].g : TRACKS[cur].g);
   function evTick() {
     const s = EVS[evCur.id];
@@ -25928,7 +25939,7 @@ const SND = (() => {
   function note(f, len = 0.7) { lastAt = performance.now(); if (!S.sfx) return; const c = ensure(); if (!c) return; try { bell(f, c.currentTime + 0.005, 0.2, fxBus, len); } catch (e) { /* niente */ } }
   function level() { if (!an) return 0; const d = new Float32Array(an.fftSize); an.getFloatTimeDomainData(d); let q = 0; for (const x of d) q += x * x; return Math.sqrt(q / d.length); }
   return { petMotif, MOTIF_PETS: Object.keys(MOTIF), logoTick, logoChime, logoTickTo, logoChimeTo, LOGO_HZ, CHIME_HZ, S16, level, play, note, catchSound, haptic, musicOn, musicOff, skip, breath, breathStop, suspend, resume, playing: () => !!musicTimer, unlock: ensure, lastAt: () => lastAt, track: () => (evCur ? -1 : cur),
-    setEvent, playEvent, holdEvent, eventId: () => evId, eventPlaying: () => !!evCur, EV_IDS, evRender, evRenderFrom, evChain, evInfo: (id) => (EVS[id] ? { g: EVS[id].g, K: MUSIC_K, step: EVS[id].step, per: EVS[id].per, bars: EVS[id].bars, introSteps: EVS[id].introSteps, pass: EVS[id].pass, M: EVS[id].M, C: EVS[id].C, ch: EVS[id].ch } : null), setOnTrack: (f) => { onTrack = f; }, count: TRACKS.length };
+    setEvent, playEvent, holdEvent, eventId: () => evId, eventPlaying: () => !!evCur, EV_IDS, evRender, evRenderFrom, evChain, trRender, evInfo: (id) => (EVS[id] ? { g: EVS[id].g, K: MUSIC_K, step: EVS[id].step, per: EVS[id].per, bars: EVS[id].bars, introSteps: EVS[id].introSteps, pass: EVS[id].pass, M: EVS[id].M, C: EVS[id].C, ch: EVS[id].ch } : null), setOnTrack: (f) => { onTrack = f; }, count: TRACKS.length };
 })();
 
 /* =================== VISTE =================== */
@@ -47258,7 +47269,13 @@ function w111EvShape(kind, x, y, s, i) {
     if (kind === "kites") return kiteShape(x, y, s * 0.9, c[i % 2], i % 2 === 0, "#F2B140");
     if (kind === "lanterns") return lanternShape(x, y, s, i % 2 ? "#F2B140" : "#E2654F", true);
   } catch (e) { /* forme non disponibili: puntini */ }
-  if (kind === "xmas") { const r = 10 * s; return `<g transform="translate(${x} ${y})" stroke="${i % 2 ? "#7FB2D9" : "#C8503B"}" stroke-width="${2.2 * s}" stroke-linecap="round" fill="none"><path d="M0 ${-r}V${r}M${-r * 0.87} ${-r / 2}L${r * 0.87} ${r / 2}M${-r * 0.87} ${r / 2}L${r * 0.87} ${-r / 2}"/></g>`; }
+  if (kind === "xmas") {
+    const r = 10 * s;
+    if (i % 2) return `<g transform="translate(${x} ${y})" stroke="#8DB8DE" stroke-width="${2.6 * s}" stroke-linecap="round" fill="none"><path d="M0 ${-r}V${r}M${-r * 0.87} ${-r / 2}L${r * 0.87} ${r / 2}M${-r * 0.87} ${r / 2}L${r * 0.87} ${-r / 2}"/><path d="M${-r * 0.3} ${-r * 0.75}L0 ${-r * 0.5}L${r * 0.3} ${-r * 0.75}M${-r * 0.3} ${r * 0.75}L0 ${r * 0.5}L${r * 0.3} ${r * 0.75}" stroke-width="${1.8 * s}"/></g>`;
+    /* pallina dell'albero: rossa o verde, con il cappuccio dorato e un riflesso */
+    const col = i % 4 === 0 ? "#C8503B" : "#3E7A4A";
+    return `<g transform="translate(${x} ${y})"><path d="M0 ${-r * 1.9}V${-r * 1.15}" stroke="#B89A6A" stroke-width="${1.2 * s}"/><rect x="${-r * 0.32}" y="${-r * 1.22}" width="${r * 0.64}" height="${r * 0.36}" rx="${r * 0.1}" fill="#F2B33D"/><circle r="${r * 0.95}" fill="${col}"/><circle cx="${-r * 0.32}" cy="${-r * 0.3}" r="${r * 0.24}" fill="#fff" opacity=".45"/></g>`;
+  }
   const r = 9 * s; return `<g transform="translate(${x} ${y})"><circle r="${r * 0.55}" fill="${c[i % 3]}"/>${[0, 60, 120, 180, 240, 300].map((a) => `<path d="M0 ${-r * 0.85}V${-r * 1.35}" stroke="${c[i % 3]}" stroke-width="${2 * s}" stroke-linecap="round" transform="rotate(${a})"/>`).join("")}</g>`;
 }
 /* simbolo di un giorno (in un quadrato 100x100) */

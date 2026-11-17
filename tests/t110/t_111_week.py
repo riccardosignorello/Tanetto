@@ -14,6 +14,9 @@ FT = """window.__ft = []; const _ft = CanvasRenderingContext2D.prototype.fillTex
   return _ft.call(this, t, x, y, ...a); };"""
 def png_size(b64):
     raw = base64.b64decode(b64[:200] + "=" * (-len(b64[:200]) % 4)); return struct.unpack(">II", raw[16:24])
+READY = "(() => { const im = layer.querySelector('.gr20box img.gr20img'); const b = document.getElementById('gr20Send'); return !!(im && im.complete && (!b || !b.disabled)); })()"
+async def ready(pg):
+    await pg.wait_for_timeout(300); await pg.wait_for_function(READY, timeout=90000); await pg.wait_for_timeout(200)
 def days_full(start=10, end=16, done=3, total=5, **extra):
     d = {f"2026-11-{x:02d}": {"done": done, "total": total} for x in range(start, end + 1)}; d.update(extra); return d
 
@@ -26,7 +29,7 @@ async def main(b):
     T.check("lunedi': si racconta la settimana appena finita (9-15 novembre), mercoledi' e domenica quella in corso", r[0] == "2026-11-09" and r[3] == "2026-11-16" and r[4] == "2026-11-16", r)
     T.check("simboli dei giorni: tutto fatto / qualcosa / riposo / niente", r[1] == "all,some,rest,none,some,none,none" and r[2] == 3, r)
     r = await T.ev(pg, "(() => { const w = w111Week(new Date(2026, 10, 18, 10)); return w.map((x) => x.st).join(','); })()")
-    T.check("nella settimana in corso i giorni che devono arrivare sono 'next'", r == "some,none,next,next,next,next,next", r)
+    T.check("nella settimana in corso: oggi senza obiettivi e' 'none', i giorni che devono arrivare sono 'next'", r == "some,none,none,next,next,next,next", r)
     r = await T.ev(pg, "(() => { const t = W111_T.it; const mk = (n) => Array.from({ length: 7 }, (_, i) => ({ d: new Date(2026, 10, 9 + i), st: i < n ? 'all' : 'none' })); return [0, 1, 3, 6].map((n) => { const x = w111Title(mk(n)); return [n >= 6 ? t.full : n >= 3 ? t.good : n >= 1 ? t.some : t.calm].flat().includes(x); }); })()")
     T.check("titolo affettuoso scelto dalla fascia giusta (0, 1-2, 3-5, 6-7 giorni)", r == [True, True, True, True], r)
     # finestra della scheda in Oggi: domenica dalle 18 e tutto il lunedi'
@@ -43,7 +46,7 @@ async def main(b):
     if has:
         await T.ev(pg, "document.getElementById('w111Wk').scrollIntoView({block:'center'}); 1"); await pg.wait_for_timeout(300)
         await pg.screenshot(path=f"{SH}/oggi_scheda_it.png")
-        await pg.click("#w111WkGo"); await pg.wait_for_timeout(3500)
+        await pg.click("#w111WkGo"); await ready(pg)
         r = await T.ev(pg, "[!!layer.querySelector('.w111ov img.gr20img'), document.querySelectorAll('[data-w111fmt]').length, !document.getElementById('gr20Send').disabled]")
         T.check("'Guarda' apre l'anteprima con i due formati e 'Condividi' attivo", r == [True, 2, True], r)
         await pg.screenshot(path=f"{SH}/dialog_week_it.png")
@@ -57,7 +60,7 @@ async def main(b):
     T.check("la X chiude la scheda per questa settimana", not await T.ev(pg, "!!document.getElementById('w111Wk')") and await T.ev(pg, "S.w111wk.wk") == "2026-11-09")
     # Diario: "Crea la cartolina" apre la cartolina nuova
     await T.ev(pg, "tab='diary'; render(); 1"); await pg.wait_for_timeout(400)
-    await T.ev(pg, "document.getElementById('makeWeek').click(); 1"); await pg.wait_for_timeout(3500)
+    await T.ev(pg, "document.getElementById('makeWeek').click(); 1"); await ready(pg)
     T.check("Diario: 'Crea la cartolina' apre 'La settimana con Germo'", await T.ev(pg, "!!layer.querySelector('.w111ov img.gr20img')"))
     T.check("nessun errore", not pg.errs, pg.errs[:3])
     await ctx.close()
@@ -88,7 +91,7 @@ async def main(b):
     for age, share, name in (("child", False, "Germo"), ("none", False, "Germo"), ("skip", False, "Germo"), ({"y": 2011, "m": 3}, True, "Germo"), ("adult", True, "Pallino")):
         st = T.base_state("it"); st["days"] = days_full(); st["petName"] = "Pallino"
         ctx, pg = await T.page(b, st, age=age, lang="it-IT", native=True, extra_js=FT + SHARE)
-        await T.close_layer(pg); await T.ev(pg, "window.__ft = []; w111WeekOpen(); 1"); await pg.wait_for_timeout(3500)
+        await T.close_layer(pg); await T.ev(pg, "window.__ft = []; w111WeekOpen(); 1"); await ready(pg)
         r = await T.ev(pg, "[!!document.getElementById('gr20Send'), !!document.getElementById('gr20Save'), document.querySelectorAll('[data-w111fmt]').length, (document.getElementById('gr20Msg') || {}).textContent || '']")
         ft = [x["t"] for x in await T.ev(pg, "window.__ft")]
         lab = age if isinstance(age, str) else "15 anni"
@@ -107,24 +110,24 @@ async def main(b):
     # ---------- 4) testo condiviso: link con UTM e #tanettoapp (app e sito) ----------
     st = T.base_state("it"); st["days"] = days_full(); st["petName"] = "Pallino"
     ctx, pg = await T.page(b, st, lang="it-IT", native=True, extra_js=SHARE)
-    await T.close_layer(pg); await T.ev(pg, "w111WeekOpen(); 1"); await pg.wait_for_timeout(3500)
+    await T.close_layer(pg); await T.ev(pg, "w111WeekOpen(); 1"); await ready(pg)
     await pg.click("#gr20Send"); await pg.wait_for_timeout(1200)
     sh = await T.ev(pg, "window.__sh ? { name: window.__sh.name, text: window.__sh.text, mime: window.__sh.mime } : null")
     T.check("app: condivisione con Google Play + utm_source=share, utm_medium=postcard, utm_campaign=week e #tanettoapp",
             sh and sh["name"] == "tanetto-settimana.png" and "play.google.com" in sh["text"] and "utm_source%3Dshare%26utm_medium%3Dpostcard%26utm_campaign%3Dweek" in sh["text"] and sh["text"].endswith("#tanettoapp") and "Pallino" in sh["text"], sh)
-    await pg.click("[data-w111fmt=square]"); await pg.wait_for_timeout(3000)
+    await pg.click("[data-w111fmt=square]"); await ready(pg)
     r = await T.ev(pg, "(async () => { const im = layer.querySelector('.gr20img'); await im.decode().catch(() => {}); return [im.naturalWidth, im.naturalHeight, gr20Cur.name, layer.querySelector('#gr20Prev').classList.contains('sq')]; })()")
     T.check("formato quadrato: 1080x1080, file -1x1, anteprima quadrata", r == [1080, 1080, "tanetto-settimana-1x1.png", True], r)
     await pg.screenshot(path=f"{SH}/dialog_week_square_it.png")
     # viaggio: stesso formato, campagna trip
-    await T.close_layer(pg); await T.ev(pg, "window.__sh = null; gr20Open('card', 'f:forest:0'); 1"); await pg.wait_for_timeout(3500)
+    await T.close_layer(pg); await T.ev(pg, "window.__sh = null; gr20Open('card', 'f:forest:0'); 1"); await ready(pg)
     r = await T.ev(pg, "[document.querySelectorAll('[data-w111fmt]').length, gr20Cur && gr20Cur.text]")
     T.check("cartolina del viaggio: due formati e testo con utm_campaign=trip e #tanettoapp", r[0] == 2 and "utm_campaign%3Dtrip" in r[1] and r[1].endswith("#tanettoapp"), r)
-    await pg.click("[data-w111fmt=square]"); await pg.wait_for_timeout(3500)
+    await pg.click("[data-w111fmt=square]"); await ready(pg)
     r = await T.ev(pg, "(async () => { const im = layer.querySelector('.gr20img'); await im.decode().catch(() => {}); return [im.naturalWidth, im.naturalHeight, gr20Cur.name]; })()")
     T.check("cartolina del viaggio quadrata: 1080x1080 (tanetto-cartolina-1x1.png)", r == [1080, 1080, "tanetto-cartolina-1x1.png"], r)
     u = await T.ev(pg, "gr20Cur.url"); open(f"{SH}/trip_square_it.png", "wb").write(base64.b64decode(u.split(",", 1)[1]))
-    await pg.click("[data-w111fmt=story]"); await pg.wait_for_timeout(3500)
+    await pg.click("[data-w111fmt=story]"); await ready(pg)
     u = await T.ev(pg, "gr20Cur.url"); open(f"{SH}/trip_story_it.png", "wb").write(base64.b64decode(u.split(",", 1)[1]))
     T.check("nessun errore (app)", not pg.errs, pg.errs[:3])
     await ctx.close()
@@ -154,11 +157,11 @@ async def main(b):
         r = await T.ev(pg, "(() => { const c = document.getElementById('w111Wk'); if (!c) return null; c.scrollIntoView({block:'center'}); const rc = c.getBoundingClientRect(); const over = [...c.querySelectorAll('b, p, .btn, .w111days')].filter((e) => { const q = e.getBoundingClientRect(); return q.right > rc.right + 1 || q.left < rc.left - 1 || e.scrollWidth > e.clientWidth + 1; }).length; return [Math.round(rc.width), over, document.documentElement.scrollWidth <= innerWidth]; })()")
         T.check(f"{tag}: scheda in Oggi dentro lo schermo, nessun testo che esce", r and r[1] == 0 and r[2], r)
         await pg.wait_for_timeout(300); await pg.screenshot(path=f"{SH}/oggi_{tag}.png")
-        await T.ev(pg, "w111WeekOpen(); 1"); await pg.wait_for_timeout(3500)
+        await T.ev(pg, "w111WeekOpen(); 1"); await ready(pg)
         r = await T.ev(pg, "(() => { const b = layer.querySelector('.gr20box'); const q = b.getBoundingClientRect(); const pv = layer.querySelector('#gr20Prev').getBoundingClientRect(); const bt = [...b.querySelectorAll('button')].map((x) => x.getBoundingClientRect()); return [q.top >= -1, q.bottom <= innerHeight + 1, q.right <= innerWidth + 1, pv.width > 120, bt.every((x) => x.height >= 44)]; })()")
         T.check(f"{tag}: finestra della cartolina dentro lo schermo, pulsanti alti almeno 44 px", r == [True] * 5, r)
         await pg.screenshot(path=f"{SH}/dialog_{tag}.png")
-        await pg.click("[data-w111fmt=square]"); await pg.wait_for_timeout(3000)
+        await pg.click("[data-w111fmt=square]"); await ready(pg)
         await pg.screenshot(path=f"{SH}/dialog_sq_{tag}.png")
         T.check(f"{tag}: nessun errore", not pg.errs, pg.errs[:3])
         await ctx.close()
@@ -189,7 +192,9 @@ async def main(b):
     ctx, pg = await T.page(b, None, fresh=True, lang="it-IT", native=True, age="adult")
     r = await T.ev(pg, "[S.w111new, !!S.pet]")
     T.check("prima installazione: si segna che e' un'installazione nuova (1.0.11)", r == [1, False], r)
-    await T.ev(pg, "S.pet = 'germo'; S.petName = 'Germo'; S.goals = [{ id: 'water', days: [0,1,2,3,4,5,6] }]; S.onboard = 3; S.tut = 99; S.log = [{ g: 'water' }]; S.away = { dest: 'f:forest', until: Date.now() + 9e5 }; render(); openPlus(); 1")
+    import json
+    full = T.base_state("it"); full.update({"log": [{"g": "water", "d": "2026-11-16"}], "tut": 99})
+    await T.ev(pg, "(() => { const w = S.w111new; Object.assign(S, " + json.dumps(full) + "); S.w111new = w; S.away = { dest: 'f:forest', until: Date.now() + 9e5 }; render(); openPlus(); return 1; })()")
     await pg.wait_for_timeout(1500)
     gc = [u for u in pg.gc if "percorso-" in u]
     want = ["accoglienza-3-obiettivi", "accoglienza-4-guida", "primo-obiettivo", "primo-viaggio", "plus-aperto"]
@@ -198,7 +203,7 @@ async def main(b):
     T.check("ogni evento di percorso parte una volta sola", len([u for u in pg.gc if "percorso-" in u]) == n0)
     await ctx.close()
     ctx, pg = await T.page(b, None, fresh=True, lang="it-IT", native=True, age="child")
-    await T.ev(pg, "S.pet = 'germo'; S.petName = 'Germo'; S.onboard = 3; S.tut = 99; S.log = [{ g: 'water' }]; render(); 1"); await pg.wait_for_timeout(1200)
+    await T.ev(pg, "(() => { const w = S.w111new; Object.assign(S, " + json.dumps(full) + "); S.w111new = w; render(); return 1; })()"); await pg.wait_for_timeout(1200)
     T.check("bambino: nessun evento di percorso inviato", not [u for u in pg.gc if "percorso-" in u], pg.gc)
     await ctx.close()
     st = T.base_state("it"); ctx, pg = await T.page(b, st, lang="it-IT", native=True)

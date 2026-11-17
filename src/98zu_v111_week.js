@@ -161,7 +161,13 @@ function w111EvShape(kind, x, y, s, i) {
     if (kind === "kites") return kiteShape(x, y, s * 0.9, c[i % 2], i % 2 === 0, "#F2B140");
     if (kind === "lanterns") return lanternShape(x, y, s, i % 2 ? "#F2B140" : "#E2654F", true);
   } catch (e) { /* forme non disponibili: puntini */ }
-  if (kind === "xmas") { const r = 10 * s; return `<g transform="translate(${x} ${y})" stroke="${i % 2 ? "#7FB2D9" : "#C8503B"}" stroke-width="${2.2 * s}" stroke-linecap="round" fill="none"><path d="M0 ${-r}V${r}M${-r * 0.87} ${-r / 2}L${r * 0.87} ${r / 2}M${-r * 0.87} ${r / 2}L${r * 0.87} ${-r / 2}"/></g>`; }
+  if (kind === "xmas") {
+    const r = 10 * s;
+    if (i % 2) return `<g transform="translate(${x} ${y})" stroke="#8DB8DE" stroke-width="${2.6 * s}" stroke-linecap="round" fill="none"><path d="M0 ${-r}V${r}M${-r * 0.87} ${-r / 2}L${r * 0.87} ${r / 2}M${-r * 0.87} ${r / 2}L${r * 0.87} ${-r / 2}"/><path d="M${-r * 0.3} ${-r * 0.75}L0 ${-r * 0.5}L${r * 0.3} ${-r * 0.75}M${-r * 0.3} ${r * 0.75}L0 ${r * 0.5}L${r * 0.3} ${r * 0.75}" stroke-width="${1.8 * s}"/></g>`;
+    /* pallina dell'albero: rossa o verde, con il cappuccio dorato e un riflesso */
+    const col = i % 4 === 0 ? "#C8503B" : "#3E7A4A";
+    return `<g transform="translate(${x} ${y})"><path d="M0 ${-r * 1.9}V${-r * 1.15}" stroke="#B89A6A" stroke-width="${1.2 * s}"/><rect x="${-r * 0.32}" y="${-r * 1.22}" width="${r * 0.64}" height="${r * 0.36}" rx="${r * 0.1}" fill="#F2B33D"/><circle r="${r * 0.95}" fill="${col}"/><circle cx="${-r * 0.32}" cy="${-r * 0.3}" r="${r * 0.24}" fill="#fff" opacity=".45"/></g>`;
+  }
   const r = 9 * s; return `<g transform="translate(${x} ${y})"><circle r="${r * 0.55}" fill="${c[i % 3]}"/>${[0, 60, 120, 180, 240, 300].map((a) => `<path d="M0 ${-r * 0.85}V${-r * 1.35}" stroke="${c[i % 3]}" stroke-width="${2 * s}" stroke-linecap="round" transform="rotate(${a})"/>`).join("")}</g>`;
 }
 /* simbolo di un giorno (in un quadrato 100x100) */
