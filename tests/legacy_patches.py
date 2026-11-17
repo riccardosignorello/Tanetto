@@ -81,6 +81,10 @@ P = [
      "await pg.locator('.prow[data-psub=\"g_set\"]').click(); await pg.wait_for_timeout(300); await pg.locator('.prow[data-psub=\"set\"]').click(); await pg.wait_for_timeout(300)\n    await ev(pg, \"openPlus('t')\")", "profilo a 4 voci"),
     ("fix109/suites/p3b/t6.py", "await pg.locator('.prow[data-psub=\"buy\"]').click(); await pg.wait_for_timeout(300)\n    await pg.locator(\"#psPlus\")",
      "await pg.locator('.prow[data-psub=\"g_set\"]').click(); await pg.wait_for_timeout(300); await pg.locator('.prow[data-psub=\"buy\"]').click(); await pg.wait_for_timeout(300)\n    await pg.locator(\"#psPlus\")", "profilo a 4 voci"),
+    ("p2/t2.py", 'check(f"{scheme}: goal card cream with a 5 px bottom edge and a soft long shadow", (r["bg"] == ("rgb(255, 248, 238)" if scheme == "light" else "rgb(42, 37, 31)")) and r["sh"].startswith(edge) and "18px 30px -18px" in r["sh"], r)', 'check(f"{scheme}: goal card (1.0.10 look: flat tinted card, no long shadow in light, tall enough to tap)", r["h"] >= 44 and (scheme == "dark" or r["sh"] == "none"), r)', "nuovo aspetto 1.0.10"),
+    ("p2/t2.py", 'r["tb"] >= 3 and r["tick"] == ["40px", "40px"] and r["h"] >= 44', 'r["tb"] >= 3 and r["tick"] == ["34px", "34px"] and r["h"] >= 44', "nuovo aspetto 1.0.10: cerchio 34 px dentro la scheda tutta toccabile"),
+    ("p2/t2.py", 'and "0px 3px 0px" in tr2[3], [rip, tr, tr2])', 'and ("0px 3px 0px" in tr2[3] or "0px 5px 0px" in tr2[3]), [rip, tr, tr2])', "nuovo aspetto 1.0.10: bordo inferiore 5 px"),
+    ("p2/t2.py", "const r = document.querySelector('button.goal').getBoundingClientRect(); return document.elementFromPoint", "const g0 = document.querySelector('button.goal'); g0.scrollIntoView({ block: 'center' }); const r = g0.getBoundingClientRect(); return document.elementFromPoint", "nuovo aspetto 1.0.10: la prima scheda sta sotto il menu sospeso"),
 ]
 bad = 0
 for f, old, new, why in P:
