@@ -54,6 +54,9 @@ P = [
     ("fix109/t38run5/t38_growth.py", 'await pg.add_init_script("window.__TEST_NOAGE=1;" + js)', 'await pg.add_init_script("window.__TEST_NOAGE=1;" + js + "localStorage.setItem(`tanetto-eta`, JSON.stringify({y: 1990, m: 5}));")', "P0 1.0.10: recensioni e offerte di Plus solo agli adulti, la suite usa un adulto"),
     ("fix109/t38run5/t38_nav.py", 'await pg.add_init_script("window.__TEST_NOAGE=1;" + js)', 'await pg.add_init_script("window.__TEST_NOAGE=1;" + js + "localStorage.setItem(`tanetto-eta`, JSON.stringify({y: 1990, m: 5}));")', "P0 1.0.10: recensioni e offerte di Plus solo agli adulti, la suite usa un adulto"),
     # russo e turco: auguri di Capodanno anche il 31 (adattamento culturale, 4 voci invece di 3)
+    # 1.0.11 (eventi nella stanza, 98zw): alla tappa 0 nella stanza c'e' gia' l'alberello nel vaso (cresce con le tappe)
+    ("fix109/t38run5/t38_xmas.py", '''check("Albero non ancora iniziato: nella stanza non c'è", await pg.query_selector("#room .xmtree") is None)''',
+     '''check("Albero non ancora iniziato: nella stanza c'è l'alberello nel vaso (1.0.11), che apre le tappe", await pg.query_selector("#room .xmtree .e1sap") is not None and await pg.query_selector("#xmTreeHit") is not None)''', "alberello della tappa 0 (1.0.11)"),
     ("fix109/t38run5/t38_xmas.py", "Object.keys(x.gr).length !== 3", "Object.keys(x.gr).length < 3", "auguri di Capodanno in ru e tr"),
     # 1.0.10 (M-09): dal terzo video del giorno 6 Tanì: il premio si legge prima, non dopo due video
     ("fix109/t38run5/t38_secure.py", "hit and r == [2, 100 + amt] and amt == 12", "hit and r == [2, 112]", "premio del video letto prima"),

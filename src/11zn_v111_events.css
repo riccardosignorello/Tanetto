@@ -1,0 +1,4 @@
+/* ===== 1.0.11: eventi (98zw_v111_events.js) =====
+   Le decorazioni degli eventi stanno tutte nella stanza. Nessun simbolo di stagione accanto ai titoli (decisione del
+   proprietario: lo toglie del tutto feat-111-icons), quindi qui non se ne aggiungono. */
+#room .e1sky, #room .e1win, #room .e1deco, #room .e1light { pointer-events: none; }
