@@ -8,3 +8,6 @@
 :root[lang^="ko"] { --font-display: "Tanetto KO", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif; --font-body: "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif; }
 :root[lang^="zh"] { --font-display: "Noto Sans SC", "Noto Sans TC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif; --font-body: "Noto Sans SC", "Noto Sans TC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif; }
 :root[lang^="zh-TW"], :root[lang^="zh-Hant"], :root[lang^="zh-HK"] { --font-display: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif; --font-body: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif; }
+/* Plus a 320 px in giapponese: la riga "al mese" dell'annuale puo' andare a capo invece di uscire dal riquadro */
+.plusbox .plan small { overflow-wrap: anywhere; word-break: normal; min-width: 0; }
+.plusbox .plan { min-width: 0; }

@@ -17,6 +17,11 @@ P = [
     ("p2b/t4.py", 'await pg.click("#ageGo");', 'await pg.click("#ageGo"); await pg.wait_for_timeout(250); await pg.evaluate("(() => { const b = document.getElementById(`ageOk`); if (b) b.click(); })()");', "eta\' con conferma (G2-10, 16/11/2026)"),
     ("fix109/suites/p2b/t4.py", 'await pg.click("#ageGo");', 'await pg.click("#ageGo"); await pg.wait_for_timeout(250); await pg.evaluate("(() => { const b = document.getElementById(`ageOk`); if (b) b.click(); })()");', "eta\' con conferma (G2-10, 16/11/2026)"),
     ("p2c/t5.py", 'await pg.click("#ageGo");', 'await pg.click("#ageGo"); await pg.wait_for_timeout(250); await pg.evaluate("(() => { const b = document.getElementById(`ageOk`); if (b) b.click(); })()");', "eta\' con conferma (G2-10, 16/11/2026)"),
+    # 1.0.10 (M-36): i caratteri nuovi (t110-*) si aggiungono ai 17 di prima nella stessa cartella fonts/
+    ("fix109/tfix_a.py", 'len(os.listdir(SITE + "/fonts")) == 17)', 'len([f for f in os.listdir(SITE + "/fonts") if not f.startswith("t110-")]) == 17)', "caratteri 1.0.10 in fonts/"),
+    # 1.0.10 (nuovo aspetto, approvato il 17/11/2026): righe del Profilo con l'icona di 46 px, come Plus e "Invita un amico"
+    ("p3c/t7.py", "Profile menu rows keep their own layout (icon 40 px | text | chevron)", "Profile menu rows keep their own layout (icon 46 px | text | chevron)", "icone del Profilo 46 px"),
+    ("p3c/t7.py", 'r == ["more", None, True] and r4 == ["more", None], [r, r4])', 'r == ["more", None, True] and r4 == ["more", "g_set"], [r, r4])', "Profilo a gruppi: da Impostazioni si torna al gruppo"),
     # 1.0.10 (critica 1.0.10, punto 10): il paragrafo dei bambini nomina solo AdMob (statistiche sempre spente per loro)
     ("fix109/tfix_a.py", 'pv.count("GoatCounter") >= 28 and', 'pv.count("GoatCounter") >= 14 and', "bambini: solo AdMob"),
     # 1.0.10 (E-02): a chi non ha detto l'eta' mai "raddoppia"; la prova del testo per gli adulti usa un adulto

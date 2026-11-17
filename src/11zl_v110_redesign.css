@@ -10,7 +10,8 @@ html.v110x body #app .card, html.v110x #app .nven, html.v110x #app .tr20st, html
   border-radius: 22px; box-shadow: none; border: 2px solid var(--k-line); border-bottom-width: 6px; border-bottom-color: var(--k-edge); }
 html.v110x #app .pluscard { border-color: #E8B94E; border-bottom-color: #C48A1E; }
 html.v110x #app .stack > h1:not(.greet):not(.psubt) { font-size: 32px; font-weight: 700; letter-spacing: -.3px; }
-html.v110x #app .stack > h2, html.v110x #app .sec h2 { font-size: 22px; font-weight: 700; }
+/* titoli di sezione piu' grandi, ma non nelle pagine del Profilo (li' i titoli dei riquadri restano tutti uguali) */
+html.v110x #app .stack:not(.psplit) > h2, html.v110x #app .stack:not(.psplit) .sec h2 { font-size: 22px; font-weight: 700; }
 /* pulsanti in rilievo */
 html.v110x #app .btn:not(.link):not(.ghost) { box-shadow: 0 5px 0 color-mix(in srgb, var(--accent) 62%, #000); border-radius: 18px; transition: transform .08s ease, box-shadow .08s ease; }
 html.v110x #app .btn:not(.link):not(.ghost):active { transform: translateY(4px); box-shadow: 0 1px 0 color-mix(in srgb, var(--accent) 62%, #000); }
@@ -111,14 +112,15 @@ html.v110x body.v110onb .chips .chip[aria-pressed="true"] { border-color: color-
 html.v110x body.v110onb .btn:not(.link):not(.ghost) { box-shadow: 0 5px 0 color-mix(in srgb, var(--accent) 62%, #000); border-radius: 18px; }
 html.v110x body.v110onb .btn:not(.link):not(.ghost):active { transform: translateY(4px); box-shadow: 0 1px 0 color-mix(in srgb, var(--accent) 62%, #000); }
 html.v110x body.v110onb .w3hero, html.v110x body.v110onb .field input { border-radius: 22px; }
-html.v110x body.v110onb .field input { border: 2px solid var(--k-line); border-bottom-width: 4px; box-shadow: none; }
+html.v110x body.v110onb .field input { border: 2px solid var(--inpline, var(--line)); border-bottom-width: 4px; box-shadow: none; }
+html.v110x body.v110onb .field input:focus { border-color: var(--accent); }
 html.v110x #app .btn.gold:not(.link):not(.ghost), html.v110x .plusbox .btn.gold { box-shadow: 0 5px 0 #B9801C; }
 html.v110x #app .btn.gold:not(.link):not(.ghost):active { box-shadow: 0 1px 0 #B9801C; }
 
 /* ===== correzioni del proprietario (17/11/2026, 01:12) ===== */
 /* 1) primo avvio: niente pupazzino accanto al nome, selettore della lingua in rilievo con il mappamondo */
 html.v110x body.v110onb #app .top .brand .logo3d, html.v110x body.v110onb #app .top .brand > svg { display: none; }
-html.v110x #app .top select.lang { -webkit-appearance: none; appearance: none; height: 46px; padding: 0 40px 0 44px; border-radius: 16px; border: 2px solid var(--k-line); border-bottom-width: 4px; box-shadow: none;
+html.v110x #app .top select.lang { -webkit-appearance: none; appearance: none; height: 46px; padding: 0 40px 0 44px; border-radius: 16px; border: 2px solid var(--inpline, var(--line)); border-bottom-width: 4px; box-shadow: none;
   font: 700 15.5px/1 var(--font-body, inherit); color: var(--ink); background-color: var(--paper); cursor: pointer;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b5b48' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M3 12h18M12 3c2.5 2.6 3.7 5.6 3.7 9s-1.2 6.4-3.7 9c-2.5-2.6-3.7-5.6-3.7-9S9.5 5.6 12 3Z'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b5b48' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat, no-repeat; background-position: 14px 50%, right 14px center; background-size: 20px, 15px; }
@@ -187,7 +189,7 @@ html.v110x #app .v110stage .v110sf img { width: 138px; height: 138px; display: b
 @keyframes v110bob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -5px; } }
 html.calm #app .v110stage img, html.lite #app .v110stage img { animation: none !important; }
 @media (prefers-reduced-motion: reduce) { #app .v110stage img { animation: none !important; } }
-html.v110x #app #v110FreeTx { width: 100%; min-height: 168px; resize: vertical; box-sizing: border-box; padding: 4px 14px; border-radius: 16px; border: 2px solid var(--k-line); border-bottom-width: 4px; box-shadow: none;
+html.v110x #app #v110FreeTx { width: 100%; min-height: 168px; resize: vertical; box-sizing: border-box; padding: 4px 14px; border-radius: 16px; border: 2px solid var(--inpline, var(--line)); border-bottom-width: 4px; box-shadow: none;
   font: 400 17px/32px var(--font-body, inherit); color: var(--ink); background-color: var(--paper); background-attachment: local;
   background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 31px, color-mix(in srgb, var(--k-line) 70%, transparent) 31px, color-mix(in srgb, var(--k-line) 70%, transparent) 32px); background-position: 0 4px; }
 html.v110x #app #v110FreeTx:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 55%, transparent); outline-offset: 2px; }

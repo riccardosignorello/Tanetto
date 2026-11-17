@@ -205,6 +205,19 @@ anche nei disegni (cartoline, storia, riassunti).
 19) **Più veloce:** nell'app Android il codice sta in un file a parte (Android lo tiene compilato: aperture più rapide dalla
 seconda in poi); il Negozio si apre in circa metà del tempo di prima (le etichette si misurano dopo il disegno).
 
+20) **Nuovo aspetto (proposta 3, approvata il 17/11/2026, ora quello normale):** riquadri e pulsanti "in rilievo", obiettivi a
+tessere grandi, Viaggi come percorso a tappe, Profilo con il compagno sul palco. Con le correzioni del 17/11: primo avvio senza il
+pupazzino accanto al nome e lingua in un riquadro con il mappamondo; obiettivi del primo avvio tutti uguali, due per riga, con
+l'icona della categoria; nello zaino "Viaggio completo" solo sotto l'ultima casella (su due righe) e oggetti più leggibili
+(cappello e binocolo nuovi); album delle cartoline con le stesse misure delle altre righe; i cerchi del percorso non toccano più
+le didascalie; "Prendi Tanì" proporzionato; Introvabili in fondo al Negozio e più discreti, **senza nessuna stima del tempo**.
+
+21) **Diario rifatto:** "La domanda di oggi" è da sola (40 domande diverse in 14 lingue: nessuna si ripete per 40 giorni) e sotto
+non c'è più un'altra domanda. Poi **"Il tuo diario di oggi"**: una pagina libera (righe da quaderno, fino a 800 caratteri) con
+l'umore della giornata e i compagni grandi che fanno ogni volta una cosa diversa (leggono, scrivono, si fanno un regalo, si
+salutano...). Anche la pagina libera passa dal controllo delle frasi di crisi e completa l'obiettivo "Scrivere nel diario"; il
+testo non si perde se la pagina si ridisegna.
+
 Con "movimento ridotto" (impostazione dell'app o del telefono) niente animazioni continue.
 
 ## 6) Velocità e batteria
