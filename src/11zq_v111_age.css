@@ -1,0 +1,2 @@
+/* 1.0.11: modalita' protetta (sotto i 13 anni o eta' non detta, 98zz_v111_age.js): nessun pulsante per condividere fuori dall'app */
+html.a111kid [data-shareimg], html.a111kid #gr20Send, html.a111kid #gr20Story, html.a111kid #invite, html.a111kid .invcard, html.a111kid #v2Invite, html.a111kid .v110ph { display: none !important; }

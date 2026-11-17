@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-YOFNs4Hi9idpRmm8Xb8DEro1TnCCBldup9cH4effm14=' 'unsafe-eval' https://apis.google.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.goatcounter.com; media-src 'self' data: blob:; connect-src 'self' data: blob: https://*.googleapis.com https://tanettoapp-pet.firebaseapp.com https://*.goatcounter.com; frame-src https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-USpMNN0g2yvoM2GDArfPsJlWfmEg4HqsW8Znp05klnk=' 'unsafe-eval' https://apis.google.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.goatcounter.com; media-src 'self' data: blob:; connect-src 'self' data: blob: https://*.googleapis.com https://tanettoapp-pet.firebaseapp.com https://*.goatcounter.com; frame-src https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#F4EFE6">
 <title>Tanetto — a tiny pet for your self-care habits (free app)</title>
@@ -3705,6 +3705,9 @@ html.v110x #app .v110path > .dest .meta { width: 100%; box-sizing: border-box; }
 #app .nvenrow { flex-wrap: wrap; row-gap: 8px; }
 #app .nvenrow .nvtx { flex: 1 1 120px; min-width: 0; }
 #app .nvenrow .btn { margin-left: auto; }
+
+/* 1.0.11: modalita' protetta (sotto i 13 anni o eta' non detta, 98zz_v111_age.js): nessun pulsante per condividere fuori dall'app */
+html.a111kid [data-shareimg], html.a111kid #gr20Send, html.a111kid #gr20Story, html.a111kid #invite, html.a111kid .invcard, html.a111kid #v2Invite, html.a111kid .v110ph { display: none !important; }
 
 </style>
 
@@ -23684,6 +23687,137 @@ Object.keys(V110_BACKUP).forEach((l) => {
   P.v110 = 1;
 });
 
+/* =================== 1.0.11 (18/11/2026): pubblico dai 13 anni in su, modalita' protetta per chi e' piu' piccolo ===================
+   Decisione del proprietario: su Play Console il pubblico di destinazione e' 13-15, 16-17 e 18+ (non sotto i 13), come Finch
+   ("Our Services are not directed to children who are under the age of 13"). I bambini possono comunque usare l'app: chi indica
+   meno di 13 anni, o preferisce non dirlo (ageAds() === "child"), la usa in modalita' protetta (98zz_v111_age.js).
+   Qui solo testi, in 14 lingue:
+   1) informativa: il paragrafo "Bambini e ragazzi" diventa "Eta' e bambini" (pensata dai 13 anni in su, non rivolta ai minori di
+      13, cosa e' spento in modalita' protetta, nessuna raccolta consapevole di dati di minori di 13 anni, contatto per i genitori);
+      una frase in piu' nel riassunto "In breve";
+   2) condizioni d'uso: una riga sull'eta', prima di quella sugli acquisti dei minorenni;
+   3) testo breve della privacy nel Profilo (privP): "per tutte le eta'" diventa "pensata dai 13 anni in su";
+   4) schermata dell'eta': la nota resta neutra (Play Console Help answer/9867159, "Neutral age screen": non si dice che serve una
+      certa eta'), quindi via "Tanetto e' per tutte le eta'" e NON si scrive "dai 13 anni in su": resta "Te lo chiediamo una volta
+      sola" (98zz, AGE_T e' dichiarato dopo). */
+const A111 = {
+  it: {
+    kids: "Età e bambini: Tanetto è pensata per chi ha dai 13 anni in su e non è rivolta ai bambini sotto i 13 anni. La prima volta chiediamo mese e anno di nascita, che restano solo sul tuo dispositivo; puoi anche rispondere «Preferisco non dirlo». Se indichi meno di 13 anni, o preferisci non dirlo, Tanetto funziona in modalità protetta: niente pubblicità e niente video con premio (l'app non chiede annunci a Google AdMob e non usa l'ID pubblicità), niente statistiche, niente account né backup online, niente condivisione fuori dall'app (né immagini né inviti) e niente offerte o spinte all'acquisto (nemmeno la prova gratuita). Non raccogliamo consapevolmente dati personali di bambini sotto i 13 anni: in modalità protetta l'app non invia né a noi né ad altri informazioni su di te o su quello che fai nell'app, a parte i pagamenti, che passano da Google Play, e il backup di Android, se è attivo, che è gestito da Google. Sotto l'età del consenso digitale del tuo Paese (in Italia 14 anni) la pubblicità non è mai personalizzata, le statistiche sono spente e il backup online non è disponibile. La chat con il compagno ha solo risposte già scritte e non invia nulla a nessuno. I Tanì sono monete del gioco, non soldi veri; Tanetto Plus e i pacchetti di Tanì si pagano solo con Google Play. Se sei un genitore o un tutore e pensi che un bambino sotto i 13 anni di cui ti occupi ci abbia dato dei dati personali, scrivi a {email}: li cancelliamo subito. Puoi scriverci anche per qualsiasi altra domanda o richiesta.",
+    sum: "Tanetto è pensata dai 13 anni in su: per chi è più piccolo, o non dice l'età, funziona in modalità protetta.",
+    terms: "Tanetto è pensata per chi ha dai 13 anni in su e non è rivolta ai bambini sotto i 13 anni. Se indichi un'età più bassa, o preferisci non dirla, l'app funziona in modalità protetta, come spiega l'informativa privacy. Se hai meno di 13 anni, usala insieme a un genitore o a chi si occupa di te.",
+    privP: ["ed è per tutte le età: sotto", "ed è pensata dai 13 anni in su. Sotto"],
+    note: "Te lo chiediamo una volta sola."
+  },
+  en: {
+    kids: "Age and children: Tanetto is designed for people aged 13 and up and is not directed to children under 13. The first time, we ask for your month and year of birth, which stay only on your device; you can also answer “I'd rather not say”. If you enter an age under 13, or you'd rather not say, Tanetto works in protected mode: no ads and no rewarded videos (the app requests no ads from Google AdMob and doesn't use the advertising ID), no statistics, no account or online backup, no sharing outside the app (no images, no invitations) and no offers or nudges to buy (not even the free trial). We do not knowingly collect personal data from children under 13: in protected mode the app sends no information about you or what you do in the app, to us or to anyone else, apart from payments, which go through Google Play, and Android backup, if it's on, which Google manages. Under the age of digital consent in your country (13 to 16, depending on where you live), ads are never personalised, statistics are off and the online backup isn't available. The chat with your companion only has pre-written replies and sends nothing to anyone. Tanì are game coins, not real money; Tanetto Plus and Tanì packs are paid only through Google Play. If you're a parent or guardian and think a child under 13 in your care has given us personal data, write to {email} and we'll delete it right away. You can also write to us with any other question or request.",
+    sum: "Tanetto is designed for ages 13 and up: for anyone younger, or anyone who doesn't say their age, it works in protected mode.",
+    terms: "Tanetto is designed for people aged 13 and up and is not directed to children under 13. If you enter a younger age, or you'd rather not say, the app works in protected mode, as the privacy policy explains. If you're under 13, use it together with a parent or someone who looks after you.",
+    privP: ["and is for all ages: under", "and is designed for ages 13 and up. Under"],
+    note: "We only ask this once."
+  },
+  de: {
+    kids: "Alter und Kinder: Tanetto ist für Menschen ab 13 Jahren gedacht und richtet sich nicht an Kinder unter 13. Beim ersten Mal fragen wir nach Geburtsmonat und -jahr; die Angabe bleibt nur auf deinem Gerät. Du kannst auch „Möchte ich nicht sagen“ antworten. Wenn du ein Alter unter 13 angibst oder es lieber nicht sagst, läuft Tanetto im geschützten Modus: keine Werbung und keine Videos mit Belohnung (die App fordert bei Google AdMob keine Werbung an und nutzt die Werbe-ID nicht), keine Statistiken, kein Konto und kein Online-Backup, kein Teilen außerhalb der App (weder Bilder noch Einladungen) und keine Angebote oder Kaufanreize (auch keinen Gratis-Test). Wir erheben wissentlich keine personenbezogenen Daten von Kindern unter 13: Im geschützten Modus sendet die App weder an uns noch an andere Informationen über dich oder darüber, was du in der App machst. Ausgenommen sind nur Zahlungen, die über Google Play laufen, und die Android-Sicherung, falls sie eingeschaltet ist; die verwaltet Google. Unter dem Alter der digitalen Einwilligung in deinem Land (in Deutschland 16 Jahre) ist Werbung nie personalisiert, die Statistiken sind aus und das Online-Backup ist nicht verfügbar. Der Chat mit dem Begleiter hat nur vorgefertigte Antworten und sendet nichts an andere. Tanì sind Spielmünzen, kein echtes Geld; Tanetto Plus und Tanì-Pakete werden nur über Google Play bezahlt. Wenn du dich um ein Kind unter 13 kümmerst und glaubst, dass es uns personenbezogene Daten gegeben hat, schreib an {email}: Wir löschen sie sofort. Du kannst uns auch bei jeder anderen Frage oder Bitte schreiben.",
+    sum: "Tanetto ist ab 13 Jahren gedacht: Wer jünger ist oder sein Alter nicht sagt, nutzt die App im geschützten Modus.",
+    terms: "Tanetto ist für Menschen ab 13 Jahren gedacht und richtet sich nicht an Kinder unter 13. Wenn du ein jüngeres Alter angibst oder es lieber nicht sagst, läuft die App im geschützten Modus, wie in der Datenschutzerklärung beschrieben. Wenn du unter 13 bist, nutze sie zusammen mit deinen Eltern oder einer Person, die sich um dich kümmert.",
+    privP: ["und für alle Altersgruppen: Unter", "und ist für Menschen ab 13 Jahren gedacht. Unter"],
+    note: "Wir fragen nur einmal."
+  },
+  es: {
+    kids: "Edad y menores: Tanetto está pensada para personas a partir de 13 años y no está dirigida a menores de 13. La primera vez preguntamos el mes y el año de nacimiento, que se quedan solo en tu dispositivo; también puedes responder «Prefiero no decirlo». Si indicas menos de 13 años, o prefieres no decirlo, Tanetto funciona en modo protegido: sin publicidad ni vídeos con recompensa (la app no pide anuncios a Google AdMob y no usa el ID de publicidad), sin estadísticas, sin cuenta ni copia en línea, sin compartir nada fuera de la app (ni imágenes ni invitaciones) y sin ofertas ni empujones para comprar (tampoco la prueba gratuita). No recogemos a sabiendas datos personales de menores de 13 años: en modo protegido la app no envía ni a nosotros ni a nadie información sobre ti o sobre lo que haces en la app, salvo los pagos, que pasan por Google Play, y la copia de seguridad de Android, si está activada, que gestiona Google. Por debajo de la edad de consentimiento digital de tu país (en España, 14 años) la publicidad nunca es personalizada, las estadísticas están desactivadas y la copia en línea no está disponible. El chat con el compañero solo tiene respuestas ya escritas y no envía nada a nadie. Los Tanì son monedas del juego, no dinero real; Tanetto Plus y los paquetes de Tanì solo se pagan con Google Play. Si eres madre, padre o tutor y crees que un menor de 13 años a tu cargo nos ha dado datos personales, escribe a {email}: los borramos enseguida. También puedes escribirnos con cualquier otra pregunta o solicitud.",
+    sum: "Tanetto está pensada a partir de 13 años: para quien es más pequeño, o no dice su edad, funciona en modo protegido.",
+    terms: "Tanetto está pensada para personas a partir de 13 años y no está dirigida a menores de 13. Si indicas una edad menor, o prefieres no decirla, la app funciona en modo protegido, como explica la política de privacidad. Si tienes menos de 13 años, úsala junto a tu madre, tu padre o la persona que te cuida.",
+    privP: ["y es para todas las edades: por debajo", "y está pensada para personas a partir de 13 años. Por debajo"],
+    note: "Solo te lo preguntamos una vez."
+  },
+  fr: {
+    kids: "Âge et enfants : Tanetto est pensé pour les personnes de 13 ans et plus et ne s'adresse pas aux enfants de moins de 13 ans. La première fois, nous demandons le mois et l'année de naissance, qui restent seulement sur ton appareil ; tu peux aussi répondre « Je préfère ne pas le dire ». Si tu indiques moins de 13 ans, ou si tu préfères ne pas le dire, Tanetto fonctionne en mode protégé : pas de publicité ni de vidéos récompensées (l'app ne demande aucune publicité à Google AdMob et n'utilise pas l'identifiant publicitaire), pas de statistiques, pas de compte ni de sauvegarde en ligne, pas de partage en dehors de l'app (ni images ni invitations) et pas d'offres ni d'incitations à acheter (pas même l'essai gratuit). Nous ne collectons pas sciemment de données personnelles d'enfants de moins de 13 ans : en mode protégé, l'app n'envoie ni à nous ni à personne d'informations sur toi ou sur ce que tu fais dans l'app, à part les paiements, qui passent par Google Play, et la sauvegarde Android, si elle est activée, gérée par Google. Sous l'âge du consentement numérique de ton pays (en France, 15 ans), la publicité n'est jamais personnalisée, les statistiques sont désactivées et la sauvegarde en ligne n'est pas disponible. Le chat avec ton compagnon n'a que des réponses déjà écrites et n'envoie rien à personne. Les Tanì sont des pièces du jeu, pas de l'argent réel ; Tanetto Plus et les packs de Tanì se paient uniquement via Google Play. Si tu es parent ou tuteur et que tu penses qu'un enfant de moins de 13 ans dont tu t'occupes nous a donné des données personnelles, écris à {email} : nous les supprimons tout de suite. Tu peux aussi nous écrire pour toute autre question ou demande.",
+    sum: "Tanetto est pensé pour les 13 ans et plus : pour les plus jeunes, ou si on ne dit pas son âge, il fonctionne en mode protégé.",
+    terms: "Tanetto est pensé pour les personnes de 13 ans et plus et ne s'adresse pas aux enfants de moins de 13 ans. Si tu indiques un âge plus bas, ou si tu préfères ne pas le dire, l'app fonctionne en mode protégé, comme l'explique la politique de confidentialité. Si tu as moins de 13 ans, utilise-la avec un parent ou une personne qui s'occupe de toi.",
+    privP: ["et s'adresse à tous les âges : avant", "et s'adresse aux personnes de 13 ans et plus. Avant"],
+    note: "On ne te le demande qu'une fois."
+  },
+  pt: {
+    kids: "Idade e crianças: o Tanetto foi pensado para pessoas a partir de 13 anos e não é direcionado a crianças menores de 13. Na primeira vez perguntamos o mês e o ano de nascimento, que ficam só no seu dispositivo; você também pode responder “Prefiro não dizer”. Se você informar menos de 13 anos, ou preferir não dizer, o Tanetto funciona no modo protegido: sem publicidade e sem vídeos com recompensa (o app não pede anúncios ao Google AdMob e não usa o ID de publicidade), sem estatísticas, sem conta nem backup on-line, sem compartilhar nada fora do app (nem imagens nem convites) e sem ofertas ou incentivos para comprar (nem o teste grátis). Não coletamos intencionalmente dados pessoais de crianças menores de 13 anos: no modo protegido, o app não envia a nós nem a ninguém informações sobre você ou sobre o que você faz no app, exceto os pagamentos, que passam pelo Google Play, e o backup do Android, se estiver ativado, que é gerenciado pelo Google. Abaixo da idade de consentimento digital do seu país (16 anos onde a lei não define uma idade menor), a publicidade nunca é personalizada, as estatísticas ficam desligadas e o backup on-line não está disponível. O chat com o companheiro só tem respostas já escritas e não envia nada a ninguém. Os Tanì são moedas do jogo, não dinheiro de verdade; o Tanetto Plus e os pacotes de Tanì são pagos só pelo Google Play. Se você é mãe, pai ou responsável e acha que uma criança menor de 13 anos sob seus cuidados nos passou dados pessoais, escreva para {email}: a gente apaga na hora. Você também pode escrever para qualquer outra dúvida ou pedido.",
+    sum: "O Tanetto foi pensado para quem tem 13 anos ou mais: para quem é mais novo, ou não diz a idade, ele funciona no modo protegido.",
+    terms: "O Tanetto foi pensado para pessoas a partir de 13 anos e não é direcionado a crianças menores de 13. Se você informar uma idade menor, ou preferir não dizer, o app funciona no modo protegido, como explica a política de privacidade. Se você tem menos de 13 anos, use o app junto com sua mãe, seu pai ou quem cuida de você.",
+    privP: ["e é para todas as idades: abaixo", "e foi pensado para pessoas a partir de 13 anos. Abaixo"],
+    note: "Só perguntamos isso uma vez."
+  },
+  ja: {
+    kids: "年齢と子どもについて：Tanettoは13歳以上の方向けに作られており、13歳未満の子どもを対象としていません。最初に生まれた年と月をたずねますが、この情報はお使いの端末にだけ保存されます。「答えない」を選ぶこともできます。13歳未満の年齢を入力した場合、または答えなかった場合、Tanettoは保護モードで動きます。広告もごほうび付き動画もなく（アプリはGoogle AdMobに広告をリクエストせず、広告IDも使いません）、統計もなく、アカウントもオンラインバックアップもなく、アプリの外への共有（画像も招待も）もなく、おすすめの購入案内やセールもありません（無料体験もありません）。13歳未満の子どもの個人データを意図的に収集することはありません。保護モードでは、あなたやアプリ内での行動についての情報を、私たちにもほかのだれにも送りません。例外は、Google Playを通る支払いと、オンになっている場合のAndroidのバックアップ（Googleが管理）だけです。お住まいの国のデジタル同意年齢（法律で低い年齢が定められていない場合は16歳）未満の方には、パーソナライズ広告は表示されず、統計はオフで、オンラインバックアップも使えません。パートナーとのチャットは用意された返事だけで、だれにも何も送信しません。Tanìはゲームのコインで、本物のお金ではありません。Tanetto PlusとTanìパックの支払いはGoogle Playのみです。保護者の方で、お子さま（13歳未満）が私たちに個人データを提供したと思われる場合は、{email}までご連絡ください。すぐに削除します。そのほかのご質問やご依頼もお気軽にどうぞ。",
+    sum: "Tanettoは13歳以上の方向けです。それより年下の方や、年齢を答えなかった方の場合は、保護モードで動きます。",
+    terms: "Tanettoは13歳以上の方向けに作られており、13歳未満の子どもを対象としていません。それより低い年齢を入力した場合、または答えなかった場合は、プライバシーポリシーで説明しているとおり、アプリは保護モードで動きます。13歳未満の方は、保護者の方やお世話をしてくれる大人といっしょに使ってください。",
+    privP: ["すべての年齢の方向けです。", "13歳以上の方向けに作られています。"],
+    note: "この質問は一度だけです。"
+  },
+  ko: {
+    kids: "나이와 어린이: Tanetto는 만 13세 이상을 위해 만든 앱이며, 만 13세 미만 어린이를 대상으로 하지 않아요. 처음에 태어난 연도와 월을 물어보며, 이 정보는 기기에만 남아요. ‘말하고 싶지 않아요’를 고를 수도 있어요. 만 13세 미만의 나이를 입력하거나 말하고 싶지 않다고 하면 Tanetto는 보호 모드로 작동해요. 광고와 보상형 동영상이 없고(앱이 Google AdMob에 광고를 요청하지 않으며 광고 ID도 쓰지 않아요), 통계도 없고, 계정과 온라인 백업도 없고, 앱 밖으로 공유하는 기능(이미지와 초대 모두)도 없고, 혜택 안내나 구매 권유도 없어요(무료 체험도 없어요). 저희는 만 13세 미만 어린이의 개인정보를 알면서 수집하지 않아요. 보호 모드에서는 사용자나 앱 안에서 하는 일에 대한 정보를 저희에게도, 다른 누구에게도 보내지 않아요. 예외는 Google Play를 거치는 결제와, 켜져 있을 때 Google이 관리하는 Android 백업뿐이에요. 살고 있는 나라의 디지털 동의 연령(법에 더 낮은 나이가 없으면 16세) 미만이면 광고는 절대 맞춤이 아니고, 통계는 꺼져 있으며, 온라인 백업도 쓸 수 없어요. 친구와의 채팅은 미리 써 둔 답만 있고 누구에게도 아무것도 보내지 않아요. Tanì는 게임 속 동전이고 진짜 돈이 아니에요. Tanetto Plus와 Tanì 패키지는 Google Play로만 결제해요. 부모님이나 보호자로서 돌보는 만 13세 미만 어린이가 저희에게 개인정보를 보냈다고 생각되면 {email}로 알려 주세요. 바로 삭제할게요. 다른 궁금한 점이나 요청도 언제든 보내 주세요.",
+    sum: "Tanetto는 만 13세 이상을 위한 앱이에요. 더 어리거나 나이를 말하지 않으면 보호 모드로 작동해요.",
+    terms: "Tanetto는 만 13세 이상을 위해 만든 앱이며, 만 13세 미만 어린이를 대상으로 하지 않아요. 더 낮은 나이를 입력하거나 말하고 싶지 않다고 하면, 개인정보처리방침에서 설명한 대로 앱이 보호 모드로 작동해요. 만 13세 미만이라면 부모님이나 돌봐 주는 어른과 함께 사용해 주세요.",
+    privP: ["모든 연령을 위한 앱이에요.", "만 13세 이상을 위해 만든 앱이에요."],
+    note: "이 질문은 한 번만 해요."
+  },
+  zh: {
+    kids: "年龄与儿童：Tanetto 面向 13 岁及以上的人，不以 13 岁以下的儿童为对象。第一次使用时，我们会询问你出生的年份和月份，这些信息只保存在你的设备上；你也可以选择“我不想说”。如果你填写的年龄未满 13 岁，或选择不说，Tanetto 会以保护模式运行：没有广告，也没有奖励视频（应用不会向 Google AdMob 请求广告，也不使用广告 ID）；没有统计；没有账号和在线备份；不能分享到应用之外（图片和邀请都不行）；没有优惠推荐，也没有购买推送（也没有免费试用）。我们不会在知情的情况下收集 13 岁以下儿童的个人数据：在保护模式下，应用不会向我们或任何人发送关于你或你在应用里做了什么的信息，只有通过 Google Play 进行的付款，以及开启时由 Google 管理的 Android 备份除外。未满你所在国家的数字同意年龄（法律未规定更低年龄时为 16 岁）时，广告绝不个性化，统计保持关闭，也不能使用在线备份。和小伙伴的聊天只有预先写好的回复，不会向任何人发送任何内容。Tanì 是游戏里的金币，不是真钱；Tanetto Plus 和 Tanì 礼包只能通过 Google Play 付款。如果你是家长或监护人，认为你照顾的 13 岁以下儿童向我们提供了个人数据，请写信到 {email}，我们会立即删除。其他任何问题或请求，也欢迎写信给我们。",
+    sum: "Tanetto 面向 13 岁及以上的人：年龄更小或没有告诉我们年龄时，会以保护模式运行。",
+    terms: "Tanetto 面向 13 岁及以上的人，不以 13 岁以下的儿童为对象。如果你填写的年龄更小，或选择不说，应用会按照隐私政策中的说明以保护模式运行。如果你未满 13 岁，请和父母或照顾你的人一起使用。",
+    privP: ["适合所有年龄的人使用：", "面向 13 岁及以上的人。"],
+    note: "我们只问这一次。"
+  },
+  zht: {
+    kids: "年齡與兒童：Tanetto 是為 13 歲以上的人設計的，並不以未滿 13 歲的兒童為對象。第一次使用時，我們會詢問你出生的年份和月份，這些資訊只保存在你的裝置上；你也可以選擇「我不想說」。如果你填寫的年齡未滿 13 歲，或選擇不說，Tanetto 會以保護模式運作：沒有廣告，也沒有獎勵影片（App 不會向 Google AdMob 要求廣告，也不使用廣告 ID）；沒有統計；沒有帳號和線上備份；不能分享到 App 之外（圖片和邀請都不行）；沒有優惠推薦，也沒有購買推播（也沒有免費試用）。我們不會在知情的情況下蒐集未滿 13 歲兒童的個人資料：在保護模式下，App 不會向我們或任何人傳送關於你或你在 App 裡做了什麼的資訊，只有透過 Google Play 進行的付款，以及開啟時由 Google 管理的 Android 備份除外。未滿你所在國家的數位同意年齡（法律未規定更低年齡時為 16 歲）時，廣告絕不個人化，統計保持關閉，也不能使用線上備份。和小夥伴的聊天只有預先寫好的回覆，不會傳送任何內容給任何人。Tanì 是遊戲裡的金幣，不是真的錢；Tanetto Plus 和 Tanì 禮包只能透過 Google Play 付款。如果你是家長或監護人，認為你照顧的未滿 13 歲兒童向我們提供了個人資料，請寫信到 {email}，我們會立即刪除。其他任何問題或請求，也歡迎寫信給我們。",
+    sum: "Tanetto 是為 13 歲以上的人設計的：年齡更小或沒有告訴我們年齡時，會以保護模式運作。",
+    terms: "Tanetto 是為 13 歲以上的人設計的，並不以未滿 13 歲的兒童為對象。如果你填寫的年齡更小，或選擇不說，App 會依照隱私權政策中的說明以保護模式運作。如果你未滿 13 歲，請和父母或照顧你的人一起使用。",
+    privP: ["適合所有年齡的人使用：", "是為 13 歲以上的人設計的。"],
+    note: "我們只問這一次。"
+  },
+  ru: {
+    kids: "Возраст и дети: Tanetto рассчитано на тех, кому 13 лет и больше, и не предназначено для детей младше 13 лет. В первый раз мы спрашиваем месяц и год рождения, и эти данные остаются только на твоём устройстве; можно также ответить «Не хочу говорить». Если ты укажешь возраст меньше 13 лет или не захочешь его называть, Tanetto работает в защищённом режиме: нет рекламы и видео с наградой (приложение не запрашивает рекламу у Google AdMob и не использует рекламный идентификатор), нет статистики, нет аккаунта и онлайн-копии, нельзя делиться ничем за пределами приложения (ни картинками, ни приглашениями), нет спецпредложений и призывов к покупке (нет и бесплатного пробного периода). Мы сознательно не собираем личные данные детей младше 13 лет: в защищённом режиме приложение не отправляет ни нам, ни кому-либо ещё сведения о тебе или о том, что ты делаешь в приложении. Исключения только два: платежи, которые проходят через Google Play, и резервное копирование Android, если оно включено, — им управляет Google. До возраста цифрового согласия в твоей стране (16 лет, если закон не устанавливает меньший) реклама никогда не персонализируется, статистика выключена, а онлайн-копия недоступна. В чате с питомцем только заранее написанные ответы, и он никому ничего не отправляет. Tanì нельзя обменять на деньги: это просто игровые монетки. Tanetto Plus и наборы Tanì оплачиваются только через Google Play. Если ты родитель или опекун и думаешь, что ребёнок младше 13 лет, о котором ты заботишься, передал нам личные данные, напиши на {email}: мы сразу их удалим. Пиши нам и по любому другому вопросу или просьбе.",
+    sum: "Tanetto рассчитано на тех, кому 13 лет и больше: для младших и для тех, кто не назвал возраст, работает защищённый режим.",
+    terms: "Tanetto рассчитано на тех, кому 13 лет и больше, и не предназначено для детей младше 13 лет. Если ты укажешь меньший возраст или не захочешь его называть, приложение работает в защищённом режиме, как описано в политике конфиденциальности. Если тебе меньше 13 лет, пользуйся им вместе с родителями или с тем, кто о тебе заботится.",
+    privP: [" и подходит для любого возраста: до", ". Приложение рассчитано на тех, кому 13 лет и больше. До"],
+    note: "Мы спрашиваем об этом только один раз."
+  },
+  pl: {
+    kids: "Wiek i dzieci: Tanetto jest dla osób od 13 lat i nie jest skierowane do dzieci poniżej 13 lat. Za pierwszym razem pytamy o miesiąc i rok urodzenia; te dane zostają tylko na twoim urządzeniu. Możesz też odpowiedzieć „Wolę nie mówić”. Jeśli podasz wiek poniżej 13 lat albo wolisz go nie podawać, Tanetto działa w trybie chronionym: bez reklam i bez filmów z nagrodą (aplikacja nie pobiera reklam z Google AdMob i nie używa identyfikatora reklamowego), bez statystyk, bez konta i kopii online, bez udostępniania czegokolwiek poza aplikacją (ani obrazków, ani zaproszeń) i bez ofert czy zachęt do zakupu (także bez bezpłatnego okresu próbnego). Nie zbieramy świadomie danych osobowych dzieci poniżej 13 lat: w trybie chronionym aplikacja nie wysyła ani nam, ani nikomu innemu informacji o tobie ani o tym, co robisz w aplikacji. Wyjątkiem są tylko płatności, które przechodzą przez Google Play, oraz kopia zapasowa Androida, jeśli jest włączona; zarządza nią Google. Poniżej wieku zgody cyfrowej w twoim kraju (w Polsce 16 lat) reklamy nigdy nie są spersonalizowane, statystyki są wyłączone, a kopia online jest niedostępna. Czat z towarzyszem ma tylko gotowe odpowiedzi i nikomu niczego nie wysyła. Tanì to monety z gry, a nie prawdziwe pieniądze; za Tanetto Plus i pakiety Tanì płaci się tylko przez Google Play. Jeśli jesteś rodzicem lub opiekunem i sądzisz, że dziecko poniżej 13 lat, którym się opiekujesz, przekazało nam dane osobowe, napisz na adres {email}: od razu je usuniemy. Możesz też pisać do nas z każdym innym pytaniem lub prośbą.",
+    sum: "Tanetto jest dla osób od 13 lat: dla młodszych i dla tych, którzy nie podają wieku, działa w trybie chronionym.",
+    terms: "Tanetto jest dla osób od 13 lat i nie jest skierowane do dzieci poniżej 13 lat. Jeśli podasz niższy wiek albo wolisz go nie podawać, aplikacja działa w trybie chronionym, tak jak opisuje to polityka prywatności. Jeśli masz mniej niż 13 lat, korzystaj z niej razem z rodzicem lub osobą, która się tobą opiekuje.",
+    privP: ["i jest dla osób w każdym wieku: poniżej", "i jest dla osób od 13 lat. Poniżej"],
+    note: "Pytamy o to tylko raz."
+  },
+  nl: {
+    kids: "Leeftijd en kinderen: Tanetto is bedoeld voor mensen vanaf 13 jaar en is niet gericht op kinderen onder de 13. De eerste keer vragen we je geboortemaand en -jaar; die blijven alleen op je apparaat. Je kunt ook “Zeg ik liever niet” antwoorden. Vul je een leeftijd onder de 13 in, of zeg je het liever niet, dan werkt Tanetto in de beschermde modus: geen reclame en geen video's met beloning (de app vraagt geen advertenties op bij Google AdMob en gebruikt de advertentie-ID niet), geen statistieken, geen account en geen online back-up, niets delen buiten de app (geen afbeeldingen en geen uitnodigingen) en geen aanbiedingen of duwtjes om iets te kopen (ook geen gratis proefperiode). We verzamelen niet bewust persoonsgegevens van kinderen onder de 13: in de beschermde modus stuurt de app geen informatie over jou of over wat je in de app doet naar ons of naar iemand anders. Alleen betalingen (die lopen via Google Play) en de Android-back-up (als die aanstaat; die beheert Google) vallen daarbuiten. Onder de leeftijd voor digitale toestemming in jouw land (in Nederland 16 jaar) zijn advertenties nooit gepersonaliseerd, staan de statistieken uit en is de online back-up niet beschikbaar. De chat met je maatje heeft alleen vooraf geschreven antwoorden en verstuurt niets naar iemand. Tanì zijn munten uit het spel, geen echt geld; Tanetto Plus en Tanì-pakketten betaal je alleen via Google Play. Ben je ouder of voogd en denk je dat een kind onder de 13 voor wie je zorgt ons persoonsgegevens heeft gegeven? Schrijf naar {email}, dan verwijderen we ze meteen. Je kunt ons ook schrijven met elke andere vraag of elk ander verzoek.",
+    sum: "Tanetto is bedoeld voor mensen vanaf 13 jaar: wie jonger is, of zijn leeftijd niet zegt, gebruikt de app in de beschermde modus.",
+    terms: "Tanetto is bedoeld voor mensen vanaf 13 jaar en is niet gericht op kinderen onder de 13. Vul je een lagere leeftijd in, of zeg je het liever niet, dan werkt de app in de beschermde modus, zoals het privacybeleid uitlegt. Ben je jonger dan 13, gebruik de app dan samen met een ouder of iemand die voor je zorgt.",
+    privP: ["en is voor alle leeftijden: onder", "en is bedoeld voor mensen vanaf 13 jaar. Onder"],
+    note: "We vragen dit maar één keer."
+  },
+  tr: {
+    kids: "Yaş ve çocuklar: Tanetto 13 yaş ve üzerindekiler için tasarlandı ve 13 yaşından küçük çocuklara yönelik değildir. İlk seferde doğum ayını ve yılını sorarız; bu bilgi yalnızca cihazında kalır. “Söylememeyi tercih ederim” diye de cevap verebilirsin. 13 yaşından küçük bir yaş girersen ya da söylememeyi tercih edersen Tanetto korumalı modda çalışır: reklam ve ödüllü video yoktur (uygulama Google AdMob'dan reklam istemez ve reklam kimliğini kullanmaz), istatistik yoktur, hesap ve çevrimiçi yedekleme yoktur, uygulamanın dışına paylaşım yoktur (ne resim ne davet) ve teklif ya da satın almaya yönlendirme yoktur (ücretsiz deneme de yoktur). 13 yaşından küçük çocukların kişisel verilerini bilerek toplamayız: korumalı modda uygulama ne bize ne de başkasına senin hakkında ya da uygulamada ne yaptığın hakkında bilgi gönderir. Tek istisnalar Google Play üzerinden geçen ödemeler ve açıksa Google'ın yönettiği Android yedeklemesidir. Ülkendeki dijital rıza yaşının altındaysan (kanun daha düşük bir yaş belirlemiyorsa 16) reklamlar asla kişiselleştirilmez, istatistikler kapalıdır ve çevrimiçi yedekleme kullanılamaz. Arkadaşınla sohbette yalnızca önceden yazılmış cevaplar vardır ve kimseye hiçbir şey gönderilmez. Tanì oyun parasıdır, gerçek para değildir; Tanetto Plus ve Tanì paketleri yalnızca Google Play ile ödenir. Ebeveyn ya da vasiysen ve baktığın 13 yaşından küçük bir çocuğun bize kişisel veri verdiğini düşünüyorsan {email} adresine yaz: hemen sileriz. Başka her türlü soru veya talep için de bize yazabilirsin.",
+    sum: "Tanetto 13 yaş ve üzeri için tasarlandı: daha küçükler ya da yaşını söylemeyenler için korumalı modda çalışır.",
+    terms: "Tanetto 13 yaş ve üzerindekiler için tasarlandı ve 13 yaşından küçük çocuklara yönelik değildir. Daha küçük bir yaş girersen ya da söylememeyi tercih edersen, uygulama gizlilik politikasında anlatıldığı gibi korumalı modda çalışır. 13 yaşından küçüksen uygulamayı bir ebeveynle ya da sana bakan biriyle birlikte kullan.",
+    privP: [" ve her yaş içindir: ülkendeki", "; 13 yaş ve üzeri için tasarlandı. Ülkendeki"],
+    note: "Bunu yalnızca bir kez soruyoruz."
+  }
+};
+Object.keys(A111).forEach((l) => {
+  const t = T[l], x = A111[l]; if (!t) return;
+  const P = t.privDoc;
+  if (Array.isArray(P) && !P.a111) {
+    /* il paragrafo dei bambini: quello con l'indirizzo per i genitori e i 13 anni (dopo il titolare); se manca, prima di "Modifiche" */
+    let i = P.findIndex((s, k) => k > 1 && typeof s === "string" && s.includes("{email}") && s.includes("13"));
+    if (i < 0) { i = Math.max(2, P.length - 1); P.splice(i, 0, x.kids); } else P[i] = x.kids;
+    if (typeof P[0] === "string" && !P[0].includes(x.sum)) P[0] = P[0] + (/^(ja|zh|zht)$/.test(l) ? "" : " ") + x.sum;
+    P.a111 = 1;
+  }
+  const C = t.terms;
+  if (Array.isArray(C) && !C.includes(x.terms)) {
+    /* prima della riga "Se sei minorenne, chiedi a un genitore..." (4 dalla 1.0.10); se l'elenco e' diverso, prima dell'ultima */
+    const v26 = !!C.v26 && C.length === 9; C.splice(v26 ? 4 : Math.max(0, C.length - 1), 0, x.terms);
+  }
+  if (typeof t.privP === "string" && t.privP.includes(x.privP[0])) t.privP = t.privP.replace(x.privP[0], x.privP[1]);
+});
+
 /* 1.0.10 (G-06 / H-15): con l'app in secondo piano (Android tiene vivi i timer della WebView) i controlli ripetuti ogni
    pochi secondi non lavorano piu': tornano da soli quando l'app e' di nuovo visibile (ogni controllo ha anche il suo
    "visibilitychange"). Restano attivi quelli lunghi (da 1 minuto in su, es. il backup ogni 30 minuti).
@@ -26765,7 +26899,7 @@ document.addEventListener("pointerdown", (ev) => {
 
 /* =================== VERSIONE 5: giochi di benessere, condivisione, informative =================== */
 const OWNER_NAME = "", OWNER_EMAIL = "tanettoapp@gmail.com";
-const PRIVACY_DATE = "2026-11-17"; /* 1.0.10: titolare con il nome dello sviluppatore (16/11), interruttore delle statistiche e condizioni d'uso aggiornate (3zzk_v26_texts.js); 113 (17/11): niente video con premio sotto i 13 anni e a chi non dice l'eta' */
+const PRIVACY_DATE = "2026-11-18"; /* 1.0.11 (18/11): pubblico dai 13 anni in su e modalita' protetta (3zzn_v111_audience.js); 1.0.10: titolare con il nome dello sviluppatore (16/11), interruttore delle statistiche e condizioni d'uso aggiornate (3zzk_v26_texts.js); 113 (17/11): niente video con premio sotto i 13 anni e a chi non dice l'eta' */
 let pendingGoals = [], exprTimer = null;
 
 function fadeLayer() {
@@ -47068,6 +47202,90 @@ openPath = function (...a) {
   } catch (e) { /* niente */ }
   return r;
 };
+
+/* =================== 1.0.11 (18/11/2026): pubblico dai 13 anni in su, modalita' protetta completa ===================
+   Decisione del proprietario: pubblico dichiarato su Play Console 13-15, 16-17, 18+. Chi indica meno di 13 anni, chi preferisce
+   non dirlo e chi non ha ancora risposto (ageAds() === "child") usa l'app in modalita' protetta. Gia' presenti prima di questo
+   file: niente video con premio e niente modulo degli annunci (97zn adsKid, AdsPlugin.java: niente SDK, niente ID pubblicita'),
+   niente statistiche (98zk v26StatsOn), niente account ne' backup online (98zf ageCloudOk), niente spinte all'acquisto
+   (98zf, 98zi, 98zj, 98zk), niente richiesta di recensione (98zk), niente "Invita un amico" nel momento "tutto fatto" (98zk).
+   Mancava (verifica 1.0.11, punto 3):
+   1) CONDIVISIONE FUORI DALL'APP: l'invito in Profilo, "Condividi" di foto, cartoline, livello, record, giardino, trofei e della
+      scheda del ritorno funzionavano anche per i bambini (con il link a Google Play). Ora per loro nessuna condivisione: le
+      immagini si possono solo salvare sul telefono. Controllo su tutte le strade (shareImage, gr20Send, inviteFlow,
+      navigator.share) e i pulsanti di condivisione non si vedono (classe a111kid su <html>, 11zq_v111_age.css).
+   2) PROVA GRATUITA DI PLUS: e' un'offerta di Google Play; per loro non si propone (Plus resta acquistabile al prezzo normale,
+      con "Chiedi sempre a un adulto"). Se l'eta' poi risulta da ragazzo o adulto, la prova torna.
+   3) Schermata dell'eta': nota neutra (A111.note in 3zzn_v111_audience.js), senza "per tutte le eta'" e senza dire che serve
+      una certa eta' (Play Console Help, "Neutral age screen"). */
+function a111Kid() { try { return typeof ageAds !== "function" || ageAds() === "child"; } catch (e) { return true; } }
+function a111Mark() { try { document.documentElement.classList.toggle("a111kid", a111Kid()); } catch (e) { /* niente */ } }
+
+/* ---------- schermata dell'eta': nota neutra ---------- */
+try { Object.keys(A111).forEach((l) => { if (AGE_T[l] && A111[l].note) AGE_T[l].note = A111[l].note; }); } catch (e) { /* niente */ }
+
+/* ---------- 1) niente condivisione fuori dall'app ---------- */
+if (typeof shareImage === "function") { const _a = shareImage; shareImage = async function (...a) { if (a111Kid()) return true; return _a.apply(this, a); }; }
+if (typeof gr20Send === "function") { const _a = gr20Send; gr20Send = async function (...a) { if (a111Kid()) return "none"; return _a.apply(this, a); }; }
+if (typeof inviteFlow === "function") { const _a = inviteFlow; inviteFlow = function (...a) { if (a111Kid()) { inviteMode = false; return; } return _a.apply(this, a); }; }
+if (typeof inviteCard === "function") { const _a = inviteCard; inviteCard = function (...a) { if (a111Kid()) return ""; return _a.apply(this, a); }; }
+if (typeof imgButtons === "function") {
+  const _a = imgButtons;
+  imgButtons = function (...a) { const h = _a.apply(this, a); if (!a111Kid() || typeof h !== "string") return h; return h.replace(/<button[^>]*data-shareimg=[^>]*>[\s\S]*?<\/button>/, ""); };
+}
+/* ultima rete: qualsiasi altra strada che usi la condivisione del sistema (anche di versioni future) per loro si ferma qui */
+try {
+  if (navigator.share) {
+    const _s = navigator.share.bind(navigator);
+    const f = function (...a) { if (a111Kid()) return Promise.reject(new DOMException("protected", "AbortError")); return _s(...a); };
+    Object.defineProperty(navigator, "share", { configurable: true, writable: true, value: f });
+  }
+} catch (e) { /* niente */ }
+/* finestre che restano (record, giardino, trofei): il pulsante d'ingresso dice "Salva", la finestra pure, senza "Condividi" nel testo */
+const A111_SAVE_IDS = ["shareRecord", "shareGarden", "trShare"];
+function a111Labels(root) {
+  if (!a111Kid() || !root || !root.querySelectorAll) return;
+  const s = L().saveImg; if (!s) return;
+  A111_SAVE_IDS.forEach((id) => root.querySelectorAll("#" + id).forEach((b) => {
+    if (b.dataset.a111) return; b.dataset.a111 = "1";
+    const sp = b.querySelector("span"); if (sp) sp.textContent = s; else if (!b.children.length) b.textContent = s;
+    else { const tn = [...b.childNodes].reverse().find((n) => n.nodeType === 3 && n.textContent.trim()); if (tn) tn.textContent = s; }
+  }));
+  const sh = root.querySelector && root.querySelector("#shT"); if (sh && !sh.dataset.a111) { sh.dataset.a111 = "1"; sh.textContent = s; }
+  /* foglio delle cartoline (98i): resta solo "Salva", il titolo lo dice */
+  const g = root.querySelector && root.querySelector(".gr20box #gr20T"); if (g && !g.dataset.a111 && g.closest(".gr20box").querySelector("#gr20Save")) { g.dataset.a111 = "1"; g.textContent = s; }
+  const m = root.querySelector && root.querySelector("#shMsg"); if (m && m.textContent === L().saveHint) m.textContent = "";
+}
+try { new MutationObserver(() => { if (document.documentElement.classList.contains("a111kid")) a111Labels(document.body); }).observe(document.body, { childList: true, subtree: true }); } catch (e) { /* niente */ }
+
+/* ---------- 2) niente prova gratuita di Plus ---------- */
+function a111Trial() {
+  try {
+    const p = typeof billProducts !== "undefined" && billProducts && billProducts.plans; if (!p) return; const kid = a111Kid();
+    Object.values(p).forEach((pl) => {
+      if (!pl || typeof pl !== "object") return;
+      if (!Object.prototype.hasOwnProperty.call(pl, "a111t")) { pl.a111t = pl.trialToken; pl.a111d = pl.trialDays; }
+      pl.trialToken = kid ? null : pl.a111t; pl.trialDays = kid ? 0 : pl.a111d;
+    });
+  } catch (e) { /* niente */ }
+}
+if (typeof loadProducts === "function") { const _a = loadProducts; loadProducts = function (...a) { const r = _a.apply(this, a); a111Trial(); return r && r.then ? r.then((o) => { a111Trial(); return o; }) : r; }; }
+
+/* sito (niente prezzi di Google Play): il pulsante di Plus scritto in partenza diceva la prova gratuita; per loro solo "Abbonati" */
+function a111PlusWeb() {
+  try {
+    if (!a111Kid() || (typeof billProducts !== "undefined" && billProducts)) return;
+    const go = document.getElementById("plusGo"), a = document.getElementById("plusAfterTxt"), v = L().v13; if (!go || !v) return;
+    go.textContent = v.subscribe; if (a) a.textContent = "";
+  } catch (e) { /* niente */ }
+}
+if (typeof openPlus === "function") { const _a = openPlus; openPlus = function (...a) { const r = _a.apply(this, a); a111PlusWeb(); return r; }; }
+document.addEventListener("click", (ev) => { const b = ev.target.closest && ev.target.closest("[data-plan]"); if (b) setTimeout(a111PlusWeb, 0); });
+
+/* ---------- l'eta' cambia (risposta data, "Preferisco non dirlo" poi detta): tutto si riallinea ---------- */
+if (typeof ageSet === "function") { const _a = ageSet; ageSet = function (...a) { const r = _a.apply(this, a); a111Mark(); a111Trial(); return r; }; }
+if (typeof render === "function") { const _a = render; render = function (...a) { a111Mark(); a111Trial(); return _a.apply(this, a); }; }
+a111Mark();
 
 splash();
 render();

@@ -236,7 +236,7 @@ async def main(b):
     old = ["only child-appropriate ones", "child-appropriate ads that are not personalised", "ads are always child-appropriate", "solo quelli adatti ai bambini", "pubblicità adatta ai bambini", "la pubblicità è sempre adatta ai bambini"]
     T.check("  pagina pubblica e testi it/en: nessuna delle frasi vecchie", not [o for o in old if o in pp] and not [o for o in old if o in await T.ev(pg, "T.en.privDoc.join(' ') + T.it.privDoc.join(' ') + V23.en.ageNo + V23.it.ageNo")])
     T.check("  'Preferisco non dirlo' in Profilo: niente pubblicità per bambini, niente video (it/en)", "non ci sono video con premio" in await T.ev(pg, "V23.it.ageNo") and "no reward videos" in await T.ev(pg, "V23.en.ageNo"))
-    T.check("  data dell'informativa aggiornata (17/11/2026)", await T.ev(pg, "PRIVACY_DATE") == "2026-11-17")
+    T.check("  data dell'informativa aggiornata (18/11/2026, 1.0.11)", await T.ev(pg, "PRIVACY_DATE") == "2026-11-18")
     T.check("  adulto: la scheda dell'eta' in Profilo non parla di 'niente video' (come prima)", AGE_NOAD_EN not in await T.ev(pg, "psAgeCard()"))
     await ctx.close()
     for lang in T.LANGS:

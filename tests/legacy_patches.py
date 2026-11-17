@@ -25,6 +25,14 @@ P = [
     ("p3c/t7.py", 'r == ["more", None, True] and r4 == ["more", None], [r, r4])', 'r == ["more", None, True] and r4 == ["more", "g_set"], [r, r4])', "Profilo a gruppi: da Impostazioni si torna al gruppo"),
     # 1.0.10 (critica 1.0.10, punto 10): il paragrafo dei bambini nomina solo AdMob (statistiche sempre spente per loro)
     ("fix109/tfix_a.py", 'pv.count("GoatCounter") >= 28 and', 'pv.count("GoatCounter") >= 14 and', "bambini: solo AdMob"),
+    # 1.0.11 (decisione del proprietario 17/11/2026): Tanetto pensata dai 13 anni in su (Play Console 13-15, 16-17, 18+),
+    # modalita' protetta per chi e' piu' piccolo o non dice l'eta' (3zzn_v111_audience.js); la frase "nessuna raccolta
+    # consapevole sotto i 13 anni" vale per tutti i Paesi, non solo per gli Stati Uniti
+    ("fix109/tfix_a.py", '''check("privacy.html: per tutte le eta' (niente '16 and over')", "16 and over" not in pv and "for all ages" in pv)''',
+     '''check("privacy.html: pensata dai 13 anni in su, modalita' protetta (niente '16 and over', niente 'for all ages')", "16 and over" not in pv and "for all ages" not in pv and "Tanetto is designed for people aged 13 and up and is not directed to children under 13" in pv and "protected mode" in pv)''',
+     "pubblico 13+ (1.0.11)"),
+    ("fix109/tfix_a.py", '''"In the United States, Tanetto does not collect personal information" in pv''',
+     '''"We do not knowingly collect personal data from children under 13" in pv''', "pubblico 13+ (1.0.11)"),
     # 1.0.10 (E-02): a chi non ha detto l'eta' mai "raddoppia"; la prova del testo per gli adulti usa un adulto
     ("fix109/suites/p3b/t6.py", 'r = await ev(pg, """(() => { const o = {}; S.adsDay = { d: dkey(), n: 0 }; o.g0', 'r = await ev(pg, """(() => { const o = {}; S.age = { y: 1990, m: 5 }; S.adsDay = { d: dkey(), n: 0 }; o.g0', "testo del video per gli adulti"),
     ("fix109/suites/p2b/t3.py", 'txt = await ev(pg, "(() => { const d = document.creat', 'txt = await ev(pg, "(() => { S.age = { y: 1990, m: 5 }; const d = document.creat', "testo del video per gli adulti"),
