@@ -3649,6 +3649,8 @@ html.v110x #app .v110path > .dest .meta { width: 100%; box-sizing: border-box; }
 #app .tr20scale > span { position: absolute; top: 0; width: max(66px, calc((100% - (var(--v110n, 5) - 1) * 5px) / var(--v110n, 5))); text-align: center; white-space: normal; line-height: 1.15; font-size: 12.5px; font-weight: 700; }
 #app .tr20scale > .h { color: var(--nv-energy-ink); }
 #app .tr20scale > .f { right: 0; color: var(--accent); }
+/* 1.0.11: rarity badge always above the item picture (the curtain rod covered "RARE" on locked path rewards) */
+.item .rar { z-index: 2; }
 
 /* =================== 1.0.10 (113): correzioni richieste dal proprietario il 17/11/2026 =================== */
 /* Ornamento della stagione (11zg, M-39): nel saluto di Casa l'h1 e' una colonna (data sopra, saluto sotto) e l'ornamento
