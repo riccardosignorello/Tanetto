@@ -83,17 +83,17 @@ O Germo cresceu e está ainda mais gentil:
 </pt-BR>
 
 <pt-PT>
-O Germo cresceu e está ainda mais gentil:
-- Visual novo: menu flutuante, uma mochila que enche a cada meta e uma voz própria para cada companheiro
-- Mostre seu companheiro: nova imagem de Story para TikTok e Instagram (botão Foto)
-- A ajuda está sempre a um toque no chat e no diário, com os números do seu país
-- Um dia perdido não zera mais o presente do dia; dias de descanso contam
+O Germo cresceu e está ainda mais simpático:
+- Aspeto novo: menu flutuante, uma mochila que enche a cada objetivo e uma voz própria para cada companheiro
+- Mostra o teu companheiro: nova imagem de Story para TikTok e Instagram (botão Foto)
+- A ajuda está sempre a um toque no chat e no diário, com os números do teu país
+- Um dia perdido já não reinicia a prenda do dia; os dias de descanso contam
 - Diário novo: uma pergunta diferente todos os dias e uma página livre só tua
 </pt-PT>
 
 <ja-JP>
 ゲルモが少し成長して、もっとやさしくなりました：
-- 新しいデザイン:浮かぶメニュー、目標ごとにふくらむリュック、仲間それぞれの話し方
+・新しいデザイン：浮かぶメニュー、目標ごとにふくらむリュック、仲間それぞれの話し方
 ・相棒を見せよう：TikTokやInstagram向けの縦長ストーリー画像（写真ボタン）
 ・チャットと日記から、いつでもワンタップで相談窓口へ（お住まいの国の番号）
 ・1日休んでも毎日のプレゼントがリセットされなくなりました。お休みの日もカウント
@@ -111,7 +111,7 @@ O Germo cresceu e está ainda mais gentil:
 
 <zh-CN>
 Germo 长大了一点，也更温柔了：
-- 全新外观:悬浮菜单、每完成一个目标就装满一点的背包,每个伙伴都有自己的说话方式
+- 全新外观：悬浮菜单、每完成一个目标就装满一点的背包，每个伙伴都有自己的说话方式
 - 展示你的伙伴：新增适合 TikTok 和 Instagram 的竖版故事图片（照片按钮）
 - 在聊天和日记中随时一键获得帮助，并显示你所在国家的求助电话
 - 错过一天不会再让每日礼物清零；休息日也算数
@@ -120,7 +120,7 @@ Germo 长大了一点，也更温柔了：
 
 <zh-TW>
 Germo 長大了一點，也更溫柔了：
-- 全新外觀:懸浮選單、每完成一個目標就裝滿一點的背包,每個夥伴都有自己的說話方式
+- 全新外觀：懸浮選單、每完成一個目標就裝滿一點的背包，每個夥伴都有自己的說話方式
 - 展示你的夥伴：新增適合 TikTok 和 Instagram 的直式限時動態圖片（照片按鈕）
 - 在聊天和日記中隨時一鍵取得協助，並顯示你所在國家的求助電話
 - 錯過一天不會再讓每日禮物歸零；休息日也算數
@@ -129,7 +129,7 @@ Germo 長大了一點，也更溫柔了：
 
 <zh-HK>
 Germo 長大了一點，也更溫柔了：
-- 全新外觀:懸浮選單、每完成一個目標就裝滿一點的背包,每個夥伴都有自己的說話方式
+- 全新外觀：懸浮選單、每完成一個目標就裝滿一點的背包，每個夥伴都有自己的說話方式
 - 展示你的夥伴：新增適合 TikTok 和 Instagram 的直式限時動態圖片（照片按鈕）
 - 在聊天和日記中隨時一鍵取得協助，並顯示你所在國家的求助電話
 - 錯過一天不會再讓每日禮物歸零；休息日也算數
