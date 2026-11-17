@@ -19,7 +19,7 @@ for (const l of Object.keys(T)) {
 }
 /* 1.0.11 (K-08): il testo inglese e' gia' scritto nella pagina (si legge anche senza JavaScript e dai motori di ricerca);
    lo script poi mostra la lingua di chi la apre */
-const linkN = (s) => esc(s).replace(/tanettoapp\.github\.io\/Tanetto\/elimina-account\.html/g, '<a href="elimina-account.html">tanettoapp.github.io/Tanetto/elimina-account.html</a>').replace(/([\w.+-]+@[\w-]+(?:\.[\w-]+)+)/g, '<a href="mailto:$1">$1</a>');
+const linkN = (s) => esc(s).replace(/tanetto\.app\/elimina-account\.html/g, '<a href="elimina-account.html">tanetto.app/elimina-account.html</a>').replace(/([\w.+-]+@[\w-]+(?:\.[\w-]+)+)/g, '<a href="mailto:$1">$1</a>');
 const EN = S.en;
 const html = `<!doctype html>
 <html lang="en">
@@ -29,9 +29,9 @@ const html = `<!doctype html>
 <title>Tanetto — Privacy policy and terms of use</title>
 <meta name="description" content="Privacy policy and terms of use of Tanetto, the gentle self-care habit app.">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
-<link rel="canonical" href="https://tanettoapp.github.io/Tanetto/privacy.html">
+<link rel="canonical" href="https://tanetto.app/privacy.html">
 <meta property="og:type" content="website"><meta property="og:title" content="Tanetto: privacy policy and terms of use">
-<meta property="og:url" content="https://tanettoapp.github.io/Tanetto/privacy.html"><meta property="og:image" content="https://tanettoapp.github.io/Tanetto/og.png">
+<meta property="og:url" content="https://tanetto.app/privacy.html"><meta property="og:image" content="https://tanetto.app/og.png">
 <style>
 :root { --bg: #F4EFE6; --paper: #FFFBF4; --ink: #2F2A26; --muted: #6E655D; --line: #E2D7C6; --accent: #2F7035; }
 @media (prefers-color-scheme: dark) { :root { --bg: #1A1714; --paper: #25211C; --ink: #F1EBE2; --muted: #B5AA9D; --line: #3A342D; --accent: #93CC8B; } }
@@ -57,7 +57,7 @@ h1 { font-size: 24px; margin: 0 0 10px; line-height: 1.25; } p { margin: 0 0 12p
 const S = ${JSON.stringify(S)};
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-const link = (s) => esc(s).replace(/tanettoapp\\.github\\.io\\/Tanetto\\/elimina-account\\.html/g, '<a href="elimina-account.html">tanettoapp.github.io/Tanetto/elimina-account.html</a>').replace(/([\\w.+-]+@[\\w-]+(?:\\.[\\w-]+)+)/g /* 1.0.11 (K-01): senza il punto finale della frase */, '<a href="mailto:$1">$1</a>').replace(/(https:\\/\\/[^\\s<>"）)，。、]+[^\\s<>"）)，。、.,;:])/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+const link = (s) => esc(s).replace(/tanetto\\.app\\/elimina-account\\.html/g, '<a href="elimina-account.html">tanetto.app/elimina-account.html</a>').replace(/([\\w.+-]+@[\\w-]+(?:\\.[\\w-]+)+)/g /* 1.0.11 (K-01): senza il punto finale della frase */, '<a href="mailto:$1">$1</a>').replace(/(https:\\/\\/[^\\s<>"）)，。、]+[^\\s<>"）)，。、.,;:])/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
 const pick = () => { const q = (/[?&]lang=([a-z]+)/.exec(location.search) || [])[1]; if (q && Object.prototype.hasOwnProperty.call(S, q)) return q; /* 1.0.8: ?lang=constructor non rompe la pagina */ const n = (navigator.language || "en").toLowerCase(); if (/^zh-(tw|hk|mo)|hant/.test(n)) return "zht"; const l = n.slice(0, 2); return S[l] ? l : "en"; };
 let lang = pick();
 $("lang").innerHTML = Object.keys(S).map((k) => '<option value="' + k + '">' + S[k].lang + "</option>").join(""); $("lang").value = lang;

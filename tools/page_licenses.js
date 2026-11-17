@@ -26,7 +26,7 @@ const html = `<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Tanetto: open-source licences</title>
-<link rel="canonical" href="https://tanettoapp.github.io/Tanetto/licenses.html">
+<link rel="canonical" href="https://tanetto.app/licenses.html">
 <style>
 :root { --bg: #F4EFE6; --paper: #FFFBF4; --ink: #2F2A26; --muted: #5C544E; --line: #E2D7C6; --accent: #2F6B35; }
 @media (prefers-color-scheme: dark) { :root { --bg: #1A1714; --paper: #25211C; --ink: #F1EBE2; --muted: #C9BEB1; --line: #3A342D; --accent: #93CC8B; } }

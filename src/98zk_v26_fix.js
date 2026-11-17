@@ -782,9 +782,11 @@ function v26Idle() {
 ["pointerdown", "keydown", "touchstart", "wheel"].forEach((n) => document.addEventListener(n, () => { v26TouchAt = Date.now(); if (v26IdleLvl) { v26IdleLvl = 0; v26FpsBack(); } }, { capture: true, passive: true }));
 v26IdleT = setInterval(() => { if (!document.hidden) v26Idle(); }, 1000);
 /* c) G-05: il motore dei suoni si addormenta dopo 20 s di silenzio (niente musica, nessun esercizio di respiro);
-   si risveglia da solo al suono successivo */
+   si risveglia da solo al suono successivo.
+   1.0.11: e solo dopo 45 s senza tocchi: su Android il risveglio costa centinaia di millisecondi e, se capitava proprio sul
+   tocco di una scheda, il suono arrivava in ritardo (98zzs: il motore si risveglia anche al primo contatto) */
 setInterval(() => {
-  try { if (document.hidden || SND.playing() || document.getElementById("ring")) return; if (performance.now() - SND.lastAt() > 20000) SND.suspend(); } catch (e) { /* niente */ }
+  try { if (document.hidden || SND.playing() || document.getElementById("ring")) return; if (performance.now() - SND.lastAt() > 20000 && Date.now() - v26TouchAt > 45000) SND.suspend(); } catch (e) { /* niente */ }
 }, 5000);
 /* d) G-17: cambio di fuso orario (viaggio): al ritorno nell'app i promemoria si riprogrammano sull'ora del posto nuovo */
 let v26Tz = ""; try { v26Tz = Intl.DateTimeFormat().resolvedOptions().timeZone + "|" + new Date().getTimezoneOffset(); } catch (e) { /* niente */ }
@@ -818,7 +820,7 @@ if (typeof acctCard === "function") {
     const h = _acctCardV26.apply(this, a);
     try { if (typeof ageCloudOk === "function" && !ageCloudOk() && S.age !== undefined && h.indexOf("elimina-account.html") < 0) {
       const lbl = (AC().webT || AC().delT || ""); if (!lbl) return h;
-      return h.replace(/<\/div>\s*$/, `<a class="inlink" href="https://tanettoapp.github.io/Tanetto/elimina-account.html?lang=${esc(S.lang)}" target="_blank" rel="noopener">${esc(lbl)}</a></div>`);
+      return h.replace(/<\/div>\s*$/, `<a class="inlink" href="https://tanetto.app/elimina-account.html?lang=${esc(S.lang)}" target="_blank" rel="noopener">${esc(lbl)}</a></div>`);
     } } catch (e) { /* niente */ }
     return h;
   };

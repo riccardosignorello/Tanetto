@@ -344,7 +344,7 @@ function performTrick(i) {
   const tl = G.timeline({ onComplete: () => G.set(p, { clearProps: "transform" }) });
   if (i === 0) { tl.to(p, { scaleY: 0.85, scaleX: 1.12, y: 18, transformOrigin: "50% 100%", duration: 0.12 }).to(p, { scaleY: 1.08, scaleX: 0.94, y: -70, duration: 0.3, ease: "power2.out" }).to(p, { scaleY: 1, scaleX: 1, y: 0, duration: 0.5, ease: "bounce.out" }); SND.play("pop"); }
   else if (i === 1) { tl.to(p, { rotation: 360, transformOrigin: "50% 60%", duration: 0.8, ease: "back.inOut(1.4)" }); SND.play("sparkle"); }
-  else if (i === 2) { for (let k = 0; k < 4; k++) tl.to(p, { x: k % 2 ? 14 : -14, y: -14, rotation: k % 2 ? 8 : -8, duration: 0.18, transformOrigin: "50% 100%" }).to(p, { y: 0, duration: 0.16 }); tl.to(p, { x: 0, rotation: 0, duration: 0.2 }); [0, 1, 2, 3].forEach((k) => setTimeout(() => SND.note(NOTES[k % 4]), k * 340)); burst("star", 6); }
+  else if (i === 2) { for (let k = 0; k < 4; k++) tl.to(p, { x: k % 2 ? 14 : -14, y: -14, rotation: k % 2 ? 8 : -8, duration: 0.18, transformOrigin: "50% 100%" }).to(p, { y: 0, duration: 0.16 }); tl.to(p, { x: 0, rotation: 0, duration: 0.2 }); [0, 1, 2, 3].forEach((k) => { if (!k) SND.note(NOTES[0]); else setTimeout(() => SND.note(NOTES[k % 4]), k * 340); }); /* 1.0.11: prima nota subito */ burst("star", 6); }
   else if (i === 3) { tl.to(p, { y: -80, duration: 0.3, ease: "power2.out", transformOrigin: "50% 50%" }).to(p, { rotation: 360, duration: 0.45, ease: "none" }, "<0.1").to(p, { y: 0, duration: 0.35, ease: "bounce.out" }).set(p, { rotation: 0 }); SND.play("giggle"); }
   else if (i === 4) { tl.to(p, { rotation: -10, duration: 0.15, transformOrigin: "50% 100%" }).to(p, { rotation: 10, duration: 0.15, repeat: 5, yoyo: true }).to(p, { rotation: 0, duration: 0.2 }); burst("heart", 8); SND.play("pop"); }
   else if (i === 5 && fx) {
@@ -369,7 +369,7 @@ function openDoc(k) {
     body = t[k].map((p) => `<p>${esc(rep(p)).replace(/(https:\/\/[^\s<>"）)，。、]+[^\s<>"）)，。、.,;:])/g, '<a href="$1" target="_blank" rel="noopener">$1</a>')}</p>`).join("");
     if (k === "health") body += `<div class="help">${t.helpLines.map((l) => `<p><strong>${l}</strong></p>`).join("")}</div>`;
     /* 1.0.9: lo stesso testo e' pubblicato sul sito (Google Play lo chiede a un indirizzo web): collegamento alla pagina */
-    if (k === "privDoc" || k === "terms") { const u = `https://tanettoapp.github.io/Tanetto/privacy.html?lang=${encodeURIComponent(S.lang)}`; body += `<p class="small"><a href="${u}" target="_blank" rel="noopener">tanettoapp.github.io/Tanetto/privacy.html</a></p>`; }
+    if (k === "privDoc" || k === "terms") { const u = `https://tanetto.app/privacy.html?lang=${encodeURIComponent(S.lang)}`; body += `<p class="small"><a href="${u}" target="_blank" rel="noopener">tanetto.app/privacy.html</a></p>`; }
   }
   layer.innerHTML = `<div class="overlay" role="dialog" aria-modal="true" aria-labelledby="docT"><div class="box card docbox"><h2 id="docT">${title}</h2><div class="doc">${body}</div><button class="btn" id="closeLayer">${t.close}</button></div></div>`;
   if (anim) G.from(".docbox", { y: 30, opacity: 0, duration: 0.35, ease: "power3.out" });

@@ -96,5 +96,7 @@ const FEED_MAX = 3, GAME_SEEDS_MAX = 20, GAME_SECS = 20;
 const giftValue = (n) => 10 + 5 * Math.min(Math.max(n, 1), 7);
 /* Conteggio anonimo delle aperture (GoatCounter): resta spento finché il codice è vuoto */
 /* Conteggi anonimi: sul sito pubblico e nell'app Android (che gira su "localhost" dentro il telefono) */
-const GC_CODE = (/github\.io$/.test(location.hostname) || (() => { try { return !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform()); } catch (e) { return false; } })()) ? "tanettoapp" : "";
+/* 1.0.11: il sito si sposta su https://tanetto.app (stessi percorsi); il vecchio indirizzo github.io resta valido */
+const SITE_HOST = /(^|\.)github\.io$|^(www\.)?tanetto\.app$/;
+const GC_CODE = (SITE_HOST.test(location.hostname) || (() => { try { return !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform()); } catch (e) { return false; } })()) ? "tanettoapp" : "";
 const FEEDBACK_EMAIL = "tanettoapp@gmail.com";

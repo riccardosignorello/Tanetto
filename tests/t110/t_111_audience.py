@@ -1,5 +1,7 @@
 """1.0.11 (18/11/2026): pubblico dai 13 anni in su (Play Console: 13-15, 16-17, 18+), modalita' protetta per chi risulta
-bambino (ageAds() === "child": sotto i 13 anni, "Preferisco non dirlo", eta' mai chiesta).
+bambino (ageKid(): sotto i 13 anni, "Preferisco non dirlo", eta' mai chiesta).
+1.0.11 (18/11/2026, uscita da Families): per "Preferisco non dirlo" ed eta' mai chiesta la modalita' protetta resta, ma i video
+con premio ci sono (ageAds() = "teen": TFUA, mai personalizzata); solo chi dichiara meno di 13 anni resta senza video.
 1) Modalita' protetta completa, provata per child / skip / mai chiesta (telefono finto, moduli finti che contano le chiamate):
    niente video e niente modulo degli annunci (quindi niente SDK e niente ID pubblicita'), niente statistiche (nessuna
    richiesta a GoatCounter), niente account ne' backup online, niente condivisione fuori dall'app (foto, cartoline, record,
@@ -74,9 +76,13 @@ async def kid_case(b, age, label, lang="en"):
     await T.close_layer(pg); await pg.wait_for_timeout(6500); await T.ev(pg, "window.__kidProbe = 1; 1")
     o = json.loads(await T.ev(pg, PROBE)); await pg.wait_for_timeout(600)
     adc = json.loads(await T.ev(pg, "JSON.stringify(window.__adc)"))
-    T.check(f"{label}: ageAds() = child e modalita' protetta attiva (classe a111kid)", o["ads"] == "child" and o["kidClass"], o)
-    T.check(f"  {label}: niente pubblicita' e niente video (adsOn/adOffer spenti, nessun pulsante)", o["adsOn"] is False and o["adOffer"] is False and o["adBtn"] == "")
-    T.check(f"  {label}: niente ID pubblicita': il modulo degli annunci (e quindi l'SDK) non viene mai chiamato", all(adc[k] == 0 for k in ("init", "load", "show", "privacy")), adc)
+    unk = age in ("skip", "none")
+    T.check(f"{label}: ageAds() = {'teen' if unk else 'child'} e modalita' protetta attiva (classe a111kid)", o["ads"] == ("teen" if unk else "child") and o["kidClass"], o)
+    if unk:
+        T.check(f"  {label}: i video con premio ci sono (adsOn acceso, consenso e video preparato dal modulo)", o["adsOn"] is True and adc["init"] >= 1 and adc["load"] >= 1, (o["adsOn"], adc))
+    else:
+        T.check(f"  {label}: niente pubblicita' e niente video (adsOn/adOffer spenti, nessun pulsante)", o["adsOn"] is False and o["adOffer"] is False and o["adBtn"] == "")
+        T.check(f"  {label}: niente ID pubblicita': il modulo degli annunci (e quindi l'SDK) non viene mai chiamato", all(adc[k] == 0 for k in ("init", "load", "show", "privacy")), adc)
     T.check(f"  {label}: niente statistiche (spente e nessuna richiesta a GoatCounter)", o["stats"] is False and not pg.gc, pg.gc[:3])
     T.check(f"  {label}: niente account ne' backup online", o["cloud"] is False)
     T.check(f"  {label}: niente condivisione: nessuna chiamata al sistema (modulo nativo e navigator.share)", o["sh"] == {"share": 0, "nav": 0} and o["navErr"] == "AbortError", (o["sh"], o["navErr"]))

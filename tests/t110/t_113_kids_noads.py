@@ -1,6 +1,8 @@
-"""1.0.10 (113): regole Google Play "Families" (answer/9893335): ai bambini e a chi non ha detto l'eta' niente video con
-premio (i video con premio di AdMob non si chiudono dopo 5 secondi).
-1) child (sotto i 13 anni), "Preferisco non dirlo" ed eta' mai chiesta: nessuna offerta di video in tutta l'app (Casa,
+"""1.0.10 (113): regole Google Play "Families" (answer/9893335): ai bambini niente video con premio (i video con premio di
+AdMob non si chiudono dopo 5 secondi).
+1.0.11 (18/11/2026): Tanetto esce da Families (pubblico 13+): "Preferisco non dirlo" ed eta' mai chiesta NON bloccano piu' i
+video (pulsante presente, al modulo arriva "teen": TFUA, mai personalizzata); chi dichiara meno di 13 anni resta senza.
+1) child (sotto i 13 anni): nessuna offerta di video in tutta l'app (Casa,
    regalo del giorno, negozio dei Tanì, "ti mancano X Tanì", Profilo, ogni scheda), nessuna chiamata al modulo dei video
    (init / load / show / privacy), nessun "Nessuna pubblicità disponibile", niente "Scelte sulla pubblicità".
 2) teen e adult: come prima (pulsanti, testi, video mostrato e premio dato).
@@ -19,38 +21,41 @@ TABS = ["today", "home", "shop", "trips", "more"]
 SUBS = ["prog", "comp", "set", "acct", "priv", "buy", "help", "about"]
 # frase breve in coda al paragrafo dei video dell'informativa (stesse parole del titolo del paragrafo), 14 lingue
 SHORT9 = {
-    'it': "Sotto i 13 anni, o se preferisci non dire l'età, non ci sono video con premio.",
-    'en': "Under 13, or if you'd rather not say your age, there are no rewarded videos.",
-    'de': 'Unter 13 Jahren oder wenn du dein Alter lieber nicht sagst, gibt es keine Videos mit Belohnung.',
-    'es': 'Por debajo de los 13 años, o si prefieres no decir tu edad, no hay vídeos con recompensa.',
-    'fr': "Avant 13 ans, ou si tu préfères ne pas dire ton âge, il n'y a pas de vidéos récompensées.",
-    'pt': 'Abaixo dos 13 anos, ou se você preferir não dizer sua idade, não há vídeos com recompensa.',
-    'ja': '13歳未満の方、または年齢を答えなかった方には、ごほうび付き動画はありません。',
-    'ko': '만 13세 미만이거나 나이를 말하고 싶지 않다고 하면 보상형 동영상은 없어요.',
-    'zh': '未满 13 岁，或你选择不告诉我们年龄时，没有奖励视频。',
-    'zht': '未滿 13 歲，或你選擇不告訴我們年齡時，沒有獎勵影片。',
-    'ru': 'До 13 лет или если ты не хочешь говорить свой возраст, видео с наградой нет.',
-    'pl': 'Poniżej 13 lat albo jeśli wolisz nie podawać wieku, nie ma filmów z nagrodą.',
-    'nl': "Onder de 13 jaar, of als je je leeftijd liever niet zegt, zijn er geen video's met beloning.",
-    'tr': '13 yaşın altındaysan ya da yaşını söylememeyi tercih edersen ödüllü video yoktur.',
+    'it': "Sotto i 13 anni non ci sono video con premio; se preferisci non dire l'età, non sono mai personalizzati.",
+    'en': "Under 13 there are no rewarded videos; if you'd rather not say your age, they are never personalised.",
+    'de': 'Unter 13 Jahren gibt es keine Videos mit Belohnung; wenn du dein Alter lieber nicht sagst, sind sie nie personalisiert.',
+    'es': 'Por debajo de los 13 años no hay vídeos con recompensa; si prefieres no decir tu edad, nunca son personalizados.',
+    'fr': "Avant 13 ans, il n'y a pas de vidéos récompensées ; si tu préfères ne pas dire ton âge, elles ne sont jamais personnalisées.",
+    'pt': 'Abaixo dos 13 anos não há vídeos com recompensa; se você preferir não dizer sua idade, eles nunca são personalizados.',
+    'ja': '13歳未満の方には、ごほうび付き動画はありません。年齢を答えなかった方には、パーソナライズされない動画だけが表示されます。',
+    'ko': '만 13세 미만이면 보상형 동영상은 없어요. 나이를 말하고 싶지 않다고 하면 맞춤형이 아닌 동영상만 보여요.',
+    'zh': '未满 13 岁时没有奖励视频；你选择不告诉我们年龄时，奖励视频绝不个性化。',
+    'zht': '未滿 13 歲時沒有獎勵影片；你選擇不告訴我們年齡時，獎勵影片絕不個人化。',
+    'ru': 'До 13 лет видео с наградой нет; если ты не хочешь говорить свой возраст, они никогда не персонализируются.',
+    'pl': 'Poniżej 13 lat nie ma filmów z nagrodą; jeśli wolisz nie podawać wieku, nigdy nie są one spersonalizowane.',
+    'nl': "Onder de 13 jaar zijn er geen video's met beloning; als je je leeftijd liever niet zegt, zijn ze nooit gepersonaliseerd.",
+    'tr': '13 yaşın altındaysan ödüllü video yoktur; yaşını söylememeyi tercih edersen videolar asla kişiselleştirilmez.',
 }
 # la stessa frase nella scheda Privacy del Profilo (stesse parole della scheda), 14 lingue
 SHORTCARD = {
-    'it': "Sotto i 13 anni, o se preferisci non dire l'età, non ci sono video con premio.",
-    'en': "Under 13, or if you'd rather not say your age, there are no reward videos.",
-    'de': 'Unter 13 Jahren oder wenn du dein Alter lieber nicht sagst, gibt es keine Belohnungsvideos.',
-    'es': 'Por debajo de los 13 años, o si prefieres no decir tu edad, no hay vídeos con premio.',
-    'fr': "Avant 13 ans, ou si tu préfères ne pas dire ton âge, il n'y a pas de vidéos récompensées.",
-    'pt': 'Abaixo dos 13 anos, ou se você preferir não dizer sua idade, não há vídeos com prêmio.',
-    'ja': '13歳未満の方、または年齢を答えなかった方には、ごほうび動画はありません。',
-    'ko': '만 13세 미만이거나 나이를 말하고 싶지 않다고 하면 보상 영상은 없어요.',
-    'zh': '未满 13 岁，或你选择不告诉我们年龄时，没有奖励视频。',
-    'zht': '未滿 13 歲，或你選擇不告訴我們年齡時，沒有獎勵影片。',
-    'ru': 'До 13 лет или если ты не хочешь говорить свой возраст, видео с наградой нет.',
-    'pl': 'Poniżej 13 lat albo jeśli wolisz nie podawać wieku, nie ma filmów z nagrodą.',
-    'nl': "Onder de 13 jaar, of als je je leeftijd liever niet zegt, zijn er geen beloningsvideo's.",
-    'tr': '13 yaşın altındaysan ya da yaşını söylememeyi tercih edersen ödüllü video yoktur.',
+    'it': "Sotto i 13 anni non ci sono video con premio; se preferisci non dire l'età, non sono mai personalizzati.",
+    'en': "Under 13 there are no reward videos; if you'd rather not say your age, they are never personalised.",
+    'de': 'Unter 13 Jahren gibt es keine Belohnungsvideos; wenn du dein Alter lieber nicht sagst, sind sie nie personalisiert.',
+    'es': 'Por debajo de los 13 años no hay vídeos con premio; si prefieres no decir tu edad, nunca son personalizados.',
+    'fr': "Avant 13 ans, il n'y a pas de vidéos récompensées ; si tu préfères ne pas dire ton âge, elles ne sont jamais personnalisées.",
+    'pt': 'Abaixo dos 13 anos não há vídeos com prêmio; se você preferir não dizer sua idade, eles nunca são personalizados.',
+    'ja': '13歳未満の方には、ごほうび動画はありません。年齢を答えなかった方には、パーソナライズされない動画だけが表示されます。',
+    'ko': '만 13세 미만이면 보상 영상은 없어요. 나이를 말하고 싶지 않다고 하면 맞춤형이 아닌 영상만 보여요.',
+    'zh': '未满 13 岁时没有奖励视频；你选择不告诉我们年龄时，奖励视频绝不个性化。',
+    'zht': '未滿 13 歲時沒有獎勵影片；你選擇不告訴我們年齡時，獎勵影片絕不個人化。',
+    'ru': 'До 13 лет видео с наградой нет; если ты не хочешь говорить свой возраст, они никогда не персонализируются.',
+    'pl': 'Poniżej 13 lat nie ma filmów z nagrodą; jeśli wolisz nie podawać wieku, nigdy nie są one spersonalizowane.',
+    'nl': "Onder de 13 jaar zijn er geen beloningsvideo's; als je je leeftijd liever niet zegt, zijn ze nooit gepersonaliseerd.",
+    'tr': '13 yaşın altındaysan ödüllü video yoktur; yaşını söylememeyi tercih edersen videolar asla kişiselleştirilmez.',
 }
+# 1.0.11 (uscita da Families, 18/11/2026): nell'informativa la frase sui video per chi non dice l'eta' e la promessa sui dati
+# per chi indica meno di 13 anni, 14 lingue
+KIDS111 = {'it': ('Se preferisci non dirlo, invece, i video con premio restano disponibili (li guardi solo se vuoi) e non sono mai personalizzati.', "se indichi meno di 13 anni l'app non invia"), 'en': ("If you'd rather not say, though, rewarded videos stay available (you only watch them if you want) and are never personalised.", 'if you enter an age under 13, the app sends'), 'de': ('Wenn du dein Alter lieber nicht sagst, bleiben Videos mit Belohnung dagegen verfügbar (du siehst sie nur, wenn du willst) und sind nie personalisiert.', 'Wenn du ein Alter unter 13 angibst, sendet die App'), 'es': ('Si prefieres no decirlo, en cambio, los vídeos con recompensa siguen disponibles (solo los ves si quieres) y nunca son personalizados.', 'si indicas menos de 13 años, la app no envía'), 'fr': ('Si tu préfères ne pas le dire, les vidéos récompensées restent en revanche disponibles (tu ne les regardes que si tu veux) et ne sont jamais personnalisées.', "si tu indiques moins de 13 ans, l'app n'envoie"), 'pt': ('Se você preferir não dizer, porém, os vídeos com recompensa continuam disponíveis (você só assiste se quiser) e nunca são personalizados.', 'se você informar menos de 13 anos, o app não envia'), 'ja': ('ただし、年齢を答えなかった場合は、ごほうび付き動画を利用できます（見たいときだけ見ます）。動画がパーソナライズされることはありません。', '13歳未満の年齢を入力した場合、あなたや'), 'ko': ('다만 나이를 말하고 싶지 않다고 하면 보상형 동영상은 볼 수 있어요(원할 때만 봐요). 이 동영상은 맞춤형으로 표시되지 않아요.', '만 13세 미만의 나이를 입력하면 사용자나'), 'zh': ('不过，如果你选择不说，奖励视频仍然可以观看（只在你想看时才看），而且绝不个性化。', '如果你填写的年龄未满 13 岁，应用不会'), 'zht': ('不過，如果你選擇不說，獎勵影片仍然可以觀看（只在你想看時才看），而且絕不個人化。', '如果你填寫的年齡未滿 13 歲，App 不會'), 'ru': ('Если же ты не хочешь называть возраст, видео с наградой остаются доступными (ты смотришь их, только если хочешь) и никогда не персонализируются.', 'если ты укажешь возраст меньше 13 лет, приложение не отправляет'), 'pl': ('Jeśli natomiast wolisz nie podawać wieku, filmy z nagrodą są dostępne (oglądasz je tylko wtedy, gdy chcesz) i nigdy nie są spersonalizowane.', 'jeśli podasz wiek poniżej 13 lat, aplikacja nie wysyła'), 'nl': ("Zeg je je leeftijd liever niet, dan blijven video's met beloning wel beschikbaar (je kijkt ze alleen als je wilt) en zijn ze nooit gepersonaliseerd.", 'als je een leeftijd onder de 13 invult, stuurt de app'), 'tr': ('Yaşını söylememeyi tercih edersen ise ödüllü videolar kullanılabilir (yalnızca istersen izlersin) ve asla kişiselleştirilmez.', '13 yaşından küçük bir yaş girersen uygulama ne bize')}
 # frasi vecchie (1.0.10 / 112) che promettevano video adatti ai bambini: non devono esserci piu'
 OLD13 = {
     'it': "Sotto i 13 anni, o se preferisci non dirlo, i video con premio sono solo quelli adatti ai bambini, mai personalizzati, e l'ID pubblicità non viene inviato.",
@@ -153,7 +158,8 @@ async def kid_case(b, age, lang="en", adsOk=1, label=None):
     T.check(f"  nessun errore ({label})", not pg.errs, pg.errs[:2])
     await ctx.close()
 
-async def grown_case(b, age, want):
+async def grown_case(b, age, want, sent=None):
+    sent = sent or age
     ctx, pg = await T.page(b, st0("en"), native=True, age=age, lang="en-US", wait=3000, extra_js=SPY)
     await T.close_layer(pg)
     for _ in range(30):
@@ -173,7 +179,7 @@ async def grown_case(b, age, want):
     await pg.click("#adShop"); await pg.wait_for_timeout(2000)
     r = json.loads(await T.ev(pg, "JSON.stringify({ s: S.seeds, adc: window.__adc, shows: window.__ads.shows })"))
     T.check(f"  {age}: il video si guarda e il premio arriva (come prima)", r["shows"] == 1 and r["s"] > s0 and r["adc"]["show"] == 1, (s0, r))
-    T.check(f"  {age}: al modulo arriva l'eta' giusta ({age})", r["adc"]["ages"] and all(x.endswith(":" + age) for x in r["adc"]["ages"]) and "show:" + age in r["adc"]["ages"], r["adc"]["ages"])
+    T.check(f"  {age}: al modulo arriva l'eta' giusta ({sent})", r["adc"]["ages"] and all(x.endswith(":" + sent) for x in r["adc"]["ages"]) and "show:" + sent in r["adc"]["ages"], r["adc"]["ages"])
     await T.ev(pg, "layer.innerHTML = ''; openPlus('t113'); 1"); await pg.wait_for_timeout(600)
     pl = await T.ev(pg, "layer.innerText")
     T.check(f"  {age}: Plus dice ancora 'with no ads' (come prima)", "with no ads" in pl, pl[:200])
@@ -183,12 +189,9 @@ async def grown_case(b, age, want):
 async def main(b):
     # 1) bambini, eta' non detta, eta' mai chiesta (anche senza consenso ancora dato: il pulsante "pigro")
     await kid_case(b, "child")
-    await kid_case(b, "skip", label="preferisco non dirlo")
-    await kid_case(b, "none", label="eta' mai chiesta")
     await kid_case(b, "child", adsOk=0, label="bambino senza consenso gia' dato")
     await kid_case(b, {"y": 2014, "m": 1}, label="12 anni")
     await kid_case(b, "child", lang="it")
-    await kid_case(b, "skip", lang="ja", label="preferisco non dirlo")
     # tutte le lingue: negozio, "ti mancano" e regalo, per un bambino
     for lang in T.LANGS:
         ctx, pg = await T.page(b, st0(lang), native=True, age="child", lang="en-US", wait=2500, extra_js=SPY)
@@ -234,11 +237,19 @@ async def main(b):
     # 2) ragazzi e adulti: come prima
     await grown_case(b, "adult", "double your gift")
     await grown_case(b, "teen", "extra gift")
+    # 1.0.11: "Preferisco non dirlo" ed eta' mai chiesta: i video ci sono, come per i ragazzi (al modulo arriva "teen")
+    await grown_case(b, "skip", "extra gift", sent="teen")
+    await grown_case(b, "none", "extra gift", sent="teen")
+    for age in ("skip", "none"):
+        ctx, pg = await T.page(b, st0("en"), native=True, age=age, lang="en-US", wait=2500)
+        r = json.loads(await T.ev(pg, "JSON.stringify({ band: ageBand(), ads: ageAds(), cloud: ageCloudOk(), kid: ageKid(), prot: document.documentElement.classList.contains('a111kid') })"))
+        T.check(f"  {age}: per tutto il resto resta 'unknown' (backup online no, modalita' protetta si')", r == {"band": "unknown", "ads": "teen", "cloud": False, "kid": True, "prot": True}, r)
+        await ctx.close()
     # 3) eta' non detta -> detta piu' tardi
     for ans, want in ((T.AGE["adult"], True), (T.AGE["child"], False)):
         ctx, pg = await T.page(b, st0("en"), native=True, age="skip", lang="en-US", wait=3000, extra_js=SPY)
         await T.close_layer(pg); await pg.wait_for_timeout(6000)
-        a0 = json.loads(await T.ev(pg, "JSON.stringify(window.__adc)"))
+        a0 = json.loads(await T.ev(pg, "JSON.stringify(window.__adc)")); a0["ages"] = list(a0["ages"])
         await T.ev(pg, f"ageSet({json.dumps(dict(ans, at='2026-11-16'))}); 1")
         for _ in range(30):
             if await T.ev(pg, "adsSt.loaded"): break
@@ -246,9 +257,9 @@ async def main(b):
         await T.ev(pg, "layer.innerHTML = ''; tab = 'more'; moreSub = 'prog'; render(); 1"); await pg.wait_for_timeout(400)
         r = json.loads(await T.ev(pg, "JSON.stringify({ g: !!document.getElementById('adGift'), adc: window.__adc, band: ageAds() })"))
         if want:
-            T.check("eta' non detta, poi detta da adulto: i video tornano (consenso e video preparato, pulsante sul regalo)", a0["init"] == 0 and r["g"] and r["adc"]["init"] >= 1 and r["adc"]["load"] >= 1 and "init:adult" in r["adc"]["ages"], (a0, r))
+            T.check("eta' non detta (video come 'teen'), poi detta da adulto: si rifanno consenso e video come 'adult', pulsante sul regalo", "init:teen" in a0["ages"] and r["g"] and r["adc"]["init"] > a0["init"] and r["adc"]["load"] > a0["load"] and "init:adult" in r["adc"]["ages"], (a0, r))
         else:
-            T.check("eta' non detta, poi detta da bambino: i video restano spenti", r["band"] == "child" and not r["g"] and r["adc"]["init"] == 0 and r["adc"]["load"] == 0, r)
+            T.check("eta' non detta (video come 'teen'), poi detta da bambino: i video si spengono, nessuna nuova chiamata al modulo", r["band"] == "child" and not r["g"] and r["adc"]["init"] == a0["init"] and r["adc"]["load"] == a0["load"] and r["adc"]["show"] == 0 and not await T.ev(pg, "adsOn()"), (a0, r))
         T.check("  nessun errore", not pg.errs, pg.errs[:2])
         await ctx.close()
     # 4) testi in 14 lingue: informativa (app e pagina pubblica) e scheda Privacy del Profilo
@@ -257,12 +268,16 @@ async def main(b):
     for lang in T.LANGS:
         r = json.loads(await T.ev(pg, f"JSON.stringify({{ d: T['{lang}'].privDoc.join(' '), p: T['{lang}'].privP, n: V23['{lang}'].ageNo }})"))
         s9, sc = SHORT9[lang], SHORTCARD[lang]
-        T.check(f"testi {lang}: informativa (app e pagina pubblica) e scheda Privacy dicono che sotto i 13 anni (o senza eta') non ci sono video", s9 in r["d"] and sc in r["p"] and s9 in pp, (s9 in r["d"], sc in r["p"], s9 in pp))
+        T.check(f"testi {lang}: informativa (app e pagina pubblica) e scheda Privacy: sotto i 13 anni niente video, senza eta' mai personalizzati", s9 in r["d"] and sc in r["p"] and s9 in pp, (s9 in r["d"], sc in r["p"], s9 in pp))
+        k1, k2 = KIDS111[lang]
+        T.check(f"  {lang}: 'Eta' e bambini': i video per chi non dice l'eta' e la promessa sui dati per chi indica meno di 13 anni", k1 in r["d"] and k2 in r["d"] and k1 in pp and k2 in pp, (k1 in r["d"], k2 in r["d"], k1 in pp))
+        nt = await T.ev(pg, f"AGE_T['{lang}'].note")
+        T.check(f"  {lang}: schermata dell'eta', nota senza 'per tutte le eta'' (solo 'te lo chiediamo una volta sola')", nt == await T.ev(pg, f"A111['{lang}'].note") and "Tanetto" not in nt, nt)
         bad = [o for o in (OLD13[lang], OLDKIDS[lang], OLDNO[lang]) if o in r["d"] or o in r["n"] or o in pp]
         T.check(f"  {lang}: nessuna frase vecchia ('video adatti ai bambini', 'solo AdMob riceve un identificativo', 'pubblicità per bambini')", not bad, [x[:50] for x in bad])
     old = ["only child-appropriate ones", "child-appropriate ads that are not personalised", "ads are always child-appropriate", "solo quelli adatti ai bambini", "pubblicità adatta ai bambini", "la pubblicità è sempre adatta ai bambini"]
     T.check("  pagina pubblica e testi it/en: nessuna delle frasi vecchie", not [o for o in old if o in pp] and not [o for o in old if o in await T.ev(pg, "T.en.privDoc.join(' ') + T.it.privDoc.join(' ') + V23.en.ageNo + V23.it.ageNo")])
-    T.check("  'Preferisco non dirlo' in Profilo: niente pubblicità per bambini, niente video (it/en)", "non ci sono video con premio" in await T.ev(pg, "V23.it.ageNo") and "no reward videos" in await T.ev(pg, "V23.en.ageNo"))
+    T.check("  'Preferisco non dirlo' in Profilo: video mai personalizzati (non piu' 'niente video'), niente pubblicità per bambini (it/en)", "non sono mai personalizzati" in await T.ev(pg, "V23.it.ageNo") and "never personalised" in await T.ev(pg, "V23.en.ageNo") and "no reward videos" not in await T.ev(pg, "V23.en.ageNo"))
     T.check("  data dell'informativa aggiornata (18/11/2026, 1.0.11)", await T.ev(pg, "PRIVACY_DATE") == "2026-11-18")
     T.check("  adulto: la scheda dell'eta' in Profilo non parla di 'niente video' (come prima)", AGE_NOAD_EN not in await T.ev(pg, "psAgeCard()"))
     await ctx.close()

@@ -314,13 +314,13 @@ document.addEventListener("click", (ev) => {
   if (b.id === "togglePicker") { showPicker = !showPicker; const y = window.scrollY; render(); window.scrollTo(0, y); return; }
   if (b.id === "makeWeek") { makeWeekCard(); return; }
   if (b.dataset.tab) {
-    const same = tab === b.dataset.tab; tab = b.dataset.tab; confirmReset = false; editGoals = null; showPicker = false; if (!same) SND.play("click");
+    const same = tab === b.dataset.tab; tab = b.dataset.tab; confirmReset = false; editGoals = null; showPicker = false; if (!same && !(typeof sfxPreUsed === "function" && sfxPreUsed(b))) SND.play("click");
     /* Risposta immediata: l'indicatore della scheda si muove subito, la pagina arriva al fotogramma dopo */
     const go = () => { render(); window.scrollTo(0, 0); if (b.dataset.focus === "goals") setTimeout(() => document.getElementById("goalsCard")?.scrollIntoView({ behavior: "smooth" }), 50); };
     if (!same && anim && S.pet) { renderTabs(); tabPending = requestAnimationFrame(() => { tabPending = setTimeout(() => { tabPending = 0; go(); }, 0); }); } else go();
     return;
   }
-  if (b.dataset.hometab) { homeTab = b.dataset.hometab; SND.play("click"); render(); return; }
+  if (b.dataset.hometab) { homeTab = b.dataset.hometab; if (!(typeof sfxPreUsed === "function" && sfxPreUsed(b))) SND.play("click"); render(); return; }
   if (b.dataset.wear !== undefined) { S.hat = null; save(); render(); return; }
   if (b.dataset.item) {
     const s = SHOP.find((x) => x.id === b.dataset.item);

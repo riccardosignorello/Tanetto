@@ -352,7 +352,8 @@ document.addEventListener("click", (ev) => {
 /* Un suono e una vibrazione leggera per ogni tocco che non ne ha già uno */
 document.addEventListener("click", (ev) => {
   const b = ev.target.closest("button, a.btn, select"); if (!b) return;
-  setTimeout(() => { if (SND.lastAt() < clickT0) SND.play("tap"); }, 0);
+  /* 1.0.11: il "tap" parte alla fine del click (98zzs, sfxTapNow, senza setTimeout); questo resta solo come riserva */
+  sfxTapT = clickT0; setTimeout(() => { if (typeof sfxTapNow === "function") sfxTapNow(); else if (SND.lastAt() < clickT0) SND.play("tap"); }, 0);
   SND.haptic(6);
 });
 SND.setOnTrack((i) => { if (S.track !== i && S.music) { S.track = i; save(); if (tab === "more" && !layer.innerHTML) { const y = window.scrollY; render(); window.scrollTo(0, y); } } });

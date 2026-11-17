@@ -237,7 +237,8 @@ function glowAt(el, col) {
   if (anim) G.fromTo(g, { scale: 0.3, opacity: 0.9 }, { scale: 2.2, opacity: 0, duration: 1, ease: "power2.out", onComplete: () => g.remove() }); else setTimeout(() => g.remove(), 400);
 }
 function lookAtEl(el) { const b = el.getBoundingClientRect(); lookAt(b.left + b.width / 2, b.top + b.height / 2); }
-function strum() { [392, 494, 587, 784, 988].forEach((f, i) => setTimeout(() => SND.note(f), i * 70)); }
+/* 1.0.11: la prima nota subito (non in un setTimeout di 0 ms): cosi' il "tap" generico, che ora parte alla fine del click, non le si sovrappone */
+function strum() { [392, 494, 587, 784, 988].forEach((f, i) => { if (!i) SND.note(f); else setTimeout(() => SND.note(f), i * 70); }); }
 function danceShort(times = 2) { const p = document.getElementById("petInner"); if (!p || !anim) return; const tl = G.timeline(); for (let i = 0; i < times; i++) tl.to(p, { rotation: -10, y: -10, transformOrigin: "50% 100%", duration: 0.18 }).to(p, { rotation: 10, y: 0, duration: 0.18 }); tl.to(p, { rotation: 0, duration: 0.2 }); }
 function shootingStar() {
   const svg = document.querySelector("#room svg"); if (!svg || !anim) return; const d = dims();
@@ -303,7 +304,7 @@ function playHug() {
 function playDance() {
   const t = L(); const p = document.getElementById("petInner"); const pl = document.getElementById("playlayer");
   setExpr("felice", 3600); say(pick(t.play.danceSay), 3600);
-  const mel = [523, 659, 784, 659, 587, 698, 880, 784, 659, 523]; mel.forEach((f, i) => bubbleTimers.push(setTimeout(() => SND.note(f), i * 300)));
+  const mel = [523, 659, 784, 659, 587, 698, 880, 784, 659, 523]; mel.forEach((f, i) => { if (!i) { SND.note(f); return; } bubbleTimers.push(setTimeout(() => SND.note(f), i * 300)); }); /* 1.0.11: prima nota subito */
   if (pl) for (let i = 0; i < 5; i++) { const s = document.createElement("i"); s.className = "disco"; s.style.left = `${10 + i * 20}%`; s.style.background = ["#FF9EB8", "#FFD25E", "#9EE3C5", "#9CC8F7", "#B9A3F2"][i]; pl.appendChild(s); if (anim) G.fromTo(s, { opacity: 0 }, { opacity: 0.55, duration: 0.3, yoyo: true, repeat: 9, delay: i * 0.12, onComplete: () => s.remove() }); else setTimeout(() => s.remove(), 600); }
   const pb = document.getElementById("petHit"); for (let i = 0; i < 8; i++) bubbleTimers.push(setTimeout(() => { if (pb) fxAt(pb, ["♪", "♫"][i % 2], "note", 1.3, -70); }, i * 380));
   if (p && anim) G.timeline().to(p, { rotation: -12, y: -14, transformOrigin: "50% 100%", duration: 0.2 }).to(p, { rotation: 12, y: 0, duration: 0.2 }).to(p, { rotation: -12, y: -14, duration: 0.2 }).to(p, { rotation: 0, y: 0, duration: 0.2 }).to(p, { scaleX: 1.15, scaleY: 0.88, duration: 0.15 }).to(p, { scaleX: 1, scaleY: 1, y: -40, duration: 0.25, ease: "power2.out" }).to(p, { rotation: 360, duration: 0.5, ease: "power2.inOut" }, "<").to(p, { y: 0, duration: 0.35, ease: "bounce.out" }).set(p, { rotation: 0 }).to(p, { rotation: -8, duration: 0.2, repeat: 3, yoyo: true }).to(p, { rotation: 0, duration: 0.2 });
@@ -565,7 +566,7 @@ window.addEventListener("beforeinstallprompt", (e) => { e.preventDefault(); defe
 const isStandalone = () => { try { return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true; } catch (e) { return false; } };
 const isIOS = () => /iphone|ipad|ipod/i.test(navigator.userAgent || "");
 function installCard() {
-  const t = L(); if (isStandalone() || !/github\.io$/.test(location.hostname)) return "";
+  const t = L(); if (isStandalone() || !SITE_HOST.test(location.hostname)) return "";
   if (deferredInstall) return `<div class="card stack-s"><h3>${t.inst.T}</h3><p class="small muted">${t.inst.P}</p><button class="btn" id="instBtn">${t.inst.B}</button></div>`;
   if (isIOS()) return `<div class="card stack-s"><h3>${t.inst.T}</h3><p class="small muted">${t.inst.P}</p><p class="small"><b>${t.inst.ios}</b></p></div>`;
   return "";
@@ -577,4 +578,4 @@ viewMore = function () {
   const key = `<div class="card stack-s"><h3>${t.legalT}</h3>`;
   return h.includes(key) ? h.replace(key, card + key) : h + card;
 };
-if ("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) { try { navigator.serviceWorker.register("sw.js").catch(() => {}); } catch (e) { /* niente */ } }
+if ("serviceWorker" in navigator && SITE_HOST.test(location.hostname)) { try { navigator.serviceWorker.register("sw.js").catch(() => {}); } catch (e) { /* niente */ } }

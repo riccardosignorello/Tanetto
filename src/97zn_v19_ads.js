@@ -36,7 +36,8 @@ let adsSt = { canRequestAds: false, privacyRequired: false, loaded: false }, ads
 /* chi aveva gia' un compagno con la 1.0.8 ha gia' visto la richiesta di consenso all'avvio: per loro si continua ad
    aggiornare il consenso a ogni apertura (cosi' "Scelte sulla pubblicità" resta sempre in Profilo) */
 if (S.v109 === undefined) { S.v109 = 1; if (S.pet && !S.adsOk) S.adsOk = 1; save(); }
-/* 1.0.9 (fase 2): pubblico misto (98zf): l'eta' decide come Google tratta la richiesta (bambini: TFCD + G, niente ID pubblicita') */
+/* 1.0.9 (fase 2): pubblico misto (98zf): l'eta' decide come Google tratta la richiesta (bambini: TFCD + G, niente ID pubblicita').
+   1.0.11 (18/11/2026): uscita da Families, pubblico 13+: chi non ha detto l'eta' passa "teen" (TFUA, PG, mai personalizzata) */
 const adAgeOpts = () => ({ age: typeof ageAds === "function" ? ageAds() : "child" });
 /* 1.0.10 (113): regole Google Play "Families" (verificate il 17/11/2026, support.google.com/googleplay/android-developer
    answer/9893335): ai bambini e a chi non ha detto l'eta' non si possono mostrare video con premio che non si chiudono dopo
@@ -44,7 +45,10 @@ const adAgeOpts = () => ({ age: typeof ageAds === "function" ? ageAds() : "child
    dirlo" o eta' non ancora chiesta) i video non esistono: nessun pulsante, nessuna proposta, nessuna richiesta a Google
    (ne' consenso UMP, ne' avvio dell'SDK, ne' video preparati), niente "Scelte sulla pubblicità". Ragazzi e adulti come prima.
    Se piu' tardi l'eta' detta e' da ragazzo o da adulto, i video tornano da soli (ageSet in 98zf rifa' adsInit).
-   Prima che il file dell'eta' (98zf) sia pronto si conta come bambino (prudente). AdsPlugin.java controlla la stessa cosa. */
+   Prima che il file dell'eta' (98zf) sia pronto si conta come bambino (prudente). AdsPlugin.java controlla la stessa cosa.
+   1.0.11 (18/11/2026): Tanetto esce da Google Play Families (pubblico di destinazione solo 13+): le regole qui sopra valgono
+   ora solo per chi DICHIARA meno di 13 anni. "Preferisco non dirlo" ed eta' non ancora chiesta non bloccano piu' i video:
+   ageAds() vale "teen" (TFUA, contenuti PG, mai personalizzata), come per i ragazzi. */
 function adsKid() { try { return ageAds() === "child"; } catch (e) { return true; } }
 const adsOn = () => !!(ADS_UNIT && isNativeApp() && adsPlugin() && !plusActive() && !adsKid());
 function adsInit() {

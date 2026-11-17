@@ -81,7 +81,7 @@ petAmbient = function (c) {
 
 /* --- Scelta del compagno: presentazione, anteprima, cambio --- */
 const isPlusPet = (p) => PLUS_PETS.includes(p);
-const SITE_URL = "https://tanettoapp.github.io/Tanetto/";
+const SITE_URL = "https://tanetto.app/";
 function petChoice(p, sel, attr) {
   const t = L(); const plus = isPlusPet(p);
   return `<button class="choice ${plus ? "pchoice" : ""}" role="radio" aria-checked="${sel === p}" ${attr}="${p}"><span class="halo" style="background:radial-gradient(circle at 50% 60%, ${HALO[p]} 0 62%, transparent 63%)">${petSVG(p, sel === p ? "felice" : "normale", null, 0, t.pets[p][0])}</span>${plus ? `<span class="ppcrown" aria-hidden="true">${icon("p_crown")}</span>` : ""}<span class="nm">${t.pets[p][0]}</span><span class="ds">${t.pets[p][1]}</span></button>`;
@@ -154,7 +154,7 @@ function remGoogle() {
 function remIcs() {
   const t = L(); const s = remStart(); const e = new Date(s.getTime() + 10 * 60000); const esc2 = (x) => String(x).replace(/\\/g, "\\\\").replace(/[,;]/g, (c) => "\\" + c).replace(/\n/g, "\\n");
   const now = new Date(); const stamp = `${now.getUTCFullYear()}${pad2(now.getUTCMonth() + 1)}${pad2(now.getUTCDate())}T${pad2(now.getUTCHours())}${pad2(now.getUTCMinutes())}00Z`;
-  return ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Tanetto//Promemoria//IT", "CALSCALE:GREGORIAN", "BEGIN:VEVENT", `UID:tanetto-${Date.now()}@tanettoapp.github.io`, `DTSTAMP:${stamp}`, `DTSTART:${icsDate(s)}`, `DTEND:${icsDate(e)}`, "RRULE:FREQ=DAILY", `SUMMARY:${esc2(t.v12.remTitle(S.petName))}`, `DESCRIPTION:${esc2(t.v12.remBody + " " + SITE_URL)}`, `URL:${SITE_URL}`, "BEGIN:VALARM", "ACTION:DISPLAY", `DESCRIPTION:${esc2(t.v12.remTitle(S.petName))}`, "TRIGGER:PT0M", "END:VALARM", "END:VEVENT", "END:VCALENDAR"].map(icsFold).join("\r\n");
+  return ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Tanetto//Promemoria//IT", "CALSCALE:GREGORIAN", "BEGIN:VEVENT", `UID:tanetto-${Date.now()}@tanetto.app`, `DTSTAMP:${stamp}`, `DTSTART:${icsDate(s)}`, `DTEND:${icsDate(e)}`, "RRULE:FREQ=DAILY", `SUMMARY:${esc2(t.v12.remTitle(S.petName))}`, `DESCRIPTION:${esc2(t.v12.remBody + " " + SITE_URL)}`, `URL:${SITE_URL}`, "BEGIN:VALARM", "ACTION:DISPLAY", `DESCRIPTION:${esc2(t.v12.remTitle(S.petName))}`, "TRIGGER:PT0M", "END:VALARM", "END:VEVENT", "END:VCALENDAR"].map(icsFold).join("\r\n");
 }
 function icsFold(line) { const enc = new TextEncoder(); if (enc.encode(line).length <= 75) return line; const out = []; let cur = ""; for (const ch of line) { if (enc.encode(cur + ch).length > (out.length ? 74 : 75)) { out.push(cur); cur = ""; } cur += ch; } out.push(cur); return out.join("\r\n "); }
 async function saveIcs() {
@@ -196,7 +196,7 @@ shareImage = async function (url, name) {
 };
 function inviteFlow() {
   const t = L(); const pal = WEEK_PAL[S.pet] || WEEK_PAL.germo; inviteMode = true; trackOnce("invito-aperto");
-  return shareFlow(() => makeCard({ art: `<svg viewBox="0 0 200 200"><circle cx="100" cy="112" r="94" fill="${pal[0]}"/>${petInner(S.pet, "amore", S.hat, stage(), 0.95)}</svg>`, w: 640, h: 640, title: t.v12.invTitle(S.petName), sub: "tanettoapp.github.io/Tanetto" }), "tanetto-invito.png");
+  return shareFlow(() => makeCard({ art: `<svg viewBox="0 0 200 200"><circle cx="100" cy="112" r="94" fill="${pal[0]}"/>${petInner(S.pet, "amore", S.hat, stage(), 0.95)}</svg>`, w: 640, h: 640, title: t.v12.invTitle(S.petName), sub: "tanetto.app" }), "tanetto-invito.png");
 }
 function inviteCard() { const t = L(); return `<div class="card invcard"><div class="chhd"><span class="chic inv">${icon("p_gift")}</span><div><h3>${t.v12.invT}</h3><p class="small muted">${esc(t.v12.invP(S.petName))}</p></div></div><button class="btn block" id="invite">${icon("share")}${t.v12.invB}</button></div>`; }
 

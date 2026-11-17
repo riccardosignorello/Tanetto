@@ -28,6 +28,7 @@ const SND = (() => {
         verb = ctx.createConvolver(); impulseLater(ctx, 2.2, 2.6, (bf) => { try { verb.buffer = bf; } catch (e) { /* niente */ } });
         const wet = ctx.createGain(); wet.gain.value = 0.38; musicBus.connect(verb); verb.connect(wet); wet.connect(comp);
       } catch (e) { ctx = null; return null; }
+      prime();
     }
     if (ctx.state === "suspended") { try { ctx.resume(); } catch (e) { /* niente */ } }
     return ctx;
@@ -90,6 +91,35 @@ const SND = (() => {
     go: (t) => { tone(1319, t, 0.3, { type: "triangle", vol: 0.16 }); },
     miss: (t) => { tone(300, t, 0.15, { vol: 0.2, glide: 200 }); }
   };
+  /* 1.0.11 (suono subito su Android): i suoni brevi dell'interfaccia si preparano UNA volta come AudioBuffer, resi con un
+     OfflineAudioContext dalle stesse funzioni FX e logoTickTo (quindi suonano uguali), e al tocco partono con start(0):
+     nessun grafo da costruire e nessun orario nel futuro. Finche' non sono pronti (o senza OfflineAudioContext) si
+     sintetizzano come prima. Durate = coda reale del suono (ultimo inviluppo + stop), controllate dalla prova t_113_sfx. */
+  const PRE = { tap: 0.15, click: 0.12, pop: 0.3, coin: 0.48, buy: 0.85, beep: 0.2, go: 0.38, miss: 0.23, purr: 0.26, lightoff: 0.38, lighton: 0.8, shutter: 0.18, sparkle: 0.65, giggle: 0.5, chime: 1.15, jingle: 0.95, back: 1.12, paper: 0.42 };
+  const BUF = {}; const trace = []; let priming = false;
+  function renderOff(len, ch, draw, done) {
+    const OAC = window.OfflineAudioContext || window.webkitOfflineAudioContext; if (!OAC || !ctx) { done(null); return; }
+    let oc = null; try { oc = new OAC(ch, Math.ceil(ctx.sampleRate * len), ctx.sampleRate); } catch (e) { done(null); return; }
+    /* le funzioni FX usano il contesto e l'uscita "di casa": per un attimo (sincrono) puntano a quelli offline */
+    const keepC = ctx, keepB = fxBus; let ok = true;
+    try { ctx = oc; fxBus = oc.destination; draw(oc); } catch (e) { ok = false; } finally { ctx = keepC; fxBus = keepB; }
+    if (!ok) { done(null); return; }
+    let fin = false; const end = (b) => { if (!fin) { fin = true; done(b || null); } };
+    oc.oncomplete = (e) => end(e && e.renderedBuffer);
+    try { const pr = oc.startRendering(); if (pr && pr.then) pr.then(end, () => end(null)); } catch (e) { end(null); }
+  }
+  function prime() {
+    if (priming || !ctx) return; priming = true;
+    const jobs = Object.keys(PRE).map((n) => [n, PRE[n], 1, () => FX[n](0)])
+      .concat([0, 1, 2, 3].map((i) => ["tick" + i, 1.45, 2, (oc) => logoTickTo(oc, oc.destination, i + 1, 0)]));
+    const next = () => { const j = jobs.shift(); if (!j) return; renderOff(j[1], j[2], j[3], (b) => { if (b) BUF[j[0]] = b; setTimeout(next, 0); }); };
+    setTimeout(next, 0);
+  }
+  function fire(name) {
+    const b = BUF[name]; if (!b) return false;
+    const src = ctx.createBufferSource(); src.buffer = b; src.connect(fxBus); src.start(0); return true;
+  }
+  function note1(n, via) { trace.push({ n, via, at: performance.now(), st: ctx ? ctx.state : "" }); if (trace.length > 40) trace.shift(); }
   /* 1.0.9: LOGO SONORO di Tanetto (come nel video): ogni obiettivo spuntato suona la nota successiva di
      Sol5-La5-Si5-Re6 (gradi 1-2-3-5 di Sol maggiore), la giornata completa suona il "chime" Sol-Si-Re che finisce
      sulla dominante. Kalimba a modello fisico leggero (lamella incastrata: parziali 1 : 6.27 : 17.55, ronzio di 2a
@@ -131,7 +161,7 @@ const SND = (() => {
     return CHIME_HZ.slice();
   }
   /* rispettano le impostazioni: niente suono con "Suoni" spento */
-  function logoTick(k) { lastAt = performance.now(); if (!S.sfx) return null; const c = ensure(); if (!c) return null; try { return logoTickTo(c, fxBus, k, c.currentTime + 0.005); } catch (e) { return null; } }
+  function logoTick(k) { lastAt = performance.now(); if (!S.sfx) return null; const c = ensure(); if (!c) return null; try { const i = (Math.max(1, k | 0) - 1) % 4; if (fire("tick" + i)) { note1("tick" + i, "buf"); return LOGO_HZ[i]; } note1("tick" + i, "syn"); return logoTickTo(c, fxBus, k, c.currentTime + 0.005); } catch (e) { return null; } }
   function logoChime(delay) { lastAt = performance.now(); if (!S.sfx) return null; const c = ensure(); if (!c) return null; try { return logoChimeTo(c, fxBus, c.currentTime + 0.005 + (delay || 0)); } catch (e) { return null; } }
   let combo = 0, comboAt = 0;
   function catchSound(gold) {
@@ -144,7 +174,7 @@ const SND = (() => {
     lastAt = performance.now();
     if (!S.sfx || !FX[name]) return;
     const c = ensure(); if (!c) return;
-    try { FX[name](c.currentTime + 0.01); } catch (e) { /* niente */ }
+    try { if (fire(name)) note1(name, "buf"); else { FX[name](c.currentTime + 0.01); note1(name, "syn"); } } catch (e) { /* niente */ }
     /* 1.0.10 (A-02): con la musica accesa, la musica si abbassa un attimo sotto il suono (si sente sempre il tocco) */
     try { if (musicTimer && musicBus) { const t0 = c.currentTime, g = MUSIC_K * curGain(); musicBus.gain.cancelScheduledValues(t0); musicBus.gain.setTargetAtTime(g * 0.5, t0, 0.03); musicBus.gain.setTargetAtTime(g, t0 + 0.6, 0.25); } } catch (e) { /* niente */ }
   }
@@ -565,6 +595,6 @@ const SND = (() => {
   function resume() { if (ctx && ctx.state === "suspended") { try { ctx.resume(); } catch (e) { /* niente */ } } }
   function note(f, len = 0.7) { lastAt = performance.now(); if (!S.sfx) return; const c = ensure(); if (!c) return; try { bell(f, c.currentTime + 0.005, 0.2, fxBus, len); } catch (e) { /* niente */ } }
   function level() { if (!an) return 0; const d = new Float32Array(an.fftSize); an.getFloatTimeDomainData(d); let q = 0; for (const x of d) q += x * x; return Math.sqrt(q / d.length); }
-  return { petMotif, MOTIF_PETS: Object.keys(MOTIF), logoTick, logoChime, logoTickTo, logoChimeTo, LOGO_HZ, CHIME_HZ, S16, level, play, note, catchSound, haptic, musicOn, musicOff, skip, breath, breathStop, suspend, resume, playing: () => !!musicTimer, unlock: ensure, lastAt: () => lastAt, track: () => (evCur ? -1 : cur),
+  return { petMotif, MOTIF_PETS: Object.keys(MOTIF), logoTick, logoChime, logoTickTo, logoChimeTo, LOGO_HZ, CHIME_HZ, S16, level, play, note, catchSound, haptic, musicOn, musicOff, skip, breath, breathStop, suspend, resume, playing: () => !!musicTimer, unlock: ensure, lastAt: () => lastAt, mark: () => { lastAt = performance.now(); }, state: () => (ctx ? ctx.state : ""), sfxReady: () => Object.keys(BUF).length, sfxBuf: (n) => BUF[n] || null, sfxNames: () => Object.keys(PRE).concat(["tick0", "tick1", "tick2", "tick3"]), trace: () => trace.slice(), track: () => (evCur ? -1 : cur),
     setEvent, playEvent, holdEvent, eventId: () => evId, eventPlaying: () => !!evCur, EV_IDS, evRender, evRenderFrom, evChain, trRender, evInfo: (id) => (EVS[id] ? { g: EVS[id].g, K: MUSIC_K, step: EVS[id].step, per: EVS[id].per, bars: EVS[id].bars, introSteps: EVS[id].introSteps, pass: EVS[id].pass, M: EVS[id].M, C: EVS[id].C, ch: EVS[id].ch } : null), setOnTrack: (f) => { onTrack = f; }, count: TRACKS.length };
 })();

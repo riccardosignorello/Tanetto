@@ -7,7 +7,7 @@
         Mai da sola, mai obbligatoria: prima si vede l'anteprima, poi si sceglie "Condividi" o "Salva".
       - App Android: plugin nativo TanettoShare (già esistente: PNG nella cache e FileProvider, ACTION_SEND image/png).
         Web: navigator.share con il file se si può, altrimenti si scarica il PNG.
-      - Il testo porta sempre il link https://tanettoapp.github.io/Tanetto/?src=postcard
+      - Il testo porta sempre il link https://tanetto.app/?src=postcard
    2) SITO con ?src=postcard: il sito È l'app web (site.py copia tanetto.html in index.html), quindi la pagina si gestisce qui.
       Su un telefono Android (nel browser) compare una scheda discreta con il link a Google Play (referrer utm_source=postcard);
       su iPhone e computer si resta nella versione web, senza nulla in più. Il conteggio "arrivo-postcard" c'era già (97e_v12).
@@ -24,7 +24,7 @@
       - Niente negozio, niente Tanì. Stato in S.v20fresh = { year, seen }.
    Finestre una alla volta: si usa la coda di 98f_v20_nav (nq20) se c'è. */
 
-const GR20_LINK = "https://tanettoapp.github.io/Tanetto/?src=postcard";
+const GR20_LINK = "https://tanetto.app/?src=postcard";
 const GR20_PLAY_REF = "&referrer=utm_source%3Dpostcard%26utm_medium%3Dshare";
 const GR20_REV_GAP = 30 * 86400000, GR20_REV_MIN_DAYS = 3;
 const GR20_W = 1080, GR20_H = 1920;

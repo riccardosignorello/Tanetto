@@ -136,7 +136,7 @@ async def main(b):
     ctx, pg = await T.page(b, st, lang="it-IT", native=False)
     await T.close_layer(pg)
     r = await T.ev(pg, "w111ShareText('x', 'week')")
-    T.check("sito: link ?src=postcard (resta la scheda verso Google Play) con le stesse UTM", r == "x https://tanettoapp.github.io/Tanetto/?src=postcard&utm_source=share&utm_medium=postcard&utm_campaign=week #tanettoapp", r)
+    T.check("sito: link ?src=postcard (resta la scheda verso Google Play) con le stesse UTM", r == "x https://tanetto.app/?src=postcard&utm_source=share&utm_medium=postcard&utm_campaign=week #tanettoapp", r)
     await ctx.close()
 
     # ---------- 5) evento sulla cartolina ----------

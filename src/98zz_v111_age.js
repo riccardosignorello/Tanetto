@@ -1,7 +1,8 @@
 /* =================== 1.0.11 (18/11/2026): pubblico dai 13 anni in su, modalita' protetta completa ===================
    Decisione del proprietario: pubblico dichiarato su Play Console 13-15, 16-17, 18+. Chi indica meno di 13 anni, chi preferisce
-   non dirlo e chi non ha ancora risposto (ageAds() === "child") usa l'app in modalita' protetta. Gia' presenti prima di questo
+   non dirlo e chi non ha ancora risposto (ageKid(), 98zf) usa l'app in modalita' protetta. Gia' presenti prima di questo
    file: niente video con premio e niente modulo degli annunci (97zn adsKid, AdsPlugin.java: niente SDK, niente ID pubblicita'),
+   dal 18/11/2026 solo per chi dichiara meno di 13 anni (chi non dice l'eta' ha i video, mai personalizzati: 98zf ageAds),
    niente statistiche (98zk v26StatsOn), niente account ne' backup online (98zf ageCloudOk), niente spinte all'acquisto
    (98zf, 98zi, 98zj, 98zk), niente richiesta di recensione (98zk), niente "Invita un amico" nel momento "tutto fatto" (98zk).
    Mancava (verifica 1.0.11, punto 3):
@@ -13,7 +14,9 @@
       con "Chiedi sempre a un adulto"). Se l'eta' poi risulta da ragazzo o adulto, la prova torna.
    3) Schermata dell'eta': nota neutra (A111.note in 3zzn_v111_audience.js), senza "per tutte le eta'" e senza dire che serve
       una certa eta' (Play Console Help, "Neutral age screen"). */
-function a111Kid() { try { return typeof ageAds !== "function" || ageAds() === "child"; } catch (e) { return true; } }
+/* 1.0.11 (18/11/2026): ageKid() e non piu' ageAds() === "child": da quando chi non dice l'eta' ha i video con premio (98zf, uscita da
+   Families), ageAds() per lui vale "teen", ma la modalita' protetta per lui resta (sotto i 13 anni dichiarati o eta' non detta) */
+function a111Kid() { try { return typeof ageKid !== "function" || ageKid(); } catch (e) { return true; } }
 function a111Mark() { try { document.documentElement.classList.toggle("a111kid", a111Kid()); } catch (e) { /* niente */ } }
 
 /* ---------- schermata dell'eta': nota neutra ---------- */

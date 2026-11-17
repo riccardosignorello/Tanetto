@@ -39,9 +39,15 @@ async def main(b):
     ticks2 = await T.ev(pg, "new Promise((r) => { let n = 0; const f = () => n++; G.ticker.add(f); setTimeout(() => { G.ticker.remove(f); r(n); }, 1000); })")
     T.check(f"  dopo un tocco di nuovo fluide ({ticks2}/s)", ticks2 >= 40, ticks2)
     # G-05: il motore dei suoni si addormenta
-    await T.ev(pg, "SND.unlock(); SND.play('tap'); 1"); await pg.wait_for_timeout(27000)
+    # 1.0.11: si sospende dopo 20 s di silenzio E 45 s senza tocchi (prima solo 20 s di silenzio: su Android il risveglio
+    # sul tocco di una scheda faceva arrivare il suono in ritardo)
+    await pg.mouse.click(5, 5); await T.ev(pg, "SND.unlock(); SND.play('tap'); window.__acS = 0; 1"); await pg.wait_for_timeout(27000)
+    T.check("G-05 dopo 25 s di silenzio ma con un tocco recente (< 45 s) il motore resta sveglio", (await T.ev(pg, "window.__acS || 0")) == 0, await T.ev(pg, "SND.state()"))
+    await pg.wait_for_timeout(21000)
     st2 = await T.ev(pg, "(() => { try { return SND.playing() ? 'music' : (window.__ac || 'ok'); } catch (e) { return 'x'; } })()")
-    T.check("G-05 dopo 25 s di silenzio il motore dei suoni si sospende", (await T.ev(pg, "window.__acS || 0")) >= 1, st2)
+    T.check("G-05 dopo 45 s senza tocchi e senza suoni il motore dei suoni si sospende", (await T.ev(pg, "window.__acS || 0")) >= 1, st2)
+    await pg.mouse.click(5, 5); await pg.wait_for_timeout(400)
+    T.check("  al tocco successivo il motore si risveglia subito (prima del suono)", await T.ev(pg, "SND.state()") == "running", await T.ev(pg, "SND.state()"))
     T.check("  nessun errore", not pg.errs, pg.errs[:2])
     await ctx.close()
     # G-06 / H-15: app in secondo piano -> i controlli ripetuti non lavorano (tornano quando l'app e' visibile)

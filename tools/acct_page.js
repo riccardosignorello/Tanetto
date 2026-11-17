@@ -25,7 +25,7 @@ const html = `<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex">
-<link rel="canonical" href="https://tanettoapp.github.io/Tanetto/elimina-account.html">
+<link rel="canonical" href="https://tanetto.app/elimina-account.html">
 <meta name="description" content="${esc(S.en.t)}: ${esc(S.en.p)}">
 <title>Tanetto — delete your account</title>
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">

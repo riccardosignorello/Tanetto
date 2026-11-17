@@ -4,7 +4,7 @@
    con un codice (copia in Safari, incolla nell'app installata). Il link pubblico resta sempre lo stesso. */
 const IOS_DEMO = /[?&]iosdemo=1/.test(location.search);
 const isIOSDevice = () => isIOS() || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1) || IOS_DEMO;
-const iosSafari = () => isIOSDevice() && !isStandalone() && (/github\.io$/.test(location.hostname) || IOS_DEMO);
+const iosSafari = () => isIOSDevice() && !isStandalone() && (SITE_HOST.test(location.hostname) || IOS_DEMO);
 const iosApp = () => isIOSDevice() && isStandalone();
 
 /* Chiede al browser di non cancellare i dati (Chrome/Android e Safari recenti) */
