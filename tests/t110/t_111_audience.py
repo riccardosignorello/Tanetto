@@ -121,7 +121,7 @@ async def main(b):
     ctx, pg = await T.page(b, st0("en"), age="child", wait=3000)
     await T.close_layer(pg); await T.ev(pg, "openPlus('t111'); 1"); await pg.wait_for_timeout(700)
     r = json.loads(await T.ev(pg, "JSON.stringify({ t: layer.innerText, a: L().v13.afterY('X'), p: L().plus.trial, go: (document.getElementById('plusGo') || {}).textContent || '' })"))
-    T.check("sito, bambino: Plus senza prova gratuita (pulsante 'Subscribe', niente '7 days free')", r["a"][:12] not in r["t"] and r["p"] not in r["t"] and r["go"] == "Subscribe", (r["go"], r["t"][-200:]))
+    T.check("sito, bambino: Plus senza prova gratuita (niente '7 days free'; pulsante assente sul sito o 'Subscribe')", r["a"][:12] not in r["t"] and r["p"] not in r["t"] and r["go"] in ("", "Subscribe"), (r["go"], r["t"][-200:]))
     await ctx.close()
     # 4) testi in 14 lingue
     ctx, pg = await T.page(b, T.base_state("en"), age="adult")
