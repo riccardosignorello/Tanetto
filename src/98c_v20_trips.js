@@ -301,7 +301,7 @@ const TR20T = {
     tripsP: "Completa gli obiettivi per riempirgli lo zaino, poi scegli dove mandarlo. Torna con una cartolina e qualche sorpresa."
   },
   en: {
-    kShort: "Short trip", kFull: "Full trip", infoL: "What does this mean?", infoT: "How trips work",
+    kShort: "Short trip", kFull: "Full trip", kFullS: "Full trip", infoL: "What does this mean?", infoT: "How trips work",
     b1: (n) => `Each goal packs something in ${n}'s backpack.`,
     b2: (n) => `With half your goals done, ${n} can take a short trip nearby. With all of them, a full trip, even to faraway worlds.`,
     b3: (n) => `While they're away, the room stays empty: ${n} comes back on their own after the time shown. Meanwhile, you can keep going with your goals.`,
@@ -325,7 +325,7 @@ const TR20T = {
     tripsP: "Complete your goals to fill their backpack, then choose where to send them. They'll come back with a postcard and a few surprises."
   },
   de: {
-    kShort: "Kurzer Ausflug", kFull: "Ganze Reise", infoL: "Was heißt das?", infoT: "So funktionieren Reisen",
+    kShort: "Kurzer Ausflug", kFull: "Ganze Reise", kFullS: "Ganze Reise", infoL: "Was heißt das?", infoT: "So funktionieren Reisen",
     b1: (n) => `Jedes erledigte Ziel packt etwas in ${n}s Rucksack.`,
     b2: (n) => `Mit der Hälfte deiner Ziele kann ${n} einen kurzen Ausflug in die Nähe machen. Mit allen eine ganze Reise, auch in ferne Welten.`,
     b3: (n) => `Solange ${n} unterwegs ist, bleibt das Zimmer leer. Nach der angezeigten Zeit kommt ${n} von selbst zurück. In der Zeit kannst du weiter an deinen Zielen arbeiten.`,
@@ -421,7 +421,7 @@ const TR20T = {
     tripsP: "Complete suas metas para encher a mochila e depois escolha para onde mandá-lo. Ele volta com um cartão-postal e algumas surpresas."
   },
   ja: {
-    kShort: "ちょっとおでかけ", kFull: "本格的な旅", infoL: "これってどういうこと？", infoT: "おでかけのしくみ",
+    kShort: "ちょっとおでかけ", kFull: "本格的な旅", kFullS: "本格的な旅", infoL: "これってどういうこと？", infoT: "おでかけのしくみ",
     b1: (n) => `目標をひとつ達成するたびに、${n}のリュックに何かが入ります。`,
     b2: (n) => `目標の半分を達成すると、${n}は近くへちょっとおでかけできます。全部達成すると、遠くの世界まで本格的な旅に出られます。`,
     b3: (n) => `おでかけ中は部屋が空っぽになります。表示された時間がたつと、${n}はひとりで帰ってきます。そのあいだも目標は続けられます。`,
@@ -445,7 +445,7 @@ const TR20T = {
     tripsP: "目標を達成してリュックがいっぱいになったら、行き先を選んで送り出しましょう。ポストカードとちょっとしたおみやげを持って帰ってきます。"
   },
   ko: {
-    kShort: "짧은 나들이", kFull: "본격 여행", infoL: "무슨 뜻이에요?", infoT: "여행은 이렇게 돼요",
+    kShort: "짧은 나들이", kFull: "본격 여행", kFullS: "본격 여행", infoL: "무슨 뜻이에요?", infoT: "여행은 이렇게 돼요",
     b1: (n) => `목표를 하나 마칠 때마다 ${n}의 배낭에 하나씩 챙겨요.`,
     b2: () => "목표를 절반 마치면 가까운 곳으로 짧은 나들이를 갈 수 있어요. 전부 마치면 먼 세계까지 본격 여행을 떠날 수 있어요.",
     b3: () => "떠나 있는 동안 방은 비어 있고, 표시된 시간이 지나면 저절로 돌아와요. 그동안에도 목표는 계속할 수 있어요.",
@@ -469,7 +469,7 @@ const TR20T = {
     tripsP: "목표를 마쳐 배낭을 채운 뒤, 어디로 보낼지 골라요. 엽서와 깜짝 선물을 들고 돌아올 거예요."
   },
   zh: {
-    kShort: "短途出游", kFull: "完整旅行", infoL: "这是什么意思？", infoT: "旅行是怎么回事",
+    kShort: "短途出游", kFull: "完整旅行", kFullS: "完整旅行", infoL: "这是什么意思？", infoT: "旅行是怎么回事",
     b1: (n) => `每个目标都往 ${n} 的背包里放一样东西。`,
     b2: (n) => `完成一半的目标，${n} 就能去附近短途出游。全部完成，就能来一次完整旅行，连遥远的世界也能去。`,
     b3: (n) => `出门的时候，房间会空着。到了显示的时间，${n} 会自己回来。这段时间你可以继续完成目标。`,
@@ -493,7 +493,7 @@ const TR20T = {
     tripsP: "完成目标为它装满背包，然后选一个地方让它去吧。它会带回一张明信片和一些惊喜。"
   },
   zht: {
-    kShort: "短途出遊", kFull: "完整旅行", infoL: "這是什麼意思？", infoT: "旅行是怎麼一回事",
+    kShort: "短途出遊", kFull: "完整旅行", kFullS: "完整旅行", infoL: "這是什麼意思？", infoT: "旅行是怎麼一回事",
     b1: (n) => `每個目標都往 ${n} 的背包裡放一樣東西。`,
     b2: (n) => `完成一半的目標，${n} 就能去附近短途出遊。全部完成，就能來一趟完整旅行，連遙遠的世界也能去。`,
     b3: (n) => `出門的時候，房間會空著。到了顯示的時間，${n} 會自己回來。這段時間你可以繼續完成目標。`,
@@ -565,7 +565,7 @@ const TR20T = {
     tripsP: "Realizuj cele, żeby napełnić plecak, a potem wybierz, dokąd wysłać towarzysza. Wróci z pocztówką i kilkoma niespodziankami."
   },
   nl: {
-    kShort: "Kort uitje", kFull: "Hele reis", infoL: "Wat betekent dit?", infoT: "Zo werken reizen",
+    kShort: "Kort uitje", kFull: "Hele reis", kFullS: "Hele reis", infoL: "Wat betekent dit?", infoT: "Zo werken reizen",
     b1: (n) => `Elk afgerond doel stopt iets in de rugzak van ${n}.`,
     b2: (n) => `Met de helft van je doelen klaar kan ${n} een kort uitje in de buurt maken. Met alles klaar een hele reis, zelfs naar verre werelden.`,
     b3: (n) => `Zolang ${n} weg is, blijft de kamer leeg. Na de aangegeven tijd komt ${n} vanzelf terug. Ondertussen kun je gewoon verder met je doelen.`,

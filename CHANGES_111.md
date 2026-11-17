@@ -70,7 +70,12 @@ del sito che finivano con "/").
 6) **Icona dell'app:** l'ombra morbida sotto Germo usciva di poco dalla zona sicura di 66 dp (alcune forme di icona dei
 telefoni l'avrebbero tagliata). Ora sfuma prima del bordo; Germo è identico.
 
-7) **Stanza a schermo intero:** se scorrevi la fila delle scene e l'app si ridisegnava da sola (per esempio dopo il controllo
+7) **Spunta degli obiettivi:** su un telefono lento il cerchio verde compariva già a metà crescita; ora parte da zero e
+cresce sempre per intero (stessa durata).
+
+8) **Casa:** quando c'è la cartolina della settimana prende il posto delle altre richieste (al massimo una scheda in più).
+
+9) **Stanza a schermo intero:** se scorrevi la fila delle scene e l'app si ridisegnava da sola (per esempio dopo il controllo
 degli acquisti), la fila tornava all'inizio. Ora resta dove l'hai lasciata.
 
 

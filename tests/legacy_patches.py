@@ -172,6 +172,10 @@ P += [
     ('fix109/t38run5/t38_growth.py', '            check("Limite recensione: " + name, got is want, got)\n        await ev(pg, TRIP); await pg.wait_for_timeout(3500)', '            check("Limite recensione: " + name, got is want, got)\n        await ev(pg, "S.days = S.days || {}; for (let k = 1; k <= 3; k++) { const d = new Date(); d.setDate(d.getDate() - k); S.days[dkey(d)] = { done: 2 }; } save(); 1")  # 1.0.11: 3 giorni d\'uso\n        await ev(pg, TRIP); await pg.wait_for_timeout(3500)', "1.0.11: recensione 3 giorni d'uso, 60 giorni"),
     ('fix109/t38run5/t38_growth.py', 'check("Secondo viaggio lo stesso mese: niente seconda richiesta (30 giorni)"', 'check("Secondo viaggio lo stesso mese: niente seconda richiesta (60 giorni)"', "1.0.11: recensione 3 giorni d'uso, 60 giorni"),
 ]
+# 1.0.10 (113, Families): le prove storiche dei video in t38_secure (doppio tocco, 5 al giorno) usano un adulto (S.age)
+P += [
+    ("fix109/t38run5/t38_secure.py", '    ctx, pg = await page(b, state(seeds=100, giftDay="2026-11-10", done=["water"], log=[{"d": "2026-11-10", "g": "water"}]), native=True, wait=6000)', '    ctx, pg = await page(b, state(seeds=100, giftDay="2026-11-10", done=["water"], log=[{"d": "2026-11-10", "g": "water"}], age={"y": 1990, "m": 5}), native=True, wait=6000)', "113: video solo da 13 anni in su (la prova usa un adulto)"),
+]
 bad = 0
 for f, old, new, why in P:
     p = os.path.join(DST, f)
