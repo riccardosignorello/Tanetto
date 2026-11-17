@@ -512,7 +512,7 @@ const SND = (() => {
     if (!ctx || !evId || !EVS[evId]) return false;
     stopBed(); song = null; evCur = { id: evId, pos: 0 }; nextT = ctx.currentTime + 0.15;
     if (musicTimer) { musicBus.gain.cancelScheduledValues(ctx.currentTime); musicBus.gain.setValueAtTime(musicBus.gain.value, ctx.currentTime); musicBus.gain.linearRampToValueAtTime(MUSIC_K * EVS[evId].g, ctx.currentTime + 1.5); }
-    if (onTrack) onTrack(-1); return true;
+    return true; /* niente onTrack: S.track resta il brano scelto dall'utente */
   }
   function startSong(i) { evCur = null; cur = (i + TRACKS.length) % TRACKS.length; song = buildSong(cur); step = 0; nextT = ctx.currentTime + 0.15; startBed(TRACKS[cur].bed); if (musicTimer) { musicBus.gain.cancelScheduledValues(ctx.currentTime); musicBus.gain.setValueAtTime(musicBus.gain.value, ctx.currentTime); musicBus.gain.linearRampToValueAtTime(MUSIC_K * TRACKS[cur].g, ctx.currentTime + 1.5); } if (onTrack) onTrack(cur); }
   function next() { startSong(cur + 1); }

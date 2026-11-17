@@ -58,6 +58,7 @@ async def main(b):
     await T.close_layer(pg); await pg.mouse.click(200, 300); await pg.wait_for_timeout(2500)
     r = await T.ev(pg, "[SND.eventId(), SND.playing(), SND.eventPlaying(), SND.track()]")
     T.check("musica accesa durante la Stagione delle Stelle: parte il suo brano", r[:3] == ["stars", True, True] and r[3] == -1, r)
+    T.check("il brano scelto dall'utente (S.track) non viene cambiato dalla musica dell'evento", await T.ev(pg, "S.track") == 0)
     await T.close_layer(pg); await T.ev(pg, "tab = 'more'; render(); psGo('set'); 1"); await pg.wait_for_timeout(500)
     r = await T.ev(pg, "(() => { const b = document.querySelector('[data-evtrack]'); return b ? [b.textContent, b.getAttribute('aria-pressed'), b.parentElement.firstElementChild === b] : null; })()")
     T.check("Profilo > Suoni: primo brano con il nome dell'evento, segnato come in riproduzione", r and "Stagione delle Stelle" in r[0] and r[1] == "true" and r[2], r)

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-aird8An4UnBLPbRBHmMNTl2gBsqVZa0t0dOr5XjSj3Y=' 'unsafe-eval' https://apis.google.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.goatcounter.com; media-src 'self' data: blob:; connect-src 'self' data: blob: https://*.googleapis.com https://tanettoapp-pet.firebaseapp.com https://*.goatcounter.com; frame-src https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-WxaZO0evmYZB2tdRwgBaTC1F5Rlk4g/FLlpPe8bbE8A=' 'unsafe-eval' https://apis.google.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.goatcounter.com; media-src 'self' data: blob:; connect-src 'self' data: blob: https://*.googleapis.com https://tanettoapp-pet.firebaseapp.com https://*.goatcounter.com; frame-src https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#F4EFE6">
 <title>Tanetto — a tiny pet for your self-care habits (free app)</title>
@@ -25885,7 +25885,7 @@ const SND = (() => {
     if (!ctx || !evId || !EVS[evId]) return false;
     stopBed(); song = null; evCur = { id: evId, pos: 0 }; nextT = ctx.currentTime + 0.15;
     if (musicTimer) { musicBus.gain.cancelScheduledValues(ctx.currentTime); musicBus.gain.setValueAtTime(musicBus.gain.value, ctx.currentTime); musicBus.gain.linearRampToValueAtTime(MUSIC_K * EVS[evId].g, ctx.currentTime + 1.5); }
-    if (onTrack) onTrack(-1); return true;
+    return true; /* niente onTrack: S.track resta il brano scelto dall'utente */
   }
   function startSong(i) { evCur = null; cur = (i + TRACKS.length) % TRACKS.length; song = buildSong(cur); step = 0; nextT = ctx.currentTime + 0.15; startBed(TRACKS[cur].bed); if (musicTimer) { musicBus.gain.cancelScheduledValues(ctx.currentTime); musicBus.gain.setValueAtTime(musicBus.gain.value, ctx.currentTime); musicBus.gain.linearRampToValueAtTime(MUSIC_K * TRACKS[cur].g, ctx.currentTime + 1.5); } if (onTrack) onTrack(cur); }
   function next() { startSong(cur + 1); }
@@ -47463,7 +47463,8 @@ render = function (...a) {
     if (S.w111new && S.pet) {
       w111Path("accoglienza-3-obiettivi");
       if (S.tut === 99) w111Path("accoglienza-4-guida");
-      if ((S.log || []).length || Object.values(S.days || {}).some((d) => d && d.done > 0)) w111Path("primo-obiettivo");
+      const f = S.w111f || {};
+      if (!f["primo-obiettivo"] && ((S.log || []).length || Object.values(S.days || {}).some((d) => d && d.done > 0))) w111Path("primo-obiettivo");
       if (S.away || (S.cards || []).length) w111Path("primo-viaggio");
       const di = typeof dayIndex === "function" ? dayIndex() : 0; if (di === 1) w111Path("giorno-2"); if (di === 6) w111Path("giorno-7");
     }

@@ -355,7 +355,8 @@ render = function (...a) {
     if (S.w111new && S.pet) {
       w111Path("accoglienza-3-obiettivi");
       if (S.tut === 99) w111Path("accoglienza-4-guida");
-      if ((S.log || []).length || Object.values(S.days || {}).some((d) => d && d.done > 0)) w111Path("primo-obiettivo");
+      const f = S.w111f || {};
+      if (!f["primo-obiettivo"] && ((S.log || []).length || Object.values(S.days || {}).some((d) => d && d.done > 0))) w111Path("primo-obiettivo");
       if (S.away || (S.cards || []).length) w111Path("primo-viaggio");
       const di = typeof dayIndex === "function" ? dayIndex() : 0; if (di === 1) w111Path("giorno-2"); if (di === 6) w111Path("giorno-7");
     }
