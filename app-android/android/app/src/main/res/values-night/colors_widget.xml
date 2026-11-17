@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- 1.0.11: colori del widget, uguali a quelli dell'app (src/10_style.css). Tema scuro. -->
 <resources>
-    <color name="widget_bg">#25211C</color>
+    <color name="widget_card">#2A251F</color>
+    <color name="widget_edge">#14110E</color>
     <color name="widget_ink">#F1EBE2</color>
     <color name="widget_muted">#B5AA9D</color>
+    <color name="widget_track">#3A342D</color>
+    <color name="widget_deco">#6B5A44</color>
+    <color name="widget_acc_germo">#93CC8B</color>
+    <color name="widget_soft_germo">#2A3A27</color>
+    <color name="widget_acc_ondi">#DDAA88</color>
+    <color name="widget_soft_ondi">#3C2E24</color>
+    <color name="widget_acc_lumi">#A9AEFF</color>
+    <color name="widget_soft_lumi">#2A2C4A</color>
+    <color name="widget_acc_miko">#B7A9F0</color>
+    <color name="widget_soft_miko">#2E2A44</color>
+    <color name="widget_acc_rufi">#F2A57A</color>
+    <color name="widget_soft_rufi">#3F2A20</color>
+    <color name="widget_acc_pingo">#9FB8E6</color>
+    <color name="widget_soft_pingo">#232C40</color>
+    <color name="widget_acc_dori">#8ED8C0</color>
+    <color name="widget_soft_dori">#1F3A32</color>
 </resources>

@@ -36,16 +36,30 @@
             </intent-filter>
         </activity>
 
-        <!-- Widget della schermata Home -->
+        <!-- Widget della schermata Home (1.0.11: due misure, 2x2 e 4x2; si aggiornano anche a mezzanotte e quando
+             cambiano ora, fuso orario o lingua del telefono: azioni di sistema permesse ai receiver del manifest) -->
         <receiver
             android:name=".TanettoWidget"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="android.intent.action.TIME_SET" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+                <action android:name="android.intent.action.LOCALE_CHANGED" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info" />
+        </receiver>
+        <receiver
+            android:name=".TanettoWidgetWide"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_info" />
+                android:resource="@xml/widget_info_wide" />
         </receiver>
 
         <provider

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 1.0.11: la scheda del widget come le schede degli obiettivi dell'app: crema, angoli morbidi, "bordo" in basso -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/widget_edge" />
+            <corners android:radius="26dp" />
+        </shape>
+    </item>
+    <item android:bottom="4dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/widget_card" />
+            <corners android:radius="26dp" />
+        </shape>
+    </item>
+</layer-list>

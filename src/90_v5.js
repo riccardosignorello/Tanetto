@@ -1,6 +1,6 @@
 /* =================== VERSIONE 5: giochi di benessere, condivisione, informative =================== */
 const OWNER_NAME = "", OWNER_EMAIL = "tanettoapp@gmail.com";
-const PRIVACY_DATE = "2026-11-18"; /* 1.0.11 (18/11): pubblico dai 13 anni in su e modalita' protetta (3zzn_v111_audience.js); 1.0.10: titolare con il nome dello sviluppatore (16/11), interruttore delle statistiche e condizioni d'uso aggiornate (3zzk_v26_texts.js); 113 (17/11): niente video con premio sotto i 13 anni e a chi non dice l'eta' */
+const PRIVACY_DATE = "2026-11-18"; /* 1.0.11 (18/11): pubblico dai 13 anni in su e modalita' protetta (3zzn_v111_audience.js), paragrafo "Invita un amico" (3zzm_n111_texts.js); 1.0.10: titolare con il nome dello sviluppatore (16/11), interruttore delle statistiche e condizioni d'uso aggiornate (3zzk_v26_texts.js); 113 (17/11): niente video con premio sotto i 13 anni e a chi non dice l'eta' */
 let pendingGoals = [], exprTimer = null;
 
 function fadeLayer() {

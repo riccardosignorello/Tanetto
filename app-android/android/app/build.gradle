@@ -18,8 +18,8 @@ android {
         applicationId "com.tanettoapp.tanetto"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 112
-        versionName "1.0.10"
+        versionCode 114
+        versionName "1.0.11"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
@@ -37,6 +37,8 @@ android {
     }
     testOptions {
         unitTests.includeAndroidResources = true
+        // 1.0.11: le prove del widget disegnano molte immagini; memoria limitata per non pesare sul computer
+        unitTests.all { maxHeapSize = "1g" }
     }
     // 1.0.10: App Check acceso solo se c'e' l'ID dell'app Android. Spento = plugin "TanettoAppCheck" che risponde
     // on=false (src/appcheck/off) e NESSUNA libreria Firebase nativa: stesse librerie, stesse versioni della 1.0.9.
@@ -102,6 +104,8 @@ dependencies {
     implementation "androidx.core:core-splashscreen:$coreSplashScreenVersion"
     implementation project(':capacitor-android')
     implementation "com.google.android.play:review:2.0.2"
+    // 1.0.11: Invita un amico, codice dell'invito letto una volta al primo avvio dal link di Google Play
+    implementation "com.android.installreferrer:installreferrer:2.2"
     implementation "androidx.credentials:credentials:1.5.0"
     implementation "com.android.billingclient:billing:8.3.0"
     implementation "com.google.android.gms:play-services-ads:25.5.0"

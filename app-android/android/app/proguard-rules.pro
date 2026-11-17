@@ -33,6 +33,7 @@
 # AAPT genera gia' queste regole dal manifest; qui sono esplicite per i nostri.
 -keep class com.tanettoapp.tanetto.MainActivity { public <init>(); }
 -keep class com.tanettoapp.tanetto.TanettoWidget { public <init>(); }
+-keep class com.tanettoapp.tanetto.TanettoWidgetWide { public <init>(); }
 
 # --- Ponte JavaScript del WebView ---
 # Capacitor parla con la pagina con addJavascriptInterface: i metodi @JavascriptInterface si chiamano per nome dal JS

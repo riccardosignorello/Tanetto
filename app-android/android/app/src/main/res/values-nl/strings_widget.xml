@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="widget_desc">Je maatje en de doelen van vandaag op je startscherm.</string>
+    <string name="widget_desc">Je maatje en je doelen van vandaag op je startscherm.</string>
+    <string name="widget_desc_wide">Je maatje, je doelen van vandaag en een zin voor je dag.</string>
     <string name="widget_open">Tanetto openen</string>
 </resources>

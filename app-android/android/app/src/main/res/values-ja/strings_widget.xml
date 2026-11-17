@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="widget_desc">パートナーと今日の目標をホーム画面に。</string>
+    <string name="widget_desc">ホーム画面にパートナーと今日の目標を表示します。</string>
+    <string name="widget_desc_wide">パートナーと今日の目標、そして今日のひとことを表示します。</string>
     <string name="widget_open">Tanettoを開く</string>
 </resources>
