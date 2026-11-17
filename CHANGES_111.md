@@ -68,6 +68,18 @@ del sito che finivano con "/").
 (soglia della prova portata da 3,8 a 3,9 MB, motivata: icone e cartoline nuove).
 
 
-## 4) Prove
+## 4) Da fare su Play Console (con il caricamento)
+
+1) **Sicurezza dei dati:** aggiungere (o completare, se ci sono già per la pubblicità) "Dispositivo o altri ID" e
+"Interazioni con l'app" per Invita un amico (raccolti, non condivisi, facoltativi; scopi: funzionalità e prevenzione delle frodi). Dettagli in `docs/DATA_SAFETY_111.md`.
+Le statistiche anonime nuove (passi del primo avvio, cartolina della settimana) sono interazioni già dichiarate:
+dettagli in `docs/PLAY_DATA_SAFETY_111.md`.
+
+2) **Pubblico:** 13-15, 16-17, 18+ (come deciso).
+
+3) **Facoltativo:** pubblicare le regole di Firestore per accendere i premi di Invita un amico (`CHANGES_111_NATIVE.md`).
+
+
+## 5) Prove
 
 (vedi il resoconto dell'unione: numeri di ogni suite)

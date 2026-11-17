@@ -118,8 +118,14 @@ function v25ScnFit(sc) {
   if (sc.scrollLeft < x - 0.01) sc.scrollLeft = Math.ceil(x);
   sc.dataset.prog = String(sc.scrollLeft); v25ScnEdges(sc);
 }
+/* 1.0.11: se la fila e' gia' stata scorsa a mano e la stanza a schermo intero si ridisegna da sola (acquisti verificati,
+   video pronto...), la fila nuova riparte dallo stesso punto invece che dall'inizio. Si dimentica quando lo schermo intero
+   si chiude. */
+let v111ScnUser = null;
+if (typeof closeFull === "function") { const _cf111 = closeFull; closeFull = function (...a) { v111ScnUser = null; return _cf111.apply(this, a); }; }
 function v25ScnView() {
-  const sc = document.querySelector("#fullwrap .scns"); if (!sc || sc.dataset.v25) return; sc.dataset.v25 = "1";
+  const sc = document.querySelector("#fullwrap .scns"); if (!sc) { v111ScnUser = null; return; } if (sc.dataset.v25) return; sc.dataset.v25 = "1";
+  if (v111ScnUser !== null) { sc.dataset.user = "1"; sc.style.removeProperty("--scnfade"); sc.scrollLeft = v111ScnUser; sc.dataset.prog = String(sc.scrollLeft); v25ScnEdges(sc); return; }
   v25ScnFit(sc);
   /* di nuovo quando il layout si e' assestato: fine dell'apertura a schermo intero, caratteri pronti */
   requestAnimationFrame(() => requestAnimationFrame(() => v25ScnFit(sc)));
@@ -138,6 +144,7 @@ function v25ScnView() {
 document.addEventListener("scroll", (ev) => {
   const sc = ev.target; if (!sc || !sc.classList || !sc.classList.contains("scns")) return;
   if (Math.abs(sc.scrollLeft - (+sc.dataset.prog || 0)) > 1) { sc.dataset.user = "1"; sc.style.removeProperty("--scnfade"); }
+  if (sc.dataset.user && sc.closest("#fullwrap")) v111ScnUser = sc.scrollLeft;
   v25ScnEdges(sc);
 }, true);
 window.addEventListener("resize", () => { const sc = document.querySelector("#fullwrap .scns"); if (sc) { if (sc.dataset.user) v25ScnEdges(sc); else v25ScnFit(sc); } });
