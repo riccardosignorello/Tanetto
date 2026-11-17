@@ -99,6 +99,9 @@ P = [
     ('fix109/t38run5/t38_trips.py', '"+15 Punkte" in stx and "Kurzer Ausflug" not in stx', '"Punkte" not in stx and "Kurzer Ausflug" not in stx', '1.0.10: una sola moneta visibile (Tanì), niente punti; Zaino al posto di Energia'),
     # 1.0.11: i 3 file di riserva di Fredoka (t111-*) si aggiungono nella stessa cartella fonts/
     ("fix109/tfix_a.py", 'if not f.startswith("t110-")]) == 17)', 'if not f.startswith(("t110-", "t111-"))]) == 17)', "caratteri 1.0.11 in fonts/"),
+    # 1.0.10 (M-11): le statistiche anonime partono solo dopo la risposta sull'eta' e solo per gli adulti; la prova della privacy
+    # (che controlla che nei conteggi non finiscano mai nomi o testi) usa quindi un adulto, altrimenti non parte nessun conteggio
+    ("fix109/t38run5/t38_secure.py", 'ctx, pg = await page(b, state(petName="Mariolino", uname="Giulia Rossi", goals=["water", "c:Chiamare Anna"], tracked={}), url=GH)', 'ctx, pg = await page(b, state(petName="Mariolino", uname="Giulia Rossi", goals=["water", "c:Chiamare Anna"], tracked={}), url=GH, pre="localStorage.setItem(`tanetto-eta`, JSON.stringify({y: 1990, m: 5}));")', "statistiche solo per adulti (M-11)"),
     # 1.0.11 (cartoline nello stesso formato della settimana): link con utm_source=share&utm_medium=postcard&utm_campaign=trip e #tanettoapp
     ("fix109/t38run5/t38_growth.py", 'txt.endswith("https://tanettoapp.github.io/Tanetto/?src=postcard")', '"https://tanettoapp.github.io/Tanetto/?src=postcard&utm_source=share&utm_medium=postcard&utm_campaign=trip" in txt and txt.endswith("#tanettoapp")', "1.0.11: link con UTM e #tanettoapp"),
     ("fix109/t38run5/t38_growth.py", 'sh["text"].endswith("?src=postcard")', '("utm_campaign%3Dtrip" in sh["text"] or "utm_campaign=trip" in sh["text"]) and sh["text"].endswith("#tanettoapp")', "1.0.11: link con UTM e #tanettoapp (nell'app: Google Play)"),
