@@ -7,7 +7,7 @@ Germo has grown a little kinder this season:
 - Show your companion: new Story picture for TikTok and Instagram (Photo button)
 - Help is always one tap away in chat and diary, with helplines for your country
 - A missed day no longer resets your daily gift; rest days count
-- Clearer text in 14 languages, bigger buttons, works offline too
+- A new diary: a different question every day, plus a free page all your own
 </en-US>
 
 <it-IT>
@@ -16,7 +16,7 @@ Germo è cresciuto ed è ancora più gentile:
 - Mostra il tuo compagno: nuova immagine Storia per TikTok e Instagram (pulsante Foto)
 - L'aiuto è sempre a un tocco in chat e nel diario, con i numeri del tuo Paese
 - Un giorno saltato non azzera più il regalo; i giorni di riposo contano
-- Testi più chiari in 14 lingue, tasti più grandi, funziona anche senza internet
+- Diario nuovo: ogni giorno una domanda diversa e una pagina libera tutta tua
 </it-IT>
 
 <de-DE>
@@ -25,7 +25,7 @@ Germo ist gewachsen und noch freundlicher geworden:
 - Zeig deinen Begleiter: neues Story-Bild für TikTok und Instagram (Foto-Taste)
 - Hilfe ist im Chat und im Tagebuch immer nur einen Tipp entfernt, mit Nummern für dein Land
 - Ein verpasster Tag setzt dein Tagesgeschenk nicht mehr zurück; Ruhetage zählen
-- Klarere Texte in 14 Sprachen, größere Tasten, funktioniert auch offline
+- Neues Tagebuch: jeden Tag eine neue Frage und eine freie Seite für dich
 </de-DE>
 
 <es-ES>
@@ -34,7 +34,7 @@ Germo ha crecido y es aún más amable:
 - Muestra a tu compañero: nueva imagen de Historia para TikTok e Instagram (botón Foto)
 - La ayuda está siempre a un toque en el chat y el diario, con teléfonos de tu país
 - Un día perdido ya no reinicia tu regalo diario; los días de descanso cuentan
-- Textos más claros en 14 idiomas, botones más grandes, funciona también sin internet
+- Diario nuevo: cada día una pregunta distinta y una página libre solo para ti
 </es-ES>
 
 <es-419>
@@ -52,7 +52,7 @@ Germo ha crecido y es aún más amable:
 - Muestra a tu compañero: nueva imagen de Historia para TikTok e Instagram (botón Foto)
 - La ayuda está siempre a un toque en el chat y el diario, con teléfonos de tu país
 - Un día perdido ya no reinicia tu regalo diario; los días de descanso cuentan
-- Textos más claros en 14 idiomas, botones más grandes, funciona también sin internet
+- Diario nuevo: cada día una pregunta distinta y una página libre solo para ti
 </es-US>
 
 <fr-FR>
@@ -61,7 +61,7 @@ Germo a grandi et il est encore plus doux :
 - Montre ton compagnon : nouvelle image Story pour TikTok et Instagram (bouton Photo)
 - L'aide est toujours à un geste dans le chat et le journal, avec les numéros de ton pays
 - Un jour manqué ne remet plus ton cadeau du jour à zéro ; les jours de repos comptent
-- Textes plus clairs en 14 langues, boutons plus grands, marche aussi hors ligne
+- Nouveau journal : chaque jour une autre question et une page libre à toi
 </fr-FR>
 
 <fr-CA>
@@ -70,7 +70,7 @@ Germo a grandi et il est encore plus doux :
 - Montre ton compagnon : nouvelle image Story pour TikTok et Instagram (bouton Photo)
 - L'aide est toujours à un geste dans le chat et le journal, avec les numéros de ton pays
 - Un jour manqué ne remet plus ton cadeau du jour à zéro ; les jours de repos comptent
-- Textes plus clairs en 14 langues, boutons plus grands, marche aussi hors ligne
+- Nouveau journal : chaque jour une autre question et une page libre à toi
 </fr-CA>
 
 <pt-BR>
@@ -79,7 +79,7 @@ O Germo cresceu e está ainda mais gentil:
 - Mostre seu companheiro: nova imagem de Story para TikTok e Instagram (botão Foto)
 - A ajuda está sempre a um toque no chat e no diário, com os números do seu país
 - Um dia perdido não zera mais o presente do dia; dias de descanso contam
-- Textos mais claros em 14 idiomas, botões maiores, funciona também sem internet
+- Diário novo: uma pergunta diferente a cada dia e uma página livre só sua
 </pt-BR>
 
 <pt-PT>
@@ -88,7 +88,7 @@ O Germo cresceu e está ainda mais gentil:
 - Mostre seu companheiro: nova imagem de Story para TikTok e Instagram (botão Foto)
 - A ajuda está sempre a um toque no chat e no diário, com os números do seu país
 - Um dia perdido não zera mais o presente do dia; dias de descanso contam
-- Textos mais claros em 14 idiomas, botões maiores, funciona também sem internet
+- Diário novo: uma pergunta diferente todos os dias e uma página livre só tua
 </pt-PT>
 
 <ja-JP>
@@ -97,7 +97,7 @@ O Germo cresceu e está ainda mais gentil:
 ・相棒を見せよう：TikTokやInstagram向けの縦長ストーリー画像（写真ボタン）
 ・チャットと日記から、いつでもワンタップで相談窓口へ（お住まいの国の番号）
 ・1日休んでも毎日のプレゼントがリセットされなくなりました。お休みの日もカウント
-・14言語の文章をわかりやすく、ボタンを大きく。オフラインでも使えます
+・新しい日記：毎日ちがう質問と、自由に書けるページ
 </ja-JP>
 
 <ko-KR>
@@ -106,7 +106,7 @@ O Germo cresceu e está ainda mais gentil:
 - 내 친구를 자랑해요: TikTok과 Instagram용 세로 스토리 이미지 (사진 버튼)
 - 채팅과 일기에서 언제나 한 번만 누르면 도움을 받을 수 있어요 (우리나라 상담 번호)
 - 하루를 놓쳐도 매일 선물이 처음으로 돌아가지 않아요. 쉬는 날도 인정돼요
-- 14개 언어로 더 쉬운 문장, 더 큰 버튼, 인터넷 없이도 작동해요
+- 새 일기: 매일 다른 질문과 마음대로 쓰는 자유 페이지
 </ko-KR>
 
 <zh-CN>
@@ -115,7 +115,7 @@ Germo 长大了一点，也更温柔了：
 - 展示你的伙伴：新增适合 TikTok 和 Instagram 的竖版故事图片（照片按钮）
 - 在聊天和日记中随时一键获得帮助，并显示你所在国家的求助电话
 - 错过一天不会再让每日礼物清零；休息日也算数
-- 14 种语言的文字更清晰，按钮更大，没有网络也能正常使用
+- 全新日记：每天一个不同的问题，还有一页随心写
 </zh-CN>
 
 <zh-TW>
@@ -124,7 +124,7 @@ Germo 長大了一點，也更溫柔了：
 - 展示你的夥伴：新增適合 TikTok 和 Instagram 的直式限時動態圖片（照片按鈕）
 - 在聊天和日記中隨時一鍵取得協助，並顯示你所在國家的求助電話
 - 錯過一天不會再讓每日禮物歸零；休息日也算數
-- 14 種語言的文字更清楚，按鈕更大，沒有網路也能正常使用
+- 全新日記：每天一個不同的問題，還有一頁隨心寫
 </zh-TW>
 
 <zh-HK>
@@ -133,7 +133,7 @@ Germo 長大了一點，也更溫柔了：
 - 展示你的夥伴：新增適合 TikTok 和 Instagram 的直式限時動態圖片（照片按鈕）
 - 在聊天和日記中隨時一鍵取得協助，並顯示你所在國家的求助電話
 - 錯過一天不會再讓每日禮物歸零；休息日也算數
-- 14 種語言的文字更清楚，按鈕更大，沒有網路也能正常使用
+- 全新日記：每天一個不同的問題，還有一頁隨心寫
 </zh-HK>
 
 <ru-RU>
@@ -142,7 +142,7 @@ Germo 長大了一點，也更溫柔了：
 - Покажи своего друга: новая картинка-сторис для TikTok и Instagram (кнопка «Фото»)
 - Помощь всегда в одно касание в чате и дневнике, с телефонами твоей страны
 - Пропущенный день больше не обнуляет ежедневный подарок; дни отдыха засчитываются
-- Тексты понятнее на 14 языках, кнопки крупнее, работает и без интернета
+- Новый дневник: каждый день новый вопрос и свободная страница только для тебя
 </ru-RU>
 
 <pl-PL>
@@ -151,7 +151,7 @@ Germo trochę urósł i jest jeszcze milszy:
 - Pokaż swojego towarzysza: nowy obrazek-relacja na TikToka i Instagram (przycisk Zdjęcie)
 - Pomoc jest zawsze o jedno dotknięcie w czacie i dzienniku, z numerami dla twojego kraju
 - Opuszczony dzień nie zeruje już codziennego prezentu; dni odpoczynku się liczą
-- Czytelniejsze teksty w 14 językach, większe przyciski, działa też offline
+- Nowy dziennik: codziennie inne pytanie i wolna strona tylko dla ciebie
 </pl-PL>
 
 <nl-NL>
@@ -160,7 +160,7 @@ Germo is wat gegroeid en nog liever geworden:
 - Laat je maatje zien: nieuwe Story-afbeelding voor TikTok en Instagram (knop Foto)
 - Hulp is altijd één tik weg in de chat en het dagboek, met nummers voor jouw land
 - Een gemiste dag zet je dagcadeau niet meer terug op nul; rustdagen tellen mee
-- Duidelijkere teksten in 14 talen, grotere knoppen, werkt ook offline
+- Nieuw dagboek: elke dag een andere vraag en een vrije pagina helemaal voor jou
 </nl-NL>
 
 <tr-TR>
@@ -169,5 +169,5 @@ Germo biraz büyüdü ve daha da nazik oldu:
 - Arkadaşını göster: TikTok ve Instagram için yeni dikey Hikâye görseli (Fotoğraf düğmesi)
 - Sohbette ve günlükte yardım her zaman bir dokunuş uzağında, ülkene göre numaralarla
 - Kaçırılan bir gün artık günlük hediyeni sıfırlamıyor; dinlenme günleri sayılıyor
-- 14 dilde daha anlaşılır metinler, daha büyük düğmeler, internetsiz de çalışır
+- Yeni günlük: her gün farklı bir soru ve sadece sana ait serbest bir sayfa
 </tr-TR>

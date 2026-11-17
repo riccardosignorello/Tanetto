@@ -21,6 +21,7 @@ P = [
     ("fix109/tfix_a.py", 'len(os.listdir(SITE + "/fonts")) == 17)', 'len([f for f in os.listdir(SITE + "/fonts") if not f.startswith("t110-")]) == 17)', "caratteri 1.0.10 in fonts/"),
     # 1.0.10 (nuovo aspetto, approvato il 17/11/2026): righe del Profilo con l'icona di 46 px, come Plus e "Invita un amico"
     ("p3c/t7.py", "Profile menu rows keep their own layout (icon 40 px | text | chevron)", "Profile menu rows keep their own layout (icon 46 px | text | chevron)", "icone del Profilo 46 px"),
+    ("p3c/t7.py", 'r[0].startswith("40px") and r[1] >= 56', 'r[0].startswith("46px") and r[1] >= 56', "icone del Profilo 46 px"),
     ("p3c/t7.py", 'r == ["more", None, True] and r4 == ["more", None], [r, r4])', 'r == ["more", None, True] and r4 == ["more", "g_set"], [r, r4])', "Profilo a gruppi: da Impostazioni si torna al gruppo"),
     # 1.0.10 (critica 1.0.10, punto 10): il paragrafo dei bambini nomina solo AdMob (statistiche sempre spente per loro)
     ("fix109/tfix_a.py", 'pv.count("GoatCounter") >= 28 and', 'pv.count("GoatCounter") >= 14 and', "bambini: solo AdMob"),
