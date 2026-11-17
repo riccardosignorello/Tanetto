@@ -66,6 +66,7 @@ async def page(b, st=None, date=(2026, 11, 16, 9, 7), lang="en-US", native=False
     o = {"viewport": {"width": w, "height": h}, "device_scale_factor": 2, "color_scheme": scheme, "locale": lang, "is_mobile": mobile, "has_touch": mobile}
     if tz: o["timezone_id"] = tz
     ctx = await b.new_context(**o); pg = await ctx.new_page(); pg.errs = []; pg.gc = []
+    pg.set_default_navigation_timeout(int(os.environ.get("T110_NAV_MS", "30000")))  # 1.0.11: macchina carica -> T110_NAV_MS=120000
     pg.on("pageerror", lambda e: pg.errs.append(str(e)))
     pg.on("console", lambda m: pg.errs.append("console: " + m.text) if m.type == "error" and "ERR_" not in m.text and "Failed to load resource" not in m.text and "navigator.vibrate" not in m.text else None)
     async def _gc(r):

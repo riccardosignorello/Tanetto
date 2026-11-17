@@ -1,0 +1,8 @@
+/* ===== 1.0.11: contrasto WCAG AA (4,5:1 testo normale, 3:1 testo grande) misurato sui pixel veri (tests/t110/t_111_polish.py) =====
+   Si scuriscono solo i fondi dei distintivi piccoli con testo bianco, restando nella stessa tinta della palette (BRAND_BOOK.md):
+   il colore resta riconoscibile, la scritta si legge. */
+/* "Nuovo" sulla scheda della stagione: rosso #E2454A con bianco 12 px = 4,05:1 -> #C43A3F = 5,22:1 */
+.seacard.isnew::after { background: #C43A3F; }
+/* titoli dei gruppi del negozio ("Piante", "Tappeti"...): grigio caldo #6B625B sul fondo #E6DDC7 = 4,41:1 -> un po' piu' scuro (5,3:1);
+   nel tema scuro --muted e --ink sono chiari, la miscela resta chiara e leggibile */
+.shopgrp h3, .shopgrp h2 { color: color-mix(in srgb, var(--muted) 80%, var(--ink)); }
