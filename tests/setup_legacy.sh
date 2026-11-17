@@ -24,7 +24,7 @@ mkdir -p "$DST/fix109/logs5"
 # - $DST/fix109/www: senza la riga della CSP (le suite iniettano axe e script di prova), come le copie di prova della 1.0.9
 for W in "$DST/site" "$DST/fix109/www"; do
   rm -rf "$W"; mkdir -p "$W"
-  for f in index.html sw.js manifest.webmanifest fb.js gsap.min.js caveat-700.woff2 fonts.css privacy.html elimina-account.html; do cp "$REPO/$f" "$W/"; done
+  for f in index.html sw.js manifest.webmanifest fb.js gsap.min.js caveat-700.woff2 fonts.css privacy.html elimina-account.html icon-192.png icon-512.png; do cp "$REPO/$f" "$W/"; done  # 1.0.11: anche le icone (le chiede il service worker)
   cp -r "$REPO/img" "$REPO/fonts" "$W/"
 done
 sed -i '/http-equiv="Content-Security-Policy"/d' "$DST/fix109/www/index.html"
