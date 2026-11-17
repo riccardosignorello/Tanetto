@@ -80,7 +80,7 @@ async def page(b, st=None, date=(2026, 11, 16, 9, 7), lang="en-US", native=False
     if a is not None:
         js += f"if(!sessionStorage.getItem('t110a')){{localStorage.setItem('tanetto-eta',{json.dumps(json.dumps(a))});sessionStorage.setItem('t110a','1')}};"
     await pg.add_init_script(("window.__TEST_NOAGE=1;" if noage_gate else "") + js + extra_js)
-    await pg.goto(URL); await pg.wait_for_timeout(wait)
+    pg.set_default_timeout(120000); await pg.goto(URL, timeout=180000); await pg.wait_for_timeout(wait)  # macchina carica: attese piu' lunghe
     return ctx, pg
 
 async def ev(pg, code):

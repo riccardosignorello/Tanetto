@@ -145,16 +145,16 @@ function gr20Place(ck, c) {
 /* ultima cartolina arrivata (per l'immagine del livello) */
 function gr20LastCard() { const a = (S.cards || []).filter((x) => typeof x === "string"); for (let i = a.length - 1; i >= 0; i--) { try { if (cardInfo(a[i])) return a[i]; } catch (e) { /* cartolina sconosciuta */ } } return null; }
 function gr20Spec(kind, ck) {
-  const t = gr20t(), L0 = L(), p = S.petName || "";
+  const t = gr20t(), L0 = L(), p = w111Name(); /* 1.0.11: il nome scelto solo dai 18 anni */
   if (kind === "card") {
     const c = cardInfo(ck); const place = gr20Place(ck, c);
-    return { art: c.art(), kicker: t.by(p), big: place, cap: c.title && c.title !== place ? c.title : "", place, name: "tanetto-cartolina.png", text: `${t.txt(p, place)} ${GR20_LINK}`, alt: `${t.by(p)}: ${place}` };
+    return { art: c.art(), kicker: t.by(p), big: place, cap: c.title && c.title !== place ? c.title : "", place, name: "tanetto-cartolina.png", text: w111ShareText(t.txt(p, place), "trip"), alt: `${t.by(p)}: ${place}` };
   }
   const last = gr20LastCard(); let art, place;
   if (last) { const c = cardInfo(last); art = c.art(); place = gr20Place(last, c); }
   else { place = (L0.dests && L0.dests.forest) || ""; art = postcard("forest", 0, place); }
   const big = typeof L0.levelUpT === "function" ? L0.levelUpT(S.level) : String(S.level);
-  return { art, kicker: p, big, cap: place, place, name: "tanetto-livello.png", text: `${t.txtLvl(p, S.level)} ${GR20_LINK}`, alt: `${p}: ${big}` };
+  return { art, kicker: p, big, cap: place, place, name: "tanetto-livello.png", text: w111ShareText(t.txtLvl(p, S.level), "level"), alt: `${p}: ${big}` };
 }
 function gr20Lines(c, text, maxW, size, min, font) {
   const set = (s) => { c.font = font.replace("{s}", s); };
@@ -180,31 +180,34 @@ const gr20Fonts = () => Promise.race([
   new Promise((r) => setTimeout(r, 1500))
 ]);
 let gr20Memo = { key: "", url: "" };
+/* 1.0.11: formato scelto nella finestra (storia 9:16 o quadrata 1:1), come la cartolina della settimana */
+let gr20Fmt = "story", gr20Last = null;
 async function gr20Make(kind, ck) {
-  const sp = gr20Spec(kind, ck);
-  const key = [kind, ck, S.lang, S.pet, S.hat, S.petName, S.level, kind === "level" ? gr20LastCard() : ""].join("|");
+  const sp = gr20Spec(kind, ck); const SQ = gr20Fmt === "square"; const GH = SQ ? 1080 : GR20_H;
+  const key = [kind, ck, S.lang, S.pet, S.hat, w111Name(), S.level, gr20Fmt, kind === "level" ? gr20LastCard() : ""].join("|");
   if (gr20Memo.key === key && gr20Memo.url) return { url: gr20Memo.url, sp };
   const pal = (typeof WEEK_PAL !== "undefined" && (WEEK_PAL[S.pet] || WEEK_PAL.germo)) || ["#DCEFD3", "#A8D79D", "#4E8A4A"];
   const a = stripSvg(sp.art); const vb = a.vb.split(/[\s,]+/).map(Number); const asp = vb[2] > 0 && vb[3] > 0 ? vb[2] / vb[3] : 1.6;
-  const AW = 880, AH = Math.max(420, Math.min(600, Math.round(AW / asp)));
-  const FX = 70, FY = 520, FW = 940, FH = 30 + AH + 100; const cx = FX + FW / 2, cy = FY + FH / 2; const ROT = -1.6;
-  const PS = 540, PX = (GR20_W - PS) / 2, PY = Math.min(FY + FH - 56, GR20_H - PS - 170);
+  const AW = SQ ? 640 : 880, AH = SQ ? Math.max(330, Math.min(420, Math.round(640 / asp))) : Math.max(420, Math.min(600, Math.round(AW / asp)));
+  const FX = SQ ? 90 : 70, FY = SQ ? 236 : 450, FW = AW + 60, FH = 30 + AH + (SQ ? 80 : 100); const cx = FX + FW / 2, cy = FY + FH / 2; const ROT = -1.6;
+  /* storia: il compagno davanti alla cartolina; quadrata: in basso a destra, accanto alla cartolina */
+  const PS = SQ ? 360 : 460, PX = SQ ? GR20_W - PS - 40 : (GR20_W - PS) / 2, PY = SQ ? 600 : Math.min(FY + FH - 60, 1530 - PS);
   const lg = stripSvg(typeof LOGO === "string" ? LOGO : "<svg viewBox=\"0 0 32 32\"></svg>");
   const spark = (x, y, r, op) => `<path d="M${x} ${y - r}Q${x} ${y} ${x + r} ${y}Q${x} ${y} ${x} ${y + r}Q${x} ${y} ${x - r} ${y}Q${x} ${y} ${x} ${y - r}Z" fill="${pal[2]}" opacity="${op}"/>`;
   const pet = petInner(S.pet, "felice", S.hat, stage(), 0.95);
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${GR20_W}" height="${GR20_H}" viewBox="0 0 ${GR20_W} ${GR20_H}"><defs>`
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${GR20_W}" height="${GH}" viewBox="0 0 ${GR20_W} ${GH}"><defs>`
     + `<linearGradient id="gr20bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFBF4"/><stop offset=".42" stop-color="${pal[0]}"/><stop offset="1" stop-color="${pal[1]}"/></linearGradient>`
     + `<clipPath id="gr20cl"><rect x="${FX + 30}" y="${FY + 30}" width="${AW}" height="${AH}" rx="12"/></clipPath></defs>`
-    + `<rect width="${GR20_W}" height="${GR20_H}" fill="url(#gr20bg)"/>`
-    + `<circle cx="80" cy="200" r="210" fill="#fff" opacity=".35"/><circle cx="1010" cy="1830" r="260" fill="#fff" opacity=".22"/><circle cx="1040" cy="300" r="90" fill="#fff" opacity=".25"/>`
-    + spark(140, 470, 18, 0.35) + spark(950, 230, 14, 0.3) + spark(110, 1500, 16, 0.25) + spark(980, 1420, 20, 0.28)
+    + `<rect width="${GR20_W}" height="${GH}" fill="url(#gr20bg)"/>`
+    + `<circle cx="80" cy="${SQ ? 120 : 200}" r="${SQ ? 170 : 210}" fill="#fff" opacity=".35"/><circle cx="1010" cy="${GH - 90}" r="260" fill="#fff" opacity=".22"/><circle cx="1040" cy="300" r="90" fill="#fff" opacity=".25"/>`
+    + (SQ ? spark(70, 600, 16, 0.3) + spark(1010, 190, 14, 0.3) + spark(60, 900, 14, 0.25) : spark(140, 470, 18, 0.35) + spark(950, 230, 14, 0.3) + spark(110, 1500, 16, 0.25) + spark(980, 1420, 20, 0.28))
     /* cartolina: ombra morbida, bordo bianco, disegno, francobollo e timbro */
     + `<g transform="rotate(${ROT} ${cx} ${cy})">`
     + `<rect x="${FX + 6}" y="${FY + 22}" width="${FW}" height="${FH}" rx="22" fill="#3A2510" opacity=".08"/><rect x="${FX + 3}" y="${FY + 12}" width="${FW}" height="${FH}" rx="22" fill="#3A2510" opacity=".07"/>`
     + `<rect x="${FX}" y="${FY}" width="${FW}" height="${FH}" rx="22" fill="#FFFDF8"/>`
     + `<g clip-path="url(#gr20cl)"><svg x="${FX + 30}" y="${FY + 30}" width="${AW}" height="${AH}" viewBox="${a.vb}" preserveAspectRatio="xMidYMid slice">${a.inner}</svg></g>`
     + `<rect x="${FX + 30}" y="${FY + 30}" width="${AW}" height="${AH}" rx="12" fill="none" stroke="#000" stroke-opacity=".06" stroke-width="2"/>`
-    + `<g transform="translate(${FX + FW - 132} ${FY - 34}) rotate(6)"><rect x="-6" y="-6" width="124" height="148" rx="6" fill="#FFFDF8" stroke="${pal[1]}" stroke-width="3" stroke-dasharray="7 6"/><rect x="6" y="6" width="100" height="124" rx="4" fill="${pal[0]}"/><svg x="18" y="22" width="76" height="76" viewBox="${lg.vb}">${lg.inner}</svg><rect x="30" y="108" width="52" height="7" rx="3.5" fill="${pal[2]}" opacity=".45"/></g>`
+    + `<g transform="translate(${FX + FW - (SQ ? 100 : 132)} ${FY - (SQ ? 22 : 34)}) rotate(6) scale(${SQ ? 0.8 : 1})"><rect x="-6" y="-6" width="124" height="148" rx="6" fill="#FFFDF8" stroke="${pal[1]}" stroke-width="3" stroke-dasharray="7 6"/><rect x="6" y="6" width="100" height="124" rx="4" fill="${pal[0]}"/><svg x="18" y="22" width="76" height="76" viewBox="${lg.vb}">${lg.inner}</svg><rect x="30" y="108" width="52" height="7" rx="3.5" fill="${pal[2]}" opacity=".45"/></g>`
     + `<g transform="translate(${FX + FW - 250} ${FY + 8})" fill="none" stroke="${pal[2]}" stroke-opacity=".38" stroke-width="4"><circle cx="40" cy="40" r="34"/><circle cx="40" cy="40" r="24" stroke-dasharray="5 6"/><path d="M84 22q12 -8 24 0t24 0t24 0M84 40q12 -8 24 0t24 0t24 0M84 58q12 -8 24 0t24 0t24 0"/></g>`
     + `</g>`
     /* il compagno, davanti alla cartolina */
@@ -213,15 +216,16 @@ async function gr20Make(kind, ck) {
   const img = await loadImg("data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg));
   /* 1.0.9 (fase 3): il marchio e' il Germo 3D dell'icona (un solo Germo ovunque) */
   const logo = await loadImg(typeof BOOT_IMG === "string" ? BOOT_IMG : "data:image/svg+xml;charset=utf-8," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="${lg.vb}">${lg.inner}</svg>`)).catch(() => null);
-  await gr20Fonts();
-  const cv = document.createElement("canvas"); cv.width = GR20_W; cv.height = GR20_H; const c = cv.getContext("2d"); c.drawImage(img, 0, 0);
+  await gr20Fonts(); await w111Fonts([sp.big, sp.kicker, sp.cap]);
+  const cv = document.createElement("canvas"); cv.width = GR20_W; cv.height = GH; const c = cv.getContext("2d"); c.drawImage(img, 0, 0);
   const FD = '"Fredoka", "Trebuchet MS", "Hiragino Maru Gothic ProN", "Noto Sans CJK JP", Arial, sans-serif', FB = '"Figtree", "Segoe UI", "Noto Sans CJK JP", Arial, sans-serif';
   c.textAlign = "center"; c.textBaseline = "alphabetic";
   /* in alto: chi la manda, e il posto (o il livello) */
-  const big = gr20Lines(c, sp.big || "", 900, 86, 52, `600 {s}px ${FD}`);
-  const bigY = big.lines.length > 1 ? [400, 400 + big.size * 1.08] : [440];
-  const kick = gr20Lines(c, sp.kicker || "", 880, 44, 30, `600 {s}px ${FB}`);
-  c.font = `600 ${kick.size}px ${FB}`; c.fillStyle = pal[2]; c.fillText(kick.lines[0], GR20_W / 2, (big.lines.length > 1 ? 400 : 440) - big.size - 26);
+  const big = gr20Lines(c, sp.big || "", 900, SQ ? 70 : 86, SQ ? 44 : 52, `600 {s}px ${FD}`);
+  const B1 = SQ ? 150 : 330, B2 = SQ ? 172 : 370;
+  const bigY = big.lines.length > 1 ? [B1 - (SQ ? 30 : 0), B1 - (SQ ? 30 : 0) + big.size * 1.08] : [B2];
+  const kick = gr20Lines(c, sp.kicker || "", 880, SQ ? 38 : 44, 28, `600 {s}px ${FB}`);
+  c.font = `600 ${kick.size}px ${FB}`; c.fillStyle = pal[2]; c.fillText(kick.lines[0], GR20_W / 2, (big.lines.length > 1 ? bigY[0] : B2) - big.size - (SQ ? 18 : 26));
   c.font = `600 ${big.size}px ${FD}`; c.fillStyle = "#2F2A26"; big.lines.forEach((ln, i) => c.fillText(ln, GR20_W / 2, bigY[i]));
   /* didascalia sul bordo bianco della cartolina, inclinata come lei */
   if (sp.cap) {
@@ -230,11 +234,8 @@ async function gr20Make(kind, ck) {
     c.font = `italic 500 ${cp.size}px ${FB}`; c.fillStyle = "#6E655D"; c.fillText(cp.lines[0], 0, FY + 30 + AH + 64 - cy);
     c.restore();
   }
-  /* marchio piccolo in basso: foglioline + "Tanetto" */
-  c.font = `600 46px ${FD}`; const tw = c.measureText("Tanetto").width; const lw = logo ? 60 : 0; const gx = GR20_W / 2 - (tw + lw + 14) / 2; const my = GR20_H - 120;
-  if (logo) { c.fillStyle = "rgba(255,253,248,.85)"; c.beginPath(); c.arc(gx + lw / 2, my - 16, lw / 2 + 6, 0, Math.PI * 2); c.fill(); }
-  c.globalAlpha = 0.9; if (logo) { c.save(); c.beginPath(); c.arc(gx + lw / 2, my - 16, lw / 2, 0, Math.PI * 2); c.clip(); c.drawImage(logo, gx, my - 46, lw, lw); c.restore(); }
-  c.textAlign = "left"; c.fillStyle = pal[2]; c.fillText("Tanetto", gx + lw + 14, my); c.globalAlpha = 1;
+  /* 1.0.11: marchio uguale a quello della cartolina della settimana ("Tanetto" e sotto #tanettoapp), dentro la fascia sicura */
+  if (SQ) w111Brand(c, logo, 300, 1000, pal, FD, FB, 38); else w111Brand(c, logo, GR20_W / 2, 1606, pal, FD, FB, 46);
   const url = cv.toDataURL("image/png");
   gr20Memo = { key, url };
   return { url, sp };
@@ -245,24 +246,30 @@ let gr20Cur = null, gr20SharedAt = 0;
 async function gr20Open(kind, ck) {
   const t = gr20t(), L0 = L();
   if (kind === "card") { try { if (!ck || !cardInfo(ck)) return; } catch (e) { return; } }
-  gr20Cur = null;
-  layer.innerHTML = `<div class="overlay gr20ov" role="dialog" aria-modal="true" aria-labelledby="gr20T"><div class="box gr20box"><h2 id="gr20T">${esc(L0.share)}</h2>
-    <div class="gr20prev" id="gr20Prev"><span class="gr20wait" aria-hidden="true"></span></div><p class="small muted gr20msg" id="gr20Msg" aria-live="polite">${esc(L0.shareMaking || "")}</p>
-    <div class="gr20btns"><button class="btn" id="gr20Send" type="button" disabled>${icon("share")}<span>${esc(L0.share)}</span></button><button class="btn ghost" id="gr20Save" type="button" disabled>${icon("download")}<span>${esc(L0.saveImg)}</span></button></div>
+  gr20Cur = null; gr20Fmt = "story"; gr20Last = { kind, ck };
+  /* 1.0.11: sotto i 13 anni e con l'eta' non detta la cartolina si guarda ma non si condivide ne' si salva */
+  const share = w111ShareOk();
+  layer.innerHTML = `<div class="overlay gr20ov" role="dialog" aria-modal="true" aria-labelledby="gr20T"><div class="box gr20box"><h2 id="gr20T">${esc(share ? L0.share : (kind === "card" ? t.by(w111Name()) : L0.levelUpT(S.level)))}</h2>
+    ${share ? w111FmtTabs() : ""}<div class="gr20prev" id="gr20Prev"><span class="gr20wait" aria-hidden="true"></span></div><p class="small muted gr20msg" id="gr20Msg" aria-live="polite">${esc(L0.shareMaking || "")}</p>
+    ${share ? `<div class="gr20btns"><button class="btn" id="gr20Send" type="button" disabled>${icon("share")}<span>${esc(L0.share)}</span></button><button class="btn ghost" id="gr20Save" type="button" disabled>${icon("download")}<span>${esc(L0.saveImg)}</span></button></div>` : ""}
     <button class="link" id="closeLayer" type="button">${esc(L0.close)}</button></div></div>`;
   const cl = layer.querySelector("#closeLayer"); if (cl) cl.focus();
   if (gr20anim()) G.from(".gr20box", { y: 24, opacity: 0, duration: 0.35, ease: "power3.out" });
   try { SND.play("pop"); } catch (e) { /* niente */ }
-  const box = layer.querySelector(".gr20box");
+  trackOnce(kind === "card" ? "cartolina-anteprima" : "livello-anteprima");
+  return gr20Refill();
+}
+async function gr20Refill() {
+  const box = layer.querySelector(".gr20ov .gr20box"); if (!box || !gr20Last) return; const { kind, ck } = gr20Last; const t = gr20t(), L0 = L();
+  const pv0 = box.querySelector("#gr20Prev"); if (pv0) pv0.classList.toggle("sq", gr20Fmt === "square");
   try {
     const r = await gr20Make(kind, ck);
     if (!box.isConnected) return; /* chiusa nel frattempo */
-    gr20Cur = { kind, ck, url: r.url, name: r.sp.name, text: r.sp.text };
+    gr20Cur = { kind, ck, url: r.url, name: gr20Fmt === "square" ? r.sp.name.replace(".png", "-1x1.png") : r.sp.name, text: r.sp.text };
     const pv = box.querySelector("#gr20Prev"); pv.innerHTML = `<img class="gr20img" src="${r.url}" alt="${esc(r.sp.alt)}">`;
     if (gr20anim()) G.from(pv.firstChild, { scale: 0.94, opacity: 0, duration: 0.35, ease: "power2.out" });
-    box.querySelector("#gr20Msg").textContent = t.hint;
+    box.querySelector("#gr20Msg").textContent = w111ShareOk() ? t.hint : w111t().kid(w111Name());
     box.querySelectorAll("#gr20Send, #gr20Save").forEach((b) => { b.disabled = false; });
-    trackOnce(kind === "card" ? "cartolina-anteprima" : "livello-anteprima");
   } catch (e) {
     if (box.isConnected) { const m = box.querySelector("#gr20Msg"); if (m) m.textContent = L0.weekErr || ""; const pv = box.querySelector("#gr20Prev"); if (pv) pv.classList.add("err"); }
   }
@@ -273,8 +280,9 @@ function gr20Download(url, name) {
 }
 /* condividere: app Android -> TanettoShare (PNG in cache + FileProvider + ACTION_SEND); web -> navigator.share con il file; altrimenti si scarica */
 async function gr20Send(cur) {
-  if (!cur) return "none";
-  const label = cur.kind === "card" ? "cartolina-condivisa" : "livello-condiviso";
+  if (!cur || !w111ShareOk()) return "none";
+  const label = cur.kind === "card" ? "cartolina-condivisa" : cur.kind === "week" ? "settimana-condivisa" : "livello-condiviso";
+  if (label !== "livello-condiviso") w111Path("cartolina-condivisa");
   const p = gr20native() && typeof sharePlugin === "function" ? sharePlugin() : null;
   if (p && p.share) {
     try { await p.share({ data: cur.url.split(",")[1] || "", name: cur.name, mime: "image/png", text: cur.text, title: "Tanetto" }); gr20SharedAt = Date.now(); trackOnce(label); return "native"; }
@@ -297,7 +305,7 @@ const _storyCardGr20 = storyCard;
 storyCard = function () {
   let h = _storyCardGr20();
   try {
-    if (!story || !story.card || typeof h !== "string" || h.includes('id="gr20Story"')) return h;
+    if (!story || !story.card || typeof h !== "string" || h.includes('id="gr20Story"') || !w111ShareOk()) return h;
     const m = h.match(/<button class="btn" id="storyOk">[\s\S]*?<\/button>/); if (!m) return h;
     const sh = `<button class="btn ghost gr20sh" id="gr20Story" type="button" data-pc="${esc(story.card)}">${icon("share")}<span>${esc(L().share)}</span></button>`;
     h = h.replace(m[0], `<div class="row gr20row">${sh}${m[0]}</div>`);
