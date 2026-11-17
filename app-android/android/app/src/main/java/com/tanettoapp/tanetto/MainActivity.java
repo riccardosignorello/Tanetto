@@ -17,6 +17,8 @@ public class MainActivity extends BridgeActivity {
         registerPlugin(ClockPlugin.class);
         // 1.0.10: App Check (Play Integrity) per account e backup; spento finche' manca l'ID dell'app Android di Firebase
         registerPlugin(AppCheckPlugin.class);
+        // 1.0.11: Invita un amico (referrer di Google Play, impronta del dispositivo contro gli abusi; solo adulti)
+        registerPlugin(GrowthPlugin.class);
         super.onCreate(savedInstanceState);
         // Suono del logo e musica partono subito all'apertura, senza aspettare un tocco
         if (getBridge() != null && getBridge().getWebView() != null) {

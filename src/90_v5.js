@@ -1,6 +1,6 @@
 /* =================== VERSIONE 5: giochi di benessere, condivisione, informative =================== */
 const OWNER_NAME = "", OWNER_EMAIL = "tanettoapp@gmail.com";
-const PRIVACY_DATE = "2026-11-16"; /* 1.0.10: titolare con il nome dello sviluppatore (16/11), interruttore delle statistiche e condizioni d'uso aggiornate (3zzk_v26_texts.js) */
+const PRIVACY_DATE = "2026-11-17"; /* 1.0.11: paragrafo "Invita un amico" (3zzm_n111_texts.js). 1.0.10: titolare con il nome dello sviluppatore (16/11), interruttore delle statistiche e condizioni d'uso aggiornate (3zzk_v26_texts.js) */
 let pendingGoals = [], exprTimer = null;
 
 function fadeLayer() {

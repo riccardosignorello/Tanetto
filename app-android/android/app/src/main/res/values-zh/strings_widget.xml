@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="widget_desc">在主屏幕上看到你的小伙伴和今天的目标。</string>
+    <string name="widget_desc">在主屏幕上显示你的小伙伴和今天的目标。</string>
+    <string name="widget_desc_wide">显示你的小伙伴、今天的目标和一句今日的话。</string>
     <string name="widget_open">打开 Tanetto</string>
 </resources>

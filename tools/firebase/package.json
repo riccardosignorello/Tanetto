@@ -1,0 +1,9 @@
+{
+  "name": "fbbuild110",
+  "private": true,
+  "description": "Tanetto 1.0.10: fb.js (Firebase web) = stessa versione della 1.0.9 (firebase 13.0.0) + App Check. Comando: npx esbuild fb_entry.js --bundle --minify --legal-comments=none --outfile=fb.js",
+  "dependencies": {
+    "esbuild": "0.28.2",
+    "firebase": "13.0.0"
+  }
+}

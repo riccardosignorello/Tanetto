@@ -1,0 +1,112 @@
+rules_version = '2';
+
+// Tanetto: regole di Firestore (progetto tanettoapp-pet). 1.0.11: aggiunto "Invita un amico".
+// Da pubblicare nella console di Firebase (Firestore Database > Regole) copiando TUTTO questo file.
+// Provate con l'emulatore: tests/t110/t_n111_rules.mjs.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ---------- Backup dell'account (come la 1.0.10): ogni persona legge e scrive solo il proprio ----------
+    match /backups/{uid} {
+      function isOwner() {
+        return request.auth != null && request.auth.uid == uid;
+      }
+      function validBackup() {
+        let d = request.resource.data;
+        return d.keys().hasOnly(['d', 'at', 'v', 'z'])
+          && d.d is string && d.d.size() > 0 && d.d.size() <= 800000
+          && d.at == request.time
+          && d.v is int && d.v >= 1 && d.v <= 100
+          && d.z is bool;
+      }
+      allow read, delete: if isOwner();
+      allow create: if isOwner() && validBackup();
+      allow update: if isOwner() && validBackup()
+        && request.time > resource.data.at + duration.value(10, 's');
+    }
+    // Account dei revisori di Google Play: il documento lo crea solo lo sviluppatore dalla console.
+    match /reviewers/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false;
+    }
+
+    // ---------- 1.0.11: Invita un amico (solo adulti; nessun account, nessun dato personale) ----------
+    // invites/{code}        { q: amici arrivati al 3 giorno, at, exp, last? }  leggibile da chi ha il codice
+    // invites/{code}/p/x    { dev, exp }   impronta del telefono di chi invita: NON leggibile
+    // invites/{code}/c/{id} { at, kh, ok, dev, exp, k? }  un amico arrivato con il codice: NON leggibile
+    // devs/{dev}            { at, exp }   un telefono puo' usare un invito una volta sola: NON leggibile
+    // exp = scadenza per la cancellazione automatica (criterio TTL di Firestore sul campo "exp", 12 mesi).
+    function hex64(s) { return s is string && s.matches('^[0-9a-f]{64}$'); }
+    function expOk(e) {
+      return e is timestamp && e > request.time + duration.value(330, 'd') && e < request.time + duration.value(400, 'd');
+    }
+    match /invites/{code} {
+      function codeOk() { return code.matches('^[A-HJ-NP-Z2-9]{8}$'); }
+      allow get: if codeOk();
+      allow list, delete: if false;
+      // nasce con q = 0, insieme alla sua impronta (stessa scrittura)
+      allow create: if codeOk()
+        && request.resource.data.keys().hasOnly(['q', 'at', 'exp'])
+        && request.resource.data.q == 0
+        && request.resource.data.at == request.time
+        && expOk(request.resource.data.exp)
+        && existsAfter(/databases/$(database)/documents/invites/$(code)/p/x);
+      // q sale di 1 solo insieme a un amico che passa da "non ancora" a "3 giorni fatti" (stessa scrittura)
+      allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['q', 'last'])
+        && request.resource.data.q == resource.data.q + 1
+        && request.resource.data.q <= 50
+        && request.resource.data.last is string
+        && request.resource.data.last.matches('^[A-Za-z0-9]{20}$')
+        && get(/databases/$(database)/documents/invites/$(code)/c/$(request.resource.data.last)).data.ok == false
+        && getAfter(/databases/$(database)/documents/invites/$(code)/c/$(request.resource.data.last)).data.ok == true;
+
+      match /p/{x} {
+        allow read, update, delete: if false;
+        allow create: if x == 'x'
+          && request.resource.data.keys().hasOnly(['dev', 'exp'])
+          && hex64(request.resource.data.dev)
+          && expOk(request.resource.data.exp)
+          && !exists(/databases/$(database)/documents/invites/$(code))
+          && getAfter(/databases/$(database)/documents/invites/$(code)).data.q == 0;
+      }
+
+      match /c/{cid} {
+        allow read, delete: if false;
+        // un amico: codice esistente, telefono diverso da chi invita, telefono mai usato per un invito (devs, stessa scrittura)
+        allow create: if cid.matches('^[A-Za-z0-9]{20}$')
+          && request.resource.data.keys().hasOnly(['at', 'kh', 'ok', 'dev', 'exp'])
+          && request.resource.data.at == request.time
+          && request.resource.data.ok == false
+          && hex64(request.resource.data.kh)
+          && hex64(request.resource.data.dev)
+          && expOk(request.resource.data.exp)
+          && exists(/databases/$(database)/documents/invites/$(code))
+          && request.resource.data.dev != get(/databases/$(database)/documents/invites/$(code)/p/x).data.dev
+          && !exists(/databases/$(database)/documents/devs/$(request.resource.data.dev))
+          && existsAfter(/databases/$(database)/documents/devs/$(request.resource.data.dev));
+        // "3 giorni fatti": solo chi ha la chiave segreta (k, di cui kh e' lo SHA-256), almeno 36 ore dopo, una volta
+        // sola e insieme all'aumento di q dell'invito (stessa scrittura)
+        allow update: if resource.data.ok == false
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['ok', 'k'])
+          && request.resource.data.ok == true
+          && request.resource.data.k is string && request.resource.data.k.size() == 32
+          && hashing.sha256(request.resource.data.k).toHexString().lower() == resource.data.kh
+          && request.time > resource.data.at + duration.value(36, 'h')
+          && getAfter(/databases/$(database)/documents/invites/$(code)).data.last == cid
+          && getAfter(/databases/$(database)/documents/invites/$(code)).data.q == get(/databases/$(database)/documents/invites/$(code)).data.q + 1;
+      }
+    }
+    match /devs/{dev} {
+      allow read, update, delete: if false;
+      allow create: if dev.matches('^[0-9a-f]{64}$')
+        && request.resource.data.keys().hasOnly(['at', 'exp'])
+        && request.resource.data.at == request.time
+        && expOk(request.resource.data.exp)
+        && existsAfter(/databases/$(database)/documents/devs/$(dev));
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

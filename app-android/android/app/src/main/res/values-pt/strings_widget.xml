@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="widget_desc">Seu companheiro e as metas de hoje na tela inicial.</string>
+    <string name="widget_desc_wide">Seu companheiro, as metas de hoje e uma frase para o seu dia.</string>
     <string name="widget_open">Abrir Tanetto</string>
 </resources>
