@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-xCZl/4F6Zq2MwZbVfZHETwN6jA6Oq7zJp3+8jeHzDFw=' 'unsafe-eval' https://apis.google.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.goatcounter.com; media-src 'self' data: blob:; connect-src 'self' data: blob: https://*.googleapis.com https://tanettoapp-pet.firebaseapp.com https://*.goatcounter.com; frame-src https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-T0tB7vX76Rzxij+WdSl478jdiwDyw0qGHYU1jsdahz8=' 'unsafe-eval' https://apis.google.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.goatcounter.com; media-src 'self' data: blob:; connect-src 'self' data: blob: https://*.googleapis.com https://tanettoapp-pet.firebaseapp.com https://*.goatcounter.com; frame-src https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#F4EFE6">
 <title>Tanetto — a tiny pet for your self-care habits (free app)</title>
@@ -47078,8 +47078,25 @@ function v111NorthStar() {
     S.v111cw = wk; save(); track("compagno-curato-settimana");
   } catch (e) { /* niente: le statistiche non devono mai disturbare l'app */ }
 }
+/* ---------- 3) il fuoco non si perde nei ridisegni "di sfondo" ----------
+   Alcuni ridisegni partono da soli (per esempio quando un video con premio finisce di caricarsi): prima il fuoco della tastiera e
+   del lettore di schermo finiva sul <body> (la pagina del Profilo appena aperta perdeva il titolo a fuoco). Se dopo il ridisegno il
+   fuoco e' sul <body>, torna sullo stesso elemento nel disegno nuovo (stesso id, stessa pagina del Profilo, stessa voce, stessa scheda). */
+function v111FocusKey(e) {
+  if (!e || e === document.body || !e.matches) return null;
+  if (e.id) return "#" + CSS.escape(e.id);
+  if (e.matches(".psubt")) { const h = e.closest(".psubhd"); return h && h.dataset.pg ? `.psubhd[data-pg="${CSS.escape(h.dataset.pg)}"] .psubt` : null; }
+  if (e.dataset && e.dataset.psub) return `.prow[data-psub="${CSS.escape(e.dataset.psub)}"]`;
+  if (e.dataset && e.dataset.tab) return `.tab[data-tab="${CSS.escape(e.dataset.tab)}"]`;
+  return null;
+}
 const _renderV111ns = render;
-render = function (...a) { const r = _renderV111ns.apply(this, a); v111NorthStar(); return r; };
+render = function (...a) {
+  let fk = null; try { fk = v111FocusKey(document.activeElement); } catch (e) { /* niente */ }
+  const r = _renderV111ns.apply(this, a);
+  try { if (fk && (!document.activeElement || document.activeElement === document.body)) { const n = document.querySelector(fk); if (n && n.offsetParent !== null) n.focus({ preventScroll: true }); } } catch (e) { /* niente */ }
+  v111NorthStar(); return r;
+};
 
 splash();
 render();

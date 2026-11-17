@@ -82,5 +82,22 @@ function v111NorthStar() {
     S.v111cw = wk; save(); track("compagno-curato-settimana");
   } catch (e) { /* niente: le statistiche non devono mai disturbare l'app */ }
 }
+/* ---------- 3) il fuoco non si perde nei ridisegni "di sfondo" ----------
+   Alcuni ridisegni partono da soli (per esempio quando un video con premio finisce di caricarsi): prima il fuoco della tastiera e
+   del lettore di schermo finiva sul <body> (la pagina del Profilo appena aperta perdeva il titolo a fuoco). Se dopo il ridisegno il
+   fuoco e' sul <body>, torna sullo stesso elemento nel disegno nuovo (stesso id, stessa pagina del Profilo, stessa voce, stessa scheda). */
+function v111FocusKey(e) {
+  if (!e || e === document.body || !e.matches) return null;
+  if (e.id) return "#" + CSS.escape(e.id);
+  if (e.matches(".psubt")) { const h = e.closest(".psubhd"); return h && h.dataset.pg ? `.psubhd[data-pg="${CSS.escape(h.dataset.pg)}"] .psubt` : null; }
+  if (e.dataset && e.dataset.psub) return `.prow[data-psub="${CSS.escape(e.dataset.psub)}"]`;
+  if (e.dataset && e.dataset.tab) return `.tab[data-tab="${CSS.escape(e.dataset.tab)}"]`;
+  return null;
+}
 const _renderV111ns = render;
-render = function (...a) { const r = _renderV111ns.apply(this, a); v111NorthStar(); return r; };
+render = function (...a) {
+  let fk = null; try { fk = v111FocusKey(document.activeElement); } catch (e) { /* niente */ }
+  const r = _renderV111ns.apply(this, a);
+  try { if (fk && (!document.activeElement || document.activeElement === document.body)) { const n = document.querySelector(fk); if (n && n.offsetParent !== null) n.focus({ preventScroll: true }); } } catch (e) { /* niente */ }
+  v111NorthStar(); return r;
+};
