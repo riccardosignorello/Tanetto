@@ -7,11 +7,11 @@
 <meta name="description" content="Tanetto, the cozy self-care app with a little pet, is out on Google Play. Free, in 14 languages.">
 <meta property="og:title" content="Tanetto is out on Google Play">
 <meta property="og:description" content="Small daily goals keep a tiny pet happy. Free on Google Play, in 14 languages.">
-<meta property="og:image" content="https://tanettoapp.github.io/Tanetto/og.png">
+<meta property="og:image" content="https://tanetto.app/og.png">
 <meta name="theme-color" content="#F6EFE4">
 <meta name="robots" content="noindex">
 <link rel="icon" href="../favicon-32.png">
-<link rel="canonical" href="https://tanettoapp.github.io/Tanetto/">
+<link rel="canonical" href="https://tanetto.app/">
 <style>
 :root{--bg:#F6EFE4;--ink:#3A3128;--muted:#7A6E62;--accent:#3E7A3A}
 @media (prefers-color-scheme:dark){:root{--bg:#1E1B17;--ink:#F3EBDD;--muted:#B9AD9C;--accent:#79B873}}
@@ -35,9 +35,12 @@ a.sub{display:block;margin-top:14px;color:var(--accent)}
 <script>
 (function () {
   var q = new URLSearchParams(location.search);
-  var src = (q.get("src") || "test").replace(/[^a-z0-9_-]/gi, "").slice(0, 40) || "test";
+  var clean = function (v, d) { return (v || d).replace(/[^a-z0-9_.-]/gi, "").slice(0, 40) || d; };
+  var src = clean(q.get("utm_source") || q.get("src"), "test");
+  var med = clean(q.get("utm_medium"), q.get("utm_source") ? "web" : "social");
+  var camp = clean(q.get("utm_campaign"), q.get("utm_source") ? "tanetto_app" : "bio");
   var play = "https://play.google.com/store/apps/details?id=com.tanettoapp.tanetto&referrer=" +
-    encodeURIComponent("utm_source=" + src + "&utm_medium=social&utm_campaign=bio");
+    encodeURIComponent("utm_source=" + src + "&utm_medium=" + med + "&utm_campaign=" + camp);
   var web = "../?src=" + encodeURIComponent(src);
   document.getElementById("play").href = play;
   document.getElementById("web").href = web;

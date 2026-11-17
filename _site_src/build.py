@@ -17,7 +17,7 @@ ROOT = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 from captions import CAPS  # noqa: E402  the captions printed on the Store images (used as alt text)
 
-BASE = "https://tanettoapp.github.io/Tanetto/"
+BASE = "https://tanetto.app/"
 PKG = "com.tanettoapp.tanetto"
 VERSION = "1.0.10"
 # app code -> (url slug, hreflang / html lang, Google Play hl, privacy page code)
