@@ -326,8 +326,17 @@ viewToday = function (...a) {
   const h = _viewTodayW111.apply(this, a);
   try {
     if (!S.pet || typeof h !== "string") return h; const c = w111WeekCard(); if (!c) return h;
-    for (const k of ['<button class="nvpass', '<p class="note"']) { const i = h.indexOf(k); if (i >= 0) return h.slice(0, i) + c + h.slice(i); }
-    const j = h.lastIndexOf("</div>"); return j > 0 ? h.slice(0, j) + c + h.slice(j) : h + c;
+    /* in Casa al massimo UNA scheda in piu' (regola della 1.0.8): nella sua finestra la cartolina della settimana prende il
+       posto delle altre richieste (nome, promemoria...), che tornano il giorno dopo */
+    let out = h;
+    const i0 = out.indexOf('<div class="sec">'), iEnd = out.lastIndexOf("</div>");
+    if (i0 >= 0 && iEnd > i0) {
+      const tpl = document.createElement("template"); tpl.innerHTML = out.slice(i0, iEnd);
+      let cut = false; tpl.content.querySelectorAll(".iossafe, .remcard, .namecard, .nudgecard").forEach((el) => { el.remove(); cut = true; });
+      if (cut) out = out.slice(0, i0) + tpl.innerHTML + out.slice(iEnd);
+    }
+    for (const k of ['<button class="nvpass', '<p class="note"']) { const i = out.indexOf(k); if (i >= 0) return out.slice(0, i) + c + out.slice(i); }
+    const j = out.lastIndexOf("</div>"); return j > 0 ? out.slice(0, j) + c + out.slice(j) : out + c;
   } catch (e) { return h; }
 };
 document.addEventListener("click", (ev) => {

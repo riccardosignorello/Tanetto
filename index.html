@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-xwr4G+ZfGb/Gqbyz4KuU7GE543Mn5RXlXx3eevI/jyI=' 'unsafe-eval' https://apis.google.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.goatcounter.com; media-src 'self' data: blob:; connect-src 'self' data: blob: https://*.googleapis.com https://tanettoapp-pet.firebaseapp.com https://*.goatcounter.com; frame-src https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-jta9ouHijdyLJiOBs5fTF2EBfehoo6dZC72TXIb9nj4=' 'unsafe-eval' https://apis.google.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.goatcounter.com; media-src 'self' data: blob:; connect-src 'self' data: blob: https://*.googleapis.com https://tanettoapp-pet.firebaseapp.com https://*.goatcounter.com; frame-src https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#F4EFE6">
 <title>Tanetto — a tiny pet for your self-care habits (free app)</title>
@@ -48083,8 +48083,17 @@ viewToday = function (...a) {
   const h = _viewTodayW111.apply(this, a);
   try {
     if (!S.pet || typeof h !== "string") return h; const c = w111WeekCard(); if (!c) return h;
-    for (const k of ['<button class="nvpass', '<p class="note"']) { const i = h.indexOf(k); if (i >= 0) return h.slice(0, i) + c + h.slice(i); }
-    const j = h.lastIndexOf("</div>"); return j > 0 ? h.slice(0, j) + c + h.slice(j) : h + c;
+    /* in Casa al massimo UNA scheda in piu' (regola della 1.0.8): nella sua finestra la cartolina della settimana prende il
+       posto delle altre richieste (nome, promemoria...), che tornano il giorno dopo */
+    let out = h;
+    const i0 = out.indexOf('<div class="sec">'), iEnd = out.lastIndexOf("</div>");
+    if (i0 >= 0 && iEnd > i0) {
+      const tpl = document.createElement("template"); tpl.innerHTML = out.slice(i0, iEnd);
+      let cut = false; tpl.content.querySelectorAll(".iossafe, .remcard, .namecard, .nudgecard").forEach((el) => { el.remove(); cut = true; });
+      if (cut) out = out.slice(0, i0) + tpl.innerHTML + out.slice(iEnd);
+    }
+    for (const k of ['<button class="nvpass', '<p class="note"']) { const i = out.indexOf(k); if (i >= 0) return out.slice(0, i) + c + out.slice(i); }
+    const j = out.lastIndexOf("</div>"); return j > 0 ? out.slice(0, j) + c + out.slice(j) : out + c;
   } catch (e) { return h; }
 };
 document.addEventListener("click", (ev) => {
