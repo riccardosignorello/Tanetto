@@ -183,7 +183,7 @@ function e111Deco(ev, top, lit, dark, opts) {
     /* aquilone appeso alla parete, con la coda che scende */
     o += `<g class="e1sw" data-o="255 34" data-i="1"><path d="M255 34 V36" stroke="#6B5A47" stroke-width="1.2"/><circle cx="255" cy="34" r="1.6" fill="#8E6440"/>${e111Kite(255, 50, 1.05, "#5DA9E0", "#F2B140", 6)}</g>`;
     /* petali che scendono piano nella stanza */
-    for (let i = 0; i < 6; i++) o += `<g class="e1petal" data-i="${i}"><ellipse cx="${f1(100 + i * 44)}" cy="${f1(66 + (i % 3) * 22)}" rx="3.4" ry="2" fill="${i % 2 ? "#FFC2D4" : "#F7A9C0"}" transform="rotate(${i * 40} ${f1(100 + i * 44)} ${f1(66 + (i % 3) * 22)})"/></g>`;
+    for (let i = 0; i < 6; i++) o += `<g class="e1petal" data-i="${i}" data-o="${f1(100 + i * 44)} ${f1(66 + (i % 3) * 22)}"><ellipse cx="${f1(100 + i * 44)}" cy="${f1(66 + (i % 3) * 22)}" rx="3.4" ry="2" fill="${i % 2 ? "#FFC2D4" : "#F7A9C0"}" transform="rotate(${i * 40} ${f1(100 + i * 44)} ${f1(66 + (i % 3) * 22)})"/></g>`;
   }
   return o;
 }
@@ -287,6 +287,9 @@ ambientExtra = function (root, q) {
     return;
   }
   try {
+    /* prima si leggono tutte le posizioni (una sola misura della pagina), poi si scrivono le animazioni:
+       cosi' GSAP non alterna letture e scritture (niente ricalcoli a catena quando la stanza si ridisegna) */
+    root.querySelectorAll(".e1sw, .e1rise, .e1snow, .e1kite, .e1pass, .e1shoot, .e1petal").forEach((el) => { G.getProperty(el, "x"); });
     q(".e1sw").forEach((g) => { const i = +g.dataset.i || 0; const a = 2.2 + (i % 2) * 0.8; ambient.push(G.fromTo(g, { rotation: -a }, { rotation: a, svgOrigin: g.dataset.o, duration: 2.6 + i * 0.45, repeat: -1, yoyo: true, ease: "sine.inOut" })); });
     q(".e1rise").forEach((g) => { const i = +g.dataset.i || 0, y = +g.dataset.y || 90; ambient.push(e111Loop(g, { y: 138 - y }, { y: 34 - y }, 15 + (i % 3) * 3.5, ((i * 0.37) % 1))); ambient.push(G.to(g, { x: i % 2 ? 4 : -4, duration: 3 + (i % 3), repeat: -1, yoyo: true, ease: "sine.inOut" })); });
     q(".e1snow").forEach((g) => { const i = +g.dataset.i || 0, y = +g.dataset.y || 80; ambient.push(e111Loop(g, { y: 38 - y }, { y: 132 - y }, 7 + (i % 4) * 1.4, ((i * 0.29) % 1))); ambient.push(G.to(g, { x: i % 2 ? 5 : -5, duration: 1.8 + (i % 3) * 0.6, repeat: -1, yoyo: true, ease: "sine.inOut" })); });
@@ -294,7 +297,7 @@ ambientExtra = function (root, q) {
     q(".e1pass").forEach((g) => { const x = +g.dataset.x || 110; ambient.push(e111Loop(g, { x: 18 - x }, { x: 160 - x }, 26, 0.62)); ambient.push(G.to(g, { y: -5, duration: 2.2, repeat: -1, yoyo: true, ease: "sine.inOut" })); });
     q(".e1shoot").forEach((g) => { const tl = G.timeline({ repeat: -1, repeatDelay: 7 }); tl.fromTo(g, { x: 0, y: 0, opacity: 0 }, { x: -22, y: 8, opacity: 1, duration: 0.45, ease: "none" }).to(g, { x: -44, y: 16, opacity: 0, duration: 0.45, ease: "none" }); ambient.push(tl); });
     q(".e1petal").forEach((g) => { const i = +g.dataset.i || 0, D = 13 + i * 1.7; const tl = G.timeline({ repeat: -1, delay: i * 3.1 });
-      tl.fromTo(g, { y: -20, x: 0, rotation: 0 }, { y: 150, x: i % 2 ? 26 : -26, rotation: i % 2 ? 220 : -220, transformOrigin: "50% 50%", duration: D, ease: "none" }, 0)
+      tl.fromTo(g, { y: -20, x: 0 }, { y: 150, x: i % 2 ? 26 : -26, duration: D, ease: "none" }, 0)
         .fromTo(g, { opacity: 0 }, { opacity: 0.9, duration: D * 0.2, ease: "none" }, 0).to(g, { opacity: 0, duration: D * 0.25, ease: "none" }, D * 0.75); ambient.push(tl); });
   } catch (e) { /* la stanza resta ferma */ }
 };
