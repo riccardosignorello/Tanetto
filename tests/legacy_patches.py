@@ -146,6 +146,19 @@ P += [
     t = await ev(pg, "document.getElementById('plusFoot').innerText")
     check("annual plan with Play trial offer""", "1.0.11: prova gratuita di Plus solo da 13 anni in su (la prova usa un adulto)"),
 ]
+# 1.0.10 (113, regole Google Play Families): per i bambini e chi non ha detto l'eta' il modulo dei video non si chiama mai
+# (niente init/load: AdsPlugin non avvia nemmeno l'SDK). Le prove storiche dei video usano un adulto (S.age); la prova del
+# percorso "bambino" controlla che il modulo non venga chiamato (prima: chiamato con il trattamento per bambini)
+P += [
+    ("fix109/suites/p2b/t3.py", 'st["v109"] = 1; st["adsOk"] = 1; st.update(kw); return st', 'st["v109"] = 1; st["adsOk"] = 1; st["age"] = {"y": 1990, "m": 5}; st.update(kw); return st', "113: video solo da 13 anni in su (la prova usa un adulto)"),
+    ("fix109/suites/p2b/t4.py", """check("ads: init and load ask the plugin for CHILD treatment (TFCD + G, no advertising ID)", a[0] and a[0].get("age") == "child" and a[1] and a[1].get("age") == "child", a)""",
+     """check("ads (113, Families): for a child the video plugin is never called (no init, no load, no SDK)", a == [None, None], a)""", "113: per i bambini nessuna chiamata al modulo dei video"),
+]
+# 1.0.11 (icona accanto al nome, richiesta del proprietario): in Casa a riposo si carica anche l'unica icona scelta (img/ni, ~4 KB),
+# dopo che la stanza e' disegnata (la prova "nessun file di img/ prima della stanza" resta uguale)
+P += [
+    ("fix109/suites/p3b/t6.py", 'check("returning user, Home at rest: at most the season banner from img/ (no postcards, no moments)", all(x.startswith("ban/") or x.startswith("m/gift.") for x in r[1]), r[1])', 'check("returning user, Home at rest: at most the season banner from img/ (no postcards, no moments) + 1.0.11 the one icon next to the name", all(x.startswith("ban/") or x.startswith("m/gift.") or x.startswith("ni/") for x in r[1]) and sum(x.startswith("ni/") for x in r[1]) <= 1, r[1])', "1.0.11: icona accanto al nome in Casa"),
+]
 bad = 0
 for f, old, new, why in P:
     p = os.path.join(DST, f)
