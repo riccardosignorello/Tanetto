@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-jta9ouHijdyLJiOBs5fTF2EBfehoo6dZC72TXIb9nj4=' 'unsafe-eval' https://apis.google.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.goatcounter.com; media-src 'self' data: blob:; connect-src 'self' data: blob: https://*.googleapis.com https://tanettoapp-pet.firebaseapp.com https://*.goatcounter.com; frame-src https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-X3Jd5RWbJ5JVPnWLpuhRy5PKacxUCtslpwTq+JgVC0I=' 'unsafe-eval' https://apis.google.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.goatcounter.com; media-src 'self' data: blob:; connect-src 'self' data: blob: https://*.googleapis.com https://tanettoapp-pet.firebaseapp.com https://*.goatcounter.com; frame-src https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#F4EFE6">
 <title>Tanetto — a tiny pet for your self-care habits (free app)</title>
@@ -43049,12 +43049,16 @@ popTick = function (g) {
   const T0 = MOTION.TICK_FILL, D0 = MOTION.TICK_DRAW, A0 = MOTION.TICK_DRAW_AT;
   /* cerchio che si riempie dal centro */
   const fill = document.createElement("i"); fill.className = "tkfill"; fill.setAttribute("aria-hidden", "true"); tk.classList.add("tkanim"); tk.insertBefore(fill, tk.firstChild);
-  G.fromTo(fill, { scale: 0 }, { scale: 1, duration: T0, ease: MOTION.tick, onComplete: () => { fill.remove(); tk.classList.remove("tkanim"); } });
+  /* 1.0.11: cerchio e spunta partono dal fotogramma dopo il click (quello che disegna la riga spuntata mostra il cerchio a 0) (prima partivano insieme al
+     ridisegno della pagina: su un telefono lento il primo fotogramma visibile era gia' a meta' crescita e il cerchio
+     "saltava" invece di crescere dal centro). Il cerchio si vede subito a 0 e cresce in 0,2 s come prima. */
+  const tws = [G.fromTo(fill, { scale: 0 }, { scale: 1, duration: T0, ease: MOTION.tick, paused: true, onComplete: () => { fill.remove(); tk.classList.remove("tkanim"); } })];
   /* la spunta si disegna */
   if (path) {
     path.setAttribute("pathLength", "1"); path.style.strokeDasharray = "1"; path.style.strokeDashoffset = "1";
-    G.to(path, { strokeDashoffset: 0, duration: D0, delay: A0, ease: MOTION.camOut, onComplete: () => { path.style.strokeDasharray = ""; path.style.strokeDashoffset = ""; path.removeAttribute("pathLength"); } });
+    tws.push(G.to(path, { strokeDashoffset: 0, duration: D0, delay: A0, ease: MOTION.camOut, paused: true, onComplete: () => { path.style.strokeDasharray = ""; path.style.strokeDashoffset = ""; path.removeAttribute("pathLength"); } }));
   }
+  requestAnimationFrame(() => tws.forEach((t) => { try { t.play(); } catch (e) { /* niente */ } }));
   /* la scheda si schiaccia (3 fotogrammi) e torna */
   /* (la transizione CSS della pressione non deve "inseguire" i valori di GSAP: spenta durante lo schiacciamento) */
   const tr0 = row.style.transition; row.style.transition = "none";

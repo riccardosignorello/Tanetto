@@ -50,12 +50,16 @@ popTick = function (g) {
   const T0 = MOTION.TICK_FILL, D0 = MOTION.TICK_DRAW, A0 = MOTION.TICK_DRAW_AT;
   /* cerchio che si riempie dal centro */
   const fill = document.createElement("i"); fill.className = "tkfill"; fill.setAttribute("aria-hidden", "true"); tk.classList.add("tkanim"); tk.insertBefore(fill, tk.firstChild);
-  G.fromTo(fill, { scale: 0 }, { scale: 1, duration: T0, ease: MOTION.tick, onComplete: () => { fill.remove(); tk.classList.remove("tkanim"); } });
+  /* 1.0.11: cerchio e spunta partono dal fotogramma dopo il click (quello che disegna la riga spuntata mostra il cerchio a 0) (prima partivano insieme al
+     ridisegno della pagina: su un telefono lento il primo fotogramma visibile era gia' a meta' crescita e il cerchio
+     "saltava" invece di crescere dal centro). Il cerchio si vede subito a 0 e cresce in 0,2 s come prima. */
+  const tws = [G.fromTo(fill, { scale: 0 }, { scale: 1, duration: T0, ease: MOTION.tick, paused: true, onComplete: () => { fill.remove(); tk.classList.remove("tkanim"); } })];
   /* la spunta si disegna */
   if (path) {
     path.setAttribute("pathLength", "1"); path.style.strokeDasharray = "1"; path.style.strokeDashoffset = "1";
-    G.to(path, { strokeDashoffset: 0, duration: D0, delay: A0, ease: MOTION.camOut, onComplete: () => { path.style.strokeDasharray = ""; path.style.strokeDashoffset = ""; path.removeAttribute("pathLength"); } });
+    tws.push(G.to(path, { strokeDashoffset: 0, duration: D0, delay: A0, ease: MOTION.camOut, paused: true, onComplete: () => { path.style.strokeDasharray = ""; path.style.strokeDashoffset = ""; path.removeAttribute("pathLength"); } }));
   }
+  requestAnimationFrame(() => tws.forEach((t) => { try { t.play(); } catch (e) { /* niente */ } }));
   /* la scheda si schiaccia (3 fotogrammi) e torna */
   /* (la transizione CSS della pressione non deve "inseguire" i valori di GSAP: spenta durante lo schiacciamento) */
   const tr0 = row.style.transition; row.style.transition = "none";
