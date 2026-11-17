@@ -73,4 +73,21 @@ async def main(b):
     T.check("service worker: le figure 3D usate dalla pagina sono tutte in cache", not miss, miss[:8])
     T.check("service worker: serve dalla cache senza rete", "caches.match" in sw and "fetch" in sw)
 
+# C) 1.0.11: la copia senza internet ("index.html" nella cache) si aggiorna solo dalla pagina principale dell'app: aprire
+    #    un'altra pagina del sito che finisce con "/" (qui /press/) non deve sostituirla
+    T.serve(); ctx = await b.new_context(); pg = await ctx.new_page()
+    await pg.goto(T.URL, timeout=180000)
+    ok = await pg.evaluate("""async () => { await navigator.serviceWorker.register('sw.js'); const r = await navigator.serviceWorker.ready; for (let i = 0; i < 100 && !navigator.serviceWorker.controller; i++) await new Promise((z) => setTimeout(z, 100)); return !!r.active; }""")
+    await pg.reload(); await pg.wait_for_timeout(1500)
+    root = T.URL.rsplit("/", 1)[0] + "/"
+    await pg.goto(root + "press/", timeout=60000); await pg.wait_for_timeout(1500)
+    await pg.goto(root + "press/index.html", timeout=60000); await pg.wait_for_timeout(1500)
+    c = await pg.evaluate("""async () => { const sc = (await navigator.serviceWorker.ready).scope; const r = await caches.match(new URL('index.html', sc).href); return r ? (await r.text()) : ''; }""")
+    T.check("service worker attivo sul sito", ok)
+    T.check("1.0.11: aprire /press/ non sostituisce la copia senza internet dell'app", 'id="app"' in c and "Content-Security-Policy" in c and len(c) > 1000000, len(c))
+    await pg.goto(root, timeout=60000); await pg.wait_for_timeout(1500)
+    c2 = await pg.evaluate("""async () => { const sc = (await navigator.serviceWorker.ready).scope; const r = await caches.match(new URL('index.html', sc).href); return r ? (await r.text()).length : 0; }""")
+    T.check("  la pagina principale (/) aggiorna la copia", c2 > 1000000, c2)
+    await ctx.close()
+
 T.run(main)
