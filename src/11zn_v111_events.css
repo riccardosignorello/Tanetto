@@ -1,0 +1,19 @@
+/* ===== 1.0.11: eventi (98zw_v111_events.js) — il piccolo ornamento della stagione accanto al titolo =====
+   Il saluto in Oggi e' un titolo a due righe (data sopra, saluto sotto): l'ornamento di 11zg finiva da solo su una
+   terza riga. Ora nel saluto sta accanto alla parola (in linea, sulla stessa riga); negli altri titoli resta com'era.
+   Si aggiunge anche la Stagione delle Lanterne (lanterna di carta), che prima non aveva l'ornamento. */
+:root[data-xmas] #app h1.greet::after, :root.sea-stars #app h1.greet::after, :root.sea-kites #app h1.greet::after { content: none; display: none; }
+:root.sea-lanterns:not([data-xmas]) #app h1::after {
+  content: ""; display: inline-block; width: 18px; height: 18px; margin-left: 8px; vertical-align: -1px; background: no-repeat center / contain;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Crect x='7' y='1.5' width='6' height='2.2' rx='.8' fill='%235A3E2B'/%3E%3Cellipse cx='10' cy='10' rx='6.6' ry='6.6' fill='%23F08A3C'/%3E%3Cellipse cx='10' cy='10' rx='3.6' ry='5.2' fill='%23FFD9A0' opacity='.8'/%3E%3Cpath d='M3.8 7.4 Q10 5.8 16.2 7.4 M3.6 12.6 Q10 11 16.4 12.6' stroke='%23B5531F' stroke-width='.7' fill='none' opacity='.6'/%3E%3Crect x='7.4' y='16.2' width='5.2' height='2' rx='.8' fill='%235A3E2B'/%3E%3C/svg%3E");
+}
+:root.sea-lanterns:not([data-xmas]) #app h1.greet::after { content: none; display: none; }
+:root[data-xmas] #app h1.greet .gw::after, :root.sea-stars #app h1.greet .gw::after, :root.sea-kites #app h1.greet .gw::after, :root.sea-lanterns #app h1.greet .gw::after {
+  content: ""; display: inline-block; width: .8em; height: .8em; margin-left: .32em; vertical-align: -.04em; background: no-repeat center / contain;
+}
+:root[data-xmas] #app h1.greet .gw::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Crect x='8.5' y='1' width='3' height='3' rx='1' fill='%23C9962E'/%3E%3Ccircle cx='10' cy='11.5' r='7' fill='%23B23A3F'/%3E%3Cpath d='M4.5 10.5 Q10 13.5 15.5 10.5' stroke='%23F6E4E1' stroke-width='1.3' fill='none'/%3E%3Ccircle cx='7.5' cy='8.5' r='1.4' fill='%23fff' opacity='.7'/%3E%3C/svg%3E"); }
+:root.sea-stars:not([data-xmas]) #app h1.greet .gw::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 1.5 L12.6 7 L18.5 7.6 L14 11.6 L15.3 17.5 L10 14.5 L4.7 17.5 L6 11.6 L1.5 7.6 L7.4 7 Z' fill='%237B6CD9'/%3E%3C/svg%3E"); }
+:root.sea-kites:not([data-xmas]) #app h1.greet .gw::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 1 L17 8 L10 15 L3 8 Z' fill='%233E9BC7'/%3E%3Cpath d='M10 1 L10 15 M3 8 L17 8' stroke='%23fff' stroke-width='1'/%3E%3Cpath d='M10 15 Q12 17 10 19' stroke='%233E9BC7' stroke-width='1.2' fill='none'/%3E%3C/svg%3E"); }
+:root.sea-lanterns:not([data-xmas]) #app h1.greet .gw::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Crect x='7' y='1.5' width='6' height='2.2' rx='.8' fill='%235A3E2B'/%3E%3Cellipse cx='10' cy='10' rx='6.6' ry='6.6' fill='%23F08A3C'/%3E%3Cellipse cx='10' cy='10' rx='3.6' ry='5.2' fill='%23FFD9A0' opacity='.8'/%3E%3Cpath d='M3.8 7.4 Q10 5.8 16.2 7.4 M3.6 12.6 Q10 11 16.4 12.6' stroke='%23B5531F' stroke-width='.7' fill='none' opacity='.6'/%3E%3Crect x='7.4' y='16.2' width='5.2' height='2' rx='.8' fill='%235A3E2B'/%3E%3C/svg%3E"); }
+/* la stanza: le decorazioni degli eventi non intercettano mai i tocchi */
+#room .e1sky, #room .e1win, #room .e1deco, #room .e1light { pointer-events: none; }
