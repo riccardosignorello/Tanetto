@@ -11,7 +11,7 @@ html.v110x body #app .card, html.v110x #app .nven, html.v110x #app .tr20st, html
 html.v110x #app .pluscard { border-color: #E8B94E; border-bottom-color: #C48A1E; }
 html.v110x #app .stack > h1:not(.greet):not(.psubt) { font-size: 32px; font-weight: 700; letter-spacing: -.3px; }
 /* titoli di sezione piu' grandi, ma non nelle pagine del Profilo (li' i titoli dei riquadri restano tutti uguali) */
-html.v110x #app .stack:not(.psplit) > h2, html.v110x #app .stack:not(.psplit) .sec h2 { font-size: 22px; font-weight: 700; }
+html.v110x #app .stack:not(.psplit) > h2:not(.h3like), html.v110x #app .stack:not(.psplit) .sec h2:not(.h3like) { font-size: 22px; font-weight: 700; }
 /* pulsanti in rilievo */
 html.v110x #app .btn:not(.link):not(.ghost) { box-shadow: 0 5px 0 color-mix(in srgb, var(--accent) 62%, #000); border-radius: 18px; transition: transform .08s ease, box-shadow .08s ease; }
 html.v110x #app .btn:not(.link):not(.ghost):active { transform: translateY(4px); box-shadow: 0 1px 0 color-mix(in srgb, var(--accent) 62%, #000); }
