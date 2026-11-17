@@ -102,7 +102,12 @@ async def plus_and_age(b):
     # con Plus: si sceglie; se Plus finisce: germoglio, scelta salvata, riga gentile; torna con Plus
     ctx, pg = await page(b, T.base_state("it", uname="Luca", plusOn=True), age="adult", w=412, h=900, lang="it-IT", wait=1800, native=True)
     await T.close_layer(pg)
-    await T.ev(pg, "S.plusOn = true; render(); 1")
+    # Plus vero = abbonamento confermato da Google Play da poco (S.plusCheck, 98x): senza la data, sulla macchina carica la prima
+    # verifica degli acquisti poteva non essere ancora arrivata e plusActive() restava falso
+    for _ in range(60):  # aspetta la prima verifica degli acquisti (simulata: nessun acquisto), che altrimenti spegnerebbe Plus dopo
+        if await T.ev(pg, "typeof S.plusCheck === 'number'"): break
+        await pg.wait_for_timeout(500)
+    await T.ev(pg, "S.plusOn = true; S.plusCheck = Date.now(); render(); 1")
     pa = await T.ev(pg, "plusActive()")
     if pa:
         await pg.click("#app h1.greet .gwi"); await pg.wait_for_timeout(400)
@@ -117,7 +122,7 @@ async def plus_and_age(b):
         await pg.click("#app h1.greet .gwi"); await pg.wait_for_timeout(400)
         kept = await T.ev(pg, "(document.querySelector('.nibox .nikept') || {}).textContent || ''")
         T.check("  nel selettore una riga gentile (la scelta resta salvata)", "salvata" in kept, kept)
-        await T.ev(pg, "closeLayer(); S.plusOn = true; render(); 1"); await pg.wait_for_timeout(300)
+        await T.ev(pg, "closeLayer(); S.plusOn = true; S.plusCheck = Date.now(); render(); 1"); await pg.wait_for_timeout(300)
         T.check("  Plus di nuovo attivo: torna l'Arcobaleno", await T.ev(pg, "document.querySelector('#app h1.greet .gwi').dataset.v111") == "arcobaleno")
     else:
         T.check("prova con Plus attivo (S.plusOn) possibile", False, "plusActive() falso con S.plusOn")
