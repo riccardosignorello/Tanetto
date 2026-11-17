@@ -17,7 +17,9 @@ BAN = {"it": r"aspett|saltat|mancat", "en": r"waiting|wait for|missed|skip", "de
 LIVE = """(() => { const t = L(), l = S.lang, n = 'Germo';
   return [V18B[l].t, V18B[l].p(n), ...t.v12.backP.map((f) => f(n)), V19A[l].ready, W20T[l].gP(n, 'X', 'Y'), t.talk.night[2], t.chat.R.greet[1],
     t.chat.R.bye[0], t.tomorrow, t.gardenEmpty, t.teaserT, t.shield.P, t.guide[3][0], t.guide[3][1]]; })()"""
-OVER = """(sel) => [...document.querySelectorAll(sel)].filter((e) => [...e.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim())).filter((e) => e.offsetParent && (e.scrollWidth > e.clientWidth + 1 || e.getBoundingClientRect().right > innerWidth + 0.5 || e.getBoundingClientRect().left < -0.5)).map((e) => (e.id || e.className) + ':' + e.textContent.slice(0, 30))"""
+OVER = """(sel) => [...document.querySelectorAll(sel)].filter((e) => [...e.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim()))
+  .filter((e) => { for (let a = e.parentElement; a; a = a.parentElement) { const o = getComputedStyle(a).overflowX; if ((o === 'auto' || o === 'scroll') && a.scrollWidth > a.clientWidth) return false; } return true; })  /* strisce che scorrono di lato: fuori schermo apposta */
+  .filter((e) => e.offsetParent && (e.scrollWidth > e.clientWidth + 1 || e.getBoundingClientRect().right > innerWidth + 0.5 || e.getBoundingClientRect().left < -0.5)).map((e) => (e.id || e.className) + ':' + e.textContent.slice(0, 30))"""
 
 PARTS = os.environ.get("T111_PARTS", "ABCD")
 LANGS = os.environ.get("T111_LANGS", ",".join(T.LANGS)).split(",")
@@ -91,6 +93,10 @@ async def part_b(b):
     fit = await T.ev(pg, "(() => { const r = layer.querySelector('.levelup .box').getBoundingClientRect(); return r.left >= 0 && r.right <= innerWidth && (r.bottom <= innerHeight || layer.querySelector('.levelup').scrollHeight > layer.querySelector('.levelup').clientHeight); })()")
     T.check("B es livello 2 a 360 px: finestra del livello senza tagli", not ov and fit, [ov, fit])
     await pg.screenshot(path=f"{T.SHOTS}/p111_levelup_es_360.png")
+    await T.close_layer(pg); await T.ev(pg, "S.cards = ['r:es:0','r:es:4','r:es:5']; openAlbum('real:es'); 1"); await pg.wait_for_timeout(1500)
+    ov = await pg.evaluate(OVER, "#layer *")
+    T.check("B es album a 360 px: pagina 'Viajes por España y Latinoamérica' senza tagli", not ov, ov[:5])
+    await pg.screenshot(path=f"{T.SHOTS}/p111_album_es_360.png")
     await ctx.close()
     for (w, h, sch, nm) in [(360, 740, "light", "360"), (412, 915, "light", "412"), (800, 1280, "light", "tablet"), (412, 915, "dark", "412dark")]:
         ctx, pg = await T.page(b, T.base_state("es", level=7), w=w, h=h, scheme=sch, wait=3000)
@@ -155,6 +161,7 @@ async def _part_d(b, pet, sch):
         fails = []
         for scr in ("today", "trips", "home", "diary", "more", "plus", "exit"):
             await T.close_layer(pg)
+            for _ in range(3): await T.ev(pg, "(() => { const k = document.getElementById('v20hOk'); if (k) k.click(); return 1; })()"); await pg.wait_for_timeout(250)
             if scr == "plus": await T.ev(pg, "tab='today'; render(); openPlus('test'); 1")
             elif scr == "exit": await T.ev(pg, "exitAsk(); 1")
             else: await T.ev(pg, f"tab='{scr}'; render(); window.scrollTo(0,0); 1")
