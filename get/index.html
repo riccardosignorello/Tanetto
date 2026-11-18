@@ -30,7 +30,7 @@ a.sub{display:block;margin-top:14px;color:var(--accent)}
 <h1>Tanetto</h1>
 <p>Free on Google Play, in 14 languages.</p>
 <a class="btn" id="play" href="https://play.google.com/store/apps/details?id=com.tanettoapp.tanetto">Get it on Google Play</a>
-<a class="sub" id="web" href="../">On iPhone? Open the web version</a>
+<a class="sub" id="web" href="../app/">On iPhone? Open the web version</a>
 </main>
 <script>
 (function () {
@@ -41,7 +41,7 @@ a.sub{display:block;margin-top:14px;color:var(--accent)}
   var camp = clean(q.get("utm_campaign"), q.get("utm_source") ? "tanetto_app" : "bio");
   var play = "https://play.google.com/store/apps/details?id=com.tanettoapp.tanetto&referrer=" +
     encodeURIComponent("utm_source=" + src + "&utm_medium=" + med + "&utm_campaign=" + camp);
-  var web = "../?src=" + encodeURIComponent(src);
+  var web = "../app/?src=" + encodeURIComponent(src);
   document.getElementById("play").href = play;
   document.getElementById("web").href = web;
   var ua = navigator.userAgent || "";

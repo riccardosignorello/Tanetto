@@ -1,24 +1,29 @@
-/* Tanetto: funziona anche senza internet */
-/* 1.0.9 (fase 3): le figure 3D (img/) si salvano subito; le cartoline quando si vedono la prima volta. */
-/* 1.0.8 (sicurezza): in cache come "index.html" va solo la pagina dell'app riuscita (prima anche pagine di errore o
-   altre pagine del sito, che poi comparivano al posto dell'app senza internet); dagli altri siti si conservano solo i
-   caratteri di Google Fonts; GSAP ora e' sul sito. */
-/* fix 1.0.9 (verifica Android): i file si chiedono alla rete saltando la cache del browser (prima, entro 10 minuti da un
-   aggiornamento, poteva finire in cache la pagina vecchia) e il nome della cache cambia quando cambia QUALSIASI file salvato. */
-const C = "tanetto-v27-c012a790-7bedacb2";
-self.addEventListener("install", (e) => { e.waitUntil(caches.open(C).then((c) => c.addAll(["./", "index.html", "fb.js", "gsap.min.js", "caveat-700.woff2", "manifest.webmanifest", "icon-192.png", "icon-512.png", "fonts.css", "img/ban/kites.webp?v=c012a790", "img/ban/lanterns.webp?v=c012a790", "img/ban/stars.webp?v=c012a790", "img/ban/xmas.webp?v=c012a790", "img/m/celebrate.webp?v=c012a790", "img/m/crown.webp?v=c012a790", "img/m/depart.webp?v=c012a790", "img/m/dori/celebrate.webp?v=c012a790", "img/m/dori/crown.webp?v=c012a790", "img/m/dori/depart.webp?v=c012a790", "img/m/dori/gift.webp?v=c012a790", "img/m/dori/levelup.webp?v=c012a790", "img/m/dori/love.webp?v=c012a790", "img/m/dori/postcard.webp?v=c012a790", "img/m/dori/reading.webp?v=c012a790", "img/m/dori/return.webp?v=c012a790", "img/m/dori/wave.webp?v=c012a790", "img/m/gift.webp?v=c012a790", "img/m/levelup.webp?v=c012a790", "img/m/love.webp?v=c012a790", "img/m/lumi/celebrate.webp?v=c012a790", "img/m/lumi/crown.webp?v=c012a790", "img/m/lumi/depart.webp?v=c012a790", "img/m/lumi/gift.webp?v=c012a790", "img/m/lumi/levelup.webp?v=c012a790", "img/m/lumi/love.webp?v=c012a790", "img/m/lumi/postcard.webp?v=c012a790", "img/m/lumi/reading.webp?v=c012a790", "img/m/lumi/return.webp?v=c012a790", "img/m/lumi/wave.webp?v=c012a790", "img/m/miko/celebrate.webp?v=c012a790", "img/m/miko/crown.webp?v=c012a790", "img/m/miko/depart.webp?v=c012a790", "img/m/miko/gift.webp?v=c012a790", "img/m/miko/levelup.webp?v=c012a790", "img/m/miko/love.webp?v=c012a790", "img/m/miko/postcard.webp?v=c012a790", "img/m/miko/reading.webp?v=c012a790", "img/m/miko/return.webp?v=c012a790", "img/m/miko/wave.webp?v=c012a790", "img/m/ondi/celebrate.webp?v=c012a790", "img/m/ondi/crown.webp?v=c012a790", "img/m/ondi/depart.webp?v=c012a790", "img/m/ondi/gift.webp?v=c012a790", "img/m/ondi/levelup.webp?v=c012a790", "img/m/ondi/love.webp?v=c012a790", "img/m/ondi/postcard.webp?v=c012a790", "img/m/ondi/reading.webp?v=c012a790", "img/m/ondi/return.webp?v=c012a790", "img/m/ondi/wave.webp?v=c012a790", "img/m/pingo/celebrate.webp?v=c012a790", "img/m/pingo/crown.webp?v=c012a790", "img/m/pingo/depart.webp?v=c012a790", "img/m/pingo/gift.webp?v=c012a790", "img/m/pingo/levelup.webp?v=c012a790", "img/m/pingo/love.webp?v=c012a790", "img/m/pingo/postcard.webp?v=c012a790", "img/m/pingo/reading.webp?v=c012a790", "img/m/pingo/return.webp?v=c012a790", "img/m/pingo/wave.webp?v=c012a790", "img/m/postcard.webp?v=c012a790", "img/m/reading.webp?v=c012a790", "img/m/return.webp?v=c012a790", "img/m/rufi/celebrate.webp?v=c012a790", "img/m/rufi/crown.webp?v=c012a790", "img/m/rufi/depart.webp?v=c012a790", "img/m/rufi/gift.webp?v=c012a790", "img/m/rufi/levelup.webp?v=c012a790", "img/m/rufi/love.webp?v=c012a790", "img/m/rufi/postcard.webp?v=c012a790", "img/m/rufi/reading.webp?v=c012a790", "img/m/rufi/return.webp?v=c012a790", "img/m/rufi/wave.webp?v=c012a790", "img/m/wave.webp?v=c012a790", "img/pet/dori.webp?v=c012a790", "img/pet/germo.webp?v=c012a790", "img/pet/lumi.webp?v=c012a790", "img/pet/miko.webp?v=c012a790", "img/pet/ondi.webp?v=c012a790", "img/pet/pingo.webp?v=c012a790", "img/pet/rufi.webp?v=c012a790", "img/plus_hero.webp?v=c012a790", "img/welcome.webp?v=c012a790", "img/xv/aura.webp?v=c012a790", "img/xv/cape.webp?v=c012a790", "img/xv/crown.webp?v=c012a790", "img/xv/fountain.webp?v=c012a790", "img/xv/galaxy.webp?v=c012a790", "img/xv/tree.webp?v=c012a790"].map((u) => new Request(u, { cache: "reload" })))).then(() => self.skipWaiting())); });
-self.addEventListener("activate", (e) => { e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => k !== C).map((k) => caches.delete(k)))).then(() => self.clients.claim())); });
+/* Tanetto: the web app moved from https://tanetto.app/ to https://tanetto.app/app/ (it has its own service worker there).
+   This file replaces the old service worker of the home page. When a browser that still has the old one opens the site,
+   it gets this version, which:
+   1) deletes the old offline copy of the app saved for "/" (only those caches: the one of /app/ is left alone);
+   2) reloads the open pages, asking the server for a fresh copy (not the old one kept by the browser), so the home page
+      shows the website again and nothing stays stuck on the old app;
+   3) removes itself after answering the first page load. Saved progress is not touched: it lives in the site's browser storage, which /app/ reads as before. */
+self.addEventListener("install", () => self.skipWaiting());
 self.addEventListener("fetch", (e) => {
-  const r = e.request; if (r.method !== "GET") return;
-  if (/goatcounter|identitytoolkit|securetoken|firestore\.googleapis|firebaseapp|apis\.google\.com|accounts\.google/.test(r.url)) return;
-  let u; try { u = new URL(r.url); } catch (x) { return; }
-  const same = u.origin === self.location.origin, font = /^https:\/\/fonts\.(googleapis|gstatic)\.com$/.test(u.origin);
-  if (r.mode === "navigate") {
-    const app = same && /(\/|\/index\.html)$/.test(u.pathname);
-    e.respondWith(fetch(r).then((res) => { if (app && res.ok && res.type === "basic") { const cp = res.clone(); caches.open(C).then((c) => c.put("index.html", cp)); } return res; })
-      .catch(() => (app ? caches.match("index.html") : caches.match(r).then((x) => x || caches.match("index.html")))));
-    return;
-  }
-  if (!same && !font) return;
-  e.respondWith(caches.match(r).then((hit) => { const net = fetch(r).then((res) => { if (res && ((same && res.ok && res.type === "basic") || (font && (res.ok || res.type === "opaque")))) { const cp = res.clone(); caches.open(C).then((c) => c.put(r, cp)); } return res; }).catch(() => hit); return hit || net; }));
+  const r = e.request;
+  if (r.mode !== "navigate" || r.method !== "GET") return;
+  const res = fetch(r.url, { cache: "no-cache", credentials: "same-origin", redirect: "manual" }).catch(() => fetch(r));
+  e.respondWith(res);
+  e.waitUntil(res.catch(() => null).then(() => self.registration.unregister()).catch(() => null));
+});
+self.addEventListener("activate", (e) => {
+  e.waitUntil((async () => {
+    const home = new URL("./", self.registration.scope).href;
+    try {
+      for (const k of await caches.keys()) {
+        const c = await caches.open(k);
+        if ((await c.match(home + "index.html")) || (await c.match(home))) await caches.delete(k);
+      }
+    } catch (x) { /* nothing */ }
+    try { await self.clients.claim(); } catch (x) { /* nothing */ }
+    /* not awaited: the reload is answered by the fetch handler above (fresh copy), which then removes this worker */
+    try { (await self.clients.matchAll({ type: "window" })).forEach((w) => { w.navigate(w.url).catch(() => null); }); } catch (x) { /* nothing */ }
+  })());
 });

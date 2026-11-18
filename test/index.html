@@ -7,11 +7,11 @@
 <meta name="description" content="Tanetto, the cozy self-care app with a little pet, is out on Google Play. Free, in 14 languages.">
 <meta property="og:title" content="Tanetto is out on Google Play">
 <meta property="og:description" content="Small daily goals keep a tiny pet happy. Free on Google Play, in 14 languages.">
-<meta property="og:image" content="https://tanettoapp.github.io/Tanetto/og.png">
+<meta property="og:image" content="https://tanetto.app/og.png">
 <meta name="theme-color" content="#F6EFE4">
 <meta name="robots" content="noindex">
 <link rel="icon" href="../favicon-32.png">
-<link rel="canonical" href="https://tanettoapp.github.io/Tanetto/">
+<link rel="canonical" href="https://tanetto.app/">
 <style>
 :root{--bg:#F6EFE4;--ink:#3A3128;--muted:#7A6E62;--accent:#3E7A3A}
 @media (prefers-color-scheme:dark){:root{--bg:#1E1B17;--ink:#F3EBDD;--muted:#B9AD9C;--accent:#79B873}}
@@ -30,7 +30,7 @@ a.sub{display:block;margin-top:14px;color:var(--accent)}
 <h1>Tanetto is out!</h1>
 <p>The test is over: Tanetto is now free on Google Play, in 14 languages.</p>
 <a class="btn" id="play" href="https://play.google.com/store/apps/details?id=com.tanettoapp.tanetto">Get it on Google Play</a>
-<a class="sub" id="web" href="../">On iPhone? Open the web version</a>
+<a class="sub" id="web" href="../app/">On iPhone? Open the web version</a>
 </main>
 <script>
 (function () {
@@ -38,7 +38,7 @@ a.sub{display:block;margin-top:14px;color:var(--accent)}
   var src = (q.get("src") || "test").replace(/[^a-z0-9_-]/gi, "").slice(0, 40) || "test";
   var play = "https://play.google.com/store/apps/details?id=com.tanettoapp.tanetto&referrer=" +
     encodeURIComponent("utm_source=" + src + "&utm_medium=social&utm_campaign=bio");
-  var web = "../?src=" + encodeURIComponent(src);
+  var web = "../app/?src=" + encodeURIComponent(src);
   document.getElementById("play").href = play;
   document.getElementById("web").href = web;
   var ua = navigator.userAgent || "";

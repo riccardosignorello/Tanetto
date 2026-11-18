@@ -1,8 +1,10 @@
 """Tanetto site: builds the 14 language pages, the press kit, sitemap.xml and robots.txt.
 
 Run from the repository root:  python3 _site_src/build.py
+The home page (index.html, https://tanetto.app/) is the English page with canonical "/" and a tiny script (site/lang.js)
+that sends visitors to their language page; the web app lives in /app/ (built from the app repository with tools/build.py).
 Texts live in _site_src/i18n/<code>.py (one file per language), images and fonts in /site (see assets.py).
-Nothing here touches the app (index.html, sw.js, privacy.html, elimina-account.html, app-ads.txt).
+Nothing here touches the app (/app/, privacy.html, elimina-account.html, licenses.html, fb.js, app-ads.txt) or sw.js.
 """
 import html
 import importlib.util
@@ -19,7 +21,8 @@ from captions import CAPS  # noqa: E402  the captions printed on the Store image
 
 BASE = "https://tanetto.app/"
 PKG = "com.tanettoapp.tanetto"
-VERSION = "1.0.10"
+VERSION = "1.0.11"
+APP = "app/"  # the web app, relative to the site root
 # app code -> (url slug, hreflang / html lang, Google Play hl, privacy page code)
 LANGS = {
     "en": ("en", "en", "en", "en"), "it": ("it", "it", "it", "it"), "de": ("de", "de", "de", "de"),
@@ -167,7 +170,7 @@ def head_common(t, code, title, desc, canon, pre, og_alt, extra_css="", alternat
     if alternates:
         for c, (s, h, _, _) in LANGS.items():
             out.append(f'<link rel="alternate" hreflang="{h}" href="{BASE}{s}">')
-        out.append(f'<link rel="alternate" hreflang="x-default" href="{BASE}en">')
+        out.append(f'<link rel="alternate" hreflang="x-default" href="{BASE}">')
     out += ['<meta name="theme-color" content="#F4EFE6" media="(prefers-color-scheme: light)">',
             '<meta name="theme-color" content="#1A1714" media="(prefers-color-scheme: dark)">',
             '<meta name="color-scheme" content="light dark">',
@@ -201,14 +204,15 @@ def lang_menu(code, t, pre, here):
 
 
 def badge(code, t, where, pre=""):
-    return (f'<a class="badge" href="{e(play_url(code))}" data-ev="play-{where}">'
+    return (f'<a class="badge" href="{e(play_url(code))}" rel="noopener" data-ev="play-{where}">'
             f'<img src="{pre}site/img/badge-{code}.webp" width="200" height="78" alt="{e(t["badge_alt"])}"></a>')
 
 
-def page(code):
+def page(code, root=False):
+    """root=True: the home page https://tanetto.app/ (same content as the English page, canonical "/")."""
     t = load(code)
     slug, hl, _, pcode = LANGS[code]
-    canon = BASE + slug
+    canon = BASE if root else BASE + slug
     disp = []  # text drawn with the display font (for the Japanese / Korean subsets)
 
     def D(s):
@@ -218,13 +222,13 @@ def page(code):
     def rich(s):  # **bold** and {web} link inside answers
         s = e(s)
         s = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", s)
-        return s.replace("{web}", f'<a href="./" data-ev="web-faq">{e(t["web_link_short"])}</a>').replace(
+        return s.replace("{web}", f'<a href="{APP}" data-ev="web-faq">{e(t["web_link_short"])}</a>').replace(
             "{finch}", f'<a href="#finch">{e(t["finch_link"])}</a>').replace("{mail}", '<a href="mailto:tanettoapp@gmail.com">tanettoapp@gmail.com</a>')
 
     caps = CAPS[code]
     cap = lambda i: " ".join(caps[i]).replace(" ,", ",")  # noqa: E731
     shots = [f"{BASE}site/img/{code}/s{n}-600.webp" for n in range(1, 9)]
-    faq_ld = [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": re.sub(r"\*\*|\{(web|finch|mail)\}", lambda m: {"{web}": t["web_link_short"] + " (" + BASE + ")", "{finch}": t["finch_link"], "{mail}": "tanettoapp@gmail.com"}.get(m.group(0), ""), a)}} for q, a in t["faq"]]
+    faq_ld = [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": re.sub(r"\*\*|\{(web|finch|mail)\}", lambda m: {"{web}": t["web_link_short"] + " (" + BASE + APP + ")", "{finch}": t["finch_link"], "{mail}": "tanettoapp@gmail.com"}.get(m.group(0), ""), a)}} for q, a in t["faq"]]
     ld = {"@context": "https://schema.org", "@graph": [
         {"@type": "MobileApplication", "@id": canon + "#app", "name": "Tanetto", "alternateName": t["store_title"],
          "description": t["meta_desc"], "operatingSystem": "Android 7.0+", "applicationCategory": "HealthApplication",
@@ -233,7 +237,7 @@ def page(code):
          "installUrl": f"https://play.google.com/store/apps/details?id={PKG}", "image": BASE + "icon-512.png",
          "screenshot": shots, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR", "category": "free"},
          "author": {"@id": BASE + "#org"}, "publisher": {"@id": BASE + "#org"}},
-        {"@type": "Organization", "@id": BASE + "#org", "name": "Snugbloom Studio", "url": BASE + "en",
+        {"@type": "Organization", "@id": BASE + "#org", "name": "Snugbloom Studio", "url": BASE,
          "logo": BASE + "icon-512.png", "email": "tanettoapp@gmail.com",
          "sameAs": [f"https://play.google.com/store/apps/details?id={PKG}"] + SOCIAL},
         {"@type": "WebSite", "@id": BASE + "#site", "name": "Tanetto", "url": BASE, "publisher": {"@id": BASE + "#org"}},
@@ -244,12 +248,14 @@ def page(code):
     ]}
 
     out = head_common(t, code, t["meta_title"], t["meta_desc"], canon, "", t["og_alt"])
+    if root:  # before anything else loads: visitors whose browser speaks another language go to their page
+        out.insert(out.index('<meta name="viewport" content="width=device-width,initial-scale=1">') + 1, '<script src="site/lang.js"></script>')
     out.append(f'<link rel="preload" as="image" href="site/img/{code}/hero-320.webp" imagesrcset="site/img/{code}/hero-320.webp 320w, site/img/{code}/hero-480.webp 480w, site/img/{code}/hero-640.webp 640w" imagesizes="{HERO_SIZES}" fetchpriority="high">')
     out.append('<script type="application/ld+json">' + json.dumps(ld, ensure_ascii=False).replace("</", "<\\/") + "</script>")
-    out.append(f'<script src="site/t.js" defer data-p="{slug}"></script>')
+    out.append(f'<script src="site/t.js" defer data-p="{"home" if root else slug}"></script>')
     out.append("</head>")
     b = [f'<body><a class="skip" href="#main">{e(t["skip"])}</a>',
-         f'<header class="top wrap"><a class="brand" href="{slug}" aria-label="Tanetto"><img src="site/img/icon-80.webp" width="40" height="40" alt=""><span>Tanetto</span></a>',
+         f'<header class="top wrap"><a class="brand" href="{"./" if root else slug}" aria-label="Tanetto"><img src="site/img/icon-80.webp" width="40" height="40" alt=""><span>Tanetto</span></a>',
          lang_menu(code, t, "", True), "</header>", '<main id="main">']
     # hero
     b.append('<section class="hero wrap" aria-labelledby="h1">')
@@ -257,7 +263,7 @@ def page(code):
              f'<span>{D(t["h1a"])}</span> <span class="g">{D(t["h1b"])}</span></h1>'
              f'<p class="lead">{e(t["lead"])}</p><div class="cta">{badge(code, t, "hero")}'
              f'<p class="note">{e(t["cta_note"])}</p></div>'
-             f'<p class="web">{icon("phone")}<a href="./" data-ev="web-hero">{e(t["web_link"])}</a></p></div>')
+             f'<p class="web">{icon("phone")}<a href="{APP}" data-ev="web-hero">{e(t["web_link"])}</a></p></div>')
     b.append(f'<div class="hero-art"><div class="blob" aria-hidden="true"></div>'
              f'<img class="phone" src="site/img/{code}/hero-320.webp" srcset="site/img/{code}/hero-320.webp 320w, site/img/{code}/hero-480.webp 480w, site/img/{code}/hero-640.webp 640w" '
              f'sizes="{HERO_SIZES}" width="320" height="678" alt="{e(t["hero_alt"])}" fetchpriority="high">'
@@ -319,7 +325,7 @@ def page(code):
     # final
     b.append(f'<section class="final wrap" aria-labelledby="fin-t"><img class="scene" src="site/img/scene-1024.webp" srcset="site/img/scene-640.webp 640w, site/img/scene-1024.webp 1024w" sizes="(min-width: 1160px) 1120px, calc(100vw - 40px)" width="1024" height="500" loading="lazy" decoding="async" alt="{e(t["scene_alt"])}">'
              f'<div><div class="clay fin"><h2 id="fin-t">{D(t["final_title"])}</h2><p>{e(t["final_text"])}</p>{badge(code, t, "final")}'
-             f'<p class="web">{icon("phone")}<a href="./" data-ev="web-final">{e(t["web_link"])}</a></p></div></div></section>')
+             f'<p class="web">{icon("phone")}<a href="{APP}" data-ev="web-final">{e(t["web_link"])}</a></p></div></div></section>')
     b.append("</main>")
     # footer
     b.append(f'<footer class="foot"><div class="wrap"><nav aria-label="{e(t["footer_label"])}"><ul class="links">'
@@ -343,16 +349,18 @@ def main():
         subset_display_fonts(code, disp, font_src)
         with open(os.path.join(ROOT, slug + ".html"), "w", encoding="utf-8") as f:
             f.write(html_)
+    with open(os.path.join(ROOT, "index.html"), "w", encoding="utf-8") as f:
+        f.write(page("en", root=True)[0])
     import press
     press.build(ROOT, head_common, load, icon, badge, BASE)
     urls = [BASE + s for s, *_ in LANGS.values()]
     sm = ['<?xml version="1.0" encoding="UTF-8"?>',
           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">']
     alts = "".join(f'<xhtml:link rel="alternate" hreflang="{h}" href="{BASE}{s}"/>' for s, h, _, _ in LANGS.values())
-    alts += f'<xhtml:link rel="alternate" hreflang="x-default" href="{BASE}en"/>'
-    for u in urls:
+    alts += f'<xhtml:link rel="alternate" hreflang="x-default" href="{BASE}"/>'
+    for u in [BASE] + urls:
         sm.append(f"<url><loc>{u}</loc>{alts}</url>")
-    for u in (BASE, BASE + "press-kit", BASE + "privacy.html"):
+    for u in (BASE + APP, BASE + "press-kit", BASE + "privacy.html"):
         sm.append(f"<url><loc>{u}</loc></url>")
     sm.append("</urlset>")
     with open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8") as f:
