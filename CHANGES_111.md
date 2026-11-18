@@ -3,7 +3,7 @@
 Preparata il 17/11/2026 sul ramo `rel-111`. **Non è stata inviata a Google.**
 È la versione che **sostituisce la 1.0.10 in revisione** (niente build 113: tutto è dentro la 1.0.11).
 
-**Prezzi mai toccati.** Una sola moneta (Tanì). Massimo 5 video al giorno, solo da 13 anni in su.
+**Prezzi mai toccati.** Una sola moneta (Tanì). Massimo 5 video al giorno, mai a chi dichiara meno di 13 anni.
 
 
 ## 1) Novità che si vedono
@@ -40,14 +40,41 @@ ogni 60 giorni.
 ## 2) Bambini e pubblico (decisione del 17/11/2026)
 
 1) Su Play Console il pubblico è **13-15, 16-17, 18+**. Chi indica **meno di 13 anni, "Preferisco non dirlo" o non ha ancora
-risposto** usa l'app in **modalità protetta**: niente video con premio, niente pubblicità, niente statistiche, niente account
+risposto** usa l'app in **modalità protetta**: niente pubblicità, niente statistiche, niente account
 online, niente prova gratuita di Plus, **nessuna condivisione fuori dall'app** (le immagini si possono solo salvare),
-niente richiesta di recensione, niente "Invita un amico".
+niente richiesta di recensione, niente "Invita un amico", niente inviti a Plus (Plus resta in Profilo > Acquisti e Plus).
 
-2) Informativa privacy aggiornata nelle 14 lingue (data **18/11/2026**).
+2) **Uscita da Google Play Families (18/11/2026):** i **video con premio** restano spenti solo per chi **dichiara meno di 13 anni**
+(niente SDK, niente consenso, niente video). Chi sceglie "Preferisco non dirlo" o non ha ancora risposto **vede i video**,
+trattati come per i ragazzi: **mai personalizzati** (TFUA, contenuti adatti ai ragazzi). Per tutto il resto (backup online,
+"Chiedi a un adulto", modalità protetta) per lui non cambia niente. Informativa, scheda Privacy e "Preferisco non dirlo"
+in Profilo lo dicono nelle 14 lingue.
+
+3) Schermata dell'età: tolta la frase "Tanetto è per tutte le età" (14 lingue); resta solo "Te lo chiediamo una volta sola".
+
+4) Informativa privacy aggiornata nelle 14 lingue (data **18/11/2026**).
 
 
-## 3) Correzioni fatte nell'unione (oggi)
+## 2b) Ultime modifiche (18/11/2026)
+
+1) **Nuovo indirizzo del sito: https://tanetto.app** (stessi percorsi). Lo usano tutti i link che si vedono, si condividono
+o si aprono: la scheda "Ti presento Germo!" (sotto il titolo ora c'è **tanetto.app**), i testi e le cartoline condivise,
+l'invito, la privacy (**https://tanetto.app/privacy.html**), la cancellazione dell'account
+(**https://tanetto.app/elimina-account.html**), il sito in Profilo, 14 lingue. Il sito funziona sia su tanetto.app sia sul
+vecchio indirizzo (copia senza internet e statistiche comprese). Accesso con Google e backup: invariati.
+
+2) **Suoni subito su Android:** il suono del cambio di scheda arrivava circa un secondo dopo il tocco. Ora i suoni brevi sono
+pronti una volta sola e quello delle schede parte **appena il dito tocca**; il motore dei suoni si risveglia al primo
+contatto e si addormenta solo dopo 45 secondi senza tocchi. Interruttore dei suoni, musica, modalità calma/leggera e
+protetta come prima.
+
+3) **Zaino (Avventure):** il testo dice chiaramente che ogni obiettivo completato riempie lo zaino (14 lingue).
+
+4) **Modalità protetta:** spariscono anche la scheda "Scopri Tanetto Plus", la proposta di Plus che si apre da sola e il
+pulsante di Plus dell'albero di Natale.
+
+
+## 3) Correzioni fatte nell'unione (17/11/2026)
 
 1) **Lettere polacche e turche nell'app Android:** il carattere di riserva per "ą ę ś ż ğ ş İ" c'era sul sito ma **non veniva
 copiato nell'app** (per questo nelle schermate dello Store "Cześć", "Şekerleme", "İstanbul" uscivano con un carattere diverso).
@@ -89,6 +116,16 @@ dettagli in `docs/PLAY_DATA_SAFETY_111.md`.
 2) **Pubblico:** 13-15, 16-17, 18+ (come deciso).
 
 3) **Facoltativo:** pubblicare le regole di Firestore per accendere i premi di Invita un amico (`CHANGES_111_NATIVE.md`).
+
+4) **Nuovo indirizzo tanetto.app:** su Play Console aggiornare l'indirizzo dell'**informativa privacy**
+(https://tanetto.app/privacy.html), quello per la **cancellazione dell'account** in Sicurezza dei dati
+(https://tanetto.app/elimina-account.html) e il **sito web** della scheda dello Store (https://tanetto.app).
+Su GitHub Pages il dominio personalizzato **tanetto.app** deve essere attivo (con HTTPS); in Firebase > Authentication >
+Impostazioni > Domini autorizzati aggiungere **tanetto.app** (serve solo per l'accesso con Google dal sito; l'app Android
+non cambia).
+
+5) **Families:** l'app esce dal programma Families: in Contenuti dell'app > Pubblico di destinazione il pubblico resta
+solo **13-15, 16-17, 18+** (nessuna fascia sotto i 13 anni).
 
 
 ## 5) Prove (17/11/2026, tutte verdi)

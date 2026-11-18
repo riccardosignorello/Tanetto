@@ -153,6 +153,11 @@ async def domain_part(b):
     h = await T.ev(pg, "acctCard()")
     T.check("protetta: il link per cancellare l'account va a https://tanetto.app/elimina-account.html?lang=it", 'href="https://tanetto.app/elimina-account.html?lang=it"' in h, h[-300:])
     await ctx.close()
+    # riconoscimento dell'indirizzo del sito (service worker, statistiche, installazione, iPhone): solo i due indirizzi veri
+    ctx, pg = await T.page(b, T.base_state("en"), wait=2500)
+    r = json.loads(await T.ev(pg, "JSON.stringify(['tanetto.app', 'www.tanetto.app', 'tanettoapp.github.io', 'eviltanetto.app', 'tanetto.app.evil.com', 'localhost', '127.0.0.1'].map((h) => SITE_HOST.test(h)))"))
+    T.check("SITE_HOST: tanetto.app, www.tanetto.app e tanettoapp.github.io si', altri indirizzi no", r == [True, True, True, False, False, False, False], r)
+    await ctx.close()
     # ---------- f) il sito sui due indirizzi: service worker (scope dal percorso) e statistiche ----------
     for base in ["https://tanetto.app/", "https://tanettoapp.github.io/Tanetto/"]:
         ctx = await b.new_context(viewport={"width": 412, "height": 915}, is_mobile=True, has_touch=True)
@@ -172,8 +177,7 @@ async def domain_part(b):
         sc = await pg.evaluate("Promise.race([navigator.serviceWorker.ready.then((r) => r.scope), new Promise((r) => setTimeout(() => r(''), 15000))])")
         T.check(f"{base}: il service worker si registra con scope {base}", sc == base, sc)
         app = await pg.evaluate("document.querySelectorAll('#app *').length")
-        r = await pg.evaluate("[typeof GC_CODE === 'undefined' ? null : GC_CODE, typeof SITE_HOST === 'undefined' ? null : SITE_HOST.test(location.hostname)]")
-        T.check(f"  {base}: l'app si apre e l'indirizzo e' riconosciuto come il sito (statistiche con il codice 'tanettoapp', service worker)", app > 20 and r == ["tanettoapp", True], [app, r])
+        T.check(f"  {base}: l'app si apre", app > 20, app)
         T.check(f"  nessun errore ({base})", not errs, errs[:2])
         await ctx.close()
 
