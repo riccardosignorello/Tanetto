@@ -60,8 +60,8 @@ def base_state(lang="en", pet="germo", day="2026-11-16", goals=("water", "walk",
 AGE = {"adult": {"y": 1990, "m": 5}, "child": {"y": 2017, "m": 5}, "teen": {"y": 2012, "m": 1}, "skip": {"skip": True}, "none": None}
 
 async def page(b, st=None, date=(2026, 11, 16, 9, 7), lang="en-US", native=False, age="adult", w=412, h=915, scheme="light", tz=None, wait=3500,
-               extra_js="", noage_gate=True, fresh=False, mobile=True):
-    """st=None + fresh=True: primo avvio vero (nessun salvataggio)."""
+               extra_js="", noage_gate=True, fresh=False, mobile=True, frame=False):
+    """st=None + fresh=True: primo avvio vero (nessun salvataggio). frame=True: su PC la cornice da telefono (28_desk.js); di solito no, le prove guardano l'app."""
     serve()
     o = {"viewport": {"width": w, "height": h}, "device_scale_factor": 2, "color_scheme": scheme, "locale": lang, "is_mobile": mobile, "has_touch": mobile}
     if tz: o["timezone_id"] = tz
@@ -80,7 +80,7 @@ async def page(b, st=None, date=(2026, 11, 16, 9, 7), lang="en-US", native=False
     a = AGE.get(age, age) if isinstance(age, str) else age
     if a is not None:
         js += f"if(!sessionStorage.getItem('t110a')){{localStorage.setItem('tanetto-eta',{json.dumps(json.dumps(a))});sessionStorage.setItem('t110a','1')}};"
-    await pg.add_init_script(("window.__TEST_NOAGE=1;" if noage_gate else "") + js + extra_js)
+    await pg.add_init_script(("window.__TEST_NOAGE=1;" if noage_gate else "") + ("" if frame else "window.__TNOFRAME=1;") + js + extra_js)
     pg.set_default_timeout(120000); await pg.goto(URL, timeout=180000); await pg.wait_for_timeout(wait)  # macchina carica: attese piu' lunghe
     return ctx, pg
 

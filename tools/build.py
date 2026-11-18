@@ -87,7 +87,7 @@ csp = ("default-src 'self'; "
        "style-src 'self' 'unsafe-inline'; font-src 'self' data:; "
        "img-src 'self' data: blob: https://*.goatcounter.com; media-src 'self' data: blob:; "
        "connect-src 'self' data: blob: https://*.googleapis.com https://tanettoapp-pet.firebaseapp.com https://*.goatcounter.com; "
-       "frame-src https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; "
+       "frame-src 'self' https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; "
        "worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'")
 page = page.replace(CSP_TAG, f'<meta http-equiv="Content-Security-Policy" content="{csp}">', 1)
 assert page.count('http-equiv="Content-Security-Policy"') == 1
