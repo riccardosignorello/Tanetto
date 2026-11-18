@@ -1,0 +1,26 @@
+name: Discord daily post
+
+on:
+  schedule:
+    - cron: "40 17 * * *"   # about 18:40 Italian winter time; GitHub may start a few minutes late
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "Date to post (YYYY-MM-DD), empty = today"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          sparse-checkout: social/discord
+      - name: Post
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          POST_DATE: ${{ github.event.inputs.date }}
+        run: python3 social/discord/post.py
