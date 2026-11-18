@@ -114,6 +114,19 @@ P = [
     # (che controlla che nei conteggi non finiscano mai nomi o testi) usa quindi un adulto, altrimenti non parte nessun conteggio
     ("fix109/t38run5/t38_secure.py", 'ctx, pg = await page(b, state(petName="Mariolino", uname="Giulia Rossi", goals=["water", "c:Chiamare Anna"], tracked={}), url=GH)', 'ctx, pg = await page(b, state(petName="Mariolino", uname="Giulia Rossi", goals=["water", "c:Chiamare Anna"], tracked={}), url=GH, pre="localStorage.setItem(`tanetto-eta`, JSON.stringify({y: 1990, m: 5}));")', "statistiche solo per adulti (M-11)"),
     # 1.0.11 (cartoline nello stesso formato della settimana): link con utm_source=share&utm_medium=postcard&utm_campaign=trip e #tanettoapp
+    # 1.0.11 (18/11/2026, decisione: uscita da Google Play Families, pubblico 13+): chi non dice l'eta' ha i video con premio
+    # come i ragazzi (ageAds() = "teen": TFUA, mai personalizzata); fascia, account e backup restano "unknown"
+    ("fix109/tfix_f.py", '''("en-US", "America/New_York", {"skip": True}, "child", False)''', '''("en-US", "America/New_York", {"skip": True}, "teen", False)''', "eta' non detta: video come teen (uscita da Families)"),
+    # 1.0.11 (suoni subito): i suoni brevi si preparano una volta come AudioBuffer (OfflineAudioContext) e il finto AudioContext
+    # di t2 vede solo gli oscillatori: senza OfflineAudioContext l'app li sintetizza come prima (stesse funzioni), cosi' la
+    # prova continua a controllare le note del logo; la strada con i buffer e' provata da tests/t110/t_113_sfx.py
+    ("p2/t2.py", '''window.AudioContext = AC; window.webkitAudioContext = AC; })();''', '''window.AudioContext = AC; window.webkitAudioContext = AC; window.OfflineAudioContext = undefined; window.webkitOfflineAudioContext = undefined; })();''', "suoni pronti: prova delle note sulla sintesi"),
+    ("p2c/t5.py", '''check("back closes it and it does NOT come back in this session (no loop); ads stay child-safe", r == [False, True, "child"], r)''',
+     '''check("back closes it and it does NOT come back in this session (no loop); ads as for teens, never personalised (left Families 18/11/2026)", r == [False, True, "teen"], r)''', "eta' non detta: video come teen (uscita da Families)"),
+    ("p2b/t4.py", """check("'I'd rather not say': remembered, band unknown, ads treated as for children", k == [True, "unknown", "child", False], k)""", """check("'I'd rather not say': remembered, band unknown, ads as for teens (never personalised, left Families 18/11/2026)", k == [True, "unknown", "teen", False], k)""", "eta' non detta: video come teen (uscita da Families)"),
+    ("fix109/suites/p2b/t4.py", """check("'I'd rather not say': remembered, band unknown, ads treated as for children", k == [True, "unknown", "child", False], k)""", """check("'I'd rather not say': remembered, band unknown, ads as for teens (never personalised, left Families 18/11/2026)", k == [True, "unknown", "teen", False], k)""", "eta' non detta: video come teen (uscita da Families)"),
+    # 1.0.11 (18/11/2026): il sito si sposta su https://tanetto.app (stessi percorsi, senza /Tanetto/)
+    ("fix109/tfix_a.py", '''"/Tanetto/press/" in open(SITE + "/sitemap.xml").read())''', '''"https://tanetto.app/press/" in open(SITE + "/sitemap.xml").read() and "github.io" not in open(SITE + "/sitemap.xml").read())''', "sito su tanetto.app"),
     ("fix109/t38run5/t38_growth.py", 'txt.endswith("https://tanettoapp.github.io/Tanetto/?src=postcard")', '"https://tanetto.app/?src=postcard&utm_source=share&utm_medium=postcard&utm_campaign=trip" in txt and txt.endswith("#tanettoapp")', "1.0.11: link con UTM e #tanettoapp, sito su tanetto.app"),
     ("fix109/t38run5/t38_growth.py", 'sh["text"].endswith("?src=postcard")', '("utm_campaign%3Dtrip" in sh["text"] or "utm_campaign=trip" in sh["text"]) and sh["text"].endswith("#tanettoapp")', "1.0.11: link con UTM e #tanettoapp (nell'app: Google Play)"),
 ]
