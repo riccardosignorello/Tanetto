@@ -112,8 +112,11 @@ const SND = (() => {
     if (priming || !ctx) return; priming = true;
     const jobs = Object.keys(PRE).map((n) => [n, PRE[n], 1, () => FX[n](0)])
       .concat([0, 1, 2, 3].map((i) => ["tick" + i, 1.45, 2, (oc) => logoTickTo(oc, oc.destination, i + 1, 0)]));
-    const next = () => { const j = jobs.shift(); if (!j) return; renderOff(j[1], j[2], j[3], (b) => { if (b) BUF[j[0]] = b; setTimeout(next, 0); }); };
-    setTimeout(next, 0);
+    /* senza togliere tempo all'interfaccia: si comincia 1,2 s dopo il primo tocco (le animazioni di quel tocco non si fermano)
+       e ogni suono si prepara in un momento libero; finche' non e' pronto suona sintetizzato come prima */
+    const idle = (f) => { try { if (window.requestIdleCallback) { requestIdleCallback(f, { timeout: 1500 }); return; } } catch (e) { /* niente */ } setTimeout(f, 40); };
+    const next = () => { const j = jobs.shift(); if (!j) return; renderOff(j[1], j[2], j[3], (b) => { if (b) BUF[j[0]] = b; idle(next); }); };
+    setTimeout(() => idle(next), 1200);
   }
   function fire(name) {
     const b = BUF[name]; if (!b) return false;

@@ -129,6 +129,14 @@ P = [
     ("fix109/t38run5/t38_colors.py", '''        await open_screen(pg, "plusoffer")''', '''        await ev(pg, "ageSet({ y: 1990, m: 5, at: '2026-11-01' }); layer.innerHTML = ''; 1"); await pg.wait_for_timeout(400)
         await open_screen(pg, "plusoffer")''', "proposta di Plus solo fuori dalla modalita' protetta"),
     ("fix109/t38run5/t38_secure.py", '''re.fullmatch(r"https://tanettoapp\\.github\\.io/Tanetto/\\?src=amico", a[0])''', '''re.fullmatch(r"https://tanetto\\.app/\\?src=amico", a[0])''', "sito su tanetto.app"),
+    # 1.0.11 (uscita da Families): con l'eta' non detta nell'app (finta) ora c'e' il video con premio; quando e' pronto l'app
+    # ridisegna la pagina (come per gli adulti) e toglieva il pulsante aggiunto dalla prova: si aspetta il video prima di aggiungerlo
+    ("p2/t2.py", """    await ev(pg, "(() => { const b = document.createElement('button'); b.className = 'btn'; b.id = 'tbtn';""",
+     """    for _ in range(40):
+        if await ev(pg, "!adsOn() || !!adsSt.loaded"): break
+        await pg.wait_for_timeout(250)
+    await pg.wait_for_timeout(300)
+    await ev(pg, "(() => { const b = document.createElement('button'); b.className = 'btn'; b.id = 'tbtn';""", "video pronto prima del pulsante di prova"),
     # 1.0.11 (18/11/2026): il sito si sposta su https://tanetto.app (stessi percorsi, senza /Tanetto/)
     ("fix109/tfix_a.py", '''"/Tanetto/press/" in open(SITE + "/sitemap.xml").read())''', '''"https://tanetto.app/press/" in open(SITE + "/sitemap.xml").read() and "github.io" not in open(SITE + "/sitemap.xml").read())''', "sito su tanetto.app"),
     ("fix109/t38run5/t38_growth.py", 'txt.endswith("https://tanettoapp.github.io/Tanetto/?src=postcard")', '"https://tanetto.app/?src=postcard&utm_source=share&utm_medium=postcard&utm_campaign=trip" in txt and txt.endswith("#tanettoapp")', "1.0.11: link con UTM e #tanettoapp, sito su tanetto.app"),

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-jpus01YomEts/aTxabN+1jVLJWuPmcduwdlDRI/TaOA=' 'unsafe-eval' https://apis.google.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.goatcounter.com; media-src 'self' data: blob:; connect-src 'self' data: blob: https://*.googleapis.com https://tanettoapp-pet.firebaseapp.com https://*.goatcounter.com; frame-src https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-r0vVTIJR4rEl96fDRybiYqevM5piasDw84VTsBaYhic=' 'unsafe-eval' https://apis.google.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.goatcounter.com; media-src 'self' data: blob:; connect-src 'self' data: blob: https://*.googleapis.com https://tanettoapp-pet.firebaseapp.com https://*.goatcounter.com; frame-src https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#F4EFE6">
 <title>Tanetto — a tiny pet for your self-care habits (free app)</title>
@@ -26069,8 +26069,11 @@ const SND = (() => {
     if (priming || !ctx) return; priming = true;
     const jobs = Object.keys(PRE).map((n) => [n, PRE[n], 1, () => FX[n](0)])
       .concat([0, 1, 2, 3].map((i) => ["tick" + i, 1.45, 2, (oc) => logoTickTo(oc, oc.destination, i + 1, 0)]));
-    const next = () => { const j = jobs.shift(); if (!j) return; renderOff(j[1], j[2], j[3], (b) => { if (b) BUF[j[0]] = b; setTimeout(next, 0); }); };
-    setTimeout(next, 0);
+    /* senza togliere tempo all'interfaccia: si comincia 1,2 s dopo il primo tocco (le animazioni di quel tocco non si fermano)
+       e ogni suono si prepara in un momento libero; finche' non e' pronto suona sintetizzato come prima */
+    const idle = (f) => { try { if (window.requestIdleCallback) { requestIdleCallback(f, { timeout: 1500 }); return; } } catch (e) { /* niente */ } setTimeout(f, 40); };
+    const next = () => { const j = jobs.shift(); if (!j) return; renderOff(j[1], j[2], j[3], (b) => { if (b) BUF[j[0]] = b; idle(next); }); };
+    setTimeout(() => idle(next), 1200);
   }
   function fire(name) {
     const b = BUF[name]; if (!b) return false;
