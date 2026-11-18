@@ -29,5 +29,8 @@ for W in "$DST/site" "$DST/fix109/www"; do
 done
 sed -i '/http-equiv="Content-Security-Policy"/d' "$DST/fix109/www/index.html"
 sed -i "s#-d \${SITE:-/home/claude/tanetto-wip110}#-d \${SITE:-$DST/site}#" "$DST/fix109/regr5.sh"
+# 1.0.11: i controlli "statici" delle suite storiche (build.gradle, privacy.html, index.html, icone...) leggevano ancora la
+# cartella fissa /home/claude/tanetto-wip110 (un'altra copia, rimasta alla 1.0.10): ora leggono questo repository
+grep -rl "/home/claude/tanetto-wip110" "$DST" --include=*.py --include=*.sh --include=*.js 2>/dev/null | while read f; do sed -i "s#/home/claude/tanetto-wip110#$REPO#g" "$f"; done
 python3 "$REPO/tests/legacy_patches.py" "$DST" >/dev/null || echo "ATTENZIONE: legacy_patches non applicate tutte"
 echo "legacy pronte in $DST"
