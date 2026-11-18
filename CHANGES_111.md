@@ -48,7 +48,7 @@ niente richiesta di recensione, niente "Invita un amico", niente inviti a Plus (
 (niente SDK, niente consenso, niente video). Chi sceglie "Preferisco non dirlo" o non ha ancora risposto **vede i video**,
 trattati come per i ragazzi: **mai personalizzati** (TFUA, contenuti adatti ai ragazzi). Per tutto il resto (backup online,
 "Chiedi a un adulto", modalità protetta) per lui non cambia niente. Informativa, scheda Privacy e "Preferisco non dirlo"
-in Profilo lo dicono nelle 14 lingue.
+in Profilo lo dicono nelle 14 lingue, compreso il riassunto "In breve" in cima all'informativa.
 
 3) Schermata dell'età: tolta la frase "Tanetto è per tutte le età" (14 lingue); resta solo "Te lo chiediamo una volta sola".
 
@@ -72,6 +72,8 @@ protetta come prima.
 
 4) **Modalità protetta:** spariscono anche la scheda "Scopri Tanetto Plus", la proposta di Plus che si apre da sola e il
 pulsante di Plus dell'albero di Natale.
+
+5) **Sito su PC:** l'app si vede in una cornice grande come un telefono (solo con mouse o touchpad; mai nell'app Android).
 
 
 ## 3) Correzioni fatte nell'unione (17/11/2026)
@@ -142,6 +144,10 @@ repository (prima una parte leggeva una copia vecchia in un'altra cartella); le 
 
 3) **Widget disegnato con la grafica vera di Android (Robolectric):** 10 prove su 10.
 **Regole di Firestore con l'emulatore:** 25 casi su 25 (abusi compresi).
+
+Dopo l'ultima correzione del riassunto "In breve" (18/11/2026) rifatte: t_113_kids_noads (225 OK), t_111_audience (157),
+t_113_sfx (102), t_b8_legal_native (19), t_b9_site (17), t_b1_minors (73), t_111_desk (20), t_111_week (168),
+t_n111_native (190) e le storiche tfix_a, t4, t5, t38_secure, t38_growth: tutte verdi.
 
 4) **Build:** AAB e APK firmati con la stessa chiave di caricamento della 1.0.10, versionCode 114, versionName 1.0.11;
 app.js dentro l'AAB e l'APK identico a quello costruito.
