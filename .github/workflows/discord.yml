@@ -3,6 +3,9 @@ name: Discord daily post
 on:
   schedule:
     - cron: "40 17 * * *"   # about 18:40 Italian winter time; GitHub may start a few minutes late
+  push:
+    branches: [main]
+    paths: ["social/discord/post.py", ".github/workflows/discord.yml"]
   workflow_dispatch:
     inputs:
       date:
