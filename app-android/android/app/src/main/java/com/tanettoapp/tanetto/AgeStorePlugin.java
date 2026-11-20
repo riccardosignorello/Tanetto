@@ -68,9 +68,12 @@ public class AgeStorePlugin extends Plugin {
                 if (choice != null) result.put("choice", choice);
                 call.resolve(result);
             } catch (Exception e) {
-                // Fail closed: report storage corruption instead of silently
-                // treating an existing but unreadable choice as no response.
-                call.reject("age_store_unavailable", "age_store_unavailable");
+                // An unreadable choice is never trusted. Let the app ask again;
+                // a subsequent set() atomically replaces the damaged file.
+                JSObject result = new JSObject();
+                result.put("hasChoice", false);
+                result.put("storageIssue", true);
+                call.resolve(result);
             }
         }
     }
