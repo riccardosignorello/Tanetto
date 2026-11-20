@@ -383,3 +383,28 @@ Audit in sola lettura. Prossimo blocco: verificare il percorso account/minori e 
 
 ### Punto di ripartenza
 Audit in sola lettura. Prossimo blocco: completare la mappa delle fonti di guadagno/spesa, ricompense, scudi, sentiero stagionale e acquisti; poi analizzare in profondità obiettivi, diario, viaggi, giochi, capsule, widget e notifiche. Il piano finale dovrà includere una riconciliazione economica completa e test di rollback/restore.
+
+
+## Sessione di audit — 2026-11-20, diario, social e notifiche
+
+### Dipendenze del difetto di età — impatto oltre al Profilo
+- `w111Name()` in `src/98zu_v111_week.js` usa `v26Young()` per decidere se mostrare il nome personale del compagno. Nel ramo applicativo, il riferimento legacy a `S.age` fa risultare giovani anche gli adulti: le cartoline settimanali mostrano quindi il nome predefinito invece del nome scelto, in story e formato quadrato, in tutte le lingue. Questo spiega i controlli di contenuto falliti in `t_111_week.py` e parte delle anomalie di `t_110_story.py`.
+- La stessa funzione `v26Young()` è un punto centrale: influisce su offerta Plus, inviti, statistiche, contenuti di condivisione, uso del nome scelto e funzioni riservate agli adulti. La correzione deve essere verificata con una matrice unica di tutte le dipendenze, non solo con il test minori.
+- `98zu_v111_week.js` genera PNG 1080×1920 e 1080×1080, prepara i font e crea il testo di condivisione con UTM. Le regole correnti consentono la condivisione ai teen ma mostrano il nome standard; il nome personale è riservato agli adulti. Da verificare in tutte le 14 lingue, anche con nomi lunghi, caratteri polacchi/turchi, font non caricati e dispositivo lento.
+- `98zt_v110_diary.js` separa domanda del giorno e diario libero; le risposte restano nel modello locale e passano dal controllo delle frasi di crisi. La sincronizzazione cloud, se scelta da un adulto, può includere testi personali del diario: informativa, backup, cancellazione ed esportazione devono descriverlo senza ambiguità.
+- `98zv_v111_icons.js` prova a ridurre i nomi delle icone fino a 9,5 px e poi permette il ritorno a capo; il test a 360 px rileva ancora parole spezzate/overflow in cinque lingue. La correzione deve mantenere leggibilità e dimensioni accessibili, non risolvere semplicemente rimpicciolendo tutto.
+- `98zw_v111_events.js` usa SVG/GSAP per le decorazioni stagionali; il test prestazionale misura fotogrammi, ricalcoli di stile, layout e CPU. Va valutato su dispositivi di fascia bassa e con animazioni ridotte, non solo sul runner CI.
+
+### Promemoria e prova Plus
+- `98zn_v110_care.js` memorizza localmente la data di fine della prova Plus, ricavata dall'acquisto Play e dalla durata dell'offerta; programma una notifica due giorni prima e una scheda in Oggi. La cancellazione in Google Play viene rilevata al successivo aggiornamento acquisti e annulla la notifica locale.
+- **Rischio UX da verificare:** se l'utente annulla la prova in Google Play mentre Tanetto è chiuso, la notifica già programmata può restare sul dispositivo e partire comunque; il codice può cancellarla soltanto quando l'app torna a sincronizzare gli acquisti. Il testo potrebbe quindi invitare a disdire una prova già disdetta. Testare annullamento a app chiusa, riapertura prima/dopo la data, offline e permessi notifiche negati.
+- La prova è legata a un acquisto avviato dall'app (`plusTrialPend`) e viene associata al token Play per ricostruire la data di scadenza. Verificare offerte/base plan reali in Play Console, fusi orari, cambio dispositivo, reinstallazione, rinnovo, rimborso e passaggio a Plus pagato.
+- I promemoria ordinari sono programmati in anticipo; dopo una frase difficile vengono riscritti con testi di sola compagnia per la sessione/periodo di quiete. Va testato il caso crash/chiusura immediata dopo il rilevamento, per assicurare che non restino notifiche inappropriate già programmate.
+
+### Nuovo elemento nel registro
+| ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
+|---|---|---|---|---|---|
+| AUD-034 | Abbonamenti/notifiche | Notifica locale di fine prova può restare programmata se la prova viene annullata mentre l'app è chiusa | Rischio UX da riprodurre | Media | Testare annullamento Play con app chiusa e sincronizzazione successiva |
+
+### Punto di ripartenza
+Audit in sola lettura. Prossimo blocco: esaminare viaggi, stagioni, obiettivi, regali, album, giochi e interazioni; poi verificare il comportamento di tutte le notifiche e i permessi Android. Integrare le dipendenze del gate età nel piano generale.
