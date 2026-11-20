@@ -15,7 +15,7 @@ async def plus_offer(b, age):
 async def main(b):
     # 0) il controllo 18+ deve leggere la scelta locale separata da S.age
     for age, want in [("child", True), ("teen", True), ("skip", True), ("adult", False)]:
-        ctx, pg = await T.page(b, T.base_state("en"), age=age, wait=2500)
+        ctx, pg = await T.page(b, T.base_state("en"), native=True, age=age, wait=2500)
         got = await T.ev(pg, "v26Young()")
         T.check(f"fascia giovane 18+, eta' {age}", got is want, got)
         await ctx.close()
