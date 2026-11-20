@@ -50,7 +50,7 @@ const adAgeOpts = () => ({ age: typeof ageAds === "function" ? ageAds() : "child
    ora solo per chi DICHIARA meno di 13 anni. "Preferisco non dirlo" ed eta' non ancora chiesta non bloccano piu' i video:
    ageAds() vale "teen" (TFUA, contenuti PG, mai personalizzata), come per i ragazzi. */
 function adsKid() { try { return ageAds() === "child"; } catch (e) { return true; } }
-const adsOn = () => !!(ADS_UNIT && isNativeApp() && adsPlugin() && !plusActive() && !adsKid());
+const adsOn = () => !!(ADS_UNIT && isNativeApp() && adsPlugin() && !plusActive() && !adsKid() && typeof AGE_READY !== "undefined" && AGE_READY && typeof AGE_VALUE !== "undefined" && AGE_VALUE !== undefined);
 function adsInit() {
   if (!adsOn()) return Promise.resolve(adsSt); if (adsInitP) return adsInitP;
   adsInitAt = Date.now(); adsBack = false;
