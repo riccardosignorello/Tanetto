@@ -182,11 +182,24 @@ function ageInit() {
   return ageInitP;
 }
 ageInit();
+let ageCloudExitPermit = false;
+if (typeof fbLoad === "function") {
+  const _fbLoadAgeGate = fbLoad;
+  fbLoad = function (...args) {
+    return ageInit().then(() => {
+      if (!AGE_READY || (!ageCloudOk() && !ageCloudExitPermit)) throw new Error("age_cloud_blocked");
+      return _fbLoadAgeGate.apply(this, args);
+    });
+  };
+}
 /* ---------- account e backup online: solo per gli adulti ---------- */
 function ageCloudStop() {
   try {
     if (typeof signedIn === "function" && signedIn()) {
-      (typeof fbLoad === "function" ? fbLoad() : Promise.resolve()).then(() => window.TanFB && window.TanFB.out && window.TanFB.out()).catch(() => {});
+      if (typeof fbLoad === "function") {
+        ageCloudExitPermit = true;
+        fbLoad().then(() => window.TanFB && window.TanFB.out && window.TanFB.out()).catch(() => {}).finally(() => { ageCloudExitPermit = false; });
+      }
       const p = typeof gsi === "function" ? gsi() : null; if (p && p.signOut) p.signOut().catch(() => {});
       A = { freq: A.freq || "week" }; saveA(); setTimeout(() => toast(ageT().cloudOff), 400);
     }
