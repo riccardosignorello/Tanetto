@@ -95,7 +95,7 @@ function openAge(after) {
   /* (critica fase 2) il lettore di schermo parte dal titolo della finestra (prima il fuoco restava sulla pagina dietro) */
   try { const h = document.getElementById("agT"); if (h) h.focus({ preventScroll: true }); } catch (e) { /* niente */ }
 }
-async async function ageSet(a) {
+async function ageSet(a) {
   try {
     const p = ageNativePlugin();
     if (p && typeof p.set === "function") {
@@ -164,7 +164,7 @@ function ageInit() {
   if (ageInitP) return ageInitP;
   ageInitP = (async () => {
     const legacy = S && S["age"] && typeof S["age"] === "object" ? S["age"] : null;
-    if (S && Object.prototype.hasOwnProperty.call(S, "age")) delete AGE_VALUE;
+    if (S && Object.prototype.hasOwnProperty.call(S, "age")) delete S.age;
     try { if (typeof snapT !== "undefined" && snapT) { clearTimeout(snapT); snapT = null; } } catch (e) { /* niente */ }
     const p = ageNativePlugin();
     if (p && typeof p.get === "function" && typeof p.set === "function") {
@@ -175,7 +175,7 @@ function ageInit() {
       let old = null; try { old = JSON.parse(localStorage.getItem(AGE_KEY) || "null"); } catch (e) { old = null; }
       AGE_VALUE = old || legacy || undefined;
       if (AGE_VALUE && typeof AGE_VALUE === "object") { try { localStorage.setItem(AGE_KEY, JSON.stringify(AGE_VALUE.skip ? { skip: true } : { y: AGE_VALUE.y, m: AGE_VALUE.m })); } catch (e) { AGE_STORAGE_FAILED = true; } }
-      if (S && Object.prototype.hasOwnProperty.call(S, "age")) delete AGE_VALUE;
+      if (S && Object.prototype.hasOwnProperty.call(S, "age")) delete S.age;
     }
     AGE_READY = true; AGE_STORAGE_FAILED = false; save(); return true;
   })().catch(() => { AGE_STORAGE_FAILED = true; AGE_READY = false; ageInitP = null; setTimeout(() => { if (!AGE_READY) ageInit(); }, 2500); return false; });
