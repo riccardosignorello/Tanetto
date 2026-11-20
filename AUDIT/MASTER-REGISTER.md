@@ -545,3 +545,37 @@ Audit in sola lettura. Prossimo blocco: completare account, acquisti e protezion
 
 ### Punto di ripartenza
 Audit in sola lettura. Prossimo blocco: completare inventario privacy/SDK e asset; verificare le funzioni rimanenti, poi fare ricerca esterna sulle policy aggiornate e preparare il piano completo. Le attività che richiedono la Console Firebase, Play Console o account pubblicitari verranno raccolte in un'unica richiesta, non una domanda alla volta.
+
+
+## Sessione di audit — 2026-11-20, sito, bundle e peso degli asset
+
+### Dimensioni misurate dal Git tree
+- Il repository contiene circa 25,04 MB di file (dimensioni Git blob, non APK né trasferimento compresso).
+- `index.html` generato pesa 4.946.377 byte (4,72 MiB) ed è il file più grande. Il build concatena i moduli JavaScript e CSS nell'HTML: circa 4,69 MiB di sorgenti JS e 0,46 MiB CSS sono distribuiti con un bundle molto grande e senza code splitting/lazy loading per area funzionale.
+- Altri gruppi: WebP 4,39 MiB, PNG 7,00 MiB, WOFF2 1,75 MiB, JPG 0,86 MiB. Le PNG includono anche risorse sorgenti per icone/splash e press kit, quindi non tutte vengono scaricate nell'app.
+- `og.png` pesa circa 0,96 MiB; l'icona 1024 del press kit circa 1 MiB. Da ottimizzare mantenendo i formati richiesti dalle piattaforme.
+- `privacy.html` pesa circa 0,18 MiB e contiene tutte le lingue nello script; il file `index.html` è il vero collo di bottiglia per il primo caricamento.
+- La dimensione del bundle è coerente con il precedente audit PageSpeed mobile 39/100 e LCP circa 10,6 s. Il dato va aggiornato su produzione, ma non è un problema teorico: il file HTML è effettivamente molto grande.
+
+### Implicazioni
+- Il codice di tutte le aree viene scaricato/analizzato prima che la pagina possa diventare interattiva, anche se l'utente usa soltanto una parte delle funzioni. Il bundle unico aumenta parsing, memoria, costo CPU e rischio di rallentare telefoni economici.
+- Le 14 lingue sono caricate insieme; valutare dizionari separati e caricamento della lingua selezionata, con fallback offline.
+- Le illustrazioni WebP sono relativamente contenute come gruppo; le fonti PNG/JPG più pesanti appartengono soprattutto a press kit e icone. Separare gli asset web/app/press e applicare compressione adeguata.
+- Il service worker e la modalità offline devono essere preservati durante qualsiasi ottimizzazione: non basta dividere i file se poi l'app perde l'avvio offline o mostra schermate vuote.
+- Obiettivo di performance da definire con metriche reali: Core Web Vitals (LCP/INP/CLS), TTI/first interaction su Android di fascia bassa, consumo memoria, dimensione trasferita compressa, avvio freddo/caldo e modalità offline. Non fissare una soglia arbitraria prima di misurare i dispositivi target.
+
+### Build Firebase separato
+- `tools/firebase/fb_entry.js` è la sorgente del bundle pubblico `fb.js`; `tools/firebase/package.json` documenta il comando esbuild.
+- `.github/workflows/tests.yml` esegue `npm ci` in `app-android` e `tools/build.py`, ma non esegue il comando esbuild in `tools/firebase`. Il build principale copia `fb.js` già esistente; non garantisce che sia sincronizzato con `fb_entry.js`.
+- Questo può produrre una pagina di cancellazione account che usa una versione Firebase diversa dal sorgente aggiornato. Il bundle attuale contiene ancora lo stesso ordine di cancellazione già analizzato in AUD-017.
+- La pipeline deve costruire `fb.js` da `fb_entry.js` con versioni bloccate e verificare che il bundle sia aggiornato (diff/hash), prima di generare le pagine web e il pacchetto Android.
+
+### Nuovi elementi nel registro
+| ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
+|---|---|---|---|---|---|
+| AUD-046 | Build/Firebase | Il workflow non ricostruisce `fb.js` da `fb_entry.js`; può distribuire bundle obsoleto | Gap di processo confermato | Alta | Ricostruire in CI, verificare hash/diff e sincronizzare sito/app |
+| AUD-047 | Performance/web | `index.html` pesa 4,72 MiB e contiene il bundle JS/CSS concatenato | Problema misurato | Molto alta | Profilare Lighthouse/CrUX e progettare split, minify, lazy load e cache |
+| AUD-048 | Asset/performance | PNG/OG/press asset pesanti; separazione e ottimizzazione da completare | Problema misurato, impatto runtime da misurare | Media | Inventario per pagina/app, compressione e immagini responsive |
+
+### Punto di ripartenza
+Audit in sola lettura. Prossimo blocco: verificare service worker, manifest, CSP, SEO e build completo; poi misurare il sito live e confrontare le dichiarazioni privacy con SDK e produzione. Nessuna modifica applicativa prima del piano generale.
