@@ -673,3 +673,32 @@ Audit in sola lettura. Prossimo blocco: completare review delle classi native, b
 
 ### Punto di ripartenza
 Audit in sola lettura. Prossimo blocco: verificare dipendenze/SDK aggiornati e policy correnti, completare la mappa Android e la review delle funzioni core rimanenti. Le attività esterne (Firebase Console, Play Console, firma release) saranno raccolte in una sola checklist finale per l'utente.
+
+
+## Sessione di audit — 2026-11-20, moderazione nomi e interpretazione delle CI
+
+### Filtro dei nomi scelti
+- `97za_v18_name.js` normalizza i nomi e confronta parole vietate per evitare insulti/volgarità; il nome resta locale e viene mostrato in alcuni contenuti condivisibili per adulti.
+- Il controllo usa anche `includes()` su parole normalizzate senza confini lessicali. Questo può bloccare nomi innocui che contengono una sequenza vietata all'interno (classico falso positivo tipo “Essex”, “Cassandra”, “Dickens” o parole equivalenti in altre lingue). Va testato con nomi reali e non solo con parolacce.
+- Le liste coprono varie lingue latine e cirilliche, ma non risultano liste native per giapponese, coreano, cinese semplificato e tradizionale, nonostante l'app supporti queste lingue. Il filtro può quindi essere aggirato con termini offensivi nelle lingue CJK.
+- Non esiste un test dedicato nel set `tests/t110` per il filtro nomi, i falsi positivi e le lingue CJK. Serve una matrice di test madrelingua, con attenzione a non bloccare nomi propri o parole innocue.
+- Soluzione da valutare: tokenizzazione/boundary matching e regole contestuali, normalizzazione di omoglifi/varianti, liste curate per lingua e un percorso di segnalazione/recupero. Non basta aggiungere indiscriminatamente parole: si rischia di peggiorare i falsi positivi.
+
+### Interpretazione corretta dei test falliti
+- `t_110_decisions.py` contiene ancora asserzioni su `S.age` e su `localStorage.tanetto-eta` come fonte di verità. Dopo la migrazione dell'età a `AGE_VALUE` e al plugin nativo, queste asserzioni sono obsolete: i fallimenti collegati alla presenza/assenza di `S.age` sono test da aggiornare, non prova automatica di regressione applicativa.
+- `t_111_audience.py`, `t_b1_minors.py`, `t_110_story.py` e `t_111_week.py` coprono comportamenti collegati a `v26Young()`. Sul ramo applicativo la lettura legacy di `S.age` fa risultare giovani anche gli adulti; la patch isolata aggiorna la sorgente a `AGE_VALUE`. La CI del commit precedente alla patch non può essere usata per giudicare la patch attuale.
+- `t_111_icons.py` ha cinque lingue con nomi che ancora non entrano nel selettore a 360 px senza overflow/spezzatura: problema UI reale da riprodurre e correggere.
+- `t_111_events.py` misura CPU/layout/style in un runner condiviso. Il superamento del budget va riprodotto su device reali e su runner stabile prima di classificarlo come regressione; la decorazione deve comunque fermarsi con reduce motion e modalità leggera.
+- `t_b2_money.py` ha un controllo che fallisce sul ripristino del dialogo, mentre il caso di spesa economica provato non supera il residuo pagato: non copre il caso limite AUD-030.
+- La suite `t_b5_a11y.py` usa l'albero accessibilità Chromium, ma misura contrasto solo su alcuni selettori e dimensioni di tocco su un sottoinsieme; non sostituisce TalkBack/VoiceOver, switch access, zoom 200%, testo dinamico e test su device.
+- La suite `t_b7_perf.py` usa Chromium/CDP e brevi finestre di misura; non sostituisce Lighthouse/CrUX, WebPageTest, Android low-end, avvio freddo/caldo e rete lenta. La pagina pubblica di cancellazione non viene testata end-to-end con un account Firebase reale.
+- Non ci sono test reali di AdMob/UMP, Play Billing con acquisti/rimborsi, Play Integrity/App Check in enforcement, Auto Backup/device transfer, TTL Firestore, né deploy delle regole. I mock verificano la logica client, non il comportamento dei servizi reali.
+
+### Nuovi elementi nel registro
+| ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
+|---|---|---|---|---|---|
+| AUD-057 | Moderazione/lingue | Filtro nomi basato su sottostringhe può produrre falsi positivi e non copre adeguatamente CJK | Gap di copertura confermato; falsi positivi da quantificare | Media/Alta | Test madrelingua, boundary matching e set di nomi innocui/offensivi |
+| AUD-058 | Test/qualità | CI non copre ancora device reali, servizi Google/Firebase, backup Android e accessibilità assistiva completa | Gap di copertura confermato | Alta | Piano E2E su device e ambienti reali dopo il fix dei test obsoleti |
+
+### Punto di ripartenza
+Audit in sola lettura. Prossimo blocco: completare i moduli di gioco, negozio, mondi e contenuti; rivedere le traduzioni e i flussi di backup; poi fare la matrice dei test e il piano unico. Non considerare verde una CI finché tutte le suite, incluse quelle nuove, non passano o hanno un'eccezione documentata e accettata.
