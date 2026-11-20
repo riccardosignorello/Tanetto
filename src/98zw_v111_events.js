@@ -117,7 +117,7 @@ function e111Win(ev, ph, lit) {
   if (ev.k === "lanterns") {
     /* lucine del villaggio sulle colline e lanterne che salgono */
     if (night || eve) [[50, 114], [64, 118], [98, 110], [118, 116], [130, 112]].forEach(([x, y]) => { o += `<circle cx="${x}" cy="${y}" r="2.6" fill="#FFC56B" opacity=".35"/><rect x="${x - 1}" y="${y - 1}" width="2" height="2" rx=".4" fill="#FFE2A0"/>`; });
-    [[48, 96, 1.5], [74, 74, 1.2], [98, 104, 1.6], [116, 64, 1.1], [128, 90, 1.35]].forEach(([x, y, s], i) => { o += `<g class="e1rise" data-y="${y}" data-i="${i}">${e111SkyLan(x, y, s, night || eve)}</g>`; });
+    [[48, 96, 1.5], [74, 74, 1.2], [116, 64, 1.1]].forEach(([x, y, s], i) => { o += `<g class="e1rise" data-y="${y}" data-i="${i}">${e111SkyLan(x, y, s, night || eve)}</g>`; });
   } else if (ev.k === "xmas") {
     const sn = night ? ["#B9C6DE", "#9FB0CE"] : ["#FBFDFF", "#E1EAF3"];
     o += `<path d="M34 110 C52 102 70 108 92 103 C112 99 126 104 138 102 L138 128 L34 128 Z" fill="${sn[1]}"/><path d="M34 118 C58 108 82 116 106 110 C120 107 132 111 138 113 L138 128 L34 128 Z" fill="${sn[0]}"/>`;
@@ -291,7 +291,7 @@ ambientExtra = function (root, q) {
        cosi' GSAP non alterna letture e scritture (niente ricalcoli a catena quando la stanza si ridisegna) */
     root.querySelectorAll(".e1sw, .e1rise, .e1snow, .e1kite, .e1pass, .e1shoot, .e1petal").forEach((el) => { G.getProperty(el, "x"); });
     q(".e1sw").forEach((g) => { const i = +g.dataset.i || 0; const a = 2.2 + (i % 2) * 0.8; ambient.push(G.fromTo(g, { rotation: -a }, { rotation: a, svgOrigin: g.dataset.o, duration: 2.6 + i * 0.45, repeat: -1, yoyo: true, ease: "sine.inOut" })); });
-    q(".e1rise").forEach((g) => { const i = +g.dataset.i || 0, y = +g.dataset.y || 90; ambient.push(e111Loop(g, { y: 138 - y }, { y: 34 - y }, 15 + (i % 3) * 3.5, ((i * 0.37) % 1))); ambient.push(G.to(g, { x: i % 2 ? 4 : -4, duration: 3 + (i % 3), repeat: -1, yoyo: true, ease: "sine.inOut" })); });
+    q(".e1rise").forEach((g) => { const i = +g.dataset.i || 0, y = +g.dataset.y || 90; ambient.push(e111Loop(g, { y: 138 - y }, { y: 34 - y }, 17 + (i % 3) * 3.5, ((i * 0.37) % 1))); });
     q(".e1snow").forEach((g) => { const i = +g.dataset.i || 0, y = +g.dataset.y || 80; ambient.push(e111Loop(g, { y: 38 - y }, { y: 132 - y }, 7 + (i % 4) * 1.4, ((i * 0.29) % 1))); ambient.push(G.to(g, { x: i % 2 ? 5 : -5, duration: 1.8 + (i % 3) * 0.6, repeat: -1, yoyo: true, ease: "sine.inOut" })); });
     q(".e1kite").forEach((g) => { ambient.push(G.to(g, { y: -4, x: 3, duration: 2.6, repeat: -1, yoyo: true, ease: "sine.inOut" })); ambient.push(G.fromTo(g, { rotation: -3 }, { rotation: 4, svgOrigin: g.dataset.o, duration: 1.9, repeat: -1, yoyo: true, ease: "sine.inOut" })); });
     q(".e1pass").forEach((g) => { const x = +g.dataset.x || 110; ambient.push(e111Loop(g, { x: 18 - x }, { x: 160 - x }, 26, 0.62)); ambient.push(G.to(g, { y: -5, duration: 2.2, repeat: -1, yoyo: true, ease: "sine.inOut" })); });
