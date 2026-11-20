@@ -89,7 +89,7 @@ if (typeof applyCloud === "function") { const _a = applyCloud; applyCloud = func
 if (typeof psAgeCard === "function") {
   const _psAgeCardV110 = psAgeCard;
   psAgeCard = function (...a) {
-    const h = _psAgeCardV110.apply(this, a); if (!h || !S.age || S.age.skip || !S.age.y) return h;
+    const h = _psAgeCardV110.apply(this, a); const age = typeof AGE_VALUE !== "undefined" ? AGE_VALUE : S.age; if (!h || !age || age.skip || !age.y) return h;
     return h.replace(/(<div class="card stack-s psage">[\s\S]*?)(<\/div>)/, `$1<p class="small muted v110agelock">${esc(v110AgeT()[6])}</p>$2`);
   };
 }
