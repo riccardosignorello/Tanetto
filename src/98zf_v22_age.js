@@ -95,13 +95,24 @@ function openAge(after) {
   /* (critica fase 2) il lettore di schermo parte dal titolo della finestra (prima il fuoco restava sulla pagina dietro) */
   try { const h = document.getElementById("agT"); if (h) h.focus({ preventScroll: true }); } catch (e) { /* niente */ }
 }
-function ageSet(a) {
-  S.age = a; save();
-  /* (critica fase 2) al contatore anonimo delle visite va solo "risposto / non detto", mai la fascia d'eta' */
+async function ageSet(a) {
+  try {
+    const p = ageNativePlugin();
+    if (p && typeof p.set === "function") {
+      const choice = a && a.skip ? { skip: true } : { y: a.y, m: a.m };
+      const saved = await p.set(choice);
+      if (!saved || saved.saved !== true) throw new Error("age_store_write_failed");
+      const check = await p.get();
+      if (!check || !check.hasChoice || !check.choice) throw new Error("age_store_verify_failed");
+      a = check.choice;
+    } else {
+      a = a && a.skip ? { skip: true } : { y: a.y, m: a.m };
+      localStorage.setItem(AGE_KEY, JSON.stringify(a));
+    }
+  } catch (e) { AGE_STORAGE_FAILED = true; toast(S.lang === "it" ? "Non è stato possibile salvare la scelta. Riprova." : "Could not save your choice. Please try again."); return; }
+  AGE_VALUE = a; AGE_READY = true; AGE_STORAGE_FAILED = false;
   trackOnce(a && a.skip ? "eta-non-detta" : "eta-risposta");
-  /* pubblicita': le impostazioni cambiano, il video gia' pronto non si usa */
   try { if (typeof adsSt !== "undefined") { adsSt.loaded = false; adsInitP = null; if (S.adsOk && typeof adsInit === "function") adsInit(); } } catch (e) { /* niente */ }
-  /* 113: da bambino (sotto i 13 anni) nessun video: si dimentica anche lo stato del consenso e i nuovi tentativi in attesa */
   try { if (ageAds() === "child") { adsSt = { canRequestAds: false, privacyRequired: false, loaded: false }; clearTimeout(adsRetryT); adsRetryOn = false; } } catch (e) { /* niente */ }
   if (!ageCloudOk()) ageCloudStop();
   closeLayer(); render();
@@ -123,15 +134,15 @@ setInterval(() => {
 
     /* (critica fase 2) chiusa senza rispondere (tasto indietro, un'altra finestra): non la si ripropone in questa sessione,
        la si richiede al prossimo avvio. Intanto nessun video con premio (come per i bambini, 113). */
-    if (ageShown && S.age === undefined && !document.querySelector(".agebox")) { ageShown = false; ageDismissed = true; ageAfter = null; }
+    if (ageShown && AGE_VALUE === undefined && !document.querySelector(".agebox")) { ageShown = false; ageDismissed = true; ageAfter = null; }
     /* (window.__TEST_NOAGE: solo i test automatici vecchi, che non riguardano l'eta', la saltano) */
-    if (window.__TEST_NOAGE || ageDismissed || S.age !== undefined || !S.pet || layer.innerHTML || (typeof tutOn !== "undefined" && tutOn) || Date.now() - ageT0 < 2500) return;
+    if (!AGE_READY || window.__TEST_NOAGE || ageDismissed || AGE_VALUE !== undefined || !S.pet || layer.innerHTML || (typeof tutOn !== "undefined" && tutOn) || Date.now() - ageT0 < 2500) return;
     openAge();
   } catch (e) { /* niente */ }
 }, 1200);
 
 /* ---------- (critica fase 2) l'eta' resta davvero solo su questo telefono ----------
-   Prima S.age finiva anche nel backup online (Firebase), nella copia su file e nel codice di trasferimento, mentre la
+   Prima AGE_VALUE finiva anche nel backup online (Firebase), nella copia su file e nel codice di trasferimento, mentre la
    schermata dice "Resta solo su questo telefono" (e la scheda Sicurezza dei dati di Play dice che non esce dal telefono).
    Ora: 1) copie, trasferimenti e backup online si fanno senza "age" (anche la firma della copia e' calcolata senza);
    2) una seconda copia della risposta, solo locale (AGE_KEY), la riporta dopo un ripristino o "Ricomincia da capo". */
@@ -152,8 +163,8 @@ function ageScrubLocalCopies() {
 function ageInit() {
   if (ageInitP) return ageInitP;
   ageInitP = (async () => {
-    const legacy = S && S.age && typeof S.age === "object" ? S.age : null;
-    if (S && Object.prototype.hasOwnProperty.call(S, "age")) delete S.age;
+    const legacy = S && S["age"] && typeof S["age"] === "object" ? S["age"] : null;
+    if (S && Object.prototype.hasOwnProperty.call(S, "age")) delete AGE_VALUE;
     try { if (typeof snapT !== "undefined" && snapT) { clearTimeout(snapT); snapT = null; } } catch (e) { /* niente */ }
     const p = ageNativePlugin();
     if (p && typeof p.get === "function" && typeof p.set === "function") {
@@ -164,7 +175,7 @@ function ageInit() {
       let old = null; try { old = JSON.parse(localStorage.getItem(AGE_KEY) || "null"); } catch (e) { old = null; }
       AGE_VALUE = old || legacy || undefined;
       if (AGE_VALUE && typeof AGE_VALUE === "object") { try { localStorage.setItem(AGE_KEY, JSON.stringify(AGE_VALUE.skip ? { skip: true } : { y: AGE_VALUE.y, m: AGE_VALUE.m })); } catch (e) { AGE_STORAGE_FAILED = true; } }
-      if (S && Object.prototype.hasOwnProperty.call(S, "age")) delete S.age;
+      if (S && Object.prototype.hasOwnProperty.call(S, "age")) delete AGE_VALUE;
     }
     AGE_READY = true; AGE_STORAGE_FAILED = false; save(); return true;
   })().catch(() => { AGE_STORAGE_FAILED = true; AGE_READY = false; ageInitP = null; setTimeout(() => { if (!AGE_READY) ageInit(); }, 2500); return false; });
@@ -187,13 +198,13 @@ document.addEventListener("click", (ev) => {
   if (ageCloudOk()) return;
   ev.stopImmediatePropagation(); ev.preventDefault();
   /* (critica fase 2) chi non l'ha detta (anche "Preferisco non dirlo") la puo' dire adesso; chi ha gia' risposto no */
-  if (S.age === undefined || (S.age && S.age.skip)) { const id = b.id; openAge(() => { if (ageCloudOk()) { const x = document.getElementById(id); if (x) x.click(); else render(); } else toast(ageT().cloudNo); }); return; }
+  if (AGE_VALUE === undefined || (AGE_VALUE && AGE_VALUE.skip)) { const id = b.id; openAge(() => { if (ageCloudOk()) { const x = document.getElementById(id); if (x) x.click(); else render(); } else toast(ageT().cloudNo); }); return; }
   toast(ageT().cloudNo);
 }, true);
 if (typeof acctCard === "function") {
   const _acctCardAge = acctCard;
   acctCard = function () {
-    const h = _acctCardAge(); if (ageCloudOk() || S.age === undefined || (S.age && S.age.skip)) return h;
+    const h = _acctCardAge(); if (ageCloudOk() || AGE_VALUE === undefined || (AGE_VALUE && AGE_VALUE.skip)) return h;
     /* niente inviti all'account (ne' "accedi di nuovo"): solo la riga chiara sui dati che restano sul telefono */
     const i = h.indexOf("</h3>"); if (i < 0 || (typeof signedIn === "function" && signedIn())) return h;
     return h.slice(0, i + 5) + `<p class="small">${esc(ageT().cloudNo)}</p></div>`;
@@ -201,7 +212,7 @@ if (typeof acctCard === "function") {
 }
 if (typeof acctNudgeDue === "function") { const _acctNudgeDueAge = acctNudgeDue; acctNudgeDue = function () { return ageCloudOk() && _acctNudgeDueAge(); }; }
 /* gia' collegato e minore (per esempio dopo il ripristino): il backup online si spegne, i dati restano */
-setTimeout(() => { if (S.age !== undefined && !ageCloudOk()) ageCloudStop(); }, 1500);
+setTimeout(() => { if (AGE_VALUE !== undefined && !ageCloudOk()) ageCloudStop(); }, 1500);
 
 /* ---------- chat: promemoria di sicurezza ---------- */
 if (typeof openChat === "function") {
