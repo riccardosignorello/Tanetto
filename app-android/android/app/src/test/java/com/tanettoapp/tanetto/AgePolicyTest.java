@@ -9,7 +9,7 @@ public class AgePolicyTest {
     }
 
     @Test public void birthdayMonthUsesConservativeBoundary() {
-        assertEquals("teen", AgePolicy.band(false, 2013, 11, 2026, 11));
+        assertEquals("child", AgePolicy.band(false, 2013, 11, 2026, 11));
         assertEquals("child", AgePolicy.band(false, 2013, 12, 2026, 11));
         assertEquals("teen", AgePolicy.band(false, 2013, 10, 2026, 11));
     }
