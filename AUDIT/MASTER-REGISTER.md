@@ -1,6 +1,6 @@
 # Tanetto — audit integrale e registro di continuità
 
-Ultimo aggiornamento: 2026-11-20 22:10 UTC
+Ultimo aggiornamento: 2026-11-21
 
 ## Scopo e regole non negoziabili
 
@@ -1068,3 +1068,24 @@ Audit in sola lettura. L'orologio va progettato insieme a backup, premi, eventi 
 
 ### Punto di ripartenza
 Audit in sola lettura. Prima di modificare il flusso, verificare il comportamento reale del plugin Capacitor 8.3.1 e la matrice Android 12–16, in particolare permessi, canali, Doze e reboot.
+
+
+## Sessione di audit — 2026-11-21, condivisione cartolina settimanale e soglia d'età
+
+### AUD-089 — la condivisione esterna usa la soglia fissa 13+, non la soglia locale del consenso digitale
+
+**Evidenza sul branch `work/tanetto-1.0.12`:**
+- `src/98zf_v22_age.js`: `ageBand()` restituisce `teen` per chi ha almeno 13 anni ma meno dell'età di consenso digitale calcolata con `ageConsent()`; `ageCloudOk()` restituisce vero soltanto per `adult`.
+- `src/98zu_v111_week.js`, funzione `w111ShareOk()` (circa riga 99): restituisce vero per `adult` **o** `teen`, senza verificare `ageCloudOk()`.
+- `w111WeekOpen()` usa questo gate per mostrare i pulsanti di condivisione/salvataggio; `w111WeekFill()` li abilita dopo la generazione della cartolina. La regola dichiarata nel commento è esplicitamente “dai 13 anni”.
+
+**Interpretazione prudenziale:** è un comportamento intenzionale secondo la regola di prodotto scritta nel modulo, non un bypass tecnico dimostrato. Tuttavia crea una differenza tra “13+” e “ha raggiunto l'età di consenso digitale del Paese”. La cartolina settimanale sembra contenere solo stato aggregato dei giorni e stagione, senza diario, umore o nome personalizzato per i minori; il rischio privacy è quindi diverso da quello del backup cloud. Non concludere che sia illecito né cambiarlo automaticamente.
+
+**Azione richiesta nell'audit:** verificare la stessa regola su tutte le cartoline (settimana, viaggio, livello), distinguere export locale da condivisione a servizi esterni, documentare esattamente i dati inclusi e ottenere una valutazione privacy/legale per i mercati serviti. Poi decidere se mantenere 13+, usare `ageCloudOk()` o introdurre una regola specifica per la condivisione di contenuti non personali.
+
+| ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
+|---|---|---|---|---|---|
+| AUD-089 | Minori/privacy/condivisione | La cartolina settimanale abilita condivisione esterna per ogni `teen` (13+), anche sotto l'età di consenso digitale locale; regola di prodotto esplicita ma non ancora validata per Paese e per tutti i tipi di cartolina | Da verificare — policy review, non bug confermato | Media | Mappare i dati delle cartoline, verificare export/condivisione di settimana/viaggio/livello e validare soglia per i mercati |
+
+### Punto di ripartenza
+Continuare l'audit dei moduli funzionali (viaggi, giochi, eventi, album, progressi, shop) e verificare i flussi di condivisione associati; nessuna patch applicativa prima della chiusura dell'inventario e del piano coordinato.
