@@ -65,7 +65,7 @@ public class AgeStorePlugin extends Plugin {
                 JSONObject choice = readChoice();
                 JSObject result = new JSObject();
                 result.put("hasChoice", choice != null);
-                if (choice != null) result.put("choice", JSObject.fromJSONObject(choice));
+                if (choice != null) result.put("choice", choice);
                 call.resolve(result);
             } catch (Exception e) {
                 // Fail closed: report storage corruption instead of silently
