@@ -948,3 +948,34 @@ I dati seguenti provengono dal job storico `136454007442`, eseguito sul branch `
 - I 190 controlli della suite browser/nativa risultano verdi; ciò non cancella i fallimenti delle suite Python generali.
 - Non tutti i test falliti indicano bug del prodotto: alcuni hanno aspettative obsolete dopo la migrazione del deposito età, altri sono difetti reali di UI/performance, altri ancora sono test asincroni fragili. La correzione deve rispettare il comportamento sicuro del prodotto, non forzare il codice per far passare un test sbagliato.
 - Il test `t_b2_money` che fallisce non dimostra che il Plus mensile non sia classificato: nel candidato il wrapper in `98zk` esiste e M-06 risulta verde. Il NO osservato è quello del dialogo di ripristino.
+
+
+## Sessione di audit — 2026-11-20, plugin Android: condivisione, referral e widget
+
+### SharePlugin
+- `SharePlugin.share()` scrive ogni file condiviso nella cartella cache `condivisi/` e non elimina esplicitamente il file dopo la chiusura del chooser. Il sistema può svuotare la cache, ma condivisioni ripetute possono accumulare file fino alla pulizia del sistema.
+- `share()`, `saveImage()` e `saveFile()` decodificano Base64 senza un limite esplicito di dimensione. Una chiamata errata o un payload enorme può causare pressione di memoria, crash o riempimento della cache/download.
+- `saveImage()` e `saveFile()` inseriscono prima un record MediaStore con `IS_PENDING=1`; se il flusso si interrompe, lo stream è nullo o la decodifica/scrittura fallisce, il catch rifiuta la chiamata ma non elimina l'URI temporaneo. Possono restare elementi incompleti pendenti.
+- `safeName()` rimuove slash e caratteri non ammessi; non emerge un percorso diretto di path traversal nel normale uso. Il MIME type è fornito dal chiamante interno e andrà comunque validato.
+- Soluzione: limite dimensione per tipo di file, gestione streaming dove possibile, cleanup in `finally` dei file cache e `ContentResolver.delete(uri)` su ogni errore prima di togliere `IS_PENDING`. Testare share/cancel/failure e storage pieno.
+
+### GrowthPlugin
+- `referrer()` prova al massimo tre volte. Al raggiungimento del limite imposta `done=true` anche se il servizio Install Referrer non è mai riuscito a rispondere; un utente che apre l'app offline o con Play temporaneamente non disponibile può perdere definitivamente l'attribuzione dell'invito.
+- Il referrer viene salvato in SharedPreferences non incluse nel backup, coerentemente con il comportamento “nuova installazione = nuovo referrer”. Il valore è limitato a 600 caratteri ma resta una stringa grezza locale; il parser JS deve accettare solo il formato previsto e ignorare parametri non riconosciuti.
+- `device()` espone l'hash stabile di ANDROID_ID senza un controllo d'età nativo: la protezione “solo adulti” dipende dal chiamante JS. La funzione è un plugin interno, non un endpoint pubblico, ma un controllo nativo sarebbe una difesa aggiuntiva. Il server, inoltre, non può dimostrare che l'hash sia stato generato dal dispositivo dichiarato (AUD-052).
+
+### Widget e recensioni
+- `WidgetPlugin.pin()` restituisce `asked`, cioè se Android ha accettato la richiesta di mostrare il prompt; non significa che l'utente abbia effettivamente aggiunto il widget. La UI deve dire “Android ti chiederà di aggiungerlo”, non “widget aggiunto”, e attendere l'eventuale aggiornamento del conteggio.
+- `ReviewPlugin.requestReview()` risolve la chiamata anche quando Google non mostra la finestra o il flusso fallisce. La UI non deve affermare che l'utente ha lasciato una recensione; il codice può registrare soltanto un tentativo di richiesta, mai l'esito della recensione.
+- Entrambi i plugin si affidano al gate JS per età e frequenza; il controllo deve essere testato end-to-end. La richiesta di recensione non deve essere mostrata dopo frasi di crisi, momenti negativi o a minori.
+
+### Nuovi elementi nel registro
+| ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
+|---|---|---|---|---|---|
+| AUD-077 | Android/condivisione/storage | SharePlugin non limita la dimensione Base64, non pulisce i file cache e non elimina i record MediaStore pendenti in caso di errore | Gap di robustezza confermato da codice | Media | Limiti, cleanup garantito e test storage pieno/stream nullo |
+| AUD-078 | Growth/referral | Dopo tre tentativi falliti il referrer viene marcato definitivamente come completato; attribuzione invito può andare persa | Rischio funzionale confermato | Media | Retry con backoff/tempo e stato “non disponibile” separato da “completato” |
+| AUD-079 | Widget/UX | Il risultato `asked` non prova che il widget sia stato aggiunto | Semantica API da rispettare | Bassa/Media | Verificare copy e aggiornamento stato dopo il prompt |
+| AUD-080 | Recensioni/UX | ReviewPlugin risolve anche quando Google non mostra la finestra; non si può sapere se l'utente ha recensito | Limite API da rispettare | Bassa/Media | Registrare solo tentativo, mai recensione completata |
+
+### Punto di ripartenza
+Audit in sola lettura. Restano da esaminare i provider widget, i flussi JS che invocano share/pin/review, il manifest merged e le autorizzazioni Play; nessuna modifica ai plugin prima del piano generale.
