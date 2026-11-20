@@ -187,6 +187,11 @@ function ageInit() {
   return ageInitP;
 }
 let ageCloudExitPermit = false;
+// Defense in depth: a legacy tab or restore must never reintroduce age into serialized state.
+const _saveAgeClean = save;
+save = function (...args) { if (S && Object.prototype.hasOwnProperty.call(S, "age")) delete S.age; return _saveAgeClean.apply(this, args); };
+if (typeof packState === "function") { const _packStateAgeClean = packState; packState = function (...args) { if (S && Object.prototype.hasOwnProperty.call(S, "age")) delete S.age; return _packStateAgeClean.apply(this, args); }; }
+if (typeof saveBackup === "function") { const _saveBackupAgeClean = saveBackup; saveBackup = function (...args) { if (S && Object.prototype.hasOwnProperty.call(S, "age")) delete S.age; return _saveBackupAgeClean.apply(this, args); }; }
 ageInit();
 if (typeof fbLoad === "function") {
   const _fbLoadAgeGate = fbLoad;
