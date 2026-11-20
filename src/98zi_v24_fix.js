@@ -96,7 +96,7 @@ rollDay = function () { try { if (freeDaysFill()) save(); } catch (e) { /* nient
 /* ---------- 4) INIZIO: la schermata dell'eta' arriva da sola, prima dei tre consigli ----------
    Prima "Questo e' Germo!" poteva comparire sopra la schermata dell'eta' (gara tra i due). Ora i consigli aspettano la
    risposta (o "Preferisco non dirlo"); se una finestra e' aperta, il consiglio non si mostra e riprova dopo. */
-const agePending = () => !window.__TEST_NOAGE && typeof ageDismissed !== "undefined" && !ageDismissed && S.pet && S.age === undefined;
+const agePending = () => !window.__TEST_NOAGE && typeof ageDismissed !== "undefined" && !ageDismissed && S.pet && (typeof AGE_VALUE === "undefined" ? S.age === undefined : AGE_VALUE === undefined);
 const _maybeTutorialV24 = maybeTutorial;
 maybeTutorial = function () { if (agePending() || layer.innerHTML.trim()) return; return _maybeTutorialV24(); };
 try {
