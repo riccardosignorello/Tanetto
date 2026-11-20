@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-b35TAZmAptMypUIqFDR7J8UcYxAO/9zXDGSR0FT5IIE=' 'unsafe-eval' https://apis.google.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.goatcounter.com; media-src 'self' data: blob:; connect-src 'self' data: blob: https://*.googleapis.com https://tanettoapp-pet.firebaseapp.com https://*.goatcounter.com; frame-src 'self' https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-q7cGYK56rpdWN23bkjBVdzN+C8PyTu4jzHW67gbzGac=' 'unsafe-eval' https://apis.google.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.goatcounter.com; media-src 'self' data: blob:; connect-src 'self' data: blob: https://*.googleapis.com https://tanettoapp-pet.firebaseapp.com https://*.goatcounter.com; frame-src 'self' https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#F4EFE6">
 <title>Tanetto — a tiny pet for your self-care habits (free app)</title>
@@ -44539,7 +44539,7 @@ function psKind(el) {
 }
 /* la scheda dell'eta' (pagina Privacy): risposta data, non detta o mai chiesta */
 function psAgeCard() {
-  if (typeof ageBand !== "function") return ""; const w = v23(); const a = S.age;
+  if (typeof ageBand !== "function") return ""; const w = v23(); const a = typeof AGE_VALUE !== "undefined" ? AGE_VALUE : S.age;
   const told = a && !a.skip && a.y; const btn = !told ? `<button class="btn ghost small" id="psAge" type="button">${esc(w.ageBtn)}</button>` : "";
   /* mai risposto (finestra chiusa senza scegliere): non "hai preferito non dirla", ma la stessa spiegazione della domanda */
   const txt = told ? ageKidNoAd(w.ageYes) : a && a.skip ? w.ageNo : (typeof ageT === "function" && ageT().P) || w.ageNo; /* 113: sotto i 13 anni anche "niente video" */
@@ -44731,7 +44731,7 @@ rollDay = function () { try { if (freeDaysFill()) save(); } catch (e) { /* nient
 /* ---------- 4) INIZIO: la schermata dell'eta' arriva da sola, prima dei tre consigli ----------
    Prima "Questo e' Germo!" poteva comparire sopra la schermata dell'eta' (gara tra i due). Ora i consigli aspettano la
    risposta (o "Preferisco non dirlo"); se una finestra e' aperta, il consiglio non si mostra e riprova dopo. */
-const agePending = () => !window.__TEST_NOAGE && typeof ageDismissed !== "undefined" && !ageDismissed && S.pet && S.age === undefined;
+const agePending = () => !window.__TEST_NOAGE && typeof ageDismissed !== "undefined" && !ageDismissed && S.pet && (typeof AGE_VALUE === "undefined" ? S.age === undefined : AGE_VALUE === undefined);
 const _maybeTutorialV24 = maybeTutorial;
 maybeTutorial = function () { if (agePending() || layer.innerHTML.trim()) return; return _maybeTutorialV24(); };
 try {
@@ -45038,7 +45038,7 @@ render = function (...a) { const r = _renderV25.apply(this, a); try { v25ScnView
 function v26Minor() { try { return typeof ageBand !== "function" || ageBand() !== "adult"; } catch (e) { return true; } }
 /* "giovane": minore come sopra OPPURE meno di 18 anni (anche dove l'eta' del consenso e' 13): niente spinte all'acquisto,
    niente inviti, niente "torna domani" con i numeri. Sotto i 18 anni nessuna pressione, come vuole il proprietario. */
-function v26Young() { try { if (v26Minor()) return true; const y = typeof ageYears === "function" ? ageYears(S.age) : null; return y == null || y < 18; } catch (e) { return true; } }
+function v26Young() { try { if (v26Minor()) return true; const choice = typeof AGE_VALUE !== "undefined" ? AGE_VALUE : S.age; const y = typeof ageYears === "function" ? ageYears(choice) : null; return y == null || y < 18; } catch (e) { return true; } }
 /* a) la finestra "Prova Tanetto Plus" non si apre mai da sola per loro (Plus resta raggiungibile da Profilo e negozio) */
 const _nav20plusDueV26 = nav20plusDue;
 nav20plusDue = function (why) { if (v26Young()) return false; return _nav20plusDueV26(why); };
@@ -45105,19 +45105,25 @@ function v26StatsOn() {
    si buttano. */
 function v26TrackGate(path) {
   try { if (localStorage.getItem("tanetto-non-contare") === "1") return false; } catch (e) { /* niente */ }
-  let pending = false; try { pending = !S || S.age === undefined; } catch (e) { pending = true; }
+  let pending = true; try { pending = typeof AGE_VALUE === "undefined" || AGE_VALUE === undefined; } catch (e) { pending = true; }
   if (pending) { try { S.v26q = (S.v26q || []).filter((x) => x !== path).concat([path]).slice(-20); } catch (e) { /* niente */ } return false; }
   try { if (typeof ageConsent === "function") return v26StatsOn(); } catch (e) { /* avvio: modulo dell'eta' non ancora pronto */ }
   try { S.v26q = (S.v26q || []).filter((x) => x !== path).concat([path]).slice(-20); } catch (e) { /* niente */ }
   return false;
 }
 function v26TrackFlush() {
-  const q = (S.v26q || []).slice(); if (!q.length || S.age === undefined) return; delete S.v26q; save();
+  let answered = false; try { answered = typeof AGE_VALUE !== "undefined" && AGE_VALUE !== undefined; } catch (e) { /* age not initialized yet */ }
+  const q = (S.v26q || []).slice(); if (!q.length || !answered) return; delete S.v26q; save();
   if (v26StatsOn()) q.forEach((p) => track(p));
 }
 if (typeof ageSet === "function") {
   const _ageSetV26 = ageSet;
-  ageSet = function (...a) { const r = _ageSetV26.apply(this, a); try { v26TrackFlush(); } catch (e) { /* niente */ } return r; };
+  ageSet = async function (...a) { const r = await _ageSetV26.apply(this, a); try { v26TrackFlush(); } catch (e) { /* niente */ } return r; };
+}
+if (typeof ageInit === "function") {
+  const _ageInitV26 = ageInit;
+  ageInit = function (...a) { return Promise.resolve(_ageInitV26.apply(this, a)).then((r) => { try { v26TrackFlush(); } catch (e) { /* niente */ } return r; }); };
+  try { if (typeof ageInitP !== "undefined" && ageInitP) ageInitP.then(() => v26TrackFlush()); } catch (e) { /* niente */ }
 }
 setTimeout(() => { try { v26TrackFlush(); } catch (e) { /* niente */ } }, 2000);
 function v26StatsCard() {
@@ -45847,7 +45853,7 @@ if (typeof acctCard === "function") {
   const _acctCardV26 = acctCard;
   acctCard = function (...a) {
     const h = _acctCardV26.apply(this, a);
-    try { if (typeof ageCloudOk === "function" && !ageCloudOk() && S.age !== undefined && h.indexOf("elimina-account.html") < 0) {
+    try { if (typeof ageCloudOk === "function" && !ageCloudOk() && typeof AGE_VALUE !== "undefined" && AGE_VALUE !== undefined && h.indexOf("elimina-account.html") < 0) {
       const lbl = (AC().webT || AC().delT || ""); if (!lbl) return h;
       return h.replace(/<\/div>\s*$/, `<a class="inlink" href="https://tanetto.app/elimina-account.html?lang=${esc(S.lang)}" target="_blank" rel="noopener">${esc(lbl)}</a></div>`);
     } } catch (e) { /* niente */ }
@@ -45924,7 +45930,7 @@ const v26Split = (t) => String(t).split(/(?<!(?:^|\s)\p{L}\.)(?<=[.!?…])\s+(?=
 const _psAgeCardV26b = psAgeCard;
 psAgeCard = function (...a) {
   const h = _psAgeCardV26b.apply(this, a); const g = L().v26 && L().v26.ageG; if (!g || !h) return h;
-  let y = null; try { y = ageYears(S.age); } catch (e) { /* niente */ } if (y == null || !S.age || S.age.skip) return h;
+  let y = null; try { y = ageYears(AGE_VALUE); } catch (e) { /* niente */ } if (y == null || !AGE_VALUE || AGE_VALUE.skip) return h;
   const band = y < 13 ? g[1] : y < 18 ? g[2] : g[3];
   return h.replace(/(<p class="small muted">[\s\S]*?<\/p>)/, `$1<p class="small v26ageg" id="v26AgeG"><b>${esc(g[0])}:</b> ${esc(band)}</p>`);
 };
@@ -45953,7 +45959,8 @@ viewMore = function (...a) {
 const sf110Minor = () => {
   try {
     if (typeof ageBand !== "function" || ageBand() !== "adult") return true;
-    return typeof ageYears === "function" && !!S.age && !S.age.skip && ageYears(S.age) < 18;
+    const a = typeof AGE_VALUE !== "undefined" ? AGE_VALUE : S.age;
+    return typeof ageYears === "function" && !!a && !a.skip && ageYears(a) < 18;
   } catch (e) { return true; }
 };
 /* =================== 1.0.10 (110) sicurezza: fuso orario -> Paese (per i numeri di aiuto) ===================
@@ -47084,16 +47091,15 @@ document.addEventListener("click", (ev) => {
   try { const m = document.getElementById("ageM"), y = document.getElementById("ageY"), g = document.getElementById("ageGo"); m.value = String(a.m); y.value = String(a.y); if (g) g.disabled = false; } catch (e) { /* niente */ }
 }, true);
 /* ripristino da file, codice o backup online: subito l'eta' di questo telefono (non si aspetta il controllo ogni 1,2 s) */
-function v110AgeKeep() { try { ageFromMirror(); } catch (e) { /* niente */ } }
-/* il "Si'" della domanda "Sostituire i progressi?" assegna lo stato dopo: si rilegge l'eta' subito dopo ogni tocco */
-document.addEventListener("click", () => { setTimeout(() => { try { if (S.age === undefined) ageFromMirror(); } catch (e) { /* niente */ } }, 0); });
+function v110AgeKeep() { try { return typeof ageInit === "function" ? ageInit() : Promise.resolve(false); } catch (e) { return Promise.resolve(false); } }
+/* L'eta' resta nel deposito locale del telefono: ripristinare i progressi non la modifica. */
 if (typeof restoreFrom === "function") { const _a = restoreFrom; restoreFrom = function (...a) { const r = _a.apply(this, a); v110AgeKeep(); return r; }; }
 if (typeof applyCloud === "function") { const _a = applyCloud; applyCloud = function (...a) { const r = _a.apply(this, a); v110AgeKeep(); return r; }; }
 /* scheda "La tua eta'" nel Profilo: chi l'ha detta legge anche che non si cambia piu' */
 if (typeof psAgeCard === "function") {
   const _psAgeCardV110 = psAgeCard;
   psAgeCard = function (...a) {
-    const h = _psAgeCardV110.apply(this, a); if (!h || !S.age || S.age.skip || !S.age.y) return h;
+    const h = _psAgeCardV110.apply(this, a); const age = typeof AGE_VALUE !== "undefined" ? AGE_VALUE : S.age; if (!h || !age || age.skip || !age.y) return h;
     return h.replace(/(<div class="card stack-s psage">[\s\S]*?)(<\/div>)/, `$1<p class="small muted v110agelock">${esc(v110AgeT()[6])}</p>$2`);
   };
 }
