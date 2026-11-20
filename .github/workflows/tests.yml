@@ -9,6 +9,10 @@ on:
     paths: ["src/**", "tools/**", "tests/**", "app-android/**", ".github/workflows/tests.yml"]
   workflow_dispatch:
 
+concurrency:
+  group: tanetto-ci-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: write
 
@@ -18,6 +22,8 @@ jobs:
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v5
         with:
           node-version: 22
@@ -59,7 +65,12 @@ jobs:
           git add index.html privacy.html elimina-account.html licenses.html sw.js
           if ! git diff --cached --quiet; then
             git commit -m "Build generated Tanetto web assets"
-            git push origin HEAD:${GITHUB_REF_NAME}
+            for attempt in 1 2 3; do
+              git fetch origin "$GITHUB_REF_NAME"
+              git rebase "origin/$GITHUB_REF_NAME"
+              if git push origin "HEAD:$GITHUB_REF_NAME"; then break; fi
+              if [ "$attempt" -eq 3 ]; then echo "Push artefatti non riuscito dopo 3 tentativi"; exit 1; fi
+            done
           fi
           git diff --stat --exit-code
       - name: Testi nelle 14 lingue
