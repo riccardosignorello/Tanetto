@@ -430,3 +430,28 @@ Audit in sola lettura. Prossimo blocco: esaminare viaggi, stagioni, obiettivi, r
 
 ### Punto di ripartenza
 Audit in sola lettura. Prossimo blocco: completare il threat model dei dati e dell'economia; esaminare il codice dei viaggi, obiettivi, regali, album e stagioni; poi pianificare test di restore/rollback, validazione acquisti e riconciliazione server. Le debolezze di import/export e acquisti sono ora priorità alta nell'inventario, ma non si applicano ancora patch isolate.
+
+
+## Sessione di audit — 2026-11-20, orologio, viaggi e backup Android
+
+### Orologio anti-manomissione — modello e limiti
+- `45z_v20_secboot.js` mantiene un pavimento temporale in `localStorage` (`tanetto-clock`) separato dai backup creati dall'utente; `98x_v20_secure.js` su Android lo confronta con `TanettoClock` ogni 30 secondi e al ritorno in primo piano.
+- `ClockPlugin.java` restituisce ora di sistema, tempo monotono dall'avvio e BOOT_COUNT; su Android 13+ aggiunge `SystemClock.currentNetworkTimeClock()`. Se l'ora di rete è disponibile, l'app la usa; altrimenti, se il boot non è cambiato, ricostruisce l'ora con elapsedRealtime. Se il dispositivo è stato riavviato e non c'è ora di rete, ricade sul pavimento e sull'orologio del telefono.
+- **Limite da testare:** su Android 12 e precedenti, dopo un riavvio senza una nuova ancora attendibile, `secFloorFor()` abbandona il pavimento quando l'orologio è indietro di oltre 30 giorni (`SEC_DROP_BIG`) per recuperare un anno impostato male. Questo consente anche, in teoria, un rollback intenzionale superiore a 30 giorni e la riapertura di finestre giornaliere. È un compromesso dichiarato dal codice, non una protezione assoluta; misurare il rischio su device API 26–32 e decidere se introdurre una fonte di tempo attendibile o un recupero più sicuro.
+- Nel browser non esiste una fonte indipendente di tempo; il controllo protegge soprattutto dai rollback brevi e non può impedire una manipolazione volontaria dell'orologio del sistema.
+- **Backup Android da verificare:** `tanetto-clock` è salvato in localStorage/WebView e non compare tra le esclusioni delle backup rules viste finora. `AgeStorePlugin` usa esplicitamente `noBackupFilesDir`, ma il clock no. Se i dati WebView vengono inclusi in Auto Backup, il pavimento di un vecchio telefono può essere trasferito a uno nuovo. L'ancora BOOT_COUNT/elapsed del vecchio device non sarà valida; il valore `max` potrebbe però influenzare il nuovo dispositivo. Serve una prova reale di backup/restore su telefono diverso e una decisione esplicita se escludere `tanetto-clock` dalle copie Android.
+- Il clock aggiorna le finestre di viaggio e gli eventi; i viaggi registrano gli ultimi 60 giorni in `S.v20trip.days`, mentre l'economia conserva registri giornalieri per 45 giorni. La protezione effettiva dipende quindi anche dall'affidabilità del clock e dal merge dei backup.
+
+### Viaggi — comportamento osservato
+- `98c_v20_trips.js` consente un viaggio completo a energia piena o con tutti gli obiettivi, oppure una gita breve (50% tempo/premi) dopo almeno metà degli obiettivi, solo verso mete vicine. Un viaggio al giorno; dopo la partenza l'energia resta spesa.
+- Le mete sono controllate da livello e Plus; il ritorno calcola il giorno di partenza dal timestamp `t0`, per non attribuire il viaggio al giorno sbagliato. Gli obiettivi possono essere completati durante il viaggio e il wrapper preserva l'assenza di premi duplicati.
+- Da testare: app chiusa/riaperta, cambio fuso orario, ora manipolata, viaggio che scade mentre l'app è chiusa, viaggio partito ieri e tornato oggi, backup durante il viaggio, cambio device, doppio tocco su partenza/ritorno e crash durante la transizione.
+
+### Nuovi elementi nel registro
+| ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
+|---|---|---|---|---|---|
+| AUD-038 | Orologio/anti-abuso | Su Android pre-13, dopo reboot senza ora rete, rollback oltre 30 giorni abbandona il pavimento temporale | Limite architetturale confermato; rischio da quantificare | Media/Alta | Matrice API 26–32, reboot, offline e data spostata |
+| AUD-039 | Backup Android/orologio | `tanetto-clock` non è escluso esplicitamente dalle regole di backup; possibile trasferimento del pavimento su nuovo device | Da verificare su dispositivo reale | Media | Backup/restore Android su due device e ispezione dei dati ripristinati |
+
+### Punto di ripartenza
+Audit in sola lettura. Prossimo blocco: completare i moduli di viaggio, energia, Natale, guardaroba, crescita e statistiche; verificare tutte le transizioni temporali e il ripristino Android. Nessuna modifica applicativa prima del piano generale.
