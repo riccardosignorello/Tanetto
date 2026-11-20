@@ -65,16 +65,12 @@ public class AdsPlugin extends Plugin {
             byte[] data = new byte[(int) f.length()];
             try (FileInputStream in = new FileInputStream(f)) { int off = 0; while (off < data.length) { int n = in.read(data, off, data.length - off); if (n < 0) return "pending"; off += n; } }
             JSONObject choice = new JSONObject(new String(data, StandardCharsets.UTF_8));
-            if (choice.optBoolean("skip", false)) return "teen";
             int y = choice.optInt("y", -1), m = choice.optInt("m", -1);
             Calendar cal = Calendar.getInstance(); int cy = cal.get(Calendar.YEAR), cm = cal.get(Calendar.MONTH) + 1;
-            if (y < 1900 || y > cy || m < 1 || m > 12) return "pending";
-            int years = cy - y - (cm <= m ? 1 : 0);
-            return years < 13 ? "child" : years < 18 ? "teen" : "adult";
+            return AgePolicy.band(choice.optBoolean("skip", false), y, m, cy, cm);
         } catch (Exception e) { return "pending"; }
     }
     private boolean refreshTrustedAge() { String trusted = trustedAge(); setAge(trusted); return !pending(); }
-    private static String ageOf(PluginCall call) { String a = call.getString("age", "child"); return "adult".equals(a) || "teen".equals(a) ? a : "child"; }
     /* Impostazioni di Google per l'eta': valgono per tutte le richieste da qui in poi.
        1.0.9 (verifica politiche m2): anche la nuova impostazione di AdMob (GMA 25.3+) "trattamento per eta'":
        CHILD per bambini e chi non ha risposto, TEEN per i ragazzi; restano i vecchi segnali (vale il piu' prudente). */
