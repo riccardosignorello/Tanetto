@@ -78,6 +78,22 @@ const AGE_T = {
   tr: { T: "Yaşın", P: "Doğduğun ayı ve yılı yaz: yaşına uygun içerik ve reklamları göstermek için kullanırız. Bu bilgi yalnızca bu telefonda kalır.", month: "Ay", year: "Yıl", go: "Devam", skip: "Söylememeyi tercih ederim", note: "Bunu yalnızca bir kez soruyoruz.", cloudNo: "Yaşına göre çevrimiçi yedekleme kullanılamıyor: ilerlemen bu telefonda kalır. Yine de bir kopyasını dosyaya kaydedebilirsin.", cloudOff: "Bu telefonda çevrimiçi yedekleme kapatıldı. İlerlemen burada kalır.", money: "Tanì oyun parasıdır, gerçek para değildir. Paketler gerçek paraya mal olur (fiyat düğmenin üstünde yazar) ve yalnızca Google Play ile ödenir.", adult: "Bir şey satın almadan önce mutlaka bir yetişkine sor.", chatSafe: "Unutma: burada ya da internette hiçbir yere tam adını, adresini, okulunu veya telefon numaranı yazma." }
 };
 const ageT = () => AGE_T[S.lang] || AGE_T.en;
+const AGE_STORE_ISSUE = {
+  it: "La scelta precedente non è leggibile. Inseriscila di nuovo: i tuoi progressi non sono stati cancellati.",
+  en: "The previous choice could not be read. Please enter it again; your progress has not been erased.",
+  de: "Die vorherige Angabe konnte nicht gelesen werden. Bitte gib sie erneut ein; dein Fortschritt bleibt erhalten.",
+  es: "No se pudo leer la elección anterior. Introdúcela de nuevo; tu progreso no se ha borrado.",
+  fr: "Le choix précédent est illisible. Saisis-le à nouveau ; ta progression n’a pas été effacée.",
+  pt: "Não foi possível ler a escolha anterior. Informe-a novamente; seu progresso não foi apagado.",
+  ja: "以前の選択を読み取れませんでした。もう一度入力してください。これまでの進行状況は消えていません。",
+  ko: "이전 선택을 읽을 수 없어요. 다시 입력해 주세요. 진행 상황은 삭제되지 않았어요.",
+  zh: "无法读取之前的选择。请重新填写；你的游戏进度没有被删除。",
+  zht: "無法讀取先前的選擇。請重新填寫；你的遊戲進度並未刪除。",
+  ru: "Не удалось прочитать предыдущий выбор. Укажи данные ещё раз; игровой прогресс не удалён.",
+  pl: "Nie udało się odczytać poprzedniego wyboru. Wpisz go ponownie; postępy nie zostały usunięte.",
+  nl: "De vorige keuze kon niet worden gelezen. Vul deze opnieuw in; je voortgang is niet gewist.",
+  tr: "Önceki seçim okunamadı. Lütfen yeniden gir; oyun ilerlemen silinmedi."
+};
 /* Browser fallback: unlike Android noBackupFilesDir, browser storage cannot be guaranteed excluded from device backups. */
 const AGE_BROWSER_P = {
   it: "Inserisci mese e anno di nascita: ci serve per mostrarti contenuti e pubblicità adatti alla tua età. Nel browser viene salvata nella memoria locale; le impostazioni di backup del dispositivo potrebbero includerla.",
@@ -107,7 +123,7 @@ function openAge(after) {
     <div class="agerow"><label class="agefld"><span>${esc(t.month)}</span><select id="ageM" required><option value="" selected></option>${months.map((m, i) => `<option value="${i + 1}">${esc(m)}</option>`).join("")}</select></label>
     <label class="agefld"><span>${esc(t.year)}</span><select id="ageY" required><option value="" selected></option>${years.map((y) => `<option value="${y}">${y}</option>`).join("")}</select></label></div>
     <button class="btn block" id="ageGo" type="button" disabled>${esc(t.go)}</button><button class="link" id="ageSkip" type="button">${esc(t.skip)}</button>
-    <p class="small muted">${esc(t.note)}</p></div></div>`;
+    <p class="small muted">${esc(AGE_STORAGE_RECOVERY ? (AGE_STORE_ISSUE[S.lang] || AGE_STORE_ISSUE.en) : t.note)}</p></div></div>`;
   ageShown = true; trackOnce("eta-chiesta");
   /* (critica fase 2) il lettore di schermo parte dal titolo della finestra (prima il fuoco restava sulla pagina dietro) */
   try { const h = document.getElementById("agT"); if (h) h.focus({ preventScroll: true }); } catch (e) { /* niente */ }
@@ -127,7 +143,7 @@ async function ageSet(a) {
       localStorage.setItem(AGE_KEY, JSON.stringify(a));
     }
   } catch (e) { AGE_STORAGE_FAILED = true; toast(S.lang === "it" ? "Non è stato possibile salvare la scelta. Riprova." : "Could not save your choice. Please try again."); return; }
-  AGE_VALUE = a; AGE_READY = true; AGE_STORAGE_FAILED = false;
+  AGE_VALUE = a; AGE_READY = true; AGE_STORAGE_FAILED = false; AGE_STORAGE_RECOVERY = false;
   trackOnce(a && a.skip ? "eta-non-detta" : "eta-risposta");
   try { if (typeof adsSt !== "undefined") { adsSt.loaded = false; adsInitP = null; if (S.adsOk && typeof adsInit === "function") adsInit(); } } catch (e) { /* niente */ }
   try { if (ageAds() === "child") { adsSt = { canRequestAds: false, privacyRequired: false, loaded: false }; clearTimeout(adsRetryT); adsRetryOn = false; } } catch (e) { /* niente */ }
@@ -164,7 +180,7 @@ setInterval(() => {
    Ora: 1) copie, trasferimenti e backup online si fanno senza "age" (anche la firma della copia e' calcolata senza);
    2) una seconda copia della risposta, solo locale (AGE_KEY), la riporta dopo un ripristino o "Ricomincia da capo". */
 const AGE_KEY = "tanetto-eta";
-let AGE_VALUE, AGE_READY = false, AGE_STORAGE_FAILED = false, ageInitP = null;
+let AGE_VALUE, AGE_READY = false, AGE_STORAGE_FAILED = false, AGE_STORAGE_RECOVERY = false, ageInitP = null;
 function ageNativePlugin() {
   try { const C = window.Capacitor; if (C && C.Plugins && C.Plugins.TanettoAge) return C.Plugins.TanettoAge; if (C && C.registerPlugin) return C.registerPlugin("TanettoAge"); } catch (e) { /* browser or unavailable bridge */ }
   return null;
@@ -187,7 +203,7 @@ function ageInit() {
     const p = ageNativePlugin();
     if (!p && typeof isNativeApp === "function" && isNativeApp()) throw new Error("native_age_plugin_unavailable");
     if (p && typeof p.get === "function" && typeof p.set === "function") {
-      const result = await p.get(); AGE_VALUE = result && result.hasChoice && result.choice ? result.choice : undefined;
+      const result = await p.get(); AGE_STORAGE_RECOVERY = !!(result && result.storageIssue); AGE_VALUE = result && result.hasChoice && result.choice ? result.choice : undefined;
       // Never migrate a legacy or restored backup age to a new device: ask again.
       if (!ageScrubLocalCopies()) throw new Error("age_legacy_scrub_failed");
     } else {
