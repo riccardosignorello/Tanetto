@@ -92,8 +92,12 @@ jobs:
             echo "=== $t"
             rc=0
             (cd tests/t110 && timeout 1500 python3 -u $(basename $t)) > /tmp/tanetto-test.log 2>&1 || rc=$?
-            grep -E "^NO |TUTTO OK|CI SONO|Traceback" /tmp/tanetto-test.log | head -20
-            if [ "$rc" -ne 0 ] || ! grep -q "TUTTO OK" /tmp/tanetto-test.log; then echo "TEST FALLITO: $t (exit $rc)"; fail=1; fi
+            grep -E "^NO |^OK |TUTTO OK|CI SONO|Traceback" /tmp/tanetto-test.log | tail -60 || true
+            if [ "$rc" -ne 0 ] || ! grep -Fxq "TUTTO OK" /tmp/tanetto-test.log; then
+              echo "TEST FALLITO: $t (exit $rc o marker TUTTO OK assente)"
+              tail -100 /tmp/tanetto-test.log
+              fail=1
+            fi
           done
           N111_SHOTS=/tmp/tanetto-n111-shots N111_LOG=/tmp/tanetto-n111.log bash tests/t110/run_n111.sh 8995 || fail=1
           cat /tmp/tanetto-n111.log
