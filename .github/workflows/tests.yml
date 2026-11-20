@@ -6,7 +6,7 @@ on:
   push:
     paths: ["src/**", "tools/**", "tests/**", "app-android/**", ".github/workflows/tests.yml"]
   pull_request:
-    paths: ["src/**", "tools/**", "tests/**", ".github/workflows/tests.yml"]
+    paths: ["src/**", "tools/**", "tests/**", "app-android/**", ".github/workflows/tests.yml"]
   workflow_dispatch:
 
 permissions:
@@ -32,10 +32,7 @@ jobs:
       - name: Android SDK
         uses: android-actions/setup-android@v3
         with:
-          packages: |
-            platform-tools
-            platforms;android-36
-            build-tools;36.0.0
+          packages: "platform-tools,platforms;android-36,build-tools;36.0.0"
       - name: Compilazione Java Android
         working-directory: app-android/android
         run: ./gradlew --no-daemon :app:compileDebugJavaWithJavac
