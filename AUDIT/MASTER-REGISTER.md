@@ -1016,3 +1016,28 @@ Audit in sola lettura. Restano da esaminare i provider widget, i flussi JS che i
 
 ### Punto di ripartenza
 Audit in sola lettura. Prima del rilascio servirà una pipeline distinta per debug/test, release candidate firmata e App Check enforcement. Nessuna chiave o credenziale va caricata nel repository.
+
+
+## Sessione di audit — 2026-11-20, orologio anti-manomissione
+
+### AUD-084 — il clock non può garantire il tempo reale su tutti i dispositivi
+- `ClockPlugin` fornisce il tempo di rete tramite `SystemClock.currentNetworkTimeClock()` soltanto da Android 13 (API 33). Sui dispositivi Android 7–12 fornisce wall clock, elapsed realtime e boot count, ma non un tempo di rete verificabile.
+- La logica in `45z_v20_secboot.js` impedisce il rollback durante lo stesso avvio usando elapsed realtime e conserva un pavimento dell'ora già vista. Dopo un riavvio, se non c'è network time e il boot count è cambiato, il codice deve tornare a fidarsi dell'orologio del telefono: un salto in avanti può quindi essere accettato. La logica di recupero consente inoltre di abbandonare un pavimento dopo 48 ore o se il divario supera 30 giorni.
+- Se il plugin manca, va in errore o non risponde entro 1,5 secondi, l'app usa l'ora del telefono e non blocca l'avvio. Il browser/PWA non ha il plugin nativo e dipende dal clock del dispositivo.
+- Questo non consente di falsificare una transazione server, perché l'economia è principalmente locale; può però anticipare giorni, regali, viaggi e stagioni su dispositivi più vecchi o nel browser. La protezione è best-effort, non un sistema anti-cheat inattaccabile.
+- Soluzione da valutare: tempo server firmato/validato quando online (Firebase/endpoint controllato), mantenimento monotono offline, e regole chiare per i premi time-based quando non esiste un tempo affidabile. Evitare di bloccare l'intera app: in modalità offline mostrare i contenuti ma sospendere solo i premi sensibili al tempo, se necessario.
+
+### AUD-085 — il clock locale può essere ripristinato da Android Auto Backup
+- `SEC_CLK_KEY = "tanetto-clock"` viene salvata in WebView Local Storage. Le regole Android includono l'intera cartella Local Storage per Auto Backup, quindi anche il valore massimo del clock può essere trasferito a un nuovo dispositivo.
+- Il commento in `45z_v20_secboot.js` dice che il clock non viene trasferito nelle copie e non sposta l'ora di un altro telefono. È vero per gli export/backup Tanetto che serializzano solo `S`, ma non per Android Auto Backup che include tutta la Local Storage.
+- Su un dispositivo Android <13, se il clock ripristinato è avanti rispetto al nuovo telefono, `secFloorFor()` può applicare quel valore come pavimento e mantenerlo fino a 48 ore; il risultato può essere un orologio dell'app diverso da quello del nuovo dispositivo. Su Android 13+ il tempo di rete dovrebbe correggere il valore.
+- Soluzione da valutare insieme ad AUD-065/AUD-084: decidere se escludere `tanetto-clock` dal backup, spostarlo in un deposito no-backup, o riprogettare il clock con un'ancora server. Non escluderlo isolatamente senza testare il ripristino e la protezione dei premi.
+
+### Nuovi elementi nel registro
+| ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
+|---|---|---|---|---|---|
+| AUD-084 | Tempo/progressione/anti-cheat | Android <13 dopo riavvio e PWA/browser non dispongono sempre di tempo di rete affidabile; i salti in avanti possono essere accettati | Limite tecnico confermato | Alta | Test device API 24/29/32/33+, offline, reboot, cambio data e ripristino |
+| AUD-085 | Backup/tempo | Android Auto Backup include `tanetto-clock` in Local Storage, mentre il commento afferma che il clock non viene trasferito | Incoerenza documentazione/backup confermata | Media/Alta | Verificare restore cross-device e decidere esclusione o clock server |
+
+### Punto di ripartenza
+Audit in sola lettura. L'orologio va progettato insieme a backup, premi, eventi e modalità offline; non cambiare il singolo plugin senza verificare tutte le dipendenze.
