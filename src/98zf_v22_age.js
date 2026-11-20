@@ -47,15 +47,14 @@ function ageBand() {
   const n = ageYears(a); if (n == null) return "unknown";
   return n < 13 ? "child" : n < ageConsent() ? "teen" : "adult";
 }
-/* per la pubblicita'. 1.0.11 (18/11/2026): Tanetto esce dal programma Google Play Families, pubblico di destinazione solo 13+
-   (13-15, 16-17, 18+): chi non ha detto l'eta' ("Preferisco non dirlo" o domanda non ancora fatta) non e' piu' trattato come un
-   bambino per la pubblicita' ma come "teen" (TFUA, contenuti PG, mai personalizzata): i video con premio ci sono. Chi dichiara
-   meno di 13 anni ("child") resta com'era: niente video, niente SDK, niente UMP (97zn adsKid, AdsPlugin.java).
+/* per la pubblicita'. 1.0.11 (18/11/2026): pubblico di destinazione 13+ (13-15, 16-17, 18+).
+   La risposta esplicita "Preferisco non dirlo" resta "unknown" per le altre protezioni, ma per gli annunci vale "teen"
+   (TFUA, contenuti PG, mai personalizzata): i video con premio sono disponibili. La domanda non ancora risposta e' diversa:
+   AGE_VALUE resta undefined e adsOn() blocca ogni chiamata all'SDK finche' la persona non risponde o sceglie di non dirlo.
+   Chi dichiara meno di 13 anni ("child") resta senza video, SDK e UMP (97zn adsKid, AdsPlugin.java).
    Tutto il resto NON cambia: per ageBand, ageCloudOk (account e backup online), le note "Chiedi a un adulto" e la modalita'
-   protetta (ageKid, 98zz) chi non ha detto l'eta' resta "unknown".
-   fix 1.0.9 (verifica finale A m3): chi ha detto l'eta' e ha meno di 18 anni non riceve mai il trattamento "adult" (pubblicita'
-   personalizzabile), anche dove l'eta' del consenso e' 13 (Stati Uniti, Regno Unito...): sotto i 18 anni almeno "teen"
-   (TFUA, contenuti PG, mai personalizzata). L'account resta su ageCloudOk() (eta' del consenso del Paese), come prima. */
+   protetta (ageKid, 98zz), skip e pending restano "unknown".
+   fix 1.0.9: chi ha meno di 18 anni non riceve mai il trattamento "adult" per la pubblicita' personalizzabile. */
 const ageAds = () => { const b = ageBand(); if (b === "unknown") return "teen"; if (b === "adult" && ageYears(AGE_VALUE) < 18) return "teen"; return b; };
 const ageCloudOk = () => ageBand() === "adult";
 /* modalita' protetta (98zz) e righe di Plus per i piu' piccoli: sotto i 13 anni dichiarati O eta' non detta (come prima della 1.0.11) */
@@ -175,10 +174,9 @@ setInterval(() => {
 }, 1200);
 
 /* ---------- (critica fase 2) l'eta' resta davvero solo su questo telefono ----------
-   Prima AGE_VALUE finiva anche nel backup online (Firebase), nella copia su file e nel codice di trasferimento, mentre la
-   schermata dice "Resta solo su questo telefono" (e la scheda Sicurezza dei dati di Play dice che non esce dal telefono).
-   Ora: 1) copie, trasferimenti e backup online si fanno senza "age" (anche la firma della copia e' calcolata senza);
-   2) una seconda copia della risposta, solo locale (AGE_KEY), la riporta dopo un ripristino o "Ricomincia da capo". */
+   Copie, trasferimenti e backup online non contengono "age". Nell'app Android la scelta vive nel file nativo
+   getNoBackupFilesDir() (escluso da backup automatico e trasferimento dispositivo-dispositivo); il Web usa AGE_KEY
+   come deposito locale di ripiego. Android non mantiene una copia dell'eta' in Local Storage o nello stato esportabile. */
 const AGE_KEY = "tanetto-eta";
 let AGE_VALUE, AGE_READY = false, AGE_STORAGE_FAILED = false, AGE_STORAGE_RECOVERY = false, ageInitP = null;
 function ageNativePlugin() {

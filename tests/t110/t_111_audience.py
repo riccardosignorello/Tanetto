@@ -1,6 +1,6 @@
 """1.0.11 (18/11/2026): pubblico dai 13 anni in su (Play Console: 13-15, 16-17, 18+), modalita' protetta per chi risulta
 bambino (ageKid(): sotto i 13 anni, "Preferisco non dirlo", eta' mai chiesta).
-1.0.11 (18/11/2026, uscita da Families): per "Preferisco non dirlo" ed eta' mai chiesta la modalita' protetta resta, ma i video
+1.0.11 (18/11/2026, uscita da Families): "Preferisco non dirlo" resta protetto ma consente video teen non personalizzati; eta' non ancora data = pending, senza SDK fino alla risposta.
 con premio ci sono (ageAds() = "teen": TFUA, mai personalizzata); solo chi dichiara meno di 13 anni resta senza video.
 1) Modalita' protetta completa, provata per child / skip / mai chiesta (telefono finto, moduli finti che contano le chiamate):
    niente video e niente modulo degli annunci (quindi niente SDK e niente ID pubblicita'), niente statistiche (nessuna
@@ -132,7 +132,7 @@ async def main(b):
     # 4) testi in 14 lingue
     ctx, pg = await T.page(b, T.base_state("en"), age="adult")
     pp = open(os.path.join(T.REPO, "privacy.html"), encoding="utf-8").read()
-    T.check("data dell'informativa 18/11/2026", await T.ev(pg, "PRIVACY_DATE") == "2026-11-18")
+    T.check("data dell'informativa 21/11/2026", await T.ev(pg, "PRIVACY_DATE") == "2026-11-21")
     for lang in T.LANGS:
         r = json.loads(await T.ev(pg, f"""JSON.stringify((() => {{ const t = T['{lang}'], x = A111['{lang}'];
           return {{ x, P: t.privDoc, C: t.terms, p: t.privP, note: AGE_T['{lang}'].note, ageP: AGE_T['{lang}'].P, skip: AGE_T['{lang}'].skip }}; }})())"""))
@@ -149,7 +149,7 @@ async def main(b):
         enc = lambda v: json.dumps(v.replace("{email}", em), ensure_ascii=False)[1:-1]
         T.check(f"  {lang}: pagina pubblica privacy.html con il paragrafo nuovo, il riassunto e la riga delle condizioni", enc(x["kids"]) in pp and enc(x["sum"]) in pp and enc(x["terms"]) in pp, lang)
     T.check("pagina pubblica: nessun 'for all ages' / 'per tutte le eta''", not [o for o in OLD_ALL if o in pp], [o for o in OLD_ALL if o in pp])
-    T.check("pagina pubblica: data 18/11/2026 (inglese e italiano)", "18/11/2026" in pp and "17/11/2026" not in pp)
+    T.check("pagina pubblica: data 21/11/2026 (inglese e italiano)", "21/11/2026" in pp and "18/11/2026" not in pp)
     T.check("nessun errore (testi)", not pg.errs, pg.errs[:2])
     await ctx.close()
     # schermata dell'eta' vera (primo avvio): nota neutra, niente "13", "Preferisco non dirlo" presente

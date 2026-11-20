@@ -282,11 +282,12 @@ async def main(b):
     old = ["only child-appropriate ones", "child-appropriate ads that are not personalised", "ads are always child-appropriate", "solo quelli adatti ai bambini", "pubblicità adatta ai bambini", "la pubblicità è sempre adatta ai bambini"]
     T.check("  pagina pubblica e testi it/en: nessuna delle frasi vecchie", not [o for o in old if o in pp] and not [o for o in old if o in await T.ev(pg, "T.en.privDoc.join(' ') + T.it.privDoc.join(' ') + V23.en.ageNo + V23.it.ageNo")])
     T.check("  'Preferisco non dirlo' in Profilo: video mai personalizzati (non piu' 'niente video'), niente pubblicità per bambini (it/en)", "non sono mai personalizzati" in await T.ev(pg, "V23.it.ageNo") and "never personalised" in await T.ev(pg, "V23.en.ageNo") and "no reward videos" not in await T.ev(pg, "V23.en.ageNo"))
-    T.check("  data dell'informativa aggiornata (18/11/2026, 1.0.11)", await T.ev(pg, "PRIVACY_DATE") == "2026-11-18")
+    T.check("  data dell'informativa aggiornata (21/11/2026, 1.0.12)", await T.ev(pg, "PRIVACY_DATE") == "2026-11-21")
     backup = json.loads(await T.ev(pg, "JSON.stringify(V110_BACKUP)"))
     old_age_claims = ["compresa l'età", "including your age", "auch dein Alter", "incluida tu edad", "y compris ton âge", "incluindo sua idade", "年齢を含む", "나이 포함", "包括年龄", "包括年齡", "включая возраст", "także wieku", "ook je leeftijd", "yaşın dahil"]
     T.check("  backup Android: nessuna delle 14 lingue dichiara più che l'età viene copiata", len(backup) == 14 and not any(old.lower() in value.lower() for old in old_age_claims for value in backup.values()), [k for k,v in backup.items() if any(old.lower() in v.lower() for old in old_age_claims)])
     T.check("  backup Android: italiano e inglese escludono esplicitamente mese e anno di nascita", "esclusi il mese e l'anno di nascita" in backup["it"] and "excluding your birth month and year" in backup["en"])
+    T.check("  backup Android: la stessa esclusione appare anche nell'informativa app e nella pagina pubblica", "excluding your birth month and year" in pp and "excluding your birth month and year" in await T.ev(pg, "T.en.privDoc[2]"))
     T.check("  adulto: la scheda dell'eta' in Profilo non parla di 'niente video' (come prima)", AGE_NOAD_EN not in await T.ev(pg, "psAgeCard()"))
     await ctx.close()
     for lang in T.LANGS:
@@ -303,6 +304,8 @@ async def main(b):
     T.check("nativo: show rilegge la scelta locale e rifiuta prima di mostrare", "refreshTrustedAge()" in body("show") and body("show").index("kid()") < body("show").index("ad.show("))
     T.check("nativo: startSdk e privacy fermi per 'child', state() mai 'canRequestAds' per 'child'", "if (kid()) return;" in j[j.index("private void startSdk"):][:200] and "if (kid())" in body("privacy") and '"canRequestAds", !k &&' in j)
     T.check("nativo: senza scelta valida resta pending e init/load/show verificano il deposito locale", 'private volatile String age = "pending";' in j and all("refreshTrustedAge()" in body(x) for x in ("init", "load", "show")) and 'return "pending";' in j)
+    age_store = open(os.path.join(T.REPO, "app-android/android/app/src/main/java/com/tanettoapp/tanetto/AgeStorePlugin.java"), encoding="utf-8").read()
+    T.check("nativo: una data di nascita salvata non puo' essere sostituita", "AgePolicy.canReplace(" in age_store and 'call.reject("age_choice_locked", "age_choice_locked")' in age_store)
     man = open(os.path.join(T.REPO, "app-android/android/app/src/main/AndroidManifest.xml"), encoding="utf-8").read()
     T.check("nativo: la misurazione degli annunci parte solo con MobileAds.initialize (DELAY_APP_MEASUREMENT_INIT)", 'android:name="com.google.android.gms.ads.DELAY_APP_MEASUREMENT_INIT" android:value="true"' in man)
     js = open(os.path.join(T.REPO, "src/97zn_v19_ads.js"), encoding="utf-8").read()
