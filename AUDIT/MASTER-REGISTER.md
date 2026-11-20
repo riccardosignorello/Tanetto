@@ -709,3 +709,25 @@ Audit in sola lettura. Prossimo blocco: completare i moduli di gioco, negozio, m
 - Esiste anche `reviewers/{uid}`, creato solo manualmente dallo sviluppatore per gli account di revisione Play; le regole impediscono al client di cancellarlo e `TanFB.remove()` non lo rimuove. È un documento interno di entitlement, non il backup dell'utente, ma resta associato all'UID cancellato e va incluso nella procedura amministrativa di pulizia.
 - Non risultano altri documenti Firestore legati all'UID ordinario: gli inviti usano codice e hash dispositivo, non Firebase Auth. La retention degli inviti resta separata e dipende dalla TTL esterna.
 - Azione futura: distinguere chiaramente “backup già eliminato” da “account ancora da eliminare”, permettere reautenticazione e completamento, e avere una procedura amministrativa per eliminare anche eventuali record `reviewers/{uid}` quando appropriato.
+
+
+## Sessione di audit — 2026-11-20, acquisto effettivo degli Introvabili
+
+### AUD-059 — aggiramento confermato del vincolo sui Tanì pagati
+- La regola di prodotto in `98ze_v22_introvabili.js` è esplicita: i Tanì provenienti da pacchetti/Plus/ricompense classificate come pagate non devono essere utilizzabili per gli Introvabili. `xvUsable()` sottrae il residuo del bucket `econ().paid`.
+- Il wrapper modifica `shopItem()` e `needSheet()`, ma non modifica il percorso effettivo di acquisto.
+- In `96_v7.js`, `tryBar()` abilita il pulsante `#tryBuy` usando `S.seeds < s.price` (saldo totale), non `xvUsable()`. Il listener `#tryBuy` verifica nuovamente il saldo totale e sottrae il prezzo da `S.seeds`.
+- Il listener anti-doppio-conteggio in `98zk_v26_fix.js` rileva l'aumento degli oggetti Introvabili e salta intenzionalmente l'incremento di `spentN`; quindi l'acquisto non viene neppure registrato come spesa dei Tanì pagati.
+- **Scenario riproducibile per via statica:** con saldo totale pari o superiore al prezzo di un Introvabile, ma con `xvUsable() = 0` perché tutto il saldo proviene da pacchetti/Plus, la scheda permette di aprire la prova, `tryBar` mostra “compra” e `tryBuy` completa l'acquisto. Il saldo residuo resta classificato come pagato, ma l'oggetto è già stato ottenuto. Il vincolo economico è quindi aggirabile dal normale percorso UI, senza modificare il backup.
+- `t_b2_money.py` verifica la funzione di saldo utilizzabile e l'uso dei Tanì pagati per l'albero di Natale/negozio ordinario, ma non esegue il percorso reale `data-shop → tryBar → #tryBuy` per un Introvabile. La copertura attuale non rileva il difetto.
+- **Conseguenza:** la promessa “gli Introvabili si ottengono soltanto con Tanì guadagnati giocando” non è rispettata; i pacchetti/Plus possono finanziare direttamente gli oggetti esclusivi, alterando l'economia e il posizionamento pay-to-win.
+- Soluzione definitiva da pianificare: un'unica funzione atomica `canSpendForItem(item, cost)`/ `spendTani(cost, category)` usata dal rendering, dal riepilogo e dal gestore di acquisto. Il controllo deve essere ripetuto nel gestore prima di sottrarre il saldo; non affidarsi a classi CSS o bottoni disabilitati. La transazione deve aggiornare saldo, bucket e inventario in modo coerente e salvare una sola volta.
+- Test di regressione obbligatori: saldo tutto pagato; saldo misto con quota gratuita insufficiente; saldo misto sufficiente; spesa esatta; doppio tap; restore durante anteprima; acquisto concorrente; salvataggio fallito; ogni Introvabile e ogni entry point (vetrina e scheda negozio).
+
+### Nuovo elemento nel registro
+| ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
+|---|---|---|---|---|---|
+| AUD-059 | Economia/monetizzazione | Il percorso `tryBuy` degli Introvabili usa il saldo totale e aggira il vincolo sui Tanì pagati; il listener salta il conteggio proprio quando aumenta l'inventario Introvabili | Difetto logico confermato da codice | Critica | Test E2E del click reale e transazione atomica con saldo utilizzabile |
+
+### Punto di ripartenza
+Audit in sola lettura. Questo difetto va trattato come priorità critica nel piano generale insieme alla verifica acquisti/backup. Non correggere soltanto `tryBar`: il controllo definitivo deve stare nel gestore di acquisto e in un'API centrale di spesa, coprendo tutti gli entry point.
