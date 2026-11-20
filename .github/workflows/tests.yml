@@ -35,6 +35,15 @@ jobs:
           packages: platform-tools
       - name: SDK platform e build tools
         run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
+      - name: Dipendenze e sincronizzazione Capacitor
+        working-directory: app-android
+        run: |
+          npm ci --no-audit --no-fund
+          cd ..
+          python3 tools/build.py
+          python3 app-android/prep_www.py
+          cd app-android
+          npx cap sync android
       - name: Compilazione Java Android
         working-directory: app-android/android
         run: ./gradlew --no-daemon :app:compileDebugJavaWithJavac
