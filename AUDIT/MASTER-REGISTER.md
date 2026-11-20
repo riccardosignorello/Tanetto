@@ -274,3 +274,23 @@ Sono stati letti intestazioni, obiettivi e funzioni principali dei 32 file della
 
 ### Punto di ripartenza
 Audit in sola lettura. Prossimo blocco: esaminare sicurezza del boot/salvataggio e gestione dell'orologio, poi completare la mappa delle funzioni core e verificare i fallimenti CI uno per uno solo dopo aver raccolto tutte le dipendenze. Continuare a salvare il registro documentale nel branch dedicato; il codice applicativo resta immutato.
+
+
+## Sessione di audit — 2026-11-20, checkpoint inviti e integrità dei premi
+
+### Inviti: threat model approfondito
+- `n111Qualify()` registra nel client i giorni d'uso in `S.n111.from.days` e invia `invQualify(code,cid,k)` dopo tre date distinte. Le regole Firestore non ricevono la lista dei tre giorni: verificano solo che la chiave `k` corrisponda all'hash `kh` e che siano trascorse almeno 36 ore dal primo arrivo.
+- **Bypass riproducibile a livello di protocollo:** un client modificato può invocare direttamente `invQualify()` dopo 36 ore senza attendere tre giorni distinti. Il vincolo dei tre giorni è quindi applicato dal client ufficiale, non dal server. Non è una garanzia antifrode server-side.
+- **Rischio duplicazione premi dell'invitante:** `n111CheckRewards()` legge il contatore server `q`, ma la posizione già pagata `got` è conservata solo in `S.n111.own.got`. Il server non registra in modo autorevole quanti premi sono già stati consegnati all'invitante. Un ripristino di un backup/copia firmata più vecchia, o un client che ripristina `got`, può ricalcolare `q - got` e accreditare nuovamente premi già ricevuti. Il limite `N111_MAX=3` è anch'esso lato client. Da verificare con una riproduzione controllata prima di quantificare l'impatto, ma la mancanza del contatore server di payout è strutturale.
+- Il premio di 50 Tanì all'amico è registrato dopo la creazione server della claim; il documento `devs/{dev}` limita il riutilizzo della stessa impronta, ma l'impronta è derivata da Android ID e non è attestata dal server. Emulazione/root/client modificato possono simulare altri ID.
+- Il server non autentica gli utenti per gli inviti; questo è coerente con la promessa “senza account”, ma rende ancora più importante un ledger server-side non manipolabile per limiti, idempotenza e premi.
+- Soluzione da valutare: backend fidato (Cloud Functions/Run con Admin SDK) per validare install referrer/attestazione quando disponibile, registrare eventi d'uso attendibili e consegnare i premi con transazione idempotente e contatore payout server-side. Non introdurre account obbligatorio senza valutazione prodotto/privacy.
+
+### Nuovo elemento nel registro
+| ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
+|---|---|---|---|---|---|
+| AUD-021 | Inviti/economia | Payout invitante dedotto da `q - got`, ma `got` è solo locale; il server non memorizza il payout già eseguito | Rischio strutturale di doppio accredito | Alta | Riprodurre con backup firmato obsoleto e restore ripetuto; progettare ledger server idempotente |
+| AUD-022 | Inviti/anti-abuso | Le 3 date d'uso sono verificate dal client; le regole server impongono soltanto 36 ore | Bypass di protocollo confermato | Media/Alta | Simulare chiamata diretta dopo 36 ore; decidere una verifica server attendibile |
+
+### Punto di ripartenza
+Audit in sola lettura. Prossimo blocco: continuare il threat model di economia e premi, poi esaminare in profondità obiettivi, serie, stagioni, viaggi, diario, chat, crisi, giochi, negozio, oggetti, capsule, notifiche e widget. Ogni rischio resta separato tra difetto dimostrato, limite architetturale e ipotesi da riprodurre.
