@@ -241,7 +241,7 @@ async def main(b):
     await grown_case(b, "teen", "extra gift")
     # 1.0.11: "Preferisco non dirlo" ed eta' mai chiesta: i video ci sono, come per i ragazzi (al modulo arriva "teen")
     await grown_case(b, "skip", "extra gift", sent="teen")
-    await grown_case(b, "none", "extra gift", sent="teen")
+    await grown_case(b, "skip", "extra gift", sent="teen")
     for age in ("skip", "none"):
         ctx, pg = await T.page(b, st0("en"), native=True, age=age, lang="en-US", wait=2500)
         r = json.loads(await T.ev(pg, "JSON.stringify({ band: ageBand(), ads: ageAds(), cloud: ageCloudOk(), kid: ageKid(), prot: document.documentElement.classList.contains('a111kid') })"))
@@ -294,11 +294,11 @@ async def main(b):
     j = open(os.path.join(T.REPO, "app-android/android/app/src/main/java/com/tanettoapp/tanetto/AdsPlugin.java"), encoding="utf-8").read()
     def body(name):
         k = j.index("public void " + name + "("); e = j.find("@PluginMethod", k); return j[k:e if e > 0 else len(j)]
-    T.check("nativo: init con 'child' risponde subito senza consenso UMP e senza SDK", re.search(r"setAge\(a\);\s*/\*[^*]*\*/\s*if \(kid\(\)\) \{ call\.resolve\(state\(\)\); return; \}", body("init")) is not None and body("init").index("kid()") < body("init").index("getConsentInformation"))
+    T.check("nativo: init verifica la scelta locale e ferma pending/child prima del consenso UMP", "refreshTrustedAge()" in body("init") and "if (kid())" in body("init") and body("init").index("refreshTrustedAge()") < body("init").index("getConsentInformation") and body("init").index("kid()") < body("init").index("getConsentInformation"))
     T.check("nativo: load con 'child' rifiuta prima di chiedere un video", "if (kid()) { rewarded = null; call.reject(\"child\"" in body("load") and body("load").index("kid()") < body("load").index("RewardedAd.load"))
-    T.check("nativo: show con 'child' rifiuta prima di mostrare (e legge l'eta' passata dall'app)", 'call.getString("age")' in body("show") and body("show").index("kid()") < body("show").index("ad.show("))
+    T.check("nativo: show rilegge la scelta locale e rifiuta prima di mostrare", "refreshTrustedAge()" in body("show") and body("show").index("kid()") < body("show").index("ad.show("))
     T.check("nativo: startSdk e privacy fermi per 'child', state() mai 'canRequestAds' per 'child'", "if (kid()) return;" in j[j.index("private void startSdk"):][:200] and "if (kid())" in body("privacy") and '"canRequestAds", !k &&' in j)
-    T.check("nativo: senza eta' (o eta' strana) vale 'child'", 'private volatile String age = "child";' in j and 'call.getString("age", "child")' in j)
+    T.check("nativo: senza scelta valida resta pending e init/load/show verificano il deposito locale", 'private volatile String age = "pending";' in j and all("refreshTrustedAge()" in body(x) for x in ("init", "load", "show")) and 'return "pending";' in j)
     man = open(os.path.join(T.REPO, "app-android/android/app/src/main/AndroidManifest.xml"), encoding="utf-8").read()
     T.check("nativo: la misurazione degli annunci parte solo con MobileAds.initialize (DELAY_APP_MEASUREMENT_INIT)", 'android:name="com.google.android.gms.ads.DELAY_APP_MEASUREMENT_INIT" android:value="true"' in man)
     js = open(os.path.join(T.REPO, "src/97zn_v19_ads.js"), encoding="utf-8").read()
