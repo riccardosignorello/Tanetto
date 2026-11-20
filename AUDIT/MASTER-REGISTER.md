@@ -644,3 +644,32 @@ Audit in sola lettura. Prossimo blocco: completare SEO e sito live, controllare 
 
 ### Punto di ripartenza
 Audit in sola lettura. Prossimo blocco: completare review delle classi native, build variants, dipendenze, manifest merge, SDK privacy e prove su device; poi completare le funzioni core rimanenti. La configurazione Play/Firebase e la verifica dei dati di produzione resteranno in una sola checklist finale per l'utente.
+
+
+## Sessione di audit — 2026-11-20, release Android e infrastruttura Firebase
+
+### Build Android — configurazione osservata
+- Il progetto usa compile/target SDK 36, min SDK definito in `variables.gradle`, Gradle Plugin 8.13.0 e Capacitor 7.4.3. Le dipendenze dichiarate includono Billing 8.3.0, Google Mobile Ads 25.5.0, UMP 4.0.0, Credential Manager 1.5.0, Google ID 1.1.1 e Play Review 2.0.2.
+- R8 e resource shrinking sono attivi in release; le regole tengono i plugin Capacitor e i componenti creati dal manifest. Da testare l'AAB release reale, perché la CI ordinaria compila soprattutto il percorso di prova.
+- La firma di produzione è cercata in `TANETTO_KEYS` o nel percorso storico `/home/claude/chiavi`; la chiave non è nel repository e non deve esserlo. Il percorso predefinito è specifico della macchina e va sostituito con una procedura portabile e sicura per la release. Senza chiave il build release non viene firmato; il keystore `prova.keystore` è usato soltanto per debug/test.
+- La versione Android è ancora 1.0.11 / code 114; il bump 1.0.12 va fatto solo nel pacchetto di release dopo audit e test.
+- `android:allowBackup=true` con include espliciti salva Local Storage WebView e SharedPreferences del widget, non il file età nativo, non la sessione Firebase e non il referrer. Il backup include però `tanetto-clock`, come già precisato in AUD-054.
+- Il manifest include `com.google.android.gms.permission.AD_ID`; rimuove permessi AdServices e exact alarm. Il codice non inizializza AdMob per child/age pending, ma la presenza del permesso va confrontata con target audience, policy Families e dichiarazioni Play correnti.
+- `SCHEDULE_EXACT_ALARM` viene rimosso intenzionalmente; i promemoria devono funzionare con orari non esatti. Verificare il manifest unito finale e il receiver di boot del plugin Local Notifications, perché i permessi del plugin arrivano anche dai manifest delle dipendenze.
+
+### Firebase: codice, regole e produzione
+- Il repository non contiene `firebase.json` né un alias di progetto Firebase. Le regole Firestore sono testate con Emulator Suite in CI, ma il deployment delle regole in produzione è manuale (commenti indicano copia/incolla nella Console).
+- Non è possibile dedurre dal repository se le regole attualmente attive in produzione coincidano con `tools/firebase/firestore.rules`. Una modifica committata e testata nell'emulatore non protegge il backend finché non viene pubblicata.
+- L'assenza di un deploy tracciato crea rischio di drift: codice client nuovo può aspettarsi regole diverse da quelle attive, o regole vecchie possono rimanere permissive. La release checklist dovrà richiedere export/commit delle regole attive, diff rispetto al repository, test emulator e deploy esplicito al progetto corretto.
+- App Check è configurabile solo quando entrambe le proprietà Gradle `tanettoAppCheckAppId` e `tanettoAppCheckApiKey` sono valorizzate; al momento sono vuote, quindi viene compilato il plugin stub off e nessun token viene richiesto. Le regole Firestore non hanno enforcement App Check. L'accensione richiederà registrazione dell'app Android e attivazione graduale dell'enforcement nella Console Firebase.
+- Il flavor App Check acceso (debug provider e Play Integrity release) non viene compilato dalla CI attuale; occorre aggiungere almeno un job di compilazione/test del flavor on con valori fittizi di formato valido, e poi prova reale su device con token debug/Play Integrity.
+- La TTL Firestore è anch'essa una configurazione esterna non versionata; verificare tutte le collection group in Console, come AUD-042.
+
+### Nuovi elementi nel registro
+| ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
+|---|---|---|---|---|---|
+| AUD-055 | Firebase/operazioni | Regole testate in emulator ma deployment produzione manuale e non tracciato; manca alias/config Firebase nel repo | Gap operativo confermato | Alta | Esportare regole attive, diff, deploy controllato e verifica post-deploy |
+| AUD-056 | Android/App Check/CI | Flavor App Check on non viene compilato dalla CI ordinaria; produzione resta off | Gap di test/config confermato | Alta | Compilare flavor on in CI e provare Play Integrity su device |
+
+### Punto di ripartenza
+Audit in sola lettura. Prossimo blocco: verificare dipendenze/SDK aggiornati e policy correnti, completare la mappa Android e la review delle funzioni core rimanenti. Le attività esterne (Firebase Console, Play Console, firma release) saranno raccolte in una sola checklist finale per l'utente.
