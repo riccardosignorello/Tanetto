@@ -836,3 +836,15 @@ Audit in sola lettura. Prossimo blocco: completare le restanti aree di prodotto 
 
 ### Punto di ripartenza
 Audit in sola lettura. La decisione su backup dei minori è bloccante: va presa nel piano generale dopo valutazione tecnica e legale, non con una correzione isolata. Proseguire con le altre aree prima di scegliere l'architettura definitiva.
+
+
+### Ulteriore punto legale — possibile trattamento di dati particolari
+- Il backup Firebase contiene l'intero stato serializzato, compresi diario, check-in, umore e progressi. Gli utenti possono inserire liberamente informazioni su salute mentale, ansia, depressione, autolesionismo o altre condizioni.
+- Anche se Tanetto non usa il testo per profilazione/analytics e il rilevamento di crisi avviene localmente, il backup cloud può trasferire contenuti che, per il loro contenuto, rientrano nelle categorie particolari di dati sulla salute (GDPR art. 9). L'eventuale trattamento va valutato da un legale privacy: base giuridica art. 6 e condizione art. 9, consenso esplicito quando necessario, minimizzazione, retention, accesso, DPIA e misure tecniche.
+- La sola scelta “crea account” potrebbe non essere una manifestazione sufficientemente specifica/esplicita per il trattamento di eventuali dati sulla salute contenuti nel diario. Non dare per scontato che il backup generico equivalga al consenso esplicito.
+- Opzioni architetturali da valutare nel piano: diario escluso dal backup cloud; cifratura end-to-end client-side con gestione chiavi/recupero; backup separato con consenso specifico; oppure nessun backup di contenuti liberi. Ogni opzione ha impatti su UX, recupero account e supporto.
+- Non raccogliere né inviare il contenuto del diario a analytics o diagnostica; verificare anche export, crash logs e screenshot di supporto.
+
+| ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
+|---|---|---|---|---|---|
+| AUD-068 | GDPR/dati particolari | Backup cloud dell'intero stato può includere diario e umore con dati relativi alla salute; base art. 9 e consenso specifico non dimostrati dal solo codice | Rischio legale da valutare | Critica | Parere privacy legale e scelta architetturale prima di mantenere il diario nel backup Firebase |
