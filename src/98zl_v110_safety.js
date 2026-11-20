@@ -8,7 +8,8 @@
 const sf110Minor = () => {
   try {
     if (typeof ageBand !== "function" || ageBand() !== "adult") return true;
-    return typeof ageYears === "function" && !!S.age && !S.age.skip && ageYears(S.age) < 18;
+    const a = typeof AGE_VALUE !== "undefined" ? AGE_VALUE : S.age;
+    return typeof ageYears === "function" && !!a && !a.skip && ageYears(a) < 18;
   } catch (e) { return true; }
 };
 /* =================== 1.0.10 (110) sicurezza: fuso orario -> Paese (per i numeri di aiuto) ===================
