@@ -3,7 +3,7 @@
 **Ultimo aggiornamento:** 20 novembre 2026  
 **Repository:** `riccardosignorello/Tanetto`  
 **Branch documentale audit:** `audit/tanetto-full-review`  
-**Ultimo commit del registro prima di questo checkpoint:** `f936e99d5a80200755d4f359cc5a7de114886d26`  
+**Ultimo commit del registro prima di questo checkpoint:** aggiornato dopo `f936e99d5a80200755d4f359cc5a7de114886d26`; verificare l'HEAD corrente del branch audit.  
 **Registro master:** [AUDIT/MASTER-REGISTER.md](MASTER-REGISTER.md)
 
 ## Regola di lavoro non negoziabile
@@ -39,13 +39,13 @@ Il registro master contiene i dettagli e le prove; questa sezione è solo un ind
 - Sito, SEO, press kit, distribuzione e contenuti pubblici.
 
 ### Finding prioritari da non perdere
-- **AUD-059 — Critico:** il percorso reale di acquisto Introvabili in `96_v7.js` usa il saldo totale in `tryBar/#tryBuy`, non `xvUsable()`. Il listener di spesa salta il conteggio quando aumenta l'inventario Introvabili. Quindi i Tanì classificati come pagati/Plus possono finanziare direttamente gli Introvabili. Il test `t_b2_money.py` non esercita il percorso reale. Soluzione futura: API atomica di spesa e test E2E per ogni entry point.
+- **AUD-059 — Media (hardening):** il normale click degli Introvabili è già protetto da `xvWithUsable()` e da un listener `document` in capture che blocca `#tryBuy` quando `xvUsable() < prezzo`. Il precedente sospetto di bypass completo era errato. Resta da centralizzare il controllo nella funzione atomica di spesa e aggiungere un test E2E del percorso reale.
 - **AUD-065 — Critico:** Android Auto Backup include WebView Local Storage e dati del widget per tutte le fasce d'età; il diario/progressi locali possono essere trasferiti a Google anche nella modalità protetta, se il backup di sistema è attivo. Il backup Tanetto/Firebase è distinto. L'informativa dice erroneamente che l'età è inclusa; l'età nativa è in `noBackupFilesDir` e viene esclusa.
 - **AUD-068 — Critico:** il backup Firebase può contenere diario e umore, quindi contenuti potenzialmente relativi alla salute. Serve valutazione legale GDPR art. 9 e scelta architetturale (escludere diario, cifratura E2E o consenso specifico).
 - **AUD-069 — Critico da verificare:** la tabella `AGE_CONSENT` è più ampia di quanto inizialmente stimato e include già India/Turchia a 18; non riscriverla senza revisione legale. Restano da verificare valori, copertura di tutti i mercati, granularità subnazionale e limiti dei segnali locale/fuso modificabili.
 - **AUD-063 — Alta:** `tests.yml` prova a fare push usando `GITHUB_REF_NAME` anche per PR (`123/merge`), con permessi write globali; separare test read-only e sync artefatti.
 - **AUD-055/056 — Alta:** deploy delle regole Firestore non tracciato; App Check production off e flavor on non testato in CI.
-- **AUD-030 — Alta:** la contabilità dei Tanì pagati incrementa `spentN` dell'intera spesa, anche quando la quota pagata residua è inferiore; da correggere insieme ad AUD-059 con transazione centrale.
+- **AUD-030 — Alta:** la contabilità dei Tanì pagati incrementa `spentN` dell'intera spesa, anche quando la quota pagata residua è inferiore; il test `t_b2_money.py` si aspetta `min(spesa, residuo pagato)`. Da correggere con transazione centrale.
 - **AUD-057 — Media/Alta:** filtro nomi basato su sottostringhe può creare falsi positivi e non ha copertura madrelingua CJK.
 - **AUD-060 — Alta:** sistema di supporto euristico in 14 lingue e linee telefoniche devono essere validati da professionisti e madrelingua; non presentarlo come diagnosi o rilevamento completo.
 - **AUD-058/064 — Alta:** test reali su device, servizi Google/Firebase, accessibilità assistiva, log/artifact, SAST e dependency scanning ancora mancanti.
