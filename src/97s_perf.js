@@ -27,13 +27,15 @@ function ambQuiet(ms) { ambQuietUntil = Math.max(ambQuietUntil, performance.now(
 
 /* Dopo ogni disegno della scena: grana come immagine e animazioni d'ambiente sul "motore lento" */
 function roomTune() {
-  const room = document.getElementById("room"); if (!room) return;
+  const room = document.getElementById("room");
+  if (ambObs) { ambObs.disconnect(); ambObs = null; }
+  if (!room) { ambVisible = false; return; }
+  ambVisible = true;
   let had = roomGrain;
   room.querySelectorAll(":scope > svg > rect[filter]").forEach((r) => { if (/url\(#gr/.test(r.getAttribute("filter") || "")) { r.remove(); had = true; } });
   const cur = room.querySelector(":scope > .rgrain");
   if (had && !cur) { const g = document.createElement("div"); g.className = "rgrain"; g.setAttribute("aria-hidden", "true"); g.setAttribute("data-keep", "1"); const sv = room.querySelector(":scope > svg"); if (sv) sv.after(g); }
   else if (!had && cur) cur.remove();
-  if (ambObs) ambObs.disconnect();
   if ("IntersectionObserver" in window) { ambObs = new IntersectionObserver((es) => { ambVisible = es.some((e) => e.isIntersecting); if (ambVisible) ambStart(); }); ambObs.observe(room); }
 }
 function ambAdopt() {
