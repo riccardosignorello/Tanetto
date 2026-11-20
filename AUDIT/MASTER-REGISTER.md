@@ -187,3 +187,30 @@ Prossimo blocco: completare la lettura dei flussi account (inclusi `packState/un
 
 ### Punto di ripartenza
 Audit sempre in sola lettura. Prossimo blocco: ricostruire integralmente la serializzazione e il ripristino dei progressi (incluse monete acquistate, età esclusa, migrazioni e trasferimenti), completare l'analisi di inviti e acquisti, poi proseguire su tutte le funzionalità principali e le relative prove. Non integrare il branch age-gate e non correggere ancora il codice.
+
+
+## Sessione di audit — 2026-11-20, checkpoint CI/CD, build e informativa
+
+### CI/CD e dipendenze — configurazione verificata
+- `.github/workflows/tests.yml` si attiva sia su `push` sia su `pull_request`, dichiara `permissions: contents: write` a livello workflow e include uno step che ricostruisce file generati, esegue `git commit` e tenta `git push origin "$GITHUB_REF_NAME"`. Questo è un problema concreto di separazione dei privilegi: i test di una pull request non dovrebbero avere permessi di scrittura né pubblicare artefatti sul branch. Per PR da fork GitHub normalmente limita il token, ma ciò non rende sicuro il disegno per PR interne o per eventi futuri. La soluzione va pianificata come workflow separati: test read-only su push/PR; generazione e commit artefatti solo su push autorizzato al branch previsto, con permessi minimi e condizioni esplicite.
+- Lo stesso workflow usa action esterne tramite tag di versione (`checkout@v5`, `setup-node@v5`, `setup-java@v4`, `setup-android@v3`) e installa tool npm con versioni fissate in parte. Da valutare pinning a SHA, aggiornamento controllato e dipendenze riproducibili.
+- `.github/workflows/android.yml` ha anch'esso `contents: write`, usa un'azione release di terze parti per pubblicare un APK di prova su un tag fisso e pubblica diagnostica in caso di errore. Va verificato il rischio di sovrascrittura/tag, l'integrità dell'APK di prova, la provenienza dei workflow e i permessi strettamente necessari.
+- `app-android/package.json` espone uno script `test` placeholder che fallisce intenzionalmente; i test reali sono eseguiti da Gradle e da Python, ma i comandi devono essere documentati e lo script placeholder non deve essere scambiato per una suite funzionante.
+- `tools/build.py` concatena sorgenti JS/CSS ordinati e genera artefatti del sito e dell'app. `index.html`, `privacy.html`, `elimina-account.html` e altri file generati non vanno modificati manualmente: verificare sorgenti, determinismo, hash, build ripetibili e differenze tra build web/Android.
+- `app-android/android/app/build.gradle` mantiene versionCode 114 / versionName 1.0.11, nonostante il ramo sia 1.0.12; non effettuare bump fino alla release. La chiave release è cercata fuori dal repository (default storico `/home/claude/chiavi`, sovrascrivibile con `TANETTO_KEYS`): va resa portabile e documentata senza introdurre chiavi o password nel repository. App Check è attualmente disattivato quando mancano entrambe le proprietà Firebase Android richieste.
+- `AndroidManifest.xml` mantiene `allowBackup=true` per progressi/widget e usa regole esplicite; la scelta età nativa è separata in `noBackupFilesDir`. Va verificato ogni dato incluso/escluso, anche nelle copie del WebView e nei trasferimenti Android.
+
+### Privacy e cancellazione — incoerenza verificata
+- Il file generato `privacy.html` dichiara che il backup Google include anche l'età. Questo contraddice l'implementazione Android esaminata: l'età è in `getNoBackupFilesDir()`, esclusa dal backup, e le vecchie copie locali vengono ripulite. La dichiarazione deve essere riscritta in modo preciso e distinto per Android e browser, dopo avere verificato tutti i percorsi di esportazione/ripristino.
+- La stessa informativa afferma che i dati restano solo sul telefono senza account, ma più avanti descrive backup Google automatico e backup Firebase facoltativo. Occorre spiegare chiaramente la differenza tra backup Android, memoria locale, backup Firebase e file esportato.
+- `elimina-account.html` dichiara che l'account e il backup online vengono eliminati definitivamente. Va verificato end-to-end che il pulsante in app rimuova il documento Firestore, l'utente Firebase Auth, eventuali sottodocumenti/registrazioni e dati derivati, e che la pagina web di cancellazione faccia la stessa cosa. Controllare anche la gestione dell'abbonamento Google Play, che non viene necessariamente annullato eliminando l'account.
+- La dichiarazione iniziale di `privacy.html` presenta Tanetto come progettato dai 13 anni in su e protetto per chi è più giovane o non dichiara l'età. Va confrontata con la configurazione reale Play Console, le fasce, gli annunci e l'accessibilità effettiva delle funzioni.
+
+### Nuovi elementi nel registro
+| ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
+|---|---|---|---|---|---|
+| AUD-015 | CI/CD/supply chain | Workflow di test con permesso globale `contents: write` e commit/push generati nello stesso job che gestisce pull request | Configurazione confermata; rischio operativo concreto | Alta | Separare workflow, ridurre permessi, testare PR interne/esterne e proteggere branch |
+| AUD-016 | Privacy/backup | Informativa dice che età è inclusa nel backup Google; implementazione Android la esclude dal backup | Contraddizione confermata per Android | Alta | Verificare browser, export/import, migrazione, backup e riscrivere informativa in 14 lingue |
+
+### Punto di ripartenza
+Audit in sola lettura. Prossimo blocco: esaminare completamente i flussi di esportazione/importazione, firma e ripristino (inclusi i controlli di `98x_v20_secure.js` e i campi economici), poi completare cancellazione account e backup. Proseguire con sito, SEO, performance, accessibilità, distribuzione, release e tutte le altre aree. Non applicare ancora correzioni.
