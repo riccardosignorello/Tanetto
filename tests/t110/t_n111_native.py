@@ -51,7 +51,7 @@ async def main(b):
         # ---------------- A) fotografia del widget in 14 lingue ----------------
         all_snaps = {}
         for lang in T.LANGS:
-            ctx, pg = await page(b, T.base_state(lang, pet="germo" if lang != "ko" else "lumi"), native=True, age="adult", extra_js=mocks(), wait=2500)
+            ctx, pg = await page(b, T.base_state(lang, pet="germo" if lang != "ko" else "lumi"), native=True, age="adult", tz="Europe/Rome", extra_js=mocks(), wait=2500)
             await T.close_layer(pg)
             r = json.loads(await T.ev(pg, """JSON.stringify((() => { const out = {};
               const sn = () => window.__n111.snap(new Date(2026, 10, 16, 15, 0));
