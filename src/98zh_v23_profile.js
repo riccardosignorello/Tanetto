@@ -35,7 +35,7 @@ function psKind(el) {
 }
 /* la scheda dell'eta' (pagina Privacy): risposta data, non detta o mai chiesta */
 function psAgeCard() {
-  if (typeof ageBand !== "function") return ""; const w = v23(); const a = S.age;
+  if (typeof ageBand !== "function") return ""; const w = v23(); const a = typeof AGE_VALUE !== "undefined" ? AGE_VALUE : S.age;
   const told = a && !a.skip && a.y; const btn = !told ? `<button class="btn ghost small" id="psAge" type="button">${esc(w.ageBtn)}</button>` : "";
   /* mai risposto (finestra chiusa senza scegliere): non "hai preferito non dirla", ma la stessa spiegazione della domanda */
   const txt = told ? ageKidNoAd(w.ageYes) : a && a.skip ? w.ageNo : (typeof ageT === "function" && ageT().P) || w.ageNo; /* 113: sotto i 13 anni anche "niente video" */
