@@ -579,3 +579,40 @@ Audit in sola lettura. Prossimo blocco: completare inventario privacy/SDK e asse
 
 ### Punto di ripartenza
 Audit in sola lettura. Prossimo blocco: verificare service worker, manifest, CSP, SEO e build completo; poi misurare il sito live e confrontare le dichiarazioni privacy con SDK e produzione. Nessuna modifica applicativa prima del piano generale.
+
+
+## Sessione di audit — 2026-11-20, PWA, SEO, press kit e sicurezza delle pagine
+
+### PWA e cache offline
+- `sw.js` usa una cache versionata, elimina le cache precedenti all'attivazione, aggiorna la pagina principale solo con risposte valide e conserva la pagina app corretta per l'uso offline. È un impianto ragionato; va preservato.
+- Il service worker precarica il bundle, Firebase, GSAP, font CSS, icone e immagini principali di personaggi/oggetti; le cartoline dei luoghi vengono memorizzate quando vengono viste per la prima volta. L'installazione può fallire se anche una sola risorsa del `cache.addAll()` manca o non è disponibile. Da automatizzare il controllo che ogni URL precaricato esista e risponda correttamente.
+- Le pagine secondarie non sono precaricate come pagine offline: se si apre Privacy/Press senza rete e non sono già in cache, il fallback può portare alla pagina principale dell'app. Verificare che sia un comportamento voluto e non mostri la schermata sbagliata.
+- `prep_www.py` separa lo script da oltre 1 MiB in `app.js` per Android, usa GSAP/font locali e copia le immagini necessarie. È un miglioramento rispetto al bundle inline web, ma l'app Android continua a dover analizzare un file JS molto grande.
+
+### SEO e metadati
+- `robots.txt` consente l'indicizzazione e dichiara `sitemap.xml`; la sitemap include homepage/app, privacy e press kit. La pagina di cancellazione è correttamente `noindex`.
+- `licenses.html` non è nella sitemap; valutare se includerla. Privacy e Press hanno canonical, ma la privacy è multilingua via JavaScript sullo stesso URL e non mostra alternate `hreflang`: verificare resa Google, lingua predefinita, snippet e indicizzazione internazionale.
+- Il manifest PWA ha nome, descrizione, icone, scope, start URL e orientamento; non sono presenti shortcut/categorie, opzionali. Il dominio ha `app-ads.txt` con publisher ID, elemento corretto per AdMob.
+- Il sito usa molte informazioni in una sola pagina e un bundle molto grande; oltre a SEO serve ottimizzazione di performance, accessibilità, contenuti e collegamenti interni.
+
+### Press kit — dati da aggiornare
+- `press/index.html` dichiara come versione corrente la 1.0.10, mentre sul Play Store è stata pubblicata la 1.0.11 il 19/11/2026. Il press kit è quindi già obsoleto.
+- Il press kit descrive un trial annuale di 7 giorni come caratteristica generale; verificare l'effettiva eleggibilità dell'offerta Play (nuovi abbonati, Paesi, account e condizioni) e usare una formulazione che non prometta una prova a tutti.
+- Il press kit afferma “no offers” per chi è giovane/non dichiara l'età; nel prodotto le offerte automatiche sono bloccate, ma Plus resta raggiungibile volontariamente da Profilo e Negozio. La frase va resa precisa, senza creare una promessa più ampia del comportamento reale.
+- La pagina consente l'uso delle immagini per parlare di Tanetto e chiede di non modificare i personaggi. Manca una pagina/nota chiara su diritti, licenze e uso commerciale degli asset; collegare la due diligence AUD-045.
+- Il press kit elenca prezzi, stagioni, lingue, target, annunci e funzioni: va mantenuto da una fonte unica/versionata, altrimenti ogni release crea incoerenze tra Play, sito, privacy e media.
+
+### CSP e pagine pubbliche
+- `tools/build.py` inserisce una Content Security Policy meta nella pagina app; la CSP consente script e stili inline perché il bundle è incorporato. La pagina pubblica di cancellazione `elimina-account.html` e la privacy non presentano la stessa CSP. La pagina di cancellazione carica `fb.js` e contiene JavaScript inline, quindi merita una policy dedicata e rigorosa.
+- Una CSP via meta non sostituisce tutte le intestazioni HTTP: in particolare alcune direttive di sicurezza richiedono header server. GitHub Pages limita gli header personalizzabili; valutare Cloudflare o un hosting che consenta HSTS, Referrer-Policy, Permissions-Policy, X-Content-Type-Options e CSP con nonce/hash.
+- Verificare che la pagina di cancellazione abbia protezione da clickjacking, script consentiti minimi, validazione input e messaggi di errore che non rivelino dettagli sensibili. La pagina è critica perché consente l'eliminazione dell'account.
+
+### Nuovi elementi nel registro
+| ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
+|---|---|---|---|---|---|
+| AUD-049 | Marketing/press kit | Versione corrente dichiarata 1.0.10, ma Play ha 1.0.11; trial e offerte da formulare con eleggibilità corretta | Incoerenza confermata | Media/Alta | Aggiornare al rilascio e usare fonte unica |
+| AUD-050 | SEO/internazionalizzazione | Privacy multilingua su URL unico senza alternate hreflang; sitemap non include licenze | Gap SEO da misurare | Media | Search Console, test render e strategia URL lingua |
+| AUD-051 | Sicurezza web | Pagina di cancellazione e privacy non hanno la stessa CSP dell'app; la cancellazione gestisce Firebase Auth | Hardening mancante | Alta | CSP dedicata, header HTTP, test XSS/clickjacking e security headers |
+
+### Punto di ripartenza
+Audit in sola lettura. Prossimo blocco: completare SEO e sito live, controllare i flussi di installazione/aggiornamento/offline, quindi passare alle aree ancora non analizzate e alla ricerca esterna delle policy correnti. Le correzioni di press kit, bundle e pagine web saranno incluse nel piano unico.
