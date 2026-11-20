@@ -382,6 +382,8 @@ function secAdoptNow() {
   if (!raw) return;
   try {
     const o = JSON.parse(raw); if (!secIsObj(o)) return;
+    // Age is native-only: never adopt it from another tab's legacy Local Storage state.
+    if (Object.prototype.hasOwnProperty.call(o, "age")) delete o.age;
     const c = secClean(o); secFixTypes(c); secFixMeaning(c);
     secAdopt = true;
     try { S = Object.assign(fresh(), c); if (layer.innerHTML) closeLayer(); const y = window.scrollY; render(); window.scrollTo(0, y); } finally { secAdopt = false; }
