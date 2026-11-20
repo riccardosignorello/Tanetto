@@ -78,11 +78,11 @@ async def kid_case(b, age, label, lang="en"):
     adc = json.loads(await T.ev(pg, "JSON.stringify(window.__adc)"))
     unk = age in ("skip", "none")
     T.check(f"{label}: ageAds() = {'teen' if unk else 'child'} e modalita' protetta attiva (classe a111kid)", o["ads"] == ("teen" if unk else "child") and o["kidClass"], o)
-    if unk:
-        T.check(f"  {label}: i video con premio ci sono (adsOn acceso, consenso e video preparato dal modulo)", o["adsOn"] is True and adc["init"] >= 1 and adc["load"] >= 1, (o["adsOn"], adc))
+    if age == "skip":
+        T.check(f"  {label}: chi sceglie 'Preferisco non dirlo' riceve solo video teen non personalizzati", o["adsOn"] is True and adc["init"] >= 1 and adc["load"] >= 1, (o["adsOn"], adc))
     else:
-        T.check(f"  {label}: niente pubblicita' e niente video (adsOn/adOffer spenti, nessun pulsante)", o["adsOn"] is False and o["adOffer"] is False and o["adBtn"] == "")
-        T.check(f"  {label}: niente ID pubblicita': il modulo degli annunci (e quindi l'SDK) non viene mai chiamato", all(adc[k] == 0 for k in ("init", "load", "show", "privacy")), adc)
+        T.check(f"  {label}: nessuna pubblicita' finche' la scelta dell'eta' e' ancora in sospeso o sotto i 13 anni", o["adsOn"] is False and o["adOffer"] is False and o["adBtn"] == "")
+        T.check(f"  {label}: nessuna chiamata all'SDK finche' la scelta non e' verificata o per i bambini", all(adc[k] == 0 for k in ("init", "load", "show", "privacy")), adc)
     T.check(f"  {label}: niente statistiche (spente e nessuna richiesta a GoatCounter)", o["stats"] is False and not pg.gc, pg.gc[:3])
     T.check(f"  {label}: niente account ne' backup online", o["cloud"] is False)
     T.check(f"  {label}: niente condivisione: nessuna chiamata al sistema (modulo nativo e navigator.share)", o["sh"] == {"share": 0, "nav": 0} and o["navErr"] == "AbortError", (o["sh"], o["navErr"]))
