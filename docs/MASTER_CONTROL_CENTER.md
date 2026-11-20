@@ -70,7 +70,7 @@ Le percentuali di audit, hardening 1.0.12, release e ecosistema 360° restano se
 
 **Verifica GitHub eseguita il 21/11/2026 durante la sessione:**
 - Repository personale raggiungibile e scrivibile tramite GitHub connector.
-- Branch `work/tanetto-1.0.12-agegate-fix` HEAD dopo il commit di questo Control Center: `<HEAD_TO_FILL>`.
+- Branch `work/tanetto-1.0.12-agegate-fix` HEAD dopo il commit di questo Control Center: `d4dd6d6f9859a62583fbd7a8afefb83b7cb6cf35`.
 - Branch `audit/tanetto-full-review` HEAD osservato: `f55e7cdeee217b75a19c4d52ad7ec725ae25e6b6`.
 - Il documento di checkpoint sessione è `docs/CONTINUITY_SESSION_2026-11-21.md`.
 - Nessun merge verso originale o rilascio è stato effettuato in questa sessione.
@@ -148,7 +148,7 @@ Questi elementi sono già presenti nelle note storiche e vanno mantenuti visibil
 | Data | Sessione | Cosa è cambiato | Evidenza |
 |---|---|---|---|
 | 2026-11-21 | Ripresa continuità | Verificati checkpoint, registro audit, run 66; aggiunto checkpoint sessione | `docs/CONTINUITY_SESSION_2026-11-21.md` |
-| 2026-11-21 | Control Center | Istituita fonte unica, regole percentuali e WBS; ritirate stime non dimostrate | Questo documento; commit da registrare dopo creazione |
+| 2026-11-21 | Control Center | Istituita fonte unica, regole percentuali e WBS; ritirate stime non dimostrate | Commit `d4dd6d6f9859a62583fbd7a8afefb83b7cb6cf35` |
 
 ## 9. Protocollo di inizio/fine sessione
 
