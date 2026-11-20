@@ -328,3 +328,28 @@ Audit in sola lettura. Prossimo blocco: continuare il threat model di economia e
 
 ### Punto di ripartenza
 Audit in sola lettura. Prima di correggere qualsiasi test, stabilire se è obsoleto o se segnala un comportamento reale; nessun “verde” ottenuto modificando aspettative senza motivazione. Prossimo blocco: continuare su funzioni core e mappa di dipendenze; mantenere distinti i risultati del ramo applicativo e del ramo age-gate e non considerare testata la HEAD del feature branch finché non parte una nuova CI su quel commit.
+
+
+## Sessione di audit — 2026-11-20, sicurezza del benessere e accesso alla cancellazione
+
+### Funzione di rilevamento delle crisi — revisione iniziale
+- `src/98zk_v26_fix.js` contiene il motore base; `src/98zl_v110_safety.js` aggiunge normalizzazione multilingue, varianti con/senza apostrofi e accenti, parole forti/deboli, negazioni, contesto, frasi spezzate e livello di risposta. Le risposte sono locali e statiche: il testo non viene inviato a un servizio IA remoto.
+- Il riconoscimento è collegato a chat, diario, “Lascia andare” e capsule; il testo non viene salvato come etichetta di crisi. Dopo una frase rilevata si sospendono per un periodo le offerte commerciali, le richieste di recensione e alcune feste automatiche.
+- I test includono frasi positive, negazioni, falsi positivi idiomatici e frasi nuove in più lingue; le liste di test sono separate dal codice. Questo è un buon punto di partenza, ma non dimostra copertura clinica o linguistica completa.
+- `docs/HELPLINES_FONTI.md` documenta fonti e data di verifica (14/11/2026) per linee di aiuto e numeri di emergenza in vari Paesi. Il codice usa il fuso orario del dispositivo per selezionare il Paese; se il fuso è sconosciuto mostra il numero di emergenza locale generico e `findahelpline.com`.
+- **Revisione necessaria ad alto impatto:** revisione indipendente da professionisti qualificati in salute mentale e revisori madrelingua; misurazione separata di falsi negativi/falsi positivi; verifica periodica delle linee telefoniche e copertura territoriale; messaggi chiari che l'app non è un servizio di emergenza, terapia o assistenza umana in tempo reale. Un rilevatore a parole chiave non deve essere presentato come garanzia di protezione.
+
+### Accesso alla cancellazione per chi ha già un account ma ora è minorenne
+- `tests/t110/t_b8_legal_native.py` contiene un controllo esplicito: utente child con account preesistente deve poter raggiungere `elimina-account.html` dalla scheda Account.
+- Nel ramo applicativo esaminato, `acctCard()` in `src/97n_account.js` mostra, se non autenticato, solo i pulsanti per accedere/registrarsi; non espone un collegamento alla pagina di cancellazione. Se la scelta età porta `ageCloudStop()` a uscire dall'account e cancellare lo stato locale dell'account, un utente minorenne con account già esistente non ha un percorso evidente nell'app per eliminare il profilo e il backup remoto.
+- **Lacuna di accessibilità alla cancellazione confermata sul ramo applicativo:** il requisito del test non è soddisfatto. È anche un problema di privacy/compliance da valutare, non soltanto un controllo UI: l'utente deve poter esercitare la cancellazione senza poter continuare a usare il backup cloud. Va predisposto un percorso sicuro di eliminazione e riautenticazione, con istruzioni comprensibili e senza consentire l'uso ordinario dell'account.
+- La pagina pubblica di cancellazione usa Firebase Auth direttamente e non dipende dal gate client dell'app; verificare che sia raggiungibile da un link persistente, anche quando l'app ha effettuato il logout automatico.
+
+### Nuovi elementi nel registro
+| ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
+|---|---|---|---|---|---|
+| AUD-028 | Benessere/sicurezza | Rilevamento crisi basato su parole chiave e linee di aiuto locali; necessita validazione professionale, linguistica e territoriale | Gap di validazione confermato | Molto alta | Revisione clinica/linguistica indipendente, test di falsi negativi e verifica fonti/claim |
+| AUD-029 | Privacy/account/minori | La scheda account non mostra il collegamento di cancellazione a chi è già disconnesso; il test dedicato fallisce | Lacuna UI confermata | Alta | Progettare percorso cancellazione per account preesistenti/minori e provarlo end-to-end |
+
+### Punto di ripartenza
+Audit in sola lettura. Prossimo blocco: verificare il percorso account/minori e le pagine pubbliche; completare la revisione del motore di crisi e dei testi; poi proseguire su obiettivi, serie, regali, viaggi, diario, giochi, negozio, capsule, notifiche, widget e tutti i moduli restanti. Nessuna modifica applicativa prima dell'inventario completo.
