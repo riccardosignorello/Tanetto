@@ -731,3 +731,29 @@ Audit in sola lettura. Prossimo blocco: completare i moduli di gioco, negozio, m
 
 ### Punto di ripartenza
 Audit in sola lettura. Questo difetto va trattato come priorità critica nel piano generale insieme alla verifica acquisti/backup. Non correggere soltanto `tryBar`: il controllo definitivo deve stare nel gestore di acquisto e in un'API centrale di spesa, coprendo tutti gli entry point.
+
+
+## Sessione di audit — 2026-11-20, supporto nei momenti difficili e audio
+
+### Sistema di supporto e rilevamento locale
+- `98zl_v110_safety.js` contiene un sistema euristico in 14 lingue: frasi esplicite, negazioni, contesti innocui, varianti ortografiche, separazione delle frasi e alcuni segnali di imminenza/mezzi. Il livello 2 apre la scheda di aiuto; il livello 1 propone un controllo gentile. Il testo viene analizzato localmente e non viene inviato al server.
+- Il rilevamento è richiamato nei flussi di diario, “Lascia andare” e capsula. Dopo una frase difficile, `sf110Hush()` sospende le promozioni Plus e le richieste di recensione per la sessione e le celebrazioni automatiche per 10 minuti; non blocca la scheda di aiuto.
+- La scheda di aiuto offre numeri cliccabili e `findahelpline.com`; le risorse sono selezionate tramite fuso orario e codice Paese, senza chiedere GPS. Se il fuso non è mappato, il testo indica il numero di emergenza locale e offre il sito globale.
+- Il codice non è un sistema clinico di valutazione del rischio e non può garantire di riconoscere ogni frase, slang, contesto o intenzione. La qualità delle liste e delle risorse deve essere verificata da professionisti della salute mentale e madrelingua per ciascuna lingua/Paese, con test di falsi positivi e falsi negativi. Il prodotto deve evitare qualsiasi promessa di diagnosi o rilevamento completo.
+- La selezione delle linee in base al fuso può essere sbagliata se l'utente viaggia, usa un fuso manuale o vive in un'area con più numeri regionali. Il fallback globale è utile ma non sostituisce una scelta manuale di Paese/area, soprattutto in un momento di crisi.
+- Le fonti delle linee sono in `docs/HELPLINES_FONTI.md` e il codice dichiara verifica al 14/11/2026. Va fatta verifica periodica con fonti ufficiali, copertura 24/7, lingue disponibili, costo, SMS/chat e disponibilità territoriale. I numeri di emergenza non sono universali.
+- Da verificare se l'informativa e la scheda di aiuto chiariscano che Tanetto non è un servizio di emergenza, non sostituisce assistenza professionale e che, in pericolo immediato, occorre contattare i servizi di emergenza locali. Non trasformare questo in un disclaimer freddo: deve restare comprensibile e umano.
+
+### Audio e avvio
+- `97j_sound.js` avvia la musica dopo circa 300 ms quando non c'è la schermata iniziale; `MainActivity` imposta `setMediaPlaybackRequiresUserGesture(false)` per consentire la riproduzione automatica in WebView. Il motore audio è procedurale/Web Audio: non risultano file musicali o effetti audio esterni nel repository.
+- `98zv_v111_music.js` gestisce mute, volume e visibilità della pagina, sospendendo/riattivando il loop quando l'app passa in background. I test verificano parte del motore, ma non la percezione su dispositivi reali e in modalità silenziosa.
+- Da valutare: primo avvio con audio automatico può sorprendere o disturbare chi apre l'app in pubblico, in modalità silenziosa o con sensibilità sensoriali. Verificare audio focus/interazione con musica di altre app, rispetto di Do Not Disturb, volume iniziale, accessibilità e possibilità di scegliere prima di attivare la musica.
+
+### Nuovi elementi nel registro
+| ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
+|---|---|---|---|---|---|
+| AUD-060 | Safety/benessere | Rilevamento crisi euristico in 14 lingue e linee telefoniche via fuso: non risulta validazione clinica/linguistica indipendente | Gap di validazione da chiudere | Alta | Revisione professionale, madrelingua, test di falsi positivi/negativi e verifica ufficiale delle linee |
+| AUD-061 | UX/audio/accessibilità | Musica avviata automaticamente dopo 300 ms, consentita nativamente senza gesto | Comportamento confermato; scelta UX da validare | Media | Test primo avvio, audio focus, silenzioso/DND e preferenza esplicita |
+
+### Punto di ripartenza
+Audit in sola lettura. Prossimo blocco: completare tutti i moduli di gioco, mondi, negozio e interfaccia; verificare tutte le traduzioni e le linee di aiuto; poi completare la matrice di test e il piano unico. Nessun intervento applicativo prima del completamento dell'inventario.
