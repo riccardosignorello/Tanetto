@@ -19,6 +19,11 @@ import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 import com.google.android.ump.ConsentInformation;
 import com.google.android.ump.ConsentRequestParameters;
 import com.google.android.ump.UserMessagingPlatform;
+import java.io.File;
+import java.io.FileInputStream;
+import java.nio.charset.StandardCharsets;
+import org.json.JSONObject;
+import java.util.Calendar;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -49,9 +54,26 @@ public class AdsPlugin extends Plugin {
     /* Cambia quando cambiano le scelte sulla privacy: un video chiesto prima non va più usato */
     private final AtomicInteger gen = new AtomicInteger(0);
     /* Eta' dichiarata nella schermata neutra dell'app: senza risposta si tratta come un bambino */
-    private volatile String age = "child";
+    private volatile String age = "pending";
     /* 113: sotto i 13 anni o eta' non detta: nessun video con premio */
     private boolean kid() { return "child".equals(age); }
+    private boolean pending() { return "pending".equals(age); }
+    private String trustedAge() {
+        try {
+            File f = new File(getContext().getNoBackupFilesDir(), "tanetto-age.json");
+            if (!f.isFile() || f.length() <= 0 || f.length() > 4096) return "pending";
+            byte[] data = new byte[(int) f.length()];
+            try (FileInputStream in = new FileInputStream(f)) { int off = 0; while (off < data.length) { int n = in.read(data, off, data.length - off); if (n < 0) return "pending"; off += n; } }
+            JSONObject choice = new JSONObject(new String(data, StandardCharsets.UTF_8));
+            if (choice.optBoolean("skip", false)) return "teen";
+            int y = choice.optInt("y", -1), m = choice.optInt("m", -1);
+            Calendar cal = Calendar.getInstance(); int cy = cal.get(Calendar.YEAR), cm = cal.get(Calendar.MONTH) + 1;
+            if (y < 1900 || y > cy || m < 1 || m > 12) return "pending";
+            int years = cy - y - (cm <= m ? 1 : 0);
+            return years < 13 ? "child" : years < 18 ? "teen" : "adult";
+        } catch (Exception e) { return "pending"; }
+    }
+    private boolean refreshTrustedAge() { String trusted = trustedAge(); setAge(trusted); return !pending(); }
     private static String ageOf(PluginCall call) { String a = call.getString("age", "child"); return "adult".equals(a) || "teen".equals(a) ? a : "child"; }
     /* Impostazioni di Google per l'eta': valgono per tutte le richieste da qui in poi.
        1.0.9 (verifica politiche m2): anche la nuova impostazione di AdMob (GMA 25.3+) "trattamento per eta'":
@@ -86,9 +108,9 @@ public class AdsPlugin extends Plugin {
     private JSObject state() {
         JSObject o = new JSObject();
         final boolean k = kid();
-        o.put("canRequestAds", !k && consent != null && consent.canRequestAds());
-        o.put("privacyRequired", !k && consent != null && consent.getPrivacyOptionsRequirementStatus() == ConsentInformation.PrivacyOptionsRequirementStatus.REQUIRED);
-        o.put("loaded", !k && fresh());
+        o.put("canRequestAds", !pending() && !k && consent != null && consent.canRequestAds());
+        o.put("privacyRequired", !pending() && !k && consent != null && consent.getPrivacyOptionsRequirementStatus() == ConsentInformation.PrivacyOptionsRequirementStatus.REQUIRED);
+        o.put("loaded", !pending() && !k && fresh());
         return o;
     }
 
@@ -101,9 +123,9 @@ public class AdsPlugin extends Plugin {
 
     @PluginMethod
     public void init(PluginCall call) {
-        final String a = ageOf(call);
         getActivity().runOnUiThread(() -> {
-            setAge(a);
+            if (!refreshTrustedAge()) { rewarded = null; call.resolve(state()); return; }
+            final String a = age;
             /* 113: bambino o eta' non detta: niente consenso, niente SDK, nessun video */
             if (kid()) { call.resolve(state()); return; }
             applyAge(a);
@@ -129,8 +151,8 @@ public class AdsPlugin extends Plugin {
     @PluginMethod
     public void load(PluginCall call) {
         String unit = call.getString("unitId");
-        final String a = ageOf(call);
-        setAge(a); /* l'eta' detta nell'app vale anche per questo video */
+        if (!refreshTrustedAge()) { rewarded = null; call.reject("age_pending", "age_pending"); return; }
+        final String a = age; /* l'eta' detta nell'app vale anche per questo video */
         if (kid()) { rewarded = null; call.reject("child", "child"); return; } /* 113: nessun video per chi risulta bambino */
         /* Nelle versioni di prova (debug) si usano sempre i video di prova di Google: mai annunci veri durante i test */
         if ((getContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0) unit = "ca-app-pub-3940256099942544/5224354917";
@@ -150,7 +172,7 @@ public class AdsPlugin extends Plugin {
 
     @PluginMethod
     public void show(PluginCall call) {
-        if (call.getString("age") != null) setAge(ageOf(call)); /* 113: l'app passa l'eta' anche qui */
+        if (!refreshTrustedAge()) { rewarded = null; call.reject("age_pending", "age_pending"); return; } /* 113: l'app passa l'eta' anche qui */
         final RewardedAd ad = rewarded; final long at = loadedAt; rewarded = null;
         if (kid()) { call.reject("child", "child"); return; } /* 113: nessun video per chi risulta bambino */
         if (ad == null || System.currentTimeMillis() - at >= MAX_AGE_MS) { call.reject("not_loaded", "not_loaded"); return; }
@@ -166,6 +188,7 @@ public class AdsPlugin extends Plugin {
 
     @PluginMethod
     public void privacy(PluginCall call) {
+        if (!refreshTrustedAge()) { call.reject("age_pending", "age_pending"); return; }
         if (kid()) { call.resolve(state()); return; } /* 113: per chi risulta bambino non ci sono annunci ne' scelte */
         getActivity().runOnUiThread(() -> UserMessagingPlatform.showPrivacyOptionsForm(getActivity(), err -> {
             /* Il video già pronto era stato preparato con le scelte vecchie: lo si butta e se ne prepara uno nuovo */
