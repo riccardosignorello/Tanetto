@@ -455,3 +455,16 @@ Audit in sola lettura. Prossimo blocco: completare il threat model dei dati e de
 
 ### Punto di ripartenza
 Audit in sola lettura. Prossimo blocco: completare i moduli di viaggio, energia, Natale, guardaroba, crescita e statistiche; verificare tutte le transizioni temporali e il ripristino Android. Nessuna modifica applicativa prima del piano generale.
+
+
+## Sessione di audit — 2026-11-20, accesso Plus per minori e decisioni di prodotto
+
+### Separare le protezioni automatiche dagli accessi volontari
+- Nel codice age-gate, `v26Young()` blocca le offerte Plus automatiche, gli inviti, la richiesta di recensione e alcune statistiche per chi è minorenne o non ha dichiarato l'età. Sul ramo applicativo il controllo è compromesso dalle letture legacy di `S.age`; il branch age-gate le sostituisce con `AGE_VALUE`.
+- Il commento del codice specifica però che Plus resta raggiungibile volontariamente da Profilo e Negozio anche per utenti giovani. `openPlus()` e il negozio pacchetti non mostrano un gate d'età autonomo evidente in `97o_billing.js`. Questo è un comportamento di prodotto esplicito nel commento, non va corretto automaticamente come bug.
+- **Decisione da prendere nel piano generale:** chiarire se i minorenni (in particolare under-13) possono acquistare Plus e pacchetti, se serve un blocco o un consenso del genitore e come si concilia con la classificazione Play, il target dell'app e le regole Google Play per acquisti di minori. Fino a questa decisione non modificare i punti di accesso volontari; bloccare invece le promozioni automatiche come previsto.
+- La prima configurazione nasconde i compagni Plus agli utenti che non risultano adulti, ma li lascia visibili nella scelta del compagno da Profilo con etichetta Plus. Verificare che la distinzione sia chiara e non diventi una promozione indiretta per minori.
+- Le cartoline settimanali possono essere condivise dai teen, ma il nome personale è riservato agli adulti. La regressione del nome deriva dalla stessa funzione `v26Young()`, quindi la patch età deve essere validata anche sulle immagini social.
+
+### Punto di ripartenza
+Audit in sola lettura. Il piano finale dovrà distinguere: blocchi obbligatori per sicurezza/legge, promozioni automatiche, acquisti volontari, contenuti condivisibili e funzionalità che richiedono account. Nessuna decisione sui personaggi o sul rebranding finché non è completata la valutazione di prodotto, identità e direzione creativa.
