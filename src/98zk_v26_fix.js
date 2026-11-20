@@ -9,7 +9,7 @@
 function v26Minor() { try { return typeof ageBand !== "function" || ageBand() !== "adult"; } catch (e) { return true; } }
 /* "giovane": minore come sopra OPPURE meno di 18 anni (anche dove l'eta' del consenso e' 13): niente spinte all'acquisto,
    niente inviti, niente "torna domani" con i numeri. Sotto i 18 anni nessuna pressione, come vuole il proprietario. */
-function v26Young() { try { if (v26Minor()) return true; const y = typeof ageYears === "function" ? ageYears(S.age) : null; return y == null || y < 18; } catch (e) { return true; } }
+function v26Young() { try { if (v26Minor()) return true; const choice = typeof AGE_VALUE !== "undefined" ? AGE_VALUE : S.age; const y = typeof ageYears === "function" ? ageYears(choice) : null; return y == null || y < 18; } catch (e) { return true; } }
 /* a) la finestra "Prova Tanetto Plus" non si apre mai da sola per loro (Plus resta raggiungibile da Profilo e negozio) */
 const _nav20plusDueV26 = nav20plusDue;
 nav20plusDue = function (why) { if (v26Young()) return false; return _nav20plusDueV26(why); };
