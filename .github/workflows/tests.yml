@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   test:
@@ -51,10 +51,17 @@ jobs:
         run: |
           pip install playwright pillow
           python -m playwright install --with-deps chromium
-      - name: Build (e i file generati sono quelli salvati)
+      - name: Build (e sincronizzazione degli artefatti)
         run: |
           python3 tools/build.py
-          git diff --stat --exit-code -- index.html privacy.html elimina-account.html licenses.html sw.js
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html privacy.html elimina-account.html licenses.html sw.js
+          if ! git diff --cached --quiet; then
+            git commit -m "Build generated Tanetto web assets"
+            git push origin HEAD:${GITHUB_REF_NAME}
+          fi
+          git diff --stat --exit-code
       - name: Testi nelle 14 lingue
         run: set -o pipefail; node tools/check_lang.js | tail -3
       - name: Prove 1.0.11
