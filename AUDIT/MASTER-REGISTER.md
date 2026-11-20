@@ -884,3 +884,9 @@ Audit in sola lettura. La decisione su backup dei minori è bloccante: va presa 
 
 ### Nota sulla base di audit
 - Il ramo `work/tanetto-1.0.12` contiene ancora alcuni lettori legacy di `S.age` in `98zk_v26_fix.js`; il ramo isolato `work/tanetto-1.0.12-agegate-fix` li ha spostati su `AGE_VALUE`. Le verifiche sui comportamenti d'età devono essere eseguite sul ramo candidato più aggiornato e non confondere il bug del ramo base con il risultato della patch.
+
+
+### Correzione AUD-069 — verifica puntuale della tabella già presente
+- Rileggendo l'intero oggetto `AGE_CONSENT`, la tabella **include già** India (`IN:18`) e Turchia (`TR:18`), oltre a Singapore (`SG:18`), Sudafrica (`ZA:18`), Hong Kong (`HK:18`) e Taiwan (`TW:20`). Gli esempi precedenti India/Turchia come Paesi non mappati erano errati e non vanno usati come prova del difetto.
+- Il rischio da verificare resta: accuratezza legale di ciascun valore, copertura di Paesi non elencati, granularità subnazionale (in particolare Canada e Stati USA), e possibilità di modificare contemporaneamente lingua e fuso orario. La funzione sceglie il valore massimo fra segnali riconosciuti, ma non conosce la residenza fisica e non costituisce age assurance.
+- La tabella appare più ampia di quanto inizialmente stimato; non va riscritta senza una revisione legale Paese per Paese e fonti aggiornate. Gli esempi di Paesi non coperti andranno definiti solo dopo la verifica normativa.
