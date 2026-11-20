@@ -70,8 +70,8 @@ Le percentuali di audit, hardening 1.0.12, release e ecosistema 360° restano se
 
 **Verifica GitHub eseguita il 21/11/2026 durante la sessione:**
 - Repository personale raggiungibile e scrivibile tramite GitHub connector.
-- Branch `work/tanetto-1.0.12-agegate-fix` HEAD verificato il 21/11/2026: `c17101aad6ab423c1111112b8e1384865aa29408`.
-- Branch `audit/tanetto-full-review` HEAD aggiornato il 21/11/2026: `f13afda5f95146495b8a087c5e07c0b77b224a65` (registro AUD-089 e checkpoint).
+- Branch `work/tanetto-1.0.12-agegate-fix` HEAD verificato il 21/11/2026: `849396b9874166ce2d3dd69df63e6eff72f2a2b9` (prima del commit di aggiornamento di questa voce).
+- Branch `audit/tanetto-full-review` HEAD aggiornato il 21/11/2026: `92873a575c5b35c3cd5dd07ea3117f71142e0dce` (registro AUD-089 corretto e checkpoint).
 - Il documento di checkpoint sessione è `docs/CONTINUITY_SESSION_2026-11-21.md`.
 - Nessun merge verso originale o rilascio è stato effettuato in questa sessione.
 
@@ -272,6 +272,7 @@ Il registro specialistico si trova su `audit/tanetto-full-review` (HEAD verifica
 | AUD-086 | Notifiche/UX | Revoca permesso o fallimento schedule non aggiorna `S.notif`; la UI può dichiarare attive notifiche non programmate | Difetto di stato/feedback da codice | Media | Check permission ad ogni apertura, rollback dello stato se schedule fallisce |
 | AUD-087 | Notifiche/tempo | La data JS sicura può differire dall'orologio usato da AlarmManager; consegna può slittare dopo manipolazione clock | Rischio di sincronizzazione | Media | Test cambio data/fuso e API Android 24–36 |
 | AUD-088 | Notifiche/canali | `v26OldChannel` segna il vecchio canale eliminato prima del completamento asincrono | Rischio di migrazione incompleta | Bassa/Media | Salvare il flag solo dopo esito positivo e riprovare in caso di errore |
+| AUD-089 | Minori/privacy/condivisione | Gate 13+ intenzionale e coerente con pubblico Play dichiarato; child/unknown bloccati. Verificare dati condivisi e conformità, non applicare automaticamente `ageCloudOk()` | Policy intenzionale; validazione contenuti/legale aperta | Media | Verificare tutte le cartoline e le regole dei mercati |
 
 ## 12. Checkpoint operativo — 21/11/2026, ripresa integrale
 
@@ -282,7 +283,7 @@ Il registro specialistico si trova su `audit/tanetto-full-review` (HEAD verifica
 - CI run 66 è ancora stagnante nello step `Prove 1.0.11`, avviato il 20/11 alle 23:26:33Z; API non mostra completamento. Non è verde e non è una prova di fallimento del codice.
 - Tree del branch base `work/tanetto-1.0.12` enumerato integralmente: 981 file, 0 troncamento. `src/` contiene i moduli core e le aggiunte 1.0.11/1.0.12; test automatici in `tests/t110/`.
 - Sono stati esaminati in lettura i nuovi giochi (`src/97x_games.js`), economia premi giochi (`src/98e_v20_econ.js`), viaggi (`src/98c_v20_trips.js`), cartolina settimanale (`src/98zu_v111_week.js`) e animazioni stagionali (`src/98zw_v111_events.js`).
-- AUD-089: la condivisione cartolina settimanale è consentita dal codice a `teen` (13+) indipendentemente dall'età del consenso digitale locale. Il commento dichiara esplicitamente la regola 13+, quindi è una policy da validare per Paese e per tutti i tipi di cartolina, non un bug tecnico già confermato.
+- AUD-089: la condivisione 13+ è intenzionale e coerente con il pubblico Play dichiarato; `a111Kid()` blocca child/unknown. Non applicare automaticamente la soglia `ageCloudOk()`; resta da validare che tutte le cartoline condividano soltanto dati non sensibili e che la policy sia conforme nei mercati serviti.
 - Il flusso dei giochi limita i premi giornalieri tramite `EC.GAME_CAP`, memorizza `S.game.seeds` e sincronizza `e.games`; restano da verificare import/restore e manipolazioni dei registri insieme ad AUD-035/036/070. Nessun test end-to-end su device è stato eseguito in questo blocco.
 - Viaggi usano `Date.now()` per inizio/scadenza e registrano fino a 60 giorni in `S.v20trip.days`; i limiti del clock e del backup restano collegati ad AUD-038/039/054/084/085.
 - Le animazioni eventi sono create tramite GSAP e condizionate da `anim`/modalità leggera; non è stata eseguita una misura prestazionale nuova, quindi AUD-073 resta aperto.
