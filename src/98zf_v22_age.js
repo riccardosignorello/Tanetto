@@ -95,7 +95,7 @@ function openAge(after) {
   /* (critica fase 2) il lettore di schermo parte dal titolo della finestra (prima il fuoco restava sulla pagina dietro) */
   try { const h = document.getElementById("agT"); if (h) h.focus({ preventScroll: true }); } catch (e) { /* niente */ }
 }
-async function ageSet(a) {
+async async function ageSet(a) {
   try {
     const p = ageNativePlugin();
     if (p && typeof p.set === "function") {
