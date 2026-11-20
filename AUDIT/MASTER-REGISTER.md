@@ -713,25 +713,22 @@ Audit in sola lettura. Prossimo blocco: completare i moduli di gioco, negozio, m
 
 ## Sessione di audit — 2026-11-20, acquisto effettivo degli Introvabili
 
-### AUD-059 — aggiramento confermato del vincolo sui Tanì pagati
-- La regola di prodotto in `98ze_v22_introvabili.js` è esplicita: i Tanì provenienti da pacchetti/Plus/ricompense classificate come pagate non devono essere utilizzabili per gli Introvabili. `xvUsable()` sottrae il residuo del bucket `econ().paid`.
-- Il wrapper modifica `shopItem()` e `needSheet()`, ma non modifica il percorso effettivo di acquisto.
-- In `96_v7.js`, `tryBar()` abilita il pulsante `#tryBuy` usando `S.seeds < s.price` (saldo totale), non `xvUsable()`. Il listener `#tryBuy` verifica nuovamente il saldo totale e sottrae il prezzo da `S.seeds`.
-- Il listener anti-doppio-conteggio in `98zk_v26_fix.js` rileva l'aumento degli oggetti Introvabili e salta intenzionalmente l'incremento di `spentN`; quindi l'acquisto non viene neppure registrato come spesa dei Tanì pagati.
-- **Scenario riproducibile per via statica:** con saldo totale pari o superiore al prezzo di un Introvabile, ma con `xvUsable() = 0` perché tutto il saldo proviene da pacchetti/Plus, la scheda permette di aprire la prova, `tryBar` mostra “compra” e `tryBuy` completa l'acquisto. Il saldo residuo resta classificato come pagato, ma l'oggetto è già stato ottenuto. Il vincolo economico è quindi aggirabile dal normale percorso UI, senza modificare il backup.
-- `t_b2_money.py` verifica la funzione di saldo utilizzabile e l'uso dei Tanì pagati per l'albero di Natale/negozio ordinario, ma non esegue il percorso reale `data-shop → tryBar → #tryBuy` per un Introvabile. La copertura attuale non rileva il difetto.
-- **Conseguenza:** la promessa “gli Introvabili si ottengono soltanto con Tanì guadagnati giocando” non è rispettata; i pacchetti/Plus possono finanziare direttamente gli oggetti esclusivi, alterando l'economia e il posizionamento pay-to-win.
-- Soluzione definitiva da pianificare: un'unica funzione atomica `canSpendForItem(item, cost)`/ `spendTani(cost, category)` usata dal rendering, dal riepilogo e dal gestore di acquisto. Il controllo deve essere ripetuto nel gestore prima di sottrarre il saldo; non affidarsi a classi CSS o bottoni disabilitati. La transazione deve aggiornare saldo, bucket e inventario in modo coerente e salvare una sola volta.
-- Test di regressione obbligatori: saldo tutto pagato; saldo misto con quota gratuita insufficiente; saldo misto sufficiente; spesa esatta; doppio tap; restore durante anteprima; acquisto concorrente; salvataggio fallito; ogni Introvabile e ogni entry point (vetrina e scheda negozio).
+### AUD-059 — verifica corretta del vincolo sui Tanì pagati
+- Il gestore base in `96_v7.js` usa il saldo totale in `tryBar/#tryBuy`, ma la lettura del solo saldo totale non basta a concludere che il vincolo sia aggirabile.
+- In `98ze_v22_introvabili.js` esiste una protezione aggiuntiva che era sfuggita alla prima lettura:
+  - `tryBar()` viene avvolta con `xvWithUsable()`, quindi il pulsante viene renderizzato usando il saldo effettivamente spendibile;
+  - un listener `document.addEventListener("click", ..., true)` intercetta in capture il pulsante `#tryBuy`, controlla che `tryId` identifichi un oggetto `xv` e, se `xvUsable() < s.price`, chiama `stopImmediatePropagation()` e `preventDefault()`. Il gestore base non riceve quindi il click.
+- **Conclusione corretta:** il normale percorso di acquisto tramite interfaccia è protetto dal codice presente. Il precedente rilievo di bypass completo era errato perché non considerava il listener capture. È stato corretto anche il checkpoint di continuità.
+- Resta una debolezza di architettura/test: il vincolo è applicato da un listener DOM globale anziché direttamente nella funzione atomica che esegue la spesa. Un eventuale percorso programmatico futuro potrebbe non passare da quel listener. Il test `t_b2_money.py` verifica il saldo utilizzabile, ma non esercita in modo esplicito il percorso completo `data-shop → tryBar → #tryBuy`.
+- Soluzione di hardening da pianificare: spostare il controllo dentro un'unica funzione di acquisto/spesa, mantenendo il listener solo come protezione UI; aggiungere test E2E per vetrina, negozio, tap ripetuto e saldo misto.
 
 ### Nuovo elemento nel registro
 | ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
 |---|---|---|---|---|---|
-| AUD-059 | Economia/monetizzazione | Il percorso `tryBuy` degli Introvabili usa il saldo totale e aggira il vincolo sui Tanì pagati; il listener salta il conteggio proprio quando aumenta l'inventario Introvabili | Difetto logico confermato da codice | Critica | Test E2E del click reale e transazione atomica con saldo utilizzabile |
+| AUD-059 | Economia/Introvabili | Il click normale è protetto da `xvWithUsable` e dal listener capture; il controllo non è ancora centralizzato nel gestore atomico e manca un E2E sul percorso completo | Hardening/test gap, non bypass confermato | Media | E2E sul click reale e controllo centralizzato in `spendTani` |
 
 ### Punto di ripartenza
-Audit in sola lettura. Questo difetto va trattato come priorità critica nel piano generale insieme alla verifica acquisti/backup. Non correggere soltanto `tryBar`: il controllo definitivo deve stare nel gestore di acquisto e in un'API centrale di spesa, coprendo tutti gli entry point.
-
+Audit in sola lettura. Il problema economico confermato è invece il conteggio `spentN` (AUD-030) e la coerenza atomica dei crediti pagati (AUD-070); non correggere il presunto bypass AUD-059 perché il normale percorso UI è già protetto.
 
 ## Sessione di audit — 2026-11-20, supporto nei momenti difficili e audio
 
