@@ -804,3 +804,35 @@ Audit in sola lettura. Prossimo blocco: completare i moduli rimanenti, poi ricer
 
 ### Punto di ripartenza
 Audit in sola lettura. Prossimo blocco: completare le restanti aree di prodotto e sito, poi analizzare le dipendenze e le policy esterne. Nessuna modifica ai workflow fino al piano generale, perché vanno rivisti insieme a build, release, branch protection e permessi.
+
+
+## Sessione di audit — 2026-11-20, verifica approfondita dell'informativa privacy
+
+### Incoerenze tra informativa e backup Android
+- L'informativa afferma che Android Backup include l'età; l'età attuale è invece salvata in `getNoBackupFilesDir()` e non è inclusa nelle regole di backup. Questa frase è falsa.
+- Le regole Android includono esplicitamente tutto il WebView Local Storage e `tanetto_widget.xml` per tutti gli utenti, senza distinzione per fascia d'età. Il Local Storage contiene lo stato, i progressi e il diario. Quindi, anche quando l'app blocca l'account e il backup Firebase per bambini/minori, Android Auto Backup può trasferire una copia dei dati locali a Google se il backup di sistema è attivo.
+- Questo non equivale al backup cloud gestito da Tanetto, ma la distinzione deve essere chiarissima: “nessun account/backup Tanetto” non significa “nessun backup di sistema”. La promessa del press kit “no online backup” per la modalità protetta va qualificata o il backup Android va riprogettato.
+- Anche il nome facoltativo viene salvato in Local Storage e quindi può essere incluso nel backup Android senza account; la frase che lo collega al backup online soltanto in presenza di account è incompleta.
+- Il file `tanetto-clock` è incluso, come AUD-054; l'età no. I dati di backup Android e i dati cloud Firebase sono due flussi distinti e vanno descritti separatamente.
+
+### Backup Firebase e cifratura
+- `fb_entry.js` serializza/comprime il backup e lo invia a Firestore; la codifica Base64/compressione non è cifratura end-to-end. Il trasporto usa TLS e Google cifra i dati a riposo, ma l'operatore del progetto Firebase può tecnicamente accedere ai documenti tramite Console/API amministrative.
+- La frase “sent encrypted and accessible only with your account” può essere interpretata come esclusione dell'accesso da parte del gestore. Va riscritta distinguendo: TLS in transito, cifratura a riposo del provider, regole di accesso utente e possibilità di accesso amministrativo. Non dichiarare cifratura end-to-end se non esiste.
+- L'informativa dice che i dati senza account “are not sent to anyone” e subito dopo menziona il backup Android su Google: formulazione contraddittoria. Specificare “non inviati ai servizi Tanetto; il backup di sistema Android/Google può includerli se attivo”.
+- L'informativa afferma che account e backup sono cancellati immediatamente. Questo riguarda il documento Firebase e l'account Auth dopo completamento della procedura; non elimina automaticamente i dati locali sul dispositivo né le copie del backup Android già gestite da Google. Chiarire l'ambito della cancellazione e i tempi/controlli del backup di sistema.
+
+### Diagnostica, analytics e categorie di dati
+- L'informativa descrive error report come anonimi e “solo tipo di errore”; il codice invia anche versione, piattaforma e numero di riga, con sanitizzazione del messaggio. La descrizione deve corrispondere esattamente al payload.
+- GoatCounter riceve la richiesta e quindi l'IP a livello di rete, anche se dichiara di non conservarlo in modo identificabile. “Non conserviamo l'IP” è diverso da “non viene trattato alcun dato personale”; va usata una formulazione giuridicamente precisa e verificata rispetto al contratto/ruolo del provider.
+- La mappa privacy deve elencare per ciascun SDK: dati tecnici, identificatori, finalità, base giuridica, destinatari/processor, localizzazione, retention e possibilità di opt-out. Includere Firebase Auth/Firestore, AdMob, UMP, Play Billing, Play Integrity, GoatCounter e diagnostica.
+- Il testo pubblico deve distinguere dati che Tanetto riceve, dati che Google tratta direttamente per il proprio servizio e dati trattati dal sistema operativo. “Non riceviamo l'Advertising ID” non significa che AdMob non lo possa trattare.
+
+### Nuovi elementi nel registro
+| ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
+|---|---|---|---|---|---|
+| AUD-065 | Privacy/minori/backup | Android Auto Backup include Local Storage e diario per tutte le età, mentre il prodotto comunica “no backup” in modalità protetta; età invece esclusa dal backup | Incoerenza tecnica e comunicativa confermata | Critica | Decidere se disabilitare/segregare backup o chiarire esplicitamente il backup di sistema per ogni fascia |
+| AUD-066 | Privacy/cifratura | Backup Firebase codificato/compresso ma non E2E; frase “accessible only with your account” ambigua rispetto all'accesso amministrativo | Incoerenza terminologica da correggere | Alta | Data map, access control, cifratura reale e testo trasparente |
+| AUD-067 | Privacy/retention | Cancellazione account elimina Firebase backup/Auth, non le copie Android Auto Backup già gestite da Google né i dati locali | Ambito della cancellazione incompleto | Alta | Spiegare cosa viene cancellato, cosa resta locale e come gestire backup Android |
+
+### Punto di ripartenza
+Audit in sola lettura. La decisione su backup dei minori è bloccante: va presa nel piano generale dopo valutazione tecnica e legale, non con una correzione isolata. Proseguire con le altre aree prima di scegliere l'architettura definitiva.
