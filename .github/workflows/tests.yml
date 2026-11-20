@@ -88,10 +88,17 @@ jobs:
         run: |
           fail=0
           for t in tests/t110/t_*.py; do
+            if [ "$(basename "$t")" = "t_n111_native.py" ]; then continue; fi
             echo "=== $t"
             rc=0
             (cd tests/t110 && timeout 1500 python3 -u $(basename $t)) > /tmp/tanetto-test.log 2>&1 || rc=$?
             grep -E "^NO |TUTTO OK|CI SONO|Traceback" /tmp/tanetto-test.log | head -20
             if [ "$rc" -ne 0 ] || ! grep -q "TUTTO OK" /tmp/tanetto-test.log; then echo "TEST FALLITO: $t (exit $rc)"; fail=1; fi
           done
+          N111_SHOTS=/tmp/tanetto-n111-shots N111_LOG=/tmp/tanetto-n111.log bash tests/t110/run_n111.sh 8995 || fail=1
+          cat /tmp/tanetto-n111.log
+          git diff --exit-code -- app-android/android/app/src/test/resources/n111_snaps.json || fail=1
           exit $fail
+      - name: Test widget Android (Robolectric)
+        working-directory: app-android/android
+        run: ./gradlew --no-daemon :app:testDebugUnitTest --tests com.tanettoapp.tanetto.WidgetRenderTest --tests com.tanettoapp.tanetto.WidgetSnapTest
