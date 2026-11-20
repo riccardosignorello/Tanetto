@@ -15,9 +15,17 @@ async def plus_offer(b, age):
 async def main(b):
     # 0) il controllo 18+ deve leggere la scelta locale separata da S.age
     for age, want in [("child", True), ("teen", True), ("skip", True), ("adult", False)]:
-        ctx, pg = await T.page(b, T.base_state("en"), native=True, age=age, wait=2500)
+        ctx, pg = await T.page(b, T.base_state("en"), native=True, age=age, tz="Europe/Rome", wait=2500)
         got = await T.ev(pg, "v26Young()")
         T.check(f"fascia giovane 18+, eta' {age}", got is want, got)
+        safety = await T.ev(pg, "sf110Minor()")
+        T.check(f"protezione di sicurezza sotto i 18 anni, eta' {age}", safety is want, safety)
+        card = await T.ev(pg, "psAgeCard()")
+        has_button = 'id="psAge"' in card
+        T.check(f"scheda privacy riconosce la risposta, eta' {age}", has_button == (age == "skip"), has_button)
+        if age in ("teen", "adult"):
+            locked = await T.ev(pg, "card.includes(v110AgeT()[6])")
+            T.check(f"scheda privacy spiega che la scelta non si cambia, eta' {age}", locked)
         await ctx.close()
     # 1) offerta Plus automatica
     for age, want in [("child", 0), ("skip", 0), ("none", 0), ("teen", 0), ("adult", 1)]:
