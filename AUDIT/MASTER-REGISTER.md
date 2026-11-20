@@ -855,3 +855,32 @@ Audit in sola lettura. La decisione su backup dei minori è bloccante: va presa 
 - La privacy source `3zzg_v21_privacy.js` dichiara invece in modo esplicito che Google AdMob può trattare diagnostica del servizio pubblicitario (crash/performance) e posizione approssimativa derivata dall'IP. Questa raccolta SDK va distinta da eventuali errori JavaScript raccolti direttamente da Tanetto.
 - Le note `DATA_SAFETY_111.md` e `PLAY_DATA_SAFETY_111.md` sono documenti incrementali (“il resto resta come 1.0.10”), non una dichiarazione completa e autosufficiente. La frase “nessun dato viene usato per la pubblicità” va riferita esplicitamente ai dati invito/analytics gestiti da Tanetto, perché AdMob tratta dati per fornire annunci.
 - Azione: nel piano generale cercare il simbolo `reportErr` nel bundle effettivamente distribuito e nei branch; se non esiste, eliminare il wrapper morto e non dichiarare una raccolta inesistente. Se esiste, documentare payload, gate età, opt-out e categoria Play corretti.
+
+
+## Sessione di audit — 2026-11-20, soglie d'età e determinazione del Paese
+
+### Modello effettivo delle soglie (chiarimento importante)
+- L'età non ha una sola soglia. Il codice distingue:
+  1. **Sotto 13:** modalità child; nessun annuncio rewarded, account/backup, inviti, statistiche o condivisione esterna.
+  2. **Da 13 anni ma sotto l'età digitale del Paese:** modalità protetta; niente account/backup Firebase, analytics o condivisione esterna; annunci trattati come teen (TFUA/PG/non personalizzati) se l'utente ha scelto “preferisco non dirlo” o ha un'età teen dichiarata; il caso ancora pending viene bloccato dal plugin nativo.
+  3. **Sopra l'età digitale del Paese ma sotto 18:** account/backup e analytics possono essere consentiti; annunci restano teen/non personalizzati; niente inviti, richieste di recensione e offerte automatiche; le cartoline possono essere condivise, ma il nome personale scelto non viene mostrato.
+  4. **18+:** trattamento adulto completo, salvo le preferenze e i consensi.
+- `ageCloudOk()` usa `ageBand() === "adult"`, e `ageBand()` usa la soglia digitale locale, non necessariamente 18 anni. La soglia 18 è invece usata da `v26Young()` per inviti, pressioni commerciali, recensioni e nome nelle cartoline, e da `AgePolicy.java` per il trattamento pubblicitario.
+- La condivisione delle cartoline usa `w111ShareOk()`: consente la condivisione dai 13 anni *e* sopra l'età digitale locale; non è riservata ai soli maggiorenni. Il nome scelto viene mostrato soltanto dai 18 anni. Gli inviti a un amico restano 18+.
+- La descrizione “nessun backup/condivisione nella modalità protetta” è corretta soltanto se “modalità protetta” significa sotto l'età digitale del Paese o scelta non dichiarata, non tutti gli utenti sotto 18. Il press kit e l'informativa devono mantenere questa distinzione.
+- La percentuale di utenti minori non va confusa con la soglia di consenso digitale. Non descrivere `ageCloudOk()` come “solo maggiorenni”: per esempio, in Italia il codice consente account/backup a partire da 14 anni, mentre per le offerte/inviti il limite resta 18.
+
+### Determinazione della soglia legale: rischio da chiudere
+- `AGE_CONSENT` contiene valori espliciti per alcuni Paesi (ad esempio IT 14, FR 15, UK/US 13) e usa 16 come fallback per Paesi non presenti. La tabella non copre in modo esplicito numerosi Paesi in cui l'età o le regole di consenso possono essere diverse, e il fallback 16 può essere troppo permissivo dove serve 18.
+- `ageRegions()` combina regione di locale, lingue del dispositivo, fuso orario e lingua dell'app, scegliendo il valore più alto tra quelli riconosciuti. È prudente rispetto a segnali discordanti, ma non determina il luogo fisico dell'utente e può essere modificato cambiando lingua/fuso; non è una verifica legale della residenza.
+- Esempio da verificare con consulente: un utente in India/Turchia o in un Paese non mappato con locale/fuso impostati su US può ricevere soglia 13/16 invece della soglia locale eventualmente più alta. In India, in particolare, il regime per i minori sotto 18 richiede una verifica legale specifica; non assumere che fallback 16 sia sufficiente.
+- Per i Paesi non mappati, 16 non è sempre il fallback più protettivo. Occorre un inventario legale per tutti i mercati effettivamente distribuiti, non soltanto per le 14 lingue; definire fallback e blocchi coerenti con la normativa, valutando se chiedere il Paese, usare segnali di store/IP con informativa adeguata o limitare il cloud ai 18+ nei mercati non verificati.
+- La scelta dell'utente è autodichiarata (mese/anno, senza giorno) e non verifica l'identità o la data di nascita. Il prodotto non deve presentarla come age verification certificata. Va valutato il requisito di age assurance nei mercati in cui l'app viene distribuita.
+
+### Nuovo elemento nel registro
+| ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
+|---|---|---|---|---|---|
+| AUD-069 | Età/GDPR/mercati | Tabella soglie incompleta e fallback 16; locale/fuso non dimostrano il Paese fisico e possono essere modificati | Rischio di soglia troppo permissiva in alcuni mercati | Critica | Matrice legale Paese per Paese, fallback sicuro e scelta di age assurance/mercati supportati |
+
+### Nota sulla base di audit
+- Il ramo `work/tanetto-1.0.12` contiene ancora alcuni lettori legacy di `S.age` in `98zk_v26_fix.js`; il ramo isolato `work/tanetto-1.0.12-agegate-fix` li ha spostati su `AGE_VALUE`. Le verifiche sui comportamenti d'età devono essere eseguite sul ramo candidato più aggiornato e non confondere il bug del ramo base con il risultato della patch.
