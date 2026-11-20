@@ -76,14 +76,15 @@ function v26StatsOn() {
    si buttano. */
 function v26TrackGate(path) {
   try { if (localStorage.getItem("tanetto-non-contare") === "1") return false; } catch (e) { /* niente */ }
-  let pending = false; try { pending = !S || S.age === undefined; } catch (e) { pending = true; }
+  let pending = true; try { pending = typeof AGE_READY === "undefined" || !AGE_READY; } catch (e) { pending = true; }
   if (pending) { try { S.v26q = (S.v26q || []).filter((x) => x !== path).concat([path]).slice(-20); } catch (e) { /* niente */ } return false; }
   try { if (typeof ageConsent === "function") return v26StatsOn(); } catch (e) { /* avvio: modulo dell'eta' non ancora pronto */ }
   try { S.v26q = (S.v26q || []).filter((x) => x !== path).concat([path]).slice(-20); } catch (e) { /* niente */ }
   return false;
 }
 function v26TrackFlush() {
-  const q = (S.v26q || []).slice(); if (!q.length || S.age === undefined) return; delete S.v26q; save();
+  let ready = false; try { ready = typeof AGE_READY !== "undefined" && AGE_READY; } catch (e) { /* age not initialized yet */ }
+  const q = (S.v26q || []).slice(); if (!q.length || !ready) return; delete S.v26q; save();
   if (v26StatsOn()) q.forEach((p) => track(p));
 }
 if (typeof ageSet === "function") {
@@ -818,7 +819,7 @@ if (typeof acctCard === "function") {
   const _acctCardV26 = acctCard;
   acctCard = function (...a) {
     const h = _acctCardV26.apply(this, a);
-    try { if (typeof ageCloudOk === "function" && !ageCloudOk() && S.age !== undefined && h.indexOf("elimina-account.html") < 0) {
+    try { if (typeof ageCloudOk === "function" && !ageCloudOk() && typeof AGE_VALUE !== "undefined" && AGE_VALUE !== undefined && h.indexOf("elimina-account.html") < 0) {
       const lbl = (AC().webT || AC().delT || ""); if (!lbl) return h;
       return h.replace(/<\/div>\s*$/, `<a class="inlink" href="https://tanetto.app/elimina-account.html?lang=${esc(S.lang)}" target="_blank" rel="noopener">${esc(lbl)}</a></div>`);
     } } catch (e) { /* niente */ }
@@ -895,7 +896,7 @@ const v26Split = (t) => String(t).split(/(?<!(?:^|\s)\p{L}\.)(?<=[.!?…])\s+(?=
 const _psAgeCardV26b = psAgeCard;
 psAgeCard = function (...a) {
   const h = _psAgeCardV26b.apply(this, a); const g = L().v26 && L().v26.ageG; if (!g || !h) return h;
-  let y = null; try { y = ageYears(S.age); } catch (e) { /* niente */ } if (y == null || !S.age || S.age.skip) return h;
+  let y = null; try { y = ageYears(AGE_VALUE); } catch (e) { /* niente */ } if (y == null || !AGE_VALUE || AGE_VALUE.skip) return h;
   const band = y < 13 ? g[1] : y < 18 ? g[2] : g[3];
   return h.replace(/(<p class="small muted">[\s\S]*?<\/p>)/, `$1<p class="small v26ageg" id="v26AgeG"><b>${esc(g[0])}:</b> ${esc(band)}</p>`);
 };
