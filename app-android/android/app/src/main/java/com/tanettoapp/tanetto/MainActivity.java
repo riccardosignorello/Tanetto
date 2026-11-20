@@ -13,6 +13,8 @@ public class MainActivity extends BridgeActivity {
         registerPlugin(SharePlugin.class);
         registerPlugin(BackPlugin.class);
         registerPlugin(AdsPlugin.class);
+        // 1.0.12: scelta dell'eta' in archivio nativo escluso dai backup Android
+        registerPlugin(AgeStorePlugin.class);
         // 1.0.8 (sicurezza): ora della rete / tempo dall'accensione, contro la data del telefono spostata avanti
         registerPlugin(ClockPlugin.class);
         // 1.0.10: App Check (Play Integrity) per account e backup; spento finche' manca l'ID dell'app Android di Firebase
