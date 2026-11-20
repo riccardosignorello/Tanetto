@@ -156,3 +156,34 @@ Prima di terminare una sessione:
 ### Punto di ripartenza aggiornato
 Fase invariata: **audit completo in sola lettura; nessuna modifica applicativa**.
 Prossimo blocco: completare la lettura dei flussi account (inclusi `packState/unpackState`, cancellazione Firebase, limiti età) e acquisti (intero ciclo Google Play e Tanì); poi verificare inviti e premi, ads/consenso, backup e sicurezza server. Proseguire poi sulle funzionalità core, UX/accessibilità/localizzazione, performance, sito/SEO, release e strategia brand/social. Salvare le evidenze nel registro, senza promuovere ipotesi a bug confermati.
+
+
+## Sessione di audit — 2026-11-20, checkpoint sicurezza età, ads e inviti
+
+### Età e modalità protette — evidenza concreta sul ramo applicativo
+- `src/98zf_v22_age.js` separa la scelta dell'età dallo stato generale: in Android la fonte è il plugin nativo `TanettoAge`; in browser è una chiave locale. Il modulo elimina il vecchio campo `S.age` da stato, copie e backup e mantiene `AGE_VALUE/AGE_READY` separati.
+- Le fasce sono distinte: `ageBand()` per child/teen/adult/unknown; `ageAds()` converte unknown e under-18 in trattamento teen per gli annunci; `ageKid()` considera protetti i minori di 13 anni dichiarati e chi non dichiara l'età; `ageCloudOk()` consente account/backup solo alla fascia adult definita dalla soglia locale di consenso digitale.
+- **Difetto confermato sul ramo `work/tanetto-1.0.12`:** `src/98zk_v26_fix.js` contiene ancora letture del vecchio `S.age`. In particolare `v26Young()` usa `ageYears(S.age)`; poiché `98zf` rimuove quel campo, anche un adulto correttamente riconosciuto da `ageBand()` può essere trattato come giovane. `v26TrackGate()` e `v26TrackFlush()` attendono a loro volta `S.age`, quindi la coda di statistiche può non essere mai scaricata. Questo spiega una parte dei fallimenti/minori e può sopprimere funzioni riservate agli adulti e analytics.
+- Il ramo isolato `work/tanetto-1.0.12-agegate-fix` contiene correzioni candidate in più moduli e test di regressione; non sono ancora integrate né considerate definitive. L'audit deve confrontare ogni modifica con l'intero sistema e validare tutti i casi child/teen/adult/skip/unknown prima dell'eventuale integrazione.
+- `AgeStorePlugin.java` salva in `noBackupFilesDir`, scrive in modo atomico e verifica la rilettura. La protezione one-time è implementata soprattutto nel flusso JavaScript: verificare esplicitamente se la chiamata nativa `set()` debba imporre anch'essa immutabilità e quali minacce locali si intendano coprire.
+- Il modello resta di autodichiarazione locale: le regole Firestore non ricevono né verificano la fascia d'età. Non presentare questo come controllo server-side.
+
+### Pubblicità — modello osservato, revisione ancora aperta
+- `src/97zn_v19_ads.js` avvia gli annunci solo su Android, se l'età è pronta, non è child, non è attivo Plus e il prodotto è configurato. Usa `ageAds()`; il plugin nativo `AdsPlugin.java` rilegge autonomamente la scelta dal deposito locale nativo prima di inizializzare SDK/consenso.
+- Per unknown/skip la scelta corrente è trattamento teen (TFUA, contenuti PG, non personalizzati) e video premio disponibili; per child dichiarato il plugin non avvia SDK, UMP o video. Questa è una scelta di prodotto/policy che va verificata contro le policy correnti di Google Play e AdMob, la dichiarazione di pubblico e la normativa dei mercati effettivamente serviti.
+- Da completare: consenso UMP e revoca, privacy options, identificatori/telemetria, limiti giornalieri, premi dopo callback, passaggio Plus↔ads, cambio età, errori/retry, modalità offline e dichiarazioni Play Data Safety.
+
+### Invita un amico — rischio di integrità da approfondire
+- `src/98zx_n111_native.js` limita il flusso premi agli adulti e chiama il plugin nativo per ottenere un hash del dispositivo; l'amico riceve il premio dopo la registrazione server e chi invita interroga il contatore server.
+- Le regole Firestore vincolano struttura, unicità del documento device, sequenza delle scritture e intervallo server di 36 ore; non possono però provare che l'hash inviato provenga da un dispositivo Android autentico né che corrisponda a tre giorni reali d'uso. Il client segnala i giorni e presenta la chiave di verifica.
+- Il modello è quindi resistente a errori e abusi elementari, ma non è una prova antifrode forte contro un client modificato. Da valutare rischio economico massimo, costi Firebase, App Check, callable backend/attestazione e coerenza tra i 3 giorni richiesti dal prodotto e il minimo server di 36 ore. Non cambiare la logica prima della valutazione completa.
+
+### Nuovi elementi nel registro
+| ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
+|---|---|---|---|---|---|
+| AUD-012 | Età/analytics/funzioni adulti | Letture residue di `S.age` in `98zk_v26_fix.js` dopo la migrazione a `AGE_VALUE` | Difetto confermato sul ramo applicativo | Alta | Confrontare patch del branch age-gate, cercare ogni riferimento legacy in tutti i moduli e testare tutti i flussi |
+| AUD-013 | Inviti/anti-abuso | Impronta device e giorni d'uso arrivano dal client; Firestore controlla forma e tempo ma non attesta il dispositivo | Limite architetturale confermato; impatto da valutare | Media/Alta | Threat model e simulazioni abuso; valutare App Check/attestazione/server trusted |
+| AUD-014 | Pubblicità/minori | Trattamento teen per età non dichiarata consente video premio non personalizzati | Comportamento confermato nel codice; conformità da verificare | Alta | Confronto aggiornato con policy Play/AdMob, UMP e leggi dei mercati |
+
+### Punto di ripartenza
+Audit sempre in sola lettura. Prossimo blocco: ricostruire integralmente la serializzazione e il ripristino dei progressi (incluse monete acquistate, età esclusa, migrazioni e trasferimenti), completare l'analisi di inviti e acquisti, poi proseguire su tutte le funzionalità principali e le relative prove. Non integrare il branch age-gate e non correggere ancora il codice.
