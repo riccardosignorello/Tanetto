@@ -989,3 +989,30 @@ Audit in sola lettura. Restano da esaminare i provider widget, i flussi JS che i
 | ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
 |---|---|---|---|---|---|
 | AUD-081 | Widget/tempo | Il widget usa l'orologio di sistema invece del clock sicuro dell'app; può mostrare un giorno/gita non coerente dopo modifica manuale di data o fuso | Disallineamento UX, non bypass premi | Bassa/Media | Test cambio data/fuso e fotografia con timestamp sicuro |
+
+
+## Sessione di audit — 2026-11-20, build Android, firma e App Check
+
+### Build release e App Check
+- La pipeline CI compila soprattutto `debug` e l'APK di prova. Non risulta un gate che compili l'intero `release` con R8 e resource shrinking, quindi non è dimostrato che il pacchetto di produzione funzioni dopo offuscamento/rimozione risorse.
+- La variante App Check “on” è un source set separato: `src/appcheck/on`, `on-debug` (Debug provider) e `on-release` (Play Integrity). Con `tanettoAppCheckAppId` e `tanettoAppCheckApiKey` vuoti, il build seleziona `src/appcheck/off`; la configurazione attuale è quindi spenta.
+- Il codice App Check on costruisce una FirebaseApp separata con ID/API key/progetto hardcoded e restituisce token all'SDK web. Il provider debug e quello Play Integrity sono distinti correttamente, ma non risultano build/test del flavor on né una verifica end-to-end con enforcement Firebase.
+- L'assenza di `google-services.json` è intenzionale per la configurazione JS attuale; il codice App Check usa proprietà Gradle. Non aggiungere credenziali o file segreti al repository. La configurazione reale va verificata in Firebase Console e tramite build firmata distribuita da Play.
+- Il percorso di firma release cerca `tanetto-release.properties` in `TANETTO_KEYS` oppure, come fallback, in `/home/claude/chiavi`. Il fallback è specifico della macchina di sviluppo precedente: la release deve usare un percorso/secret documentato e verificabile, senza dipendere da una directory personale.
+- La build di release non ha signing config se il file proprietà non esiste; questo dovrebbe impedire una pubblicazione firmata, ma il gate va esplicitato e testato per evitare artefatti release non firmati o firmati in modo inatteso.
+
+### Chiave di prova e distribuzione APK
+- `app-android/android/app/build.gradle` usa `prova.keystore` con password/alias standard per firmare gli APK debug e mantenerli aggiornabili fra test. Il keystore è presente nel repository.
+- È una chiave distinta dalla chiave Play, che il codice cerca fuori dal repository. Non è prova di esposizione della chiave di produzione; resta però una chiave privata di test pubblica e riutilizzabile, quindi chiunque può firmare un APK di prova con lo stesso certificato.
+- L'APK di prova usa lo stesso `applicationId` della versione Play ma una firma diversa: non può aggiornare l'app Play installata e richiede disinstallazione/reinstallazione. Questo può far perdere dati locali e confondere i tester.
+- Valutare un `applicationIdSuffix` dedicato per il canale di prova (es. package distinto) e un keystore test non committato, gestito come secret CI; mantenere la chiave Play esclusivamente fuori dal repository. Documentare chiaramente che l'APK pubblico `android-prova` non è installabile sopra la release.
+- La release Play deve essere testata come AAB firmato con la chiave corretta e installato tramite internal testing track, non solo con APK debug.
+
+### Nuovi elementi nel registro
+| ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
+|---|---|---|---|---|---|
+| AUD-082 | Android/CI/release | La CI non prova il build release con R8/shrinkResources e non compila il flavor App Check on | Gap di verifica release confermato | Alta | Build AAB release, test installazione, smoke test e verifica mapping |
+| AUD-083 | Android/firma/supply chain | `prova.keystore` con credenziali standard è nel repository; APK di prova usa stesso applicationId ma certificato diverso dalla release | Rischio test-channel e UX confermato | Media/Alta | Keystore test via secret o package suffix; tenere separata la firma Play |
+
+### Punto di ripartenza
+Audit in sola lettura. Prima del rilascio servirà una pipeline distinta per debug/test, release candidate firmata e App Check enforcement. Nessuna chiave o credenziale va caricata nel repository.
