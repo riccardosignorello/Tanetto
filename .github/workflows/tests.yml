@@ -53,6 +53,9 @@ jobs:
       - name: Compilazione Java Android
         working-directory: app-android/android
         run: ./gradlew --no-daemon :app:compileDebugJavaWithJavac
+      - name: Test unitari policy età Android
+        working-directory: app-android/android
+        run: ./gradlew --no-daemon :app:testDebugUnitTest --tests com.tanettoapp.tanetto.AgePolicyTest
       - name: Strumenti
         run: |
           pip install playwright pillow
