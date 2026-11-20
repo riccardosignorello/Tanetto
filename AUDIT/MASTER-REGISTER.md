@@ -506,3 +506,42 @@ Audit in sola lettura. Prossimo blocco: completare le regole di importazione e i
 
 ### Punto di ripartenza
 Audit in sola lettura. Prossimo blocco: completare account, acquisti e protezione dei dati; poi continuare su giochi, obiettivi, viaggi, diario, capsule, album, notifiche e widget. Tutti i gate devono essere valutati separatamente per età digitale, minore età, pubblicità, cloud, offerte e condivisione.
+
+
+## Sessione di audit — 2026-11-20, Data Safety, TTL, telemetria e licenze
+
+### Data Safety e trattamento dati
+- `GC_CODE` è attivo sul dominio `tanetto.app` e nell'app Android; gli eventi non sono quindi soltanto predisposti: vengono inviati a `tanettoapp.goatcounter.com`. Il payload include il nome evento/percorso e un parametro casuale, non un ID stabile dell'utente.
+- `reportErr()` invia anche eventi di diagnostica JavaScript (tipo di errore, versione, piattaforma e numero di riga) tramite lo stesso endpoint. `98x_v20_secure.js` rimuove stringhe tra virgolette e sequenze numeriche lunghe prima dell'invio, ma il flusso resta raccolta di diagnostica e va dichiarato/valutato separatamente dalle sole “interazioni con l'app”.
+- Le note Play Data Safety 1.0.11 parlano di eventi anonimi e interazioni; non menzionano chiaramente la diagnostica errori. Va verificata la classificazione corretta nella scheda Play Console e aggiornata l'informativa, se necessario.
+- `GrowthPlugin.device()` restituisce SHA-256 di Android ID con prefisso fisso dell'app. È un hash pseudonimo stabile, non cifratura: la frase `impronta cifrata` nei documenti è tecnicamente errata. Un hash deterministico di un identificatore di dispositivo resta un dato pseudonimo/identificativo ai fini privacy, non va descritto come dato anonimo o irreversibilmente non personale senza valutazione.
+- I documenti di Data Safety separano correttamente i dati dell'invito da analytics, ma devono essere verificati contro tutti gli SDK effettivi: Google Mobile Ads/UMP, Firebase Auth/Firestore, Play Billing, Play Integrity, GoatCounter e telemetria errori. L'assenza di dati personali digitati dall'app non significa assenza di dati raccolti dagli SDK.
+- La regola analytics effettiva usa la fascia adulta (<18 disabilitata), mentre il documento interno parla di età del consenso digitale del Paese. La differenza è più protettiva, ma le descrizioni devono corrispondere alla logica reale.
+
+### Retention degli inviti: configurazione esterna non verificabile dal repository
+- `firestore.rules` richiede il campo `exp` a circa 330–400 giorni e i commenti dichiarano cancellazione automatica dopo 12 mesi tramite TTL Firestore.
+- Nel repository non sono presenti `firebase.json`, `firestore.indexes.json` o una configurazione TTL. La TTL Firestore si configura nel progetto cloud, non viene attivata dalle regole di sicurezza.
+- Il campo `exp` è presente su più collection group: `invites`, `p`, `c` e `devs`. Va verificato che la TTL policy sia attiva per ciascun collection group interessato, non soltanto sul documento principale. Se la policy manca, i documenti possono restare oltre i 12 mesi dichiarati.
+- Questo controllo richiede accesso alla console Firebase/Google Cloud del progetto; non è verificabile dal solo repository. Sarà una delle poche attività da chiedere all'utente quando l'audit sarà completo.
+
+### Licenze e provenienza degli asset
+- Il repository contiene 280 WebP, 47 PNG, 9 JPG e 240 WOFF2; non risultano file audio/video. Le immagini includono personaggi, scene, luoghi reali, cartoline, oggetti, splash screen, icone e press kit.
+- `licenses.html` elenca Fredoka, Figtree, Caveat, Lucide, GSAP, Capacitor, Firebase, AndroidX, Kotlin e SDK Google, ma non descrive la provenienza/licenza delle immagini WebP/JPG/PNG né i diritti d'uso delle illustrazioni dei personaggi e dei luoghi.
+- Le immagini potrebbero essere originali o generate, ma il repository non contiene una prova di provenienza, licenza, prompt/autore o release dei diritti. Non attribuire una violazione senza verificare: è un gap di documentazione e due diligence che va chiuso prima di campagne e distribuzione internazionale.
+- Il titolo “Open-source licences” include anche componenti proprietari/SDK Google e licenze commerciali; valutare una pagina più corretta “Componenti di terze parti e licenze”. La licenza GSAP deve essere verificata rispetto alla versione effettivamente distribuita e ai termini aggiornati.
+
+### Documentazione e release
+- `README.md` contiene solo il titolo. Mancano guide per build riproducibile, setup Firebase, release, firma, rollback, test locali, incident response, privacy/data map, supporto e manutenzione.
+- I due documenti Data Safety sono separati e riferiti alla 1.0.11; devono essere unificati in una matrice unica delle categorie di dati/SDK, con proprietario, finalità, retention, base giuridica, disclosure Play e versione.
+- Il repository non contiene una configurazione TTL verificabile né un registro di provenienza degli asset. La release checklist deve richiedere evidenze esterne per entrambi.
+
+### Nuovi elementi nel registro
+| ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
+|---|---|---|---|---|---|
+| AUD-042 | Firebase/retention/privacy | TTL 12 mesi dichiarata nei commenti, ma policy non versionata nel repository e da verificare per tutti i collection group | Non verificabile senza Console | Alta | Verificare TTL su invites/p/c/devs in Firebase/Google Cloud |
+| AUD-043 | Privacy/Data Safety | Hash SHA-256 dell'Android ID descritto come “cifrato”; è un identificatore pseudonimo | Incoerenza terminologica confermata | Media/Alta | Correggere definizioni e verificare Data Safety/GDPR |
+| AUD-044 | Analytics/diagnostica | Eventi errori JS inviati a GoatCounter non esplicitati chiaramente nelle note Data Safety | Raccolta confermata; disclosure da verificare | Media/Alta | Verificare policy GoatCounter e classificazione Play “Diagnostics” |
+| AUD-045 | Licenze/asset | Provenienza e licenze delle immagini non documentate nel repository | Gap documentale confermato | Alta | Inventario asset, autore/fonte/licenza/diritti per ogni gruppo |
+
+### Punto di ripartenza
+Audit in sola lettura. Prossimo blocco: completare inventario privacy/SDK e asset; verificare le funzioni rimanenti, poi fare ricerca esterna sulle policy aggiornate e preparare il piano completo. Le attività che richiedono la Console Firebase, Play Console o account pubblicitari verranno raccolte in un'unica richiesta, non una domanda alla volta.
