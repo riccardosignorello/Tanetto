@@ -294,3 +294,37 @@ Audit in sola lettura. Prossimo blocco: esaminare sicurezza del boot/salvataggio
 
 ### Punto di ripartenza
 Audit in sola lettura. Prossimo blocco: continuare il threat model di economia e premi, poi esaminare in profondità obiettivi, serie, stagioni, viaggi, diario, chat, crisi, giochi, negozio, oggetti, capsule, notifiche e widget. Ogni rischio resta separato tra difetto dimostrato, limite architetturale e ipotesi da riprodurre.
+
+
+## Sessione di audit — 2026-11-20, diagnosi comparata delle CI
+
+### Risultati riletti direttamente dai log integrali
+- Ramo applicativo: run `44780309613`, job `136440981358`, commit `07c55c6d8d5613c6a18760308df10d5d9a75a570`, conclusione failure.
+- Ramo age-gate: run `44784026945`, job `136454007442`, commit testato `7818484ba68fcad21e3e892973fed9043a48697d`, conclusione failure. Il branch è poi avanzato a `76b6a4fd801378ae07a5e7e92ab06dcf2441159a`: quella CI **non certifica il suo HEAD attuale**.
+- In entrambi i log il test `t_110_decisions.py` fallisce soprattutto su vecchi controlli che cercano `S.age` o si aspettano che `ageSet()` sia sincrona; dopo la migrazione la scelta è in `AGE_VALUE` e la scrittura è asincrona. Sono test probabilmente da aggiornare, ma va verificato che non nascondano regressioni reali.
+- Il test `t_111_audience.py` fallisce sul caso “età mai chiesta”: si aspetta video premio e inizializzazione ads, ma il codice `adsOn()` richiede anche `AGE_VALUE !== undefined`. La contraddizione tra commenti/policy di prodotto e condizione effettiva è confermata; non è soltanto un test obsoleto.
+- `t_113_kids_noads.py` fallisce anch'esso sul caso `none` (età non ancora scelta) e non trova pulsanti video. Conferma indipendente del punto precedente. Gli altri fallimenti del test includono etichette/aspettative da verificare rispetto ai testi effettivi.
+- `t_111_icons.py`: in italiano, tedesco, spagnolo, francese e olandese, a 360 px alcuni nomi delle icone risultano spezzati o troppo lunghi. È un problema di presentazione/accessibilità localizzato e riproducibile, non un problema di logica.
+- `t_111_events.py`: il confronto prestazionale con evento attivo supera la soglia di lavoro per frame nel run feature; va riprodotto su runner stabile e dispositivo reale prima di decidere se è regressione o rumore del runner.
+- `t_111_polish.py`: due controlli sull'attivazione settimanale della stella/evento non rilevano il comportamento atteso nel run applicativo; da confrontare con le modifiche del ramo e con la data simulata.
+- `t_111_week.py` e `t_110_story.py`: terminano con eccezione. Il workflow stampa solo la riga “Traceback” e non le righe successive, quindi la causa non è diagnosticabile dai log pubblicati.
+- `t_b1_minors.py`: sul ramo applicativo gli adulti risultano trattati come giovani (offerta Plus, invito, onboarding Plus, promemoria, statistiche e fascia età). Questo è coerente con il riferimento obsoleto a `S.age` in `v26Young()`; sul ramo age-gate restano due controlli della scheda Privacy da verificare.
+- `t_b2_money.py`: un controllo non trova la finestra di scelta del ripristino; va diagnosticato separando timing UI, fixture e logica del backup.
+- `t_b8_legal_native.py` e `t_113_sfx.py`: fallisce il controllo del link per cancellazione account nella scheda protetta. Il testo della scheda mostra il messaggio “backup online non disponibile” ma non il link atteso: verificare il requisito prodotto e la funzione effettiva della pagina di cancellazione per chi non può usare account.
+- `t_b9_site.py` sul ramo applicativo: 5 NO / 157 OK; sul run del ramo age-gate: 0 NO / 190 OK. Il test ha più parti; il ramo age-gate supera la parte finale del sito, ma la CI generale resta fallita.
+
+### Problema di osservabilità della CI
+- Lo step di test salva l'output completo in `/tmp/tanetto-test.log`, ma poi stampa solo `grep ... | head -20`; in caso di eccezione il log completo viene perso al termine del runner. Non viene caricato un artifact diagnostico per ogni test fallito. Questo ha impedito di diagnosticare i traceback di `t_110_story.py` e `t_111_week.py`.
+- Correzione da inserire nel piano generale: conservare un log distinto per ogni test e caricare un artifact sempre disponibile quando il job fallisce; stampare un riassunto compatto senza cancellare il traceback completo. Non aumentare timeout o allargare soglie senza una causa dimostrata.
+
+### Nuovi elementi nel registro
+| ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
+|---|---|---|---|---|---|
+| AUD-023 | Ads/età | `adsOn()` esclude `AGE_VALUE === undefined`, quindi chi non ha ancora risposto non riceve video, nonostante commenti e test dicano trattamento teen | Incoerenza di comportamento confermata | Media/Alta | Decidere comportamento voluto e verificare policy AdMob/Play prima di correggere |
+| AUD-024 | CI/osservabilità | Traceback e log completi dei test falliti vengono scartati dal runner | Gap diagnostico confermato | Media | Artifact per test, log integrali e riproduzione locale/CI |
+| AUD-025 | UX/localizzazione | Nomi delle icone si spezzano a 360 px in cinque lingue | Difetto UI confermato dai test | Media | Correggere layout senza ridurre leggibilità/accessibilità |
+| AUD-026 | Prestazioni | Animazioni evento superano la soglia del test nel run feature | Da riprodurre | Media | Profilare su runner stabile e Android fisico |
+| AUD-027 | Contenuti/UX | Test settimana/story hanno eccezioni o mismatch di contenuto; causa nascosta dal logging | Non diagnosticato | Media | Recuperare stack trace e riprodurre ogni caso |
+
+### Punto di ripartenza
+Audit in sola lettura. Prima di correggere qualsiasi test, stabilire se è obsoleto o se segnala un comportamento reale; nessun “verde” ottenuto modificando aspettative senza motivazione. Prossimo blocco: continuare su funzioni core e mappa di dipendenze; mantenere distinti i risultati del ramo applicativo e del ramo age-gate e non considerare testata la HEAD del feature branch finché non parte una nuova CI su quel commit.
