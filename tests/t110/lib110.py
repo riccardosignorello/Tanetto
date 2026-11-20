@@ -49,14 +49,23 @@ window.Capacitor = { isNativePlatform: () => true, getPlatform: () => "android",
   // 1.0.12: emulate the native, no-backup age store. The initial localStorage value
   // is only a fixture for old tests; get() imports it once, then the in-memory value
   // behaves like Android's getNoBackupFilesDir() store after local copies are scrubbed.
-  TanettoAge: (() => { let choice; let loaded = false; return {
+  TanettoAge: (() => { const STORE = '__tanetto_native_age_mock'; let choice; let loaded = false; return {
     get: async () => {
-      if (!loaded) { loaded = true; try { const raw = localStorage.getItem('tanetto-eta'); choice = raw ? JSON.parse(raw) : null; } catch (e) { choice = null; } }
+      if (!loaded) {
+        loaded = true;
+        try {
+          const saved = localStorage.getItem(STORE);
+          const raw = saved || localStorage.getItem('tanetto-eta');
+          choice = raw ? JSON.parse(raw) : null;
+          if (choice && !saved) localStorage.setItem(STORE, JSON.stringify(choice));
+        } catch (e) { choice = null; }
+      }
       return choice ? { hasChoice: true, choice: { ...choice } } : { hasChoice: false };
     },
     set: async (value) => {
       if (!value || (value.skip !== true && (!Number.isInteger(value.y) || !Number.isInteger(value.m) || value.y < 1900 || value.m < 1 || value.m > 12))) throw new Error('age_store_write_failed');
       choice = value.skip === true ? { skip: true } : { y: value.y, m: value.m }; loaded = true;
+      localStorage.setItem(STORE, JSON.stringify(choice));
       return { saved: true };
     }
   }; })() } };"""
