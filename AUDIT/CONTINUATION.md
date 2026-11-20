@@ -64,6 +64,7 @@ Il registro master contiene i dettagli e le prove; questa sezione è solo un ind
 - Audit Android plugin: SharePlugin può lasciare file/record MediaStore pendenti e non ha limite Base64; GrowthPlugin può perdere referrer dopo 3 tentativi; WidgetPlugin/ReviewPlugin restituiscono solo richiesta/attempt, non esito finale; il widget usa wall-clock anziché clock sicuro. Dettagli AUD-077–081.
 - La CI non compila release R8/App Check on; il keystore `prova.keystore` è committato con credenziali note e l'APK test usa lo stesso package ID della release ma firma diversa. Dettagli AUD-082–083.
 - Il clock anti-manomissione non ha sempre tempo di rete (Android <13, PWA/offline) e `tanetto-clock` è incluso in Android Auto Backup, con possibile disallineamento cross-device. Dettagli AUD-084–085.
+- Le notifiche possono restare visualizzate come attive dopo revoca permesso/fallimento schedule; il vecchio canale viene segnato eliminato prima dell'esito e AlarmManager usa il clock di sistema. Dettagli AUD-086–088.
 
 ## Prossime attività da completare (in ordine)
 1. Proseguire audit di tutti i moduli sorgente non ancora coperti: shop/billing e restore, backup, account, notifiche, widget, sharing, PWA/offline, iOS/web, accessibilità, performance, localizzazione, eventi, mondi, personaggi e contenuti.
