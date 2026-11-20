@@ -62,8 +62,9 @@ jobs:
           fail=0
           for t in tests/t110/t_*.py; do
             echo "=== $t"
-            (cd tests/t110 && timeout 1500 python3 -u $(basename $t)) > out.txt 2>&1 || true
-            grep -E "^NO |TUTTO OK|CI SONO|Traceback" out.txt | head -20
-            grep -q "TUTTO OK" out.txt || fail=1
+            rc=0
+            (cd tests/t110 && timeout 1500 python3 -u $(basename $t)) > /tmp/tanetto-test.log 2>&1 || rc=$?
+            grep -E "^NO |TUTTO OK|CI SONO|Traceback" /tmp/tanetto-test.log | head -20
+            if [ "$rc" -ne 0 ] || ! grep -q "TUTTO OK" /tmp/tanetto-test.log; then echo "TEST FALLITO: $t (exit $rc)"; fail=1; fi
           done
           exit $fail
