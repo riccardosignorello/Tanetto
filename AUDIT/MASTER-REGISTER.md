@@ -214,3 +214,35 @@ Audit sempre in sola lettura. Prossimo blocco: ricostruire integralmente la seri
 
 ### Punto di ripartenza
 Audit in sola lettura. Prossimo blocco: esaminare completamente i flussi di esportazione/importazione, firma e ripristino (inclusi i controlli di `98x_v20_secure.js` e i campi economici), poi completare cancellazione account e backup. Proseguire con sito, SEO, performance, accessibilità, distribuzione, release e tutte le altre aree. Non applicare ancora correzioni.
+
+
+## Sessione di audit — 2026-11-20, checkpoint import/export e cancellazione account
+
+### Copie, trasferimenti e ripristino — flussi esaminati
+- `src/97h_ios.js` implementa `packState()/unpackState()`: serializza JSON dello stato, usa `CompressionStream('deflate-raw')` quando disponibile e codifica in Base64 URL-safe; altrimenti usa JSON non compresso. L'importazione cerca il prefisso `TANETTO0/1`, decodifica/decomprime e fa `JSON.parse`.
+- `src/97v8.js` esporta file JSON e importa tramite `FileReader`; dopo il controllo superficiale di `app/state/pet`, apre la conferma di ripristino.
+- `src/98x_v20_secure.js` aggiunge sanificazione dei dati, controlli di tipo, limiti sui campi e una firma di integrità client-side; rimuove da importazioni `age`, `plusOn`, `plusCheck`, `plusSince`, `dev` e la coda analytics, poi conserva Plus solo se confermato sul dispositivo. Il codice stesso riconosce che la firma non è una protezione assoluta, perché la chiave è incorporata nel client: va considerata un controllo anti-manomissione di base, non una firma crittografica verificabile da un server.
+- `src/98zf_v22_age.js` elimina il vecchio campo età da stato, copie e backup; il modulo Android legge la scelta solo dal deposito nativo no-backup, mentre il browser la conserva localmente. La scelta non dovrebbe viaggiare nei file o nei codici.
+
+### Rischi da riprodurre su importazione
+- **Limiti di dimensione assenti prima del parsing:** `unpackState()` non impone un tetto alla lunghezza del codice, alla dimensione dei byte compressi o alla dimensione massima del testo decompresso prima di `JSON.parse`. `readBackup()` non controlla `file.size` prima di leggere il file. La sanificazione successiva limita profondità/numero di elementi ma arriva dopo decompressione e parsing. Rischio: file malevolo o accidentalmente enorme può saturare memoria o bloccare il WebView. Classificazione provvisoria: rischio concreto, gravità alta; da testare con file sovradimensionati e compressione anomala.
+- **Possibile gara nella verifica della firma del file:** il wrapper di `readBackup()` in `98x_v20_secure.js` avvia `file.text().then(...secVerify...)` ma chiama subito il vecchio `readBackup()`, che usa un altro lettore asincrono (`FileReader`). Il pulsante di conferma usa il valore globale `secLastTrust`; non c'è una garanzia esplicita che la verifica `file.text()` sia terminata prima che l'utente possa confermare. Da riprodurre con file grandi/lenti e verificare se copie legittime possono essere trattate come non firmate e quindi avere Tanì/oggetti/livello ridotti.
+- `unpackState()` accetta un match non ancorato e non verifica esplicitamente che il contenuto finisca subito dopo il payload; da valutare come robustezza del parser, non ancora classificato come vulnerabilità.
+- La copia Android passa dal plugin nativo di condivisione; il wrapper età rimuove `S.age` prima di esportare. Va completata una prova su backup Android automatico, copia manuale, codice di trasferimento, backup Firebase, ripristino su stesso telefono e telefono nuovo.
+- La logica anti-frode delle copie usa la firma client e limiti economici; non equivale a validazione server di acquisti Google Play. Valutare esplicitamente il confine tra protezione dei progressi e protezione di valore monetario.
+
+### Cancellazione account — difetto concreto
+- `tools/firebase/fb_entry.js` implementa `remove()` nell'ordine: prima `deleteDoc(ref())` (backup Firestore), poi `deleteUser(auth.currentUser)`.
+- La cancellazione Firebase Auth può richiedere una riautenticazione recente. Nell'app `src/97n_account.js` la prima chiamata può quindi cancellare il backup e poi fallire con `requires-recent-login`; la riautenticazione viene proposta solo dopo il fallimento. La pagina pubblica `elimina-account.html` chiama direttamente `remove()` e, in caso di riautenticazione richiesta, esce dall'account e invita a rientrare. In entrambi i casi il backup può essere già stato cancellato mentre l'account resta attivo.
+- **Difetto confermato nel flusso di cancellazione:** la cancellazione del backup precede la verifica che l'account possa essere eliminato. Rischio di perdita irreversibile del backup se la riautenticazione viene annullata, fallisce o l'utente non completa il secondo accesso. Soluzione da progettare: riautenticare prima di qualsiasi cancellazione, poi cancellare in modo coordinato account e dati; valutare una Cloud Function/Admin SDK o un protocollo ripetibile e idempotente che non lasci account orfani o backup cancellati a metà.
+- Il testo pubblico promette eliminazione definitiva: occorre verificare anche gli eventuali dati di autenticazione, log, TTL degli inviti, retention dei provider e annullamento separato dell'abbonamento Google Play.
+
+### Nuovi elementi nel registro
+| ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
+|---|---|---|---|---|---|
+| AUD-017 | Account/cancellazione | `remove()` cancella il backup Firestore prima di `deleteUser()`; la riautenticazione può fallire dopo che il backup è già sparito | Difetto confermato nel flusso | Alta | Riprodurre su app e pagina web; progettare cancellazione idempotente senza perdita anticipata |
+| AUD-018 | Import/export/sicurezza | Nessun limite preventivo evidente a dimensione file/codice o output decompresso prima del parsing JSON | Rischio concreto da testare | Alta | Test file grandi, decompression bomb, JSON profondo, memoria limitata e fallback |
+| AUD-019 | Import/export/integrità | Verifica firma file asincrona separata da FileReader e usa stato globale `secLastTrust` | Possibile race condition | Media/Alta | Testare file piccoli/grandi, letture concorrenti e conferma immediata |
+
+### Punto di ripartenza
+Audit ancora in sola lettura. Prossimo blocco: completare i test statici e funzionali di import/export e serializzazione, approfondire acquisti e backup, quindi passare alle funzioni core (obiettivi, diario, chat, viaggi, stagioni, giochi, negozio, notifiche e widget) con mappa dipendenze e copertura dei test. Salvare ogni nuova evidenza nel registro; nessuna patch applicativa prima del piano completo.
