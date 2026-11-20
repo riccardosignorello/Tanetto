@@ -283,6 +283,10 @@ async def main(b):
     T.check("  pagina pubblica e testi it/en: nessuna delle frasi vecchie", not [o for o in old if o in pp] and not [o for o in old if o in await T.ev(pg, "T.en.privDoc.join(' ') + T.it.privDoc.join(' ') + V23.en.ageNo + V23.it.ageNo")])
     T.check("  'Preferisco non dirlo' in Profilo: video mai personalizzati (non piu' 'niente video'), niente pubblicità per bambini (it/en)", "non sono mai personalizzati" in await T.ev(pg, "V23.it.ageNo") and "never personalised" in await T.ev(pg, "V23.en.ageNo") and "no reward videos" not in await T.ev(pg, "V23.en.ageNo"))
     T.check("  data dell'informativa aggiornata (18/11/2026, 1.0.11)", await T.ev(pg, "PRIVACY_DATE") == "2026-11-18")
+    backup = json.loads(await T.ev(pg, "JSON.stringify(V110_BACKUP)"))
+    old_age_claims = ["compresa l'età", "including your age", "auch dein Alter", "incluida tu edad", "y compris ton âge", "incluindo sua idade", "年齢を含む", "나이 포함", "包括年龄", "包括年齡", "включая возраст", "także wieku", "ook je leeftijd", "yaşın dahil"]
+    T.check("  backup Android: nessuna delle 14 lingue dichiara più che l'età viene copiata", len(backup) == 14 and not any(old.lower() in value.lower() for old in old_age_claims for value in backup.values()), [k for k,v in backup.items() if any(old.lower() in v.lower() for old in old_age_claims)])
+    T.check("  backup Android: italiano e inglese escludono esplicitamente mese e anno di nascita", "esclusi il mese e l'anno di nascita" in backup["it"] and "excluding your birth month and year" in backup["en"])
     T.check("  adulto: la scheda dell'eta' in Profilo non parla di 'niente video' (come prima)", AGE_NOAD_EN not in await T.ev(pg, "psAgeCard()"))
     await ctx.close()
     for lang in T.LANGS:
