@@ -24,8 +24,8 @@ async def main(b):
         has_button = 'id="psAge"' in card
         T.check(f"scheda privacy riconosce la risposta, eta' {age}", has_button == (age == "skip"), has_button)
         if age in ("teen", "adult"):
-            locked = await T.ev(pg, "card.includes(v110AgeT()[6])")
-            T.check(f"scheda privacy spiega che la scelta non si cambia, eta' {age}", locked)
+            lock_text = await T.ev(pg, "v110AgeT()[6]")
+            T.check(f"scheda privacy spiega che la scelta non si cambia, eta' {age}", lock_text in card)
         await ctx.close()
     # 1) offerta Plus automatica
     for age, want in [("child", 0), ("skip", 0), ("none", 0), ("teen", 0), ("adult", 1)]:
