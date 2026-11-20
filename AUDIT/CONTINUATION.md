@@ -48,6 +48,7 @@ Il registro master contiene i dettagli e le prove; questa sezione è solo un ind
 - **AUD-030 — Alta:** la contabilità dei Tanì pagati incrementa `spentN` dell'intera spesa, anche quando la quota pagata residua è inferiore; il test `t_b2_money.py` si aspetta `min(spesa, residuo pagato)`. Da correggere con transazione centrale.
 - **AUD-057 — Media/Alta:** filtro nomi basato su sottostringhe può creare falsi positivi e non ha copertura madrelingua CJK.
 - **AUD-060 — Alta:** sistema di supporto euristico in 14 lingue e linee telefoniche devono essere validati da professionisti e madrelingua; non presentarlo come diagnosi o rilevamento completo.
+- **AUD-070 — Critica:** Plus mensile da 750 Tanì non risulta classificato nel bucket pagato; `creditPack` consuma il token Google Play anche se il salvataggio non è verificato e classifica `econ().paid` solo dopo il consumo. Serve una transazione idempotente unica.
 - **AUD-058/064 — Alta:** test reali su device, servizi Google/Firebase, accessibilità assistiva, log/artifact, SAST e dependency scanning ancora mancanti.
 
 ## Correzioni d'interpretazione da mantenere
