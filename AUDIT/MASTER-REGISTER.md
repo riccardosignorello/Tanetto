@@ -487,3 +487,22 @@ Audit in sola lettura. Il piano finale dovrà distinguere: blocchi obbligatori p
 
 ### Punto di ripartenza
 Audit in sola lettura. Prossimo blocco: completare le regole di importazione e i test economici; controllare il ciclo di acquisto, riconciliazione, rimborsi e recupero account; poi continuare su tutte le funzioni core. Non correggere il limite isolatamente prima di decidere la strategia di verifica dei token.
+
+
+## Sessione di audit — 2026-11-20, account facoltativo e coerenza con il gate età
+
+### Invito account e pulsanti di accesso
+- `nudgeShow()` in `97p_store.js` mostra un invito a creare un account dopo tre giorni di uso, se i promemoria sono attivi, l'utente non ha già un account e non ha rifiutato l'invito. Non controlla `ageCloudOk()` e non verifica che l'account sia effettivamente disponibile per la fascia dichiarata.
+- `acctCard()` in `97n_account.js`, quando non c'è un account attivo, mostra i pulsanti Google/e-mail. Il gate effettivo è dentro `fbLoad()`, che blocca la connessione se l'età non consente il cloud; quindi il pulsante può essere visibile anche a chi non può completare l'accesso.
+- `98zk_v26_fix.js` aggiunge un collegamento alla pagina di cancellazione per chi ha già risposto all'età e risulta non idoneo al cloud; la versione sul ramo applicativo usa però ancora il vecchio controllo `S.age`, già incluso in AUD-012/AUD-029. La patch isolata age-gate lo sposta su `AGE_VALUE`.
+- **Incoerenza UX confermata:** un utente child o con età non dichiarata può ricevere un invito a creare un account e vedere pulsanti di accesso che il gate poi rifiuta. L'invito dovrebbe essere condizionato a `ageCloudOk() === true`; per chi non è idoneo, la scheda dovrebbe spiegare con chiarezza che account e backup online non sono disponibili e, se c'è un account preesistente, mostrare solo il percorso di cancellazione.
+- La regola deve usare la soglia locale di consenso digitale (`ageCloudOk`), non `v26Young()`: in alcuni Paesi una persona di 16–17 anni può avere diritto a un account anche se resta minorenne per acquisti, offerte o personalizzazione.
+- I test attuali verificano account/cloud e link di cancellazione in alcuni casi, ma non coprono l'invito account dopo tre giorni per tutte le fasce child/teen/skip/unknown né il click sui pulsanti quando il cloud è bloccato.
+
+### Nuovo elemento nel registro
+| ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
+|---|---|---|---|---|---|
+| AUD-041 | Account/età/UX | Invito e pulsanti di accesso possono apparire anche quando `ageCloudOk()` blocca account e backup | Incoerenza di comportamento confermata | Media/Alta | Testare child/teen/skip/unknown per UI, click e messaggi; mostrare solo le azioni disponibili |
+
+### Punto di ripartenza
+Audit in sola lettura. Prossimo blocco: completare account, acquisti e protezione dei dati; poi continuare su giochi, obiettivi, viaggi, diario, capsule, album, notifiche e widget. Tutti i gate devono essere valutati separatamente per età digitale, minore età, pubblicità, cloud, offerte e condivisione.
