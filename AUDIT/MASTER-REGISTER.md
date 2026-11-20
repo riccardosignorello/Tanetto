@@ -1041,3 +1041,30 @@ Audit in sola lettura. Prima del rilascio servirà una pipeline distinta per deb
 
 ### Punto di ripartenza
 Audit in sola lettura. L'orologio va progettato insieme a backup, premi, eventi e modalità offline; non cambiare il singolo plugin senza verificare tutte le dipendenze.
+
+
+## Sessione di audit — 2026-11-20, notifiche Android
+
+### Flusso attuale
+- Le notifiche sono solo native Android; l'app chiede il permesso quando l'utente preme “Attiva”.
+- `notifSchedule()` cancella gli ID precedenti, poi programma fino a 7 promemoria giornalieri e un avviso di fine viaggio. Se oggi gli obiettivi sono già completati, non programma il promemoria di oggi. La pianificazione viene rinnovata all'apertura, al cambio orario, al completamento di un obiettivo, al cambio lingua e quando cambia la data di fine viaggio.
+- Il canale nuovo `promemoria2` usa importanza normale e visibilità privata; il vecchio canale viene eliminato per evitare che resti l'impostazione di alta importanza della versione precedente. `isExactNotification:false` e la rimozione dei permessi di allarme esatto indicano che l'orario è indicativo, non garantito al minuto.
+- Il contenuto usa nome del compagno e messaggi predefiniti; non include diario o testo libero. La visibilità privata nasconde il testo nella schermata di blocco.
+
+### Problemi e verifiche
+- Se l'utente revoca il permesso dalle impostazioni Android dopo aver attivato le notifiche, `S.notif` resta `true`. `notifSchedule()` registra un errore ma non aggiorna lo stato; la scheda può continuare a dire che i promemoria sono attivi anche se Android li blocca.
+- `notifEnable()` salva `S.notif=true` prima di sapere se `notifSchedule()` è riuscita. Se la creazione del canale o la pianificazione fallisce, la UI può dichiarare attiva una funzione non realmente programmata.
+- `v26OldChannel()` imposta e salva `S.v26ch=1` prima che `deleteChannel()` completi. Se la cancellazione fallisce, non viene riprovata alle aperture successive; il vecchio canale può conservare impostazioni indesiderate.
+- Il codice usa `Date.now()` e `new Date()` corretti dal clock sicuro dell'app, ma AlarmManager/Android pianifica usando l'orologio del sistema. Se il clock del telefono è alterato e l'app applica un offset, l'ora di consegna può non coincidere con quella che l'app mostra. È un problema di sincronizzazione con AUD-084, non un bypass dei premi.
+- L'uso di `allowWhileIdle:true` con notifiche non esatte deve essere verificato sulla versione 8.3.1 del plugin e su Android 12–16: non promettere puntualità esatta e controllare il comportamento Doze, risparmio batteria, reboot, cambio fuso e permesso negato.
+- Se `createChannel()` fallisce, il codice continua a programmare senza impostare `channelId`; va verificato quale canale predefinito usa il plugin e se mantiene davvero importanza normale/visibilità privata.
+
+### Nuovi elementi nel registro
+| ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
+|---|---|---|---|---|---|
+| AUD-086 | Notifiche/UX | Revoca permesso o fallimento schedule non aggiorna `S.notif`; la UI può dichiarare attive notifiche non programmate | Difetto di stato/feedback da codice | Media | Check permission ad ogni apertura, rollback dello stato se schedule fallisce |
+| AUD-087 | Notifiche/tempo | La data JS sicura può differire dall'orologio usato da AlarmManager; consegna può slittare dopo manipolazione clock | Rischio di sincronizzazione | Media | Test cambio data/fuso e API Android 24–36 |
+| AUD-088 | Notifiche/canali | `v26OldChannel` segna il vecchio canale eliminato prima del completamento asincrono | Rischio di migrazione incompleta | Bassa/Media | Salvare il flag solo dopo esito positivo e riprovare in caso di errore |
+
+### Punto di ripartenza
+Audit in sola lettura. Prima di modificare il flusso, verificare il comportamento reale del plugin Capacitor 8.3.1 e la matrice Android 12–16, in particolare permessi, canali, Doze e reboot.
