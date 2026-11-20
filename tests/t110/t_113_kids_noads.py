@@ -287,7 +287,9 @@ async def main(b):
     old_age_claims = ["compresa l'età", "including your age", "auch dein Alter", "incluida tu edad", "y compris ton âge", "incluindo sua idade", "年齢を含む", "나이 포함", "包括年龄", "包括年齡", "включая возраст", "także wieku", "ook je leeftijd", "yaşın dahil"]
     T.check("  backup Android: nessuna delle 14 lingue dichiara più che l'età viene copiata", len(backup) == 14 and not any(old.lower() in value.lower() for old in old_age_claims for value in backup.values()), [k for k,v in backup.items() if any(old.lower() in v.lower() for old in old_age_claims)])
     T.check("  backup Android: italiano e inglese escludono esplicitamente mese e anno di nascita", "esclusi il mese e l'anno di nascita" in backup["it"] and "excluding your birth month and year" in backup["en"])
-    T.check("  backup Android: la stessa esclusione appare anche nell'informativa app e nella pagina pubblica", "excluding your birth month and year" in pp and "excluding your birth month and year" in await T.ev(pg, "T.en.privDoc[2]"))
+    legacy_backup = {"it":"backup creato con una versione precedente", "en":"older backup created before this change", "de":"frühere Sicherung", "es":"versión anterior", "fr":"ancienne version", "pt":"versão anterior", "ja":"以前のバージョン", "ko":"이전 버전", "zh":"旧版本", "zht":"舊版本", "ru":"предыдущей версии", "pl":"wcześniejszej wersji", "nl":"eerdere versie", "tr":"önceki bir sürüm"}
+    T.check("  backup Android: avviso sulle copie precedenti presente in tutte le 14 lingue", len(backup) == 14 and all(legacy_backup[k] in backup[k] for k in legacy_backup), [k for k in legacy_backup if legacy_backup[k] not in backup.get(k, "")])
+    T.check("  backup Android: l'esclusione e l'avviso legacy appaiono anche nell'informativa pubblica", "excluding your birth month and year" in pp and "older backup created before this change" in pp and "excluding your birth month and year" in await T.ev(pg, "T.en.privDoc[2]"))
     T.check("  adulto: la scheda dell'eta' in Profilo non parla di 'niente video' (come prima)", AGE_NOAD_EN not in await T.ev(pg, "psAgeCard()"))
     await ctx.close()
     for lang in T.LANGS:
