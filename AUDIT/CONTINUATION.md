@@ -29,6 +29,7 @@
 - Il report finale deve essere comprensibile in italiano semplice, prima per gravità e poi per area, spiegando problema, causa, conseguenza, soluzione, verifica e decisioni richieste all'utente.
 
 ## Risultati audit registrati finora
+- Diagnosi del run CI storico feature branch: pending age test incorrectly expects ads; missing “choice cannot be changed” copy in profile; 5 locale icon-label layout failures; seasonal event animation overhead; restore test waits only 1.5 s; two test tracebacks truncated. Full details in AUD-071–076.
 Il registro master contiene i dettagli e le prove; questa sezione è solo un indice:
 - CI, build Android, dipendenze, firma release, App Check, Firebase e Firestore rules.
 - Età, plugin nativo, pubblicità, consenso digitale, soglie per Paese e modalità protetta.
