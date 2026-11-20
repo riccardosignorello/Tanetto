@@ -408,3 +408,25 @@ Audit in sola lettura. Prossimo blocco: completare la mappa delle fonti di guada
 
 ### Punto di ripartenza
 Audit in sola lettura. Prossimo blocco: esaminare viaggi, stagioni, obiettivi, regali, album, giochi e interazioni; poi verificare il comportamento di tutte le notifiche e i permessi Android. Integrare le dipendenze del gate età nel piano generale.
+
+
+## Sessione di audit — 2026-11-20, integrità dei backup ed economia anti-manomissione
+
+### Difetti strutturali nella validazione dei backup — gravità alta
+- `secSig()` usa una chiave costante incorporata nel JavaScript distribuito. Il codice documenta correttamente che non è una protezione assoluta: chi analizza il bundle può ricostruire la firma. Va trattata solo come rilevamento di modifiche casuali/elementari, mai come prova di autenticità o come confine di sicurezza.
+- `secStrict()`, usato quando una copia non ha firma valida, calcola una quota di Tanì che può includere fino a 10 token presenti nella copia ma non sul dispositivo corrente, attribuendo a ciascuno il valore di un pacchetto massimo. I token importati sono contati se sono semplici stringhe non vuote; non viene verificato che siano acquisti autentici con Google Play Developer API. Quindi un backup modificato può inserire token fittizi e aumentare la quota consentita.
+- La quota usa anche il numero di giorni in `log` e le chiavi di `days` comprese tra `firstDay` e oggi; queste strutture provengono dal backup e non sono prove server-side di attività reale. Possono essere manipolate per aumentare il limite di importazione.
+- `econSanitize()` in `98e_v20_econ.js` calcola a sua volta la quota in base al numero di stringhe in `paidTokens`, senza verificare i token con Play e senza applicare il limite di 10 usato da `secStrict()`. Quando la copia risulta “trusted” (firma riproducibile dal bundle) questo è un secondo percorso di fiducia non verificata.
+- `secSanitizeImport()` non valida né azzera i campi economici interni di `v20econ`; `econSanitize()` si limita a verificare che `v20econ` sia un oggetto. Campi come `paid`, `spentN`, `rw`, `gifts`, `trips`, `games`, `pass` e `maxDay` possono quindi arrivare da un backup non verificato senza una convalida semantica completa.
+- **Conseguenza:** un backup alterato può manipolare la classificazione dei Tanì, il limite di valuta importabile e i registri locali che impediscono di ottenere più volte premi giornalieri/obiettivi/viaggi. Un backup firmato vecchio può inoltre riportare indietro i registri economici, perché non c'è un ledger server monotono.
+- Il rischio non va confuso con la frode su acquisti reali: la verifica server-side dei token Play e un ledger server sono la soluzione robusta per i pacchetti pagati; per i premi offline servono regole di merge monotono e limiti di restore che non cancellino i progressi legittimi.
+
+### Nuovi elementi nel registro
+| ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
+|---|---|---|---|---|---|
+| AUD-035 | Backup/economia/acquisti | Token importati contati come pacchetti senza verifica Play; quota può essere gonfiata con token fittizi | Debolezza anti-manomissione confermata | Alta | Test import alterato; validazione server dei token e limiti non controllabili dal client |
+| AUD-036 | Backup/economia | `v20econ` e i suoi registri monotoni non vengono validati/mergiati; backup vecchi o alterati possono ripristinare premi e contatori | Gap di integrità confermato | Alta | Test restore di `rw/gifts/trips/paid/spentN`, merge monotono e ledger server |
+| AUD-037 | Sicurezza dati | Firma locale basata su chiave statica nel bundle è riproducibile e non autentica la provenienza della copia | Limite crittografico confermato e già ammesso dal codice | Alta | Non usarla come controllo di sicurezza; definire threat model e protezioni server |
+
+### Punto di ripartenza
+Audit in sola lettura. Prossimo blocco: completare il threat model dei dati e dell'economia; esaminare il codice dei viaggi, obiettivi, regali, album e stagioni; poi pianificare test di restore/rollback, validazione acquisti e riconciliazione server. Le debolezze di import/export e acquisti sono ora priorità alta nell'inventario, ma non si applicano ancora patch isolate.
