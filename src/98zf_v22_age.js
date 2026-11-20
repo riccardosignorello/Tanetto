@@ -168,6 +168,7 @@ function ageInit() {
     if (S && Object.prototype.hasOwnProperty.call(S, "age")) delete S.age;
     try { if (typeof snapT !== "undefined" && snapT) { clearTimeout(snapT); snapT = null; } } catch (e) { /* niente */ }
     const p = ageNativePlugin();
+    if (!p && typeof isNativeApp === "function" && isNativeApp()) throw new Error("native_age_plugin_unavailable");
     if (p && typeof p.get === "function" && typeof p.set === "function") {
       const result = await p.get(); AGE_VALUE = result && result.hasChoice && result.choice ? result.choice : undefined;
       // Never migrate a legacy or restored backup age to a new device: ask again.
