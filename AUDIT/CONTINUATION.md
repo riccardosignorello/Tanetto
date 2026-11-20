@@ -1,6 +1,6 @@
 # Tanetto — checkpoint di continuità audit
 
-**Ultimo aggiornamento:** 20 novembre 2026  
+**Ultimo aggiornamento:** 21 novembre 2026  
 **Repository:** `riccardosignorello/Tanetto`  
 **Branch documentale audit:** `audit/tanetto-full-review`  
 **Ultimo commit del registro prima di questo checkpoint:** aggiornato dopo `f936e99d5a80200755d4f359cc5a7de114886d26`; verificare l'HEAD corrente del branch audit.  
@@ -67,7 +67,7 @@ Il registro master contiene i dettagli e le prove; questa sezione è solo un ind
 - Le notifiche possono restare visualizzate come attive dopo revoca permesso/fallimento schedule; il vecchio canale viene segnato eliminato prima dell'esito e AlarmManager usa il clock di sistema. Dettagli AUD-086–088.
 
 ## Prossime attività da completare (in ordine)
-1. Proseguire audit di tutti i moduli sorgente non ancora coperti: shop/billing e restore, backup, account, notifiche, widget, sharing, PWA/offline, iOS/web, accessibilità, performance, localizzazione, eventi, mondi, personaggi e contenuti.
+1. Proseguire audit di tutti i moduli sorgente non ancora coperti: giochi, viaggi, album, progressi, shop/billing e restore, PWA/offline, iOS/web, accessibilità, performance, localizzazione, eventi, mondi, personaggi e contenuti. Il primo nuovo finding è AUD-089 (soglia 13+ per condivisione cartolina da validare rispetto al consenso digitale locale).
 2. Completare mappa di tutti i flussi dati: sorgente → dispositivo → SDK/backend → retention → cancellazione; verificare privacy policy, Data Safety, Play Console e UMP.
 3. Analizzare integralmente tutti i test e riprodurre i fallimenti CI; classificare ciascuno come bug, test obsoleto, ambiente o falso positivo.
 4. Analizzare dipendenze e vulnerabilità correnti, licenze, supply chain, permessi Android, manifest merged e build R8.
@@ -80,3 +80,4 @@ Il registro master contiene i dettagli e le prove; questa sezione è solo un ind
 
 ## Regola per la prossima chat
 Aprire una nuova chat nello stesso progetto e scrivere semplicemente: **“Riprendi Tanetto dal checkpoint AUDIT/CONTINUATION.md e prosegui senza chiedermi aggiornamenti.”** La nuova sessione deve prima leggere il checkpoint e `AUDIT/MASTER-REGISTER.md`, verificare branch/SHA, poi riprendere dal punto 1 senza ripetere l'audit già documentato.
+\n\n### Ultimo checkpoint verificato — 21/11/2026\n- Branch audit aggiornato con AUD-089; commit di aggiornamento registro: `2412f66c2a75c7a1d6b7f3727b2da04d42d979e5`.\n- Branch applicativo base di audit: `work/tanetto-1.0.12` (HEAD storico da verificare prima del prossimo blocco).\n- Branch candidato age-gate: `work/tanetto-1.0.12-agegate-fix`, HEAD verificato prima dell'aggiornamento Control Center `3d7a3dd439f84bef8f8a6abdf3a5aaa4c8ef8ef7`; non integrato.\n- CI run 66: ancora `in_progress` nello step `Prove 1.0.11`, senza aggiornamenti dal 20/11 23:23:44Z; considerare run stagnante/non conclusiva.\n- Nessuna modifica applicativa effettuata in questo blocco.\n
