@@ -45,7 +45,21 @@ window.Capacitor = { isNativePlatform: () => true, getPlatform: () => "android",
   LocalNotifications: { cancel: async () => {}, schedule: async (o) => { window.__notifs = o.notifications; }, createChannel: async (c) => { window.__chans.push(c); },
     deleteChannel: async (c) => { window.__chans.push({ deleted: c.id }); }, checkPermissions: async () => ({ display: "granted" }), requestPermissions: async () => ({ display: "granted" }), addListener() { return { remove() {} }; } },
   TanettoAds: { init: async () => ({ canRequestAds: true, privacyRequired: false, loaded: false }), load: async () => ({ canRequestAds: true, privacyRequired: false, loaded: true }),
-    show: async () => { __ads.shows++; return { rewarded: true }; }, privacy: async () => ({}), status: async () => ({}) } } };"""
+    show: async () => { __ads.shows++; return { rewarded: true }; }, privacy: async () => ({}), status: async () => ({}) },
+  // 1.0.12: emulate the native, no-backup age store. The initial localStorage value
+  // is only a fixture for old tests; get() imports it once, then the in-memory value
+  // behaves like Android's getNoBackupFilesDir() store after local copies are scrubbed.
+  TanettoAge: (() => { let choice; let loaded = false; return {
+    get: async () => {
+      if (!loaded) { loaded = true; try { const raw = localStorage.getItem('tanetto-eta'); choice = raw ? JSON.parse(raw) : null; } catch (e) { choice = null; } }
+      return choice ? { hasChoice: true, choice: { ...choice } } : { hasChoice: false };
+    },
+    set: async (value) => {
+      if (!value || (value.skip !== true && (!Number.isInteger(value.y) || !Number.isInteger(value.m) || value.y < 1900 || value.m < 1 || value.m > 12))) throw new Error('age_store_write_failed');
+      choice = value.skip === true ? { skip: true } : { y: value.y, m: value.m }; loaded = true;
+      return { saved: true };
+    }
+  }; })() } };"""
 
 def base_state(lang="en", pet="germo", day="2026-11-16", goals=("water", "walk", "read", "tidy", "sleep"), **kw):
     st = {"v": 3, "lang": lang, "theme": "system", "pet": pet, "petName": {"germo": "Germo", "ondi": "Ondi", "lumi": "Lumi"}.get(pet, "Miko"),
