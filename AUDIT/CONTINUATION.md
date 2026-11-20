@@ -67,7 +67,7 @@ Il registro master contiene i dettagli e le prove; questa sezione è solo un ind
 - Le notifiche possono restare visualizzate come attive dopo revoca permesso/fallimento schedule; il vecchio canale viene segnato eliminato prima dell'esito e AlarmManager usa il clock di sistema. Dettagli AUD-086–088.
 
 ## Prossime attività da completare (in ordine)
-1. Proseguire audit di tutti i moduli sorgente non ancora coperti: giochi, viaggi, album, progressi, shop/billing e restore, PWA/offline, iOS/web, accessibilità, performance, localizzazione, eventi, mondi, personaggi e contenuti. Il primo nuovo finding è AUD-089 (soglia 13+ per condivisione cartolina da validare rispetto al consenso digitale locale).
+1. Proseguire audit di tutti i moduli sorgente non ancora coperti: giochi, viaggi, album, progressi, shop/billing e restore, PWA/offline, iOS/web, accessibilità, performance, localizzazione, eventi, mondi, personaggi e contenuti. AUD-089 è stato ricontrollato con `src/98zz_v111_age.js`: la soglia 13+ è intenzionale e coerente con il pubblico Play dichiarato; il gate blocca child/unknown. Resta la verifica del contenuto condiviso e della conformità della policy, non una correzione tecnica automatica.
 2. Completare mappa di tutti i flussi dati: sorgente → dispositivo → SDK/backend → retention → cancellazione; verificare privacy policy, Data Safety, Play Console e UMP.
 3. Analizzare integralmente tutti i test e riprodurre i fallimenti CI; classificare ciascuno come bug, test obsoleto, ambiente o falso positivo.
 4. Analizzare dipendenze e vulnerabilità correnti, licenze, supply chain, permessi Android, manifest merged e build R8.
