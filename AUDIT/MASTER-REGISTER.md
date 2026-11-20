@@ -979,3 +979,13 @@ I dati seguenti provengono dal job storico `136454007442`, eseguito sul branch `
 
 ### Punto di ripartenza
 Audit in sola lettura. Restano da esaminare i provider widget, i flussi JS che invocano share/pin/review, il manifest merged e le autorizzazioni Play; nessuna modifica ai plugin prima del piano generale.
+
+
+### Ulteriore verifica widget — orologio locale
+- `TanettoWidget.current()` chiama `WidgetSnap.pick(..., System.currentTimeMillis(), ...)` e `today()` usa l'ora/fuso del sistema. Il widget non usa `ClockPlugin` (che fornisce network time e tempo dall'avvio per proteggere i premi).
+- Il widget non accredita premi e quindi non emerge un bypass dell'economia; tuttavia, cambiando manualmente data/ora o fuso, può mostrare in anticipo il giorno successivo o la fine di una gita prima che l'app principale la consideri conclusa. È una discrepanza visibile tra widget e app, non un bypass dei controlli di sicurezza.
+- Soluzione da valutare: passare nella fotografia anche un timestamp/data calcolati dall'app con il clock sicuro e una validità breve; in mancanza di snapshot valido, mostrare “Apri Tanetto” anziché dedurre lo stato da un orologio potenzialmente alterato.
+
+| ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
+|---|---|---|---|---|---|
+| AUD-081 | Widget/tempo | Il widget usa l'orologio di sistema invece del clock sicuro dell'app; può mostrare un giorno/gita non coerente dopo modifica manuale di data o fuso | Disallineamento UX, non bypass premi | Bassa/Media | Test cambio data/fuso e fotografia con timestamp sicuro |
