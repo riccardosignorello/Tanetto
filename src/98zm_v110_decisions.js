@@ -84,15 +84,6 @@ function v110AgeKeep() { try { return typeof ageInit === "function" ? ageInit() 
 /* L'eta' resta nel deposito locale del telefono: ripristinare i progressi non la modifica. */
 if (typeof restoreFrom === "function") { const _a = restoreFrom; restoreFrom = function (...a) { const r = _a.apply(this, a); v110AgeKeep(); return r; }; }
 if (typeof applyCloud === "function") { const _a = applyCloud; applyCloud = function (...a) { const r = _a.apply(this, a); v110AgeKeep(); return r; }; }
-/* scheda "La tua eta'" nel Profilo: chi l'ha detta legge anche che non si cambia piu' */
-if (typeof psAgeCard === "function") {
-  const _psAgeCardV110 = psAgeCard;
-  psAgeCard = function (...a) {
-    const h = _psAgeCardV110.apply(this, a); const age = typeof AGE_VALUE !== "undefined" ? AGE_VALUE : S.age; if (!h || !age || age.skip || !age.y) return h;
-    return h.replace(/(<div class="card stack-s psage">[\s\S]*?)(<\/div>)/, `$1<p class="small muted v110agelock">${esc(v110AgeT()[6])}</p>$2`);
-  };
-}
-
 /* =================== 4) Controllo finale 1.0.10: piccole cose ===================
    a) "Memoria del telefono piena" (M-08): l'avviso arriva dopo quello dell'azione, resta 7 secondi senza essere coperto
       e si ripete al massimo ogni 10 minuti finche' il salvataggio non riesce di nuovo. */
