@@ -39,7 +39,8 @@ function psAgeCard() {
   const told = a && !a.skip && a.y; const btn = !told ? `<button class="btn ghost small" id="psAge" type="button">${esc(w.ageBtn)}</button>` : "";
   /* mai risposto (finestra chiusa senza scegliere): non "hai preferito non dirla", ma la stessa spiegazione della domanda */
   const txt = told ? ageKidNoAd(w.ageYes) : a && a.skip ? w.ageNo : (typeof ageT === "function" && ageT().P) || w.ageNo; /* 113: sotto i 13 anni anche "niente video" */
-  return `<div class="card stack-s psage"><h3>${esc(w.ageT)}</h3><p class="small muted">${esc(txt)}</p>${btn}</div>`;
+  const lock = told && typeof v110AgeT === "function" ? `<p class="small muted v110agelock">${esc(v110AgeT()[6])}</p>` : "";
+  return `<div class="card stack-s psage"><h3>${esc(w.ageT)}</h3><p class="small muted">${esc(txt)}</p>${btn}${lock}</div>`;
 }
 /* Acquisti e Plus: Tanetto Plus (scoprire, gestire, ripristinare) e i Tanì */
 function psBuyCards(plusEl) {
