@@ -130,7 +130,7 @@ Questi elementi sono già presenti nelle note storiche e vanno mantenuti visibil
 | GAME-001 | Prodotto | Audit completo giochi, mondi, progressi, eventi e contenuti | NOT_STARTED |
 | BRAND-001 | Brand | Audit personaggi e identità solo dopo consolidamento funzionale/UX | DEFERRED |
 | WEB-001 | Sito | Integrare i 15 commit di main senza perdere app e sito; output app in /app/ | NOT_STARTED |
-| GROW-001 | Crescita | Audit SEO, ASO, analytics, funnel, contenuti e community | NOT_STARTED |
+| GROW-001 | Crescita | Audit SEO, ASO, analytics, funnel, contenuti e community | IN_PROGRESS |\n| GROW-002 | Crescita/analytics | Inventariare eventi, GoatCounter e punti tracking per piattaforma | IN_PROGRESS |\n| GROW-003 | Crescita/attribution | Verificare attribuzione paid/organic/referral end-to-end | NOT_STARTED |\n| GROW-004 | Prodotto/analytics | Definire activation, retention e North Star con dati disponibili | NOT_STARTED |\n| GROW-005 | Economia | Modello LTV netto, CAC, payback e ricavi per coorte | NOT_STARTED |\n| GROW-006 | Growth | Audit ASO, store listing, sito, social, creator e referral | NOT_STARTED |\n| GROW-007 | Growth/finance | Protocollo esperimenti paid con tetto iniziale 0–100 € | NOT_STARTED |\n| GROW-008 | Privacy/ads | Verificare policy advertising per minori e mercati | NOT_STARTED |
 | REL-001 | Release | Version bump 1.0.12/115 solo dopo QA e integrazione | DEFERRED |
 
 **Nota:** `BLOCKED_USER` su PRIV-002 significa che il trade-off architetturale/privacy non va deciso arbitrariamente: preparare prima opzioni e conseguenze concrete, poi chiedere una decisione informata. Non blocca l'audit delle altre aree.
@@ -141,14 +141,14 @@ Questi elementi sono già presenti nelle note storiche e vanno mantenuti visibil
 - DEC-002: non unire alla cieca `main` (+15 commit storici di sito/SEO/contenuti) e `rel-111` (+117 commit rispetto alla base comune); prima analisi diff e piano d'integrazione.
 - DEC-003: non ridisegnare i personaggi prima dell'audit prodotto/UX/brand; scelta da fare con evidenze.
 - DEC-004: non eseguire release/merge sull'originale senza audit, piano, test indipendenti e autorizzazione necessaria.
-- DEC-005: le vecchie percentuali 70%/25%/40% sono ritirate come non verificabili.
+- DEC-005: le vecchie percentuali 70%/25%/40% sono ritirate come non verificabili.\n- DEC-006: Tanetto non copia il modello hypercasual basato su CPI basso e interstitial ad alta frequenza. Si prende il principio di unit economics e reinvestimento disciplinato; paid acquisition solo dopo retention, LTV netto, attribuzione e privacy verificabili. Budget test iniziale discusso: 0–100 €, non spesa automatica. Dettagli in `docs/GROWTH_AND_UNIT_ECONOMICS.md`.
 
 ## 8. Registro sessioni
 
 | Data | Sessione | Cosa è cambiato | Evidenza |
 |---|---|---|---|
 | 2026-11-21 | Ripresa continuità | Verificati checkpoint, registro audit, run 66; aggiunto checkpoint sessione | `docs/CONTINUITY_SESSION_2026-11-21.md` |
-| 2026-11-21 | Control Center | Istituita fonte unica, regole percentuali e WBS; ritirate stime non dimostrate | Commit `3d7a3dd439f84bef8f8a6abdf3a5aaa4c8ef8ef7` |
+| 2026-11-21 | Control Center | Istituita fonte unica, regole percentuali e WBS; ritirate stime non dimostrate | Commit `3d7a3dd439f84bef8f8a6abdf3a5aaa4c8ef8ef7` |\n| 2026-11-21 | Growth strategy | Aggiunto modello di crescita sostenibile, unit economics, gate paid, privacy e task GROW-002–008 | `docs/GROWTH_AND_UNIT_ECONOMICS.md`; commit `b052d628e12fbd23f560be8f8a95a5c7b969aa03` |
 
 ## 9. Protocollo di inizio/fine sessione
 
@@ -297,3 +297,38 @@ L'audit master storico stabilisce che prima si completa l'inventario e il piano 
 2. Esaminare tutti i test correlati e confrontare il candidato age-gate con il branch base senza integrare.
 3. Proseguire con PWA/offline, iOS/web, accessibilità, performance e asset/licenze.
 4. Completare inventario e dipendenze prima di pianificare le correzioni.
+
+## 13. Checkpoint crescita e stato verificato — 21/11/2026
+
+### Branch e CI verificati in questa sessione
+- Branch applicativo: `work/tanetto-1.0.12-agegate-fix`, HEAD prima di questo aggiornamento Control Center: `b052d628e12fbd23f560be8f8a95a5c7b969aa03`.
+- Branch audit: `audit/tanetto-full-review`, HEAD: `92873a575c5b35c3cd5dd07ea3117f71142e0dce`.
+- CI run 66: ancora `in_progress`, ultimo aggiornamento API `2026-11-20T23:23:44Z`, commit testato `9c3c75910f6ebae8e78c4cac7c607674b6cf05a1`. Il run è stagnante e non può essere considerato superato.
+- Tree del branch di audit di base: 1.113 elementi, non troncato. Questo conferma la dimensione del repository, non che ogni file o area sia già stato auditato.
+
+### Crescita — conclusioni provvisorie basate sul codice
+- `src/98i_v20_growth.js`: cartoline condivisibili con anteprima, link `?src=postcard`, percorso Android a Google Play e alcuni eventi di funnel.
+- `src/97zn_v19_ads.js` e `AdsPlugin.java`: video rewarded su scelta esplicita, con gate età/consenso; l'informativa dichiara massimo cinque video al giorno e nessuna pubblicità con Plus. Nessuna scelta di aumentare la pressione pubblicitaria.
+- `GrowthPlugin.java`: Play Install Referrer e identificatore derivato da Android ID sono usati nel contesto inviti/antiabuso; non costituiscono prova di attribuzione paid end-to-end.
+- `src/3zzg_v21_privacy.js`: l'informativa descrive statistiche aggregate via GoatCounter senza cookie/profili. Va verificata l'implementazione effettiva e la copertura delle metriche di coorte.
+- Non è stato verificato alcun collegamento completo tra spesa campagne, installazione attribuita, activation, D1/D7/D30, conversione Plus e ricavi netti. Non abbiamo quindi dati sufficienti per stimare CPI sostenibile, LTV o payback.
+
+### Strategia registrata
+- Non adottare il modello hypercasual come modello prodotto: niente interstitial automatici o churn accettato come obiettivo economico.
+- Adottare la disciplina di unit economics: distinguere download da utenti attivati/ritenuti, misurare LTV netto e CAC, reinvestire solo su coorti validate.
+- Il budget iniziale 0–100 € resta un tetto sperimentale discusso, non un'autorizzazione a spenderlo subito.
+- Paid acquisition bloccata da gate di misurabilità, retention, ricavi e privacy. North Star candidata: attività significativa in almeno 3 giorni distinti alla settimana; non ancora approvata.
+- Documento di dettaglio: `docs/GROWTH_AND_UNIT_ECONOMICS.md`.
+
+### Avanzamento e limiti
+- Non esiste ancora una percentuale globale valida: l'inventario WBS completo, la deduplicazione e i pesi per deliverable non sono terminati.
+- Il repository è accessibile e scrivibile; ciò non significa che tutti i materiali esterni siano disponibili. In particolare non sono stati consultati dati reali di Play Console, AdMob, spesa campagne, ricavi e retention di utenti.
+- Nessun blocco operativo del connettore GitHub è emerso in questo blocco. Restano dipendenze informative esterne per la futura validazione commerciale e una decisione dell'utente su PRIV-002, che non blocca il resto dell'audit.
+- In questo blocco sono state create/aggiornate solo documentazioni; nessuna modifica applicativa, test runtime o rilascio.
+
+### Prossimo blocco operativo
+1. Audit approfondito dei flussi album, mondi, collezioni, shop e cartoline.
+2. Inventario delle chiamate tracking/eventi e confronto con privacy notice.
+3. Ricostruzione del funnel invito/cartolina e limiti reali di attribuzione.
+4. Verifica delle fonti di ricavo e test di billing; preparare la lista precisa di dati esterni mancanti, senza bloccare le attività sul repository.
+5. Completare WBS e dipendenze prima di calcolare qualsiasi percentuale.
