@@ -94,6 +94,18 @@ public class AgeStorePlugin extends Plugin {
                     choice.put("m", supplied.getInt("m"));
                 }
 
+                // A disclosed birth date is immutable. "Prefer not to say" may be replaced once by an answer.
+                JSONObject existing = null;
+                try { existing = readChoice(); } catch (Exception ignored) { /* an unreadable store can be repaired */ }
+                boolean existingSkip = existing != null && existing.optBoolean("skip", false);
+                if (!AgePolicy.canReplace(existing != null, existingSkip,
+                        existing == null ? -1 : existing.optInt("y", -1),
+                        existing == null ? -1 : existing.optInt("m", -1),
+                        choice.optBoolean("skip", false), choice.optInt("y", -1), choice.optInt("m", -1))) {
+                    call.reject("age_choice_locked", "age_choice_locked");
+                    return;
+                }
+
                 File dir = getContext().getNoBackupFilesDir();
                 if (!dir.exists() && !dir.mkdirs()) throw new IllegalStateException("age_store_directory");
                 File target = storeFile();

@@ -69,7 +69,14 @@ function v110AgeConfirm(a) {
 }
 const _ageSetV110 = ageSet;
 ageSet = function (a, ...r) {
-  if (a && !a.skip && a.y && !v110AgeOk && v110AgeConfirm(a)) return;
+  const current = typeof AGE_VALUE !== "undefined" ? AGE_VALUE : null;
+  if (current && !current.skip && current.y &&
+      (!a || a.skip || a.y !== current.y || a.m !== current.m)) {
+    try { toast(v110AgeT()[6]); } catch (e) { /* niente */ }
+    return;
+  }
+  const sameSavedChoice = current && !current.skip && a && !a.skip && a.y === current.y && a.m === current.m;
+  if (a && !a.skip && a.y && !v110AgeOk && !sameSavedChoice && v110AgeConfirm(a)) return;
   v110AgeOk = false; v110AgeWant = null; return _ageSetV110.call(this, a, ...r);
 };
 document.addEventListener("click", (ev) => {
