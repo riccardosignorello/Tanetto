@@ -246,3 +246,31 @@ Audit in sola lettura. Prossimo blocco: esaminare completamente i flussi di espo
 
 ### Punto di ripartenza
 Audit ancora in sola lettura. Prossimo blocco: completare i test statici e funzionali di import/export e serializzazione, approfondire acquisti e backup, quindi passare alle funzioni core (obiettivi, diario, chat, viaggi, stagioni, giochi, negozio, notifiche e widget) con mappa dipendenze e copertura dei test. Salvare ogni nuova evidenza nel registro; nessuna patch applicativa prima del piano completo.
+
+
+## Sessione di audit — 2026-11-20, mappa delle prove automatiche
+
+### Copertura test esistente — inventario completato per `tests/t110/`
+Sono stati letti intestazioni, obiettivi e funzioni principali dei 32 file della suite:
+- Prodotto e cura: calma, cura, diario, storie, voci, momenti, animazioni, giochi, eventi, musica, settimana, icone, UI e rifiniture.
+- Età, sicurezza e benessere: pubblico/minori, annunci senza pubblicità per child, frasi di crisi e falsi positivi, numeri di aiuto, statistiche, modalità protetta.
+- Economia e dati: monete, obiettivi, import/export, backup, ripristino, stato economico, acquisti simulati, inviti e premi.
+- Qualità tecnica: offline, accessibilità, contrasto, performance, sito, licenze, condizioni, plugin Android, backup Android, widget, notifiche, suoni.
+- Infrastruttura: helper Playwright, test Firestore Emulator, test nativi e snapshot widget.
+
+### Limiti della copertura da considerare
+- La maggior parte dei test app usa Chromium/Playwright e plugin Capacitor/Firebase/Ads simulati. Sono essenziali per regressioni ma non provano da soli i comportamenti reali di Google Play Billing, Play Integrity, AdMob/UMP, Firebase Auth/Firestore in produzione o hardware Android reale.
+- I test inviti provano le regole Firestore con emulator e un tempo abbreviato; non provano l'autenticità dell'impronta device né un threat model di client modificato.
+- Esistono test di policy età Android, ma non risulta ancora una suite diretta completa per tutte le condizioni di persistenza, corruzione, scrittura atomica, backup/restore e race del plugin `AgeStorePlugin`.
+- La copertura acquisti va rafforzata per errori di consume/acknowledge, token ripetuti, restore su dispositivo nuovo, più di 200 token, rimborso, cancellazione e account Play diversi.
+- I test del sito e delle 14 lingue sono in gran parte statici/simulati; vanno aggiunti controlli live di canonical, sitemap, robots, structured data, Core Web Vitals, link rotti, accessibilità reale e indicizzazione.
+- Mancano prove end-to-end affidabili con device Android fisico e account di test Play per widget, notifiche, share sheet, acquisti, App Check e comportamento di ripresa da background. Va pianificata una matrice di dispositivi/versioni Android.
+- La suite non è verde: i 9 file falliti e il test snapshot con differenza di un'ora già elencati restano aperti; non vanno chiusi aggiornando semplicemente gli snapshot o allargando le soglie.
+
+### Nuovo elemento nel registro
+| ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
+|---|---|---|---|---|---|
+| AUD-020 | Qualità/test | Ampia suite automatizzata, ma molte integrazioni sono mock e mancano verifiche reali su Play/Firebase/AdMob/device | Gap di copertura confermato | Media/Alta | Definire matrice test reali, test plugin nativi e criteri di release |
+
+### Punto di ripartenza
+Audit in sola lettura. Prossimo blocco: esaminare sicurezza del boot/salvataggio e gestione dell'orologio, poi completare la mappa delle funzioni core e verificare i fallimenti CI uno per uno solo dopo aver raccolto tutte le dipendenze. Continuare a salvare il registro documentale nel branch dedicato; il codice applicativo resta immutato.
