@@ -76,20 +76,25 @@ function v26StatsOn() {
    si buttano. */
 function v26TrackGate(path) {
   try { if (localStorage.getItem("tanetto-non-contare") === "1") return false; } catch (e) { /* niente */ }
-  let pending = true; try { pending = typeof AGE_READY === "undefined" || !AGE_READY; } catch (e) { pending = true; }
+  let pending = true; try { pending = typeof AGE_VALUE === "undefined" || AGE_VALUE === undefined; } catch (e) { pending = true; }
   if (pending) { try { S.v26q = (S.v26q || []).filter((x) => x !== path).concat([path]).slice(-20); } catch (e) { /* niente */ } return false; }
   try { if (typeof ageConsent === "function") return v26StatsOn(); } catch (e) { /* avvio: modulo dell'eta' non ancora pronto */ }
   try { S.v26q = (S.v26q || []).filter((x) => x !== path).concat([path]).slice(-20); } catch (e) { /* niente */ }
   return false;
 }
 function v26TrackFlush() {
-  let ready = false; try { ready = typeof AGE_READY !== "undefined" && AGE_READY; } catch (e) { /* age not initialized yet */ }
-  const q = (S.v26q || []).slice(); if (!q.length || !ready) return; delete S.v26q; save();
+  let answered = false; try { answered = typeof AGE_VALUE !== "undefined" && AGE_VALUE !== undefined; } catch (e) { /* age not initialized yet */ }
+  const q = (S.v26q || []).slice(); if (!q.length || !answered) return; delete S.v26q; save();
   if (v26StatsOn()) q.forEach((p) => track(p));
 }
 if (typeof ageSet === "function") {
   const _ageSetV26 = ageSet;
-  ageSet = function (...a) { const r = _ageSetV26.apply(this, a); try { v26TrackFlush(); } catch (e) { /* niente */ } return r; };
+  ageSet = async function (...a) { const r = await _ageSetV26.apply(this, a); try { v26TrackFlush(); } catch (e) { /* niente */ } return r; };
+}
+if (typeof ageInit === "function") {
+  const _ageInitV26 = ageInit;
+  ageInit = function (...a) { return Promise.resolve(_ageInitV26.apply(this, a)).then((r) => { try { v26TrackFlush(); } catch (e) { /* niente */ } return r; }); };
+  try { if (typeof ageInitP !== "undefined" && ageInitP) ageInitP.then(() => v26TrackFlush()); } catch (e) { /* niente */ }
 }
 setTimeout(() => { try { v26TrackFlush(); } catch (e) { /* niente */ } }, 2000);
 function v26StatsCard() {
