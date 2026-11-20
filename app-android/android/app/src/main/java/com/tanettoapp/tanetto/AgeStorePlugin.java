@@ -80,8 +80,16 @@ public class AgeStorePlugin extends Plugin {
         synchronized (LOCK) {
             try {
                 JSObject input = call.getData();
-                JSONObject choice = new JSONObject(input.toString());
-                validate(choice);
+                JSONObject supplied = new JSONObject(input.toString());
+                validate(supplied);
+                // Store only the minimum choice fields; never retain timestamps or unrelated JS properties.
+                JSONObject choice = new JSONObject();
+                if (supplied.optBoolean("skip", false)) {
+                    choice.put("skip", true);
+                } else {
+                    choice.put("y", supplied.getInt("y"));
+                    choice.put("m", supplied.getInt("m"));
+                }
 
                 File dir = getContext().getNoBackupFilesDir();
                 if (!dir.exists() && !dir.mkdirs()) throw new IllegalStateException("age_store_directory");
@@ -96,6 +104,8 @@ public class AgeStorePlugin extends Plugin {
                 // POSIX rename on Android replaces the previous file atomically.
                 // A failed write therefore leaves the last valid choice intact.
                 android.system.Os.rename(temp.getAbsolutePath(), target.getAbsolutePath());
+                JSONObject verified = readChoice();
+                if (verified == null || !choice.toString().equals(verified.toString())) throw new IllegalStateException("age_store_verify");
 
                 JSObject result = new JSObject();
                 result.put("saved", true);
