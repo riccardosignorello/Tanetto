@@ -70,7 +70,7 @@ Le percentuali di audit, hardening 1.0.12, release e ecosistema 360° restano se
 
 **Verifica GitHub eseguita il 21/11/2026 durante la sessione:**
 - Repository personale raggiungibile e scrivibile tramite GitHub connector.
-- Branch `work/tanetto-1.0.12-agegate-fix` HEAD verificato il 21/11/2026: `639d8df1d76c49410a3af33de1244112e8311905`.
+- Branch `work/tanetto-1.0.12-agegate-fix` HEAD verificato il 21/11/2026: `c17101aad6ab423c1111112b8e1384865aa29408`.
 - Branch `audit/tanetto-full-review` HEAD aggiornato il 21/11/2026: `f13afda5f95146495b8a087c5e07c0b77b224a65` (registro AUD-089 e checkpoint).
 - Il documento di checkpoint sessione è `docs/CONTINUITY_SESSION_2026-11-21.md`.
 - Nessun merge verso originale o rilascio è stato effettuato in questa sessione.
