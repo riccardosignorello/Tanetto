@@ -353,3 +353,33 @@ Audit in sola lettura. Prima di correggere qualsiasi test, stabilire se è obsol
 
 ### Punto di ripartenza
 Audit in sola lettura. Prossimo blocco: verificare il percorso account/minori e le pagine pubbliche; completare la revisione del motore di crisi e dei testi; poi proseguire su obiettivi, serie, regali, viaggi, diario, giochi, negozio, capsule, notifiche, widget e tutti i moduli restanti. Nessuna modifica applicativa prima dell'inventario completo.
+
+
+## Sessione di audit — 2026-11-20, economia virtuale e acquisti
+
+### Regole economiche — ulteriori rischi rilevati
+- `xvUsable()` riserva per gli Introvabili i Tanì classificati come pagati: saldo meno `max(0, paid - spentN)`. Il codice di `98ze` e la nuova logica di `98zk` aggiornano `spentN` aggiungendo l'intera spesa `d`, purché `paid > spentN`; non limitano l'incremento a `min(d, paid - spentN)`.
+- **Caso limite dimostrabile dal calcolo:** se restano 50 Tanì classificati come pagati e si spendono 100 Tanì in un acquisto normale, `spentN` aumenta di 100 invece che di 50. I successivi 50 Tanì acquistati possono quindi risultare già “spesi” nel conteggio e diventare utilizzabili per gli Introvabili senza essere stati spesi davvero. Il test attuale controlla un caso in cui la spesa è inferiore al residuo pagato, non il superamento del residuo.
+- Il regalo mensile Plus e i premi del sentiero d'oro sono marcati intenzionalmente come “pagati” nel bucket economico per non accorciare il percorso degli Introvabili; questa è una regola di prodotto esplicita, non un errore da correggere senza decisione.
+- `n111Paid()` applica la stessa classificazione ai premi invito: anche questi non accorciano gli Introvabili. La distinzione economica reale è quindi “Tanì utilizzabili per Introvabili” e non semplicemente “acquistati con denaro”; documentazione e testi devono essere coerenti.
+
+### Plus: rischio di riaccredito del regalo mensile
+- `plusMonthly()` concede 750 Tanì e 2 scudi una volta al mese usando `S.plusMonth` come cursore locale. `98zk` registra il valore nel bucket `econ().paid`, ma il cursore mensile resta nello stato locale.
+- `secSanitizeImport()` rimuove `plusOn`, `plusCheck`, `plusSince`, ma non `plusMonth`; il backup può quindi riportare un cursore mensile precedente. Non risulta un registro server-side del mese già pagato.
+- **Rischio da riprodurre:** ripristinando una copia firmata precedente al regalo mensile, dopo che Play ha riconfermato Plus, il client potrebbe vedere `S.plusMonth` diverso dal mese corrente e concedere nuovamente i 750 Tanì e gli scudi. Da testare con backup prima/dopo regalo, cambio dispositivo e riapertura.
+- Soluzione da valutare: mantenere localmente il cursore più recente durante il restore e/o usare un ledger server idempotente del beneficio mensile, senza perdere la possibilità di uso offline.
+
+### Consegna degli acquisti: transazione non completamente atomica
+- `98x_v20_secure.js` esegue un controllo preliminare che `save()` riesca prima di delegare a `creditPack()`. Il flusso di `97o_billing.js` aggiunge poi il token a `S.paidTokens`, accredita i Tanì, chiama `save()` e tenta il consumo Google Play anche se il salvataggio successivo non ha esito positivo. Il controllo preliminare dimostra che lo storage era scrivibile prima dell'accredito, non che il token sia stato salvato in modo durevole dopo l'accredito.
+- **Rischio di perdita dell'acquisto:** se il secondo salvataggio fallisce per quota/storage o crash, il token può essere consumato da Google Play senza che il marker di deduplicazione sia persistito; alla riapertura il credito non è più ricostruibile dal token consumato. Va verificato con storage pieno, crash tra accredito/salvataggio/consumo e test del plugin.
+- Il ciclo di acquisto si basa sulla risposta locale di Google Play Billing e sullo stato locale; non risulta una verifica server-side del token tramite Google Play Developer API né un ledger server di consegna/rimborso. È un limite antifrode e di riconciliazione, da valutare in proporzione al valore economico reale dei Tanì e al modello offline.
+
+### Nuovi elementi nel registro
+| ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
+|---|---|---|---|---|---|
+| AUD-030 | Economia/Introvabili | `spentN` cresce dell'intera spesa invece che del solo residuo pagato; può sbloccare Tanì acquistati successivamente | Difetto logico nel caso limite | Alta | Testare spesa oltre residuo pagato, nuovi pacchetti e tutte le categorie di spesa |
+| AUD-031 | Plus/backup | `plusMonth` resta importabile e il beneficio mensile non ha ledger server; un backup precedente può ripetere il regalo | Rischio da riprodurre | Alta | Test restore pre/post regalo, dispositivo nuovo e retry billing |
+| AUD-032 | Acquisti/persistenza | Il consumo Google Play può seguire un salvataggio del token non riuscito; manca conferma durevole post-accredito | Rischio di perdita acquisto | Alta | Fault injection su storage pieno/crash e rendere consegna/consumo idempotenti |
+
+### Punto di ripartenza
+Audit in sola lettura. Prossimo blocco: completare la mappa delle fonti di guadagno/spesa, ricompense, scudi, sentiero stagionale e acquisti; poi analizzare in profondità obiettivi, diario, viaggi, giochi, capsule, widget e notifiche. Il piano finale dovrà includere una riconciliazione economica completa e test di rollback/restore.
