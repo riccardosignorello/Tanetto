@@ -887,3 +887,29 @@ Audit in sola lettura. La decisione su backup dei minori è bloccante: va presa 
 - Rileggendo l'intero oggetto `AGE_CONSENT`, la tabella **include già** India (`IN:18`) e Turchia (`TR:18`), oltre a Singapore (`SG:18`), Sudafrica (`ZA:18`), Hong Kong (`HK:18`) e Taiwan (`TW:20`). Gli esempi precedenti India/Turchia come Paesi non mappati erano errati e non vanno usati come prova del difetto.
 - Il rischio da verificare resta: accuratezza legale di ciascun valore, copertura di Paesi non elencati, granularità subnazionale (in particolare Canada e Stati USA), e possibilità di modificare contemporaneamente lingua e fuso orario. La funzione sceglie il valore massimo fra segnali riconosciuti, ma non conosce la residenza fisica e non costituisce age assurance.
 - La tabella appare più ampia di quanto inizialmente stimato; non va riscritta senza una revisione legale Paese per Paese e fonti aggiornate. Gli esempi di Paesi non coperti andranno definiti solo dopo la verifica normativa.
+
+
+## Sessione di audit — 2026-11-20, coerenza atomica dei crediti Tanì
+
+### AUD-070 — classificazione dei crediti Plus e consegna dei pacchetti non atomiche
+- `98zm_v110_decisions.js` dichiara esplicitamente che il regalo Plus mensile da 750 Tanì e la parte extra del regalo giornaliero Plus devono essere classificati come “pagati”, quindi non devono aumentare il saldo spendibile per gli Introvabili.
+- La parte extra del regalo giornaliero viene aggiunta a `econ().paid` in `98zm`, ma solo **dopo** che la funzione originale `openGift()` ha già salvato il saldo e il giorno del regalo. Se l'app si chiude fra il primo salvataggio e il secondo, il bonus extra può restare nel saldo senza essere classificato come pagato.
+- La funzione `plusMonthly()` viene avvolta in `98e_v20_econ.js`: aggiunge 750 Tanì e aggiorna `e.plusMax`, ma nel codice esaminato non incrementa `e.paid`. Il test `t_b2_money.py` (controllo “Plus: 750 Tanì del mese arrivano ma non contano per gli Introvabili”) si aspetta che `xvUsable()` non aumenti. La logica attuale appare incoerente con il requisito e può rendere spendibili sugli Introvabili i Tanì mensili Plus.
+- `creditPack()` in `97o_billing.js` aumenta `S.seeds`, registra `S.paidTokens` e chiama `save()`, ma non verifica l'esito del salvataggio prima di consumare il token Google Play. Se il salvataggio fallisce, il token può essere consumato e il credito non essere persistito: rischio di perdita definitiva dell'acquisto.
+- Inoltre, il wrapper `creditPack()` in `98ze_v22_introvabili.js` aggiorna `econ().paid` **dopo** aver atteso il completamento della funzione originale, che a sua volta attende `p.consume()`. Se l'app viene terminata dopo il consumo del token e prima del salvataggio del bucket `paid`, i Tanì possono restare nel saldo senza la relativa classificazione.
+- `S.paidTokens` viene limitato agli ultimi 200 token. Poiché il codice prova a consumare un token anche quando è già stato accreditato, il limite è normalmente innocuo; se però il consumo fallisce ripetutamente e un token non consumato viene espulso dalla lista, un successivo ripristino potrebbe riaccreditarlo. Da verificare e rendere impossibile con un registro idempotente.
+- I premi invito sono invece classificati con `n111Paid()` prima del `save()` che persiste anche il saldo; il loro ordine è più coerente, ma va uniformato alla stessa API.
+
+**Conseguenze:** il requisito “Plus e acquisti non accelerano gli Introvabili” non è garantito in tutti i flussi; in caso di crash/storage failure si può ottenere saldo spendibile per errore oppure perdere un acquisto. È un problema di integrità economica e di affidabilità della consegna, non soltanto di UI.
+
+**Soluzione definitiva da pianificare:** un unico servizio di transazione `grantTani(amount, source, idempotencyKey)` che aggiorna in una sola mutazione `S.seeds`, `econ().paid`, i contatori sorgente e il token, esegue un solo salvataggio verificato e soltanto dopo consuma/acknowledgia l'acquisto. In caso di salvataggio fallito non consumare il token e mostrare un errore chiaro; al riavvio ripetere la consegna idempotente. Il medesimo servizio deve gestire Plus mensile, extra giornaliero, pacchetti, referral e bonus con le regole di eleggibilità dichiarate.
+
+**Test obbligatori:** Plus mensile; extra giornaliero Plus; acquisto pack con salvataggio riuscito/fallito; crash simulato prima/dopo consumo; token già registrato; consumo fallito; token vecchio oltre il limite; ripristino da backup prima/dopo acquisto; saldo misto; acquisto Introvabile; doppio callback Google Play.
+
+### Nuovo elemento nel registro
+| ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
+|---|---|---|---|---|---|
+| AUD-070 | Economia/Billing/affidabilità | Plus mensile non classificato nel bucket pagato; bonus e pacchetti aggiornano saldo, bucket e token in salvataggi separati; token consumato anche se il salvataggio fallisce | Difetto logico e rischio transazionale confermati da codice | Critica | Verificare il test M-06/log CI e progettare grantTani idempotente con persistenza prima del consumo |
+
+### Punto di ripartenza
+Audit in sola lettura. Trattare AUD-030 e AUD-070 come un unico intervento di integrità economica: non correggere singole righe senza riprogettare la transazione e la matrice di provenienza/spesa dei Tanì.
