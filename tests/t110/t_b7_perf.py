@@ -62,4 +62,32 @@ async def main(b):
     T.check("  nessun errore", not pg.errs, pg.errs[:2])
     await ctx.close()
 
+    # G-07: la scena viene rimossa -> l'observer si scollega; tornando a Oggi se ne crea uno nuovo.
+    io_spy = """(() => {
+      const NativeIO = window.IntersectionObserver;
+      window.__roomIO = { attached: [], disconnected: 0 };
+      if (!NativeIO) return;
+      window.IntersectionObserver = class extends NativeIO {
+        constructor(cb, opts) { super(cb, opts); this.__roomTarget = false; this.__counted = false; }
+        observe(el) { if (el && el.id === "room") { this.__roomTarget = true; window.__roomIO.attached.push(el); } return super.observe(el); }
+        disconnect() { if (this.__roomTarget && !this.__counted) { window.__roomIO.disconnected++; this.__counted = true; } return super.disconnect(); }
+      };
+    })();"""
+    ctx, pg = await T.page(b, T.base_state("en"), age="adult", native=True, extra_js=io_spy)
+    await T.close_layer(pg)
+    attached = await T.ev(pg, "window.__roomIO.attached.length")
+    T.check("G-07 la scena visibile registra il suo IntersectionObserver", attached >= 1, attached)
+    await T.ev(pg, "(() => { const r = document.getElementById('room'); if (r) r.remove(); startAmbient(); return 1; })()")
+    await pg.wait_for_timeout(100)
+    hidden = await T.ev(pg, "({ disconnected: window.__roomIO.disconnected, visible: ambVisible, observer: !!ambObs })")
+    T.check("G-07 quando la scena non esiste piu', l'observer viene scollegato e l'ambiente si ferma",
+            hidden["disconnected"] >= 1 and hidden["visible"] is False and hidden["observer"] is False, hidden)
+    await T.ev(pg, "tab = 'today'; render(); 1")
+    await pg.wait_for_timeout(700)
+    restored = await T.ev(pg, "({ attached: window.__roomIO.attached.length, visible: ambVisible, observer: !!ambObs })")
+    T.check("G-07 tornando a Oggi la scena riceve un nuovo observer e riparte",
+            restored["attached"] >= 2 and restored["visible"] is True and restored["observer"] is True, restored)
+    T.check("  nessun errore", not pg.errs, pg.errs[:2])
+    await ctx.close()
+
 T.run(main)
