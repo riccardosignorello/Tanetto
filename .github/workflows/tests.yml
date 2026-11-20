@@ -78,6 +78,12 @@ jobs:
           git diff --stat --exit-code
       - name: Testi nelle 14 lingue
         run: set -o pipefail; node tools/check_lang.js | tail -3
+      - name: Regole Firestore (emulatore)
+        timeout-minutes: 10
+        run: |
+          npm install --prefix /tmp/tanetto-fbemu --no-audit --no-fund firebase-tools@13.35.1
+          npm install --prefix /tmp/tanetto-fbmodules --no-audit --no-fund firebase@13.0.0
+          FBEMU=/tmp/tanetto-fbemu FB_NODE_MODULES=/tmp/tanetto-fbmodules/node_modules bash tests/t110/run_n111_rules.sh
       - name: Prove 1.0.11
         run: |
           fail=0
