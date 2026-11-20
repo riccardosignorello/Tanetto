@@ -757,3 +757,22 @@ Audit in sola lettura. Questo difetto va trattato come priorità critica nel pia
 
 ### Punto di ripartenza
 Audit in sola lettura. Prossimo blocco: completare tutti i moduli di gioco, mondi, negozio e interfaccia; verificare tutte le traduzioni e le linee di aiuto; poi completare la matrice di test e il piano unico. Nessun intervento applicativo prima del completamento dell'inventario.
+
+
+## Sessione di audit — 2026-11-20, qualità delle 14 lingue
+
+### Copertura tecnica e qualità linguistica
+- L'app e le principali risorse di sicurezza sono localizzate in 14 lingue: italiano, inglese, tedesco, spagnolo, francese, portoghese, giapponese, coreano, cinese semplificato/tradizionale, russo, polacco, olandese e turco.
+- La presenza di chiavi e fallback non dimostra qualità madrelingua. I test automatizzati verificano soprattutto completezza, overflow, rendering, formattazione e alcune stringhe; non possono certificare tono, naturalezza, sensibilità culturale, correttezza legale o precisione dei messaggi di crisi.
+- Le aree da sottoporre a revisione madrelingua prioritaria sono: consenso/età, pubblicità e acquisti, privacy e cancellazione, notifiche, supporto nei momenti difficili, numeri di aiuto, contenuti Plus, prezzi/bonus, onboarding e messaggi di errore.
+- Le lingue CJK hanno regole di spaziatura, lunghezza, punteggiatura e tipografia differenti; i test di word-wrap pensati per lingue latine non sono sufficienti. Anche turco, russo e polacco richiedono verifica di declinazioni e forme grammaticali.
+- Serve una fonte unica delle stringhe e un flusso di revisione: traduttore madrelingua, revisore indipendente, screenshot contestuali, controllo in-app su device e registro della versione approvata. Le stringhe ad alto rischio devono avere owner e data di ultima verifica.
+- La localizzazione deve includere anche sito, privacy, press kit, Play Store, supporto, email e contenuti social; non basta che l'app abbia 14 lingue se le promesse pubbliche restano in una sola lingua o divergono tra canali.
+
+### Nuovo elemento nel registro
+| ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
+|---|---|---|---|---|---|
+| AUD-062 | Localizzazione/brand/compliance | 14 lingue presenti, ma i test tecnici non dimostrano revisione madrelingua e accuratezza culturale/legale | Gap di garanzia qualità | Alta | Audit madrelingua per aree ad alto rischio e workflow di approvazione versionato |
+
+### Punto di ripartenza
+Audit in sola lettura. Prossimo blocco: completare i moduli rimanenti, poi ricerca pubblica su policy e concorrenti e matrice finale di qualità. Nessuna traduzione va riscritta automaticamente senza revisione contestuale e senza una fonte approvata.
