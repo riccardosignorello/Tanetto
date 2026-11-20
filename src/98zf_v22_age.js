@@ -158,7 +158,8 @@ function ageScrubRaw(raw) {
 }
 function ageScrubLocalCopies() {
   try { const keys = [KEY, ...Array.from({ length: SNAP_N }, (_, i) => SNAP_KEY(i + 1)), ...brokenKeys()]; keys.forEach((k) => { const raw = localStorage.getItem(k); if (raw == null) return; const clean = ageScrubRaw(raw); if (clean !== raw) localStorage.setItem(k, clean); }); localStorage.removeItem(AGE_KEY); }
-  catch (e) { AGE_STORAGE_FAILED = true; }
+  catch (e) { AGE_STORAGE_FAILED = true; return false; }
+  return true;
 }
 function ageInit() {
   if (ageInitP) return ageInitP;
@@ -170,7 +171,7 @@ function ageInit() {
     if (p && typeof p.get === "function" && typeof p.set === "function") {
       const result = await p.get(); AGE_VALUE = result && result.hasChoice && result.choice ? result.choice : undefined;
       // Never migrate a legacy or restored backup age to a new device: ask again.
-      ageScrubLocalCopies();
+      if (!ageScrubLocalCopies()) throw new Error("age_legacy_scrub_failed");
     } else {
       let old = null; try { old = JSON.parse(localStorage.getItem(AGE_KEY) || "null"); } catch (e) { old = null; }
       AGE_VALUE = old || legacy || undefined;
@@ -178,7 +179,9 @@ function ageInit() {
       if (AGE_VALUE && typeof AGE_VALUE === "object") { try { localStorage.setItem(AGE_KEY, JSON.stringify(AGE_VALUE.skip ? { skip: true } : { y: AGE_VALUE.y, m: AGE_VALUE.m })); } catch (e) { AGE_STORAGE_FAILED = true; } }
       if (S && Object.prototype.hasOwnProperty.call(S, "age")) delete S.age;
     }
-    AGE_READY = true; AGE_STORAGE_FAILED = false; save(); return true;
+    AGE_READY = true; AGE_STORAGE_FAILED = false; save();
+    if (typeof A !== "undefined" && A.uid && !ageCloudOk() && typeof ageCloudStop === "function") ageCloudStop();
+    return true;
   })().catch(() => { AGE_STORAGE_FAILED = true; AGE_READY = false; ageInitP = null; setTimeout(() => { if (!AGE_READY) ageInit(); }, 2500); return false; });
   return ageInitP;
 }
