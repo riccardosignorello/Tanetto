@@ -80,9 +80,8 @@ document.addEventListener("click", (ev) => {
   try { const m = document.getElementById("ageM"), y = document.getElementById("ageY"), g = document.getElementById("ageGo"); m.value = String(a.m); y.value = String(a.y); if (g) g.disabled = false; } catch (e) { /* niente */ }
 }, true);
 /* ripristino da file, codice o backup online: subito l'eta' di questo telefono (non si aspetta il controllo ogni 1,2 s) */
-function v110AgeKeep() { try { ageFromMirror(); } catch (e) { /* niente */ } }
-/* il "Si'" della domanda "Sostituire i progressi?" assegna lo stato dopo: si rilegge l'eta' subito dopo ogni tocco */
-document.addEventListener("click", () => { setTimeout(() => { try { if (S.age === undefined) ageFromMirror(); } catch (e) { /* niente */ } }, 0); });
+function v110AgeKeep() { try { return typeof ageInit === "function" ? ageInit() : Promise.resolve(false); } catch (e) { return Promise.resolve(false); } }
+/* L'eta' resta nel deposito locale del telefono: ripristinare i progressi non la modifica. */
 if (typeof restoreFrom === "function") { const _a = restoreFrom; restoreFrom = function (...a) { const r = _a.apply(this, a); v110AgeKeep(); return r; }; }
 if (typeof applyCloud === "function") { const _a = applyCloud; applyCloud = function (...a) { const r = _a.apply(this, a); v110AgeKeep(); return r; }; }
 /* scheda "La tua eta'" nel Profilo: chi l'ha detta legge anche che non si cambia piu' */
