@@ -81,3 +81,21 @@ Il registro master contiene i dettagli e le prove; questa sezione è solo un ind
 ## Regola per la prossima chat
 Aprire una nuova chat nello stesso progetto e scrivere semplicemente: **“Riprendi Tanetto dal checkpoint AUDIT/CONTINUATION.md e prosegui senza chiedermi aggiornamenti.”** La nuova sessione deve prima leggere il checkpoint e `AUDIT/MASTER-REGISTER.md`, verificare branch/SHA, poi riprendere dal punto 1 senza ripetere l'audit già documentato.
 \n\n### Ultimo checkpoint verificato — 21/11/2026\n- Branch audit aggiornato con AUD-089; commit di aggiornamento registro: `2412f66c2a75c7a1d6b7f3727b2da04d42d979e5`.\n- Branch applicativo base di audit: `work/tanetto-1.0.12` (HEAD storico da verificare prima del prossimo blocco).\n- Branch candidato age-gate: `work/tanetto-1.0.12-agegate-fix`, HEAD verificato prima dell'aggiornamento Control Center `3d7a3dd439f84bef8f8a6abdf3a5aaa4c8ef8ef7`; non integrato.\n- CI run 66: ancora `in_progress` nello step `Prove 1.0.11`, senza aggiornamenti dal 20/11 23:23:44Z; considerare run stagnante/non conclusiva.\n- Nessuna modifica applicativa effettuata in questo blocco.\n
+
+### Checkpoint audit funzionale — album, mondi e shop (21/11/2026)
+
+Perimetro letto sul branch base `work/tanetto-1.0.12`:
+- `src/97zk_v19_worlds.js` (240 righe): mondi, probabilità di cartoline rare, premi di viaggio, progressione album e premi per pagina/completamento.
+- `src/97zj_v19_shop.js` (113 righe): pacchetti Tanì, confronto prezzo/quantità basato sui prezzi Play, bonus del primo acquisto, suggerimento di raccolta gratuita e percorso verso lo shop.
+- `src/98zi_v24_fix.js` (241 righe): fix UI/accessibilità, onboarding e comportamento album.
+- `src/98i_v20_growth.js` (468 righe): anteprima e condivisione cartoline, funnel verso Play, recensioni e nuovo inizio.
+
+**Risultati e collegamenti ai finding già esistenti:**
+1. I premi dei mondi e dell'album sono applicati lato client direttamente a `S.seeds` e `S.owned`; il claim pagina è protetto localmente da `S.pages`. Questo non prova da solo un exploit nuovo, ma conferma che l'integrità del saldo dipende dal modello di stato/backup locale. Collegare ai finding già registrati AUD-030, AUD-035, AUD-036 e AUD-070; evitare di creare duplicati e trattare la contabilità come un unico intervento.
+2. Le pagine album sono completate usando `S.cards`, con premi variabili per categoria e un bonus di completamento delle pagine fantastiche. I test devono includere ripristino di backup vecchi/manomessi, duplicazione dei claim, progressione di lingua e cambiamento della lista destinazioni.
+3. La prima promozione di raddoppio acquisto usa sia `S.firstPack` sia il marker locale `localStorage` `tanetto-first-pack`, con ulteriore controllo `S.paidTokens`. Non è stata eseguita una prova end-to-end di reinstallazione, restore, cambio device o ripetizione acquisto: non dichiarare verificata l'unicità del bonus. Collegare al piano Billing/AUD-035/AUD-070.
+4. Il calcolo del pacchetto più conveniente usa i prezzi reali da Play quando disponibili; se non sono disponibili, ricade sui valori statici di `PACKS` e indice best predefinito. Verificare che la UI non mostri un badge di convenienza non supportato da prezzi aggiornati/locali.
+5. Il percorso cartolina ha eventi e referrer per il passaggio a Play, ma non è stata dimostrata la continuità tra condivisione, click, installazione attribuita, attivazione e retention. Collegare a GROW-002/003; non assumere che il referrer per gli inviti sia attribution paid.
+6. Nessuna prova runtime o device reale è stata eseguita in questo blocco. Nessun finding precedente viene chiuso.
+
+**Prossimo controllo:** leggere la logica base di Billing e il flusso restore/import, verificare l'interazione tra `creditPack`, `paidTokens`, `firstPack` e i registri monotoni, poi costruire casi di test riproducibili prima di ogni patch.
