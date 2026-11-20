@@ -1,7 +1,8 @@
 /* =================== 1.0.10/1.0.12: informativa, backup automatico di Android ===================
    Il backup Android include i dati dell'app ammessi dalle regole di backup, per non perdere i progressi.
-   Il mese e l'anno di nascita sono conservati separatamente in getNoBackupFilesDir(): non entrano nel backup Android,
-   nel trasferimento dispositivo-dispositivo o nel backup online. La distinzione e' esplicita in tutte le 14 lingue. */
+   Il mese e l'anno di nascita sono conservati separatamente in getNoBackupFilesDir(): non entrano nei nuovi backup Android,
+   nel trasferimento dispositivo-dispositivo o nel backup online. I backup creati da versioni precedenti possono ancora
+   contenere la vecchia copia fino a quando Google non li sostituisce o li elimina. La distinzione e' esplicita in 14 lingue. */
 const V110_BACKUP = {
   it: " Se sul telefono è attivo il backup di Android, una copia cifrata dei dati dell'app ammessi al backup (esclusi il mese e l'anno di nascita) viene inclusa nel backup del tuo account Google. La scelta dell'età è conservata separatamente e non entra nei nuovi backup. Un backup creato con una versione precedente potrebbe contenere la copia dell'età salvata allora; al primo avvio dopo l'aggiornamento Tanetto elimina la vecchia copia dal dispositivo, ma quella nel backup precedente resta finché Google non sostituisce o elimina quel backup.",
   en: " If Android backup is turned on, an encrypted copy of the app data eligible for backup (excluding your birth month and year) is kept in your Google account's backup. The age choice is stored separately and is not included in new backups. An older backup created before this change may still contain the age copy saved by the previous version. On first launch after updating, Tanetto removes the old on-device copy; the copy in the older backup remains until Google replaces or deletes that backup.",
@@ -18,9 +19,25 @@ const V110_BACKUP = {
   nl: " Als Android-back-up op je telefoon aanstaat, wordt een versleutelde kopie van de appgegevens die voor back-up in aanmerking komen (zonder geboortemaand en -jaar) bewaard in de back-up van je Google-account. De leeftijdskeuze wordt apart opgeslagen en staat niet in nieuwe back-ups. Een back-up uit een eerdere versie kan de toen opgeslagen leeftijd nog bevatten. Bij de eerste start na de update verwijdert Tanetto de oude kopie van het apparaat; de kopie in de oudere back-up blijft staan totdat Google die back-up vervangt of verwijdert.",
   tr: " Telefonunda Android yedeklemesi açıksa, yedeklemeye uygun uygulama verilerinin (doğum ayı ve yılı hariç) şifreli bir kopyası Google hesabının yedeğinde saklanır. Yaş seçimi ayrı yerde tutulur ve yeni yedeklere dahil edilmez. Önceki bir sürümle oluşturulmuş bir yedek, o zaman kaydedilen yaş bilgisini hâlâ içerebilir. Güncellemeden sonraki ilk açılışta Tanetto cihazdaki eski kopyayı siler; eski yedekteki kopya Google bu yedeği değiştirene veya silene kadar kalabilir."
 };
+const V110_BACKUP_OFF = {
+  it: " Puoi disattivare il backup di Android dalle impostazioni del telefono.",
+  en: " You can turn Android backup off in your phone's settings.",
+  de: " Du kannst die Android-Sicherung in den Einstellungen deines Handys ausschalten.",
+  es: " Puedes desactivar la copia de seguridad de Android en los ajustes del teléfono.",
+  fr: " Tu peux désactiver la sauvegarde Android dans les réglages de ton téléphone.",
+  pt: " Você pode desativar o backup do Android nas configurações do celular.",
+  ja: "Androidのバックアップはスマートフォンの設定からオフにできます。",
+  ko: "Android 백업은 휴대폰 설정에서 끌 수 있어요.",
+  zh: "你可以在手机设置中关闭 Android 备份。",
+  zht: "你可以在手機設定中關閉 Android 備份。",
+  ru: "Резервное копирование Android можно отключить в настройках телефона.",
+  pl: "Kopię zapasową Androida możesz wyłączyć w ustawieniach telefonu.",
+  nl: "Je kunt Android-back-ups uitschakelen in de instellingen van je telefoon.",
+  tr: "Android yedeklemesini telefonunun ayarlarından kapatabilirsin."
+};
 Object.keys(V110_BACKUP).forEach((l) => {
   const t = T[l]; const P = t && t.privDoc; if (!P || P.v110) return;
   /* P[0] = in breve, P[1] = titolare, P[2] = "Quali dati" */
-  if (typeof P[2] === "string" && !P[2].includes(V110_BACKUP[l].trim().slice(0, 20))) P[2] = P[2] + V110_BACKUP[l];
+  if (typeof P[2] === "string" && !P[2].includes(V110_BACKUP[l].trim().slice(0, 20))) P[2] = P[2] + V110_BACKUP[l] + V110_BACKUP_OFF[l];
   P.v110 = 1;
 });

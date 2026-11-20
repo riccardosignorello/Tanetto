@@ -290,6 +290,9 @@ async def main(b):
     legacy_backup = {"it":"backup creato con una versione precedente", "en":"older backup created before this change", "de":"frühere Sicherung", "es":"versión anterior", "fr":"ancienne version", "pt":"versão anterior", "ja":"以前のバージョン", "ko":"이전 버전", "zh":"旧版本", "zht":"舊版本", "ru":"предыдущей версии", "pl":"wcześniejszej wersji", "nl":"eerdere versie", "tr":"önceki bir sürüm"}
     T.check("  backup Android: avviso sulle copie precedenti presente in tutte le 14 lingue", len(backup) == 14 and all(legacy_backup[k] in backup[k] for k in legacy_backup), [k for k in legacy_backup if legacy_backup[k] not in backup.get(k, "")])
     T.check("  backup Android: l'esclusione e l'avviso legacy appaiono anche nell'informativa pubblica", "excluding your birth month and year" in pp and "older backup created before this change" in pp and "excluding your birth month and year" in await T.ev(pg, "T.en.privDoc[2]"))
+    backup_off = json.loads(await T.ev(pg, "JSON.stringify(V110_BACKUP_OFF)"))
+    T.check("  backup Android: in tutte le lingue si spiega che si puo' disattivare dalle impostazioni del telefono", len(backup_off) == 14 and "disattivare" in backup_off["it"] and "turn Android backup off" in backup_off["en"])
+    T.check("  backup Android: la possibilita' di disattivarlo e' presente anche nella pagina pubblica", "turn Android backup off" in pp)
     T.check("  adulto: la scheda dell'eta' in Profilo non parla di 'niente video' (come prima)", AGE_NOAD_EN not in await T.ev(pg, "psAgeCard()"))
     await ctx.close()
     for lang in T.LANGS:
