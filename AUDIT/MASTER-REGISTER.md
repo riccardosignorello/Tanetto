@@ -468,3 +468,22 @@ Audit in sola lettura. Prossimo blocco: completare i moduli di viaggio, energia,
 
 ### Punto di ripartenza
 Audit in sola lettura. Il piano finale dovrà distinguere: blocchi obbligatori per sicurezza/legge, promozioni automatiche, acquisti volontari, contenuti condivisibili e funzionalità che richiedono account. Nessuna decisione sui personaggi o sul rebranding finché non è completata la valutazione di prodotto, identità e direzione creativa.
+
+
+## Sessione di audit — 2026-11-20, coerenza tra pacchetti e ripristino acquisti
+
+### Importazione dei pacchetti: limite obsoleto sul ramo non firmato
+- `98zd_v22_prices.js` definisce i pacchetti attuali: 1.000 / 5.500 / 12.000 / 25.000 Tanì e aggiorna `EC.IMPORT_PER_PACK` a `2 × 25.000 + 5.000 = 55.000`, così il controllo economico generale segue il pacchetto massimo.
+- `98x_v20_secure.js` mantiene invece `SEC_PACK_NEW = 4.000`, usato da `secStrict()` per ogni token nuovo trovato in una copia non firmata o non verificabile su un nuovo dispositivo. Questo valore non viene aggiornato da `98zd`.
+- **Incoerenza concreta:** su un nuovo dispositivo, un backup non firmato con un acquisto legittimo da 25.000 Tanì può aumentare il tetto di importazione di soli 4.000 Tanì per token (più la quota per i giorni), non di 25.000. Con pochi giorni di attività il saldo importato può essere tagliato in modo significativo. Il limite di 10 token non risolve la perdita: 10 × 4.000 è molto inferiore a 10 pacchetti massimi.
+- I backup firmati passano invece per un percorso diverso e il limite economico generale è 55.000 per token. Quindi il risultato dipende dalla presenza/validità della firma e dalla versione che ha creato la copia. Va testata anche la migrazione di copie precedenti alla 1.0.8.
+- Non basta aumentare `SEC_PACK_NEW` senza controllo: il token importato è una stringa non verificata e il client non consulta il backend Google Play. La soluzione corretta è verificare i token con Play Developer API o un meccanismo attendibile e applicare il valore esatto del prodotto acquistato; per i backup storici senza token, definire un recupero assistito e non punitivo.
+- La suite economica deve includere tutti e quattro i pacchetti, copie firmate/non firmate, nuovo dispositivo, più acquisti, token duplicati, refund e storage pieno.
+
+### Nuovo elemento nel registro
+| ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
+|---|---|---|---|---|---|
+| AUD-040 | Acquisti/backup/migrazione | `SEC_PACK_NEW=4.000` non segue i pacchetti aggiornati fino a 25.000; un restore non firmato su nuovo device può tagliare Tanì legittimi | Incoerenza confermata, perdita da quantificare | Molto alta | Testare i 4 pacchetti su backup legacy/non firmato e progettare verifica Play server-side |
+
+### Punto di ripartenza
+Audit in sola lettura. Prossimo blocco: completare le regole di importazione e i test economici; controllare il ciclo di acquisto, riconciliazione, rimborsi e recupero account; poi continuare su tutte le funzioni core. Non correggere il limite isolatamente prima di decidere la strategia di verifica dei token.
