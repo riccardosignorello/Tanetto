@@ -51,4 +51,5 @@
   :root:not([data-theme="light"]) .nih.nihp { color: #F2C46A; }
 }
 @media (min-width: 700px) { .overlay .box.nibox { max-width: 560px; } .nigrid { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+@media (max-width: 380px) { .nigrid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (prefers-reduced-motion: reduce) { .nit, #app h1.greet.g19 .gwi:active img { transition: none; } .nit:active { transform: none; } }
