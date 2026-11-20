@@ -186,8 +186,8 @@ function ageInit() {
   })().catch(() => { AGE_STORAGE_FAILED = true; AGE_READY = false; ageInitP = null; setTimeout(() => { if (!AGE_READY) ageInit(); }, 2500); return false; });
   return ageInitP;
 }
-ageInit();
 let ageCloudExitPermit = false;
+ageInit();
 if (typeof fbLoad === "function") {
   const _fbLoadAgeGate = fbLoad;
   fbLoad = function (...args) {
