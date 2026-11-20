@@ -70,8 +70,8 @@ Le percentuali di audit, hardening 1.0.12, release e ecosistema 360° restano se
 
 **Verifica GitHub eseguita il 21/11/2026 durante la sessione:**
 - Repository personale raggiungibile e scrivibile tramite GitHub connector.
-- Branch `work/tanetto-1.0.12-agegate-fix` HEAD verificato il 21/11/2026: `3d7a3dd439f84bef8f8a6abdf3a5aaa4c8ef8ef7`.
-- Branch `audit/tanetto-full-review` HEAD verificato il 21/11/2026: `f55e7cdeee217b75a19c4d52ad7ec725ae25e6b6`.
+- Branch `work/tanetto-1.0.12-agegate-fix` HEAD verificato il 21/11/2026: `639d8df1d76c49410a3af33de1244112e8311905`.
+- Branch `audit/tanetto-full-review` HEAD aggiornato il 21/11/2026: `f13afda5f95146495b8a087c5e07c0b77b224a65` (registro AUD-089 e checkpoint).
 - Il documento di checkpoint sessione è `docs/CONTINUITY_SESSION_2026-11-21.md`.
 - Nessun merge verso originale o rilascio è stato effettuato in questa sessione.
 
@@ -272,3 +272,27 @@ Il registro specialistico si trova su `audit/tanetto-full-review` (HEAD verifica
 | AUD-086 | Notifiche/UX | Revoca permesso o fallimento schedule non aggiorna `S.notif`; la UI può dichiarare attive notifiche non programmate | Difetto di stato/feedback da codice | Media | Check permission ad ogni apertura, rollback dello stato se schedule fallisce |
 | AUD-087 | Notifiche/tempo | La data JS sicura può differire dall'orologio usato da AlarmManager; consegna può slittare dopo manipolazione clock | Rischio di sincronizzazione | Media | Test cambio data/fuso e API Android 24–36 |
 | AUD-088 | Notifiche/canali | `v26OldChannel` segna il vecchio canale eliminato prima del completamento asincrono | Rischio di migrazione incompleta | Bassa/Media | Salvare il flag solo dopo esito positivo e riprovare in caso di errore |
+
+## 12. Checkpoint operativo — 21/11/2026, ripresa integrale
+
+### Stato effettivamente verificato
+- Il branch applicativo candidato è ora a `639d8df1d76c49410a3af33de1244112e8311905`; il commit è documentazione, non codice app.
+- Il registro specialistico è stato riletto sul branch audit e sincronizzato qui: 87 righe di finding univoche (AUD-001–088, senza una voce tabellare AUD-033) e nuovo finding AUD-089.
+- Branch audit HEAD dopo aggiornamento: `f13afda5f95146495b8a087c5e07c0b77b224a65`.
+- CI run 66 è ancora stagnante nello step `Prove 1.0.11`, avviato il 20/11 alle 23:26:33Z; API non mostra completamento. Non è verde e non è una prova di fallimento del codice.
+- Tree del branch base `work/tanetto-1.0.12` enumerato integralmente: 981 file, 0 troncamento. `src/` contiene i moduli core e le aggiunte 1.0.11/1.0.12; test automatici in `tests/t110/`.
+- Sono stati esaminati in lettura i nuovi giochi (`src/97x_games.js`), economia premi giochi (`src/98e_v20_econ.js`), viaggi (`src/98c_v20_trips.js`), cartolina settimanale (`src/98zu_v111_week.js`) e animazioni stagionali (`src/98zw_v111_events.js`).
+- AUD-089: la condivisione cartolina settimanale è consentita dal codice a `teen` (13+) indipendentemente dall'età del consenso digitale locale. Il commento dichiara esplicitamente la regola 13+, quindi è una policy da validare per Paese e per tutti i tipi di cartolina, non un bug tecnico già confermato.
+- Il flusso dei giochi limita i premi giornalieri tramite `EC.GAME_CAP`, memorizza `S.game.seeds` e sincronizza `e.games`; restano da verificare import/restore e manipolazioni dei registri insieme ad AUD-035/036/070. Nessun test end-to-end su device è stato eseguito in questo blocco.
+- Viaggi usano `Date.now()` per inizio/scadenza e registrano fino a 60 giorni in `S.v20trip.days`; i limiti del clock e del backup restano collegati ad AUD-038/039/054/084/085.
+- Le animazioni eventi sono create tramite GSAP e condizionate da `anim`/modalità leggera; non è stata eseguita una misura prestazionale nuova, quindi AUD-073 resta aperto.
+- La cartolina settimanale contiene status giornaliero aggregato; il codice esclude diario e umore dall'immagine, come dichiarato nel commento. La condivisione esterna e i relativi UTM vanno ancora controllati end-to-end.
+
+### Metodo da rispettare
+L'audit master storico stabilisce che prima si completa l'inventario e il piano dipendenze e solo dopo si applicano patch applicative. Il branch age-gate resta candidato isolato; non integrarlo durante questa fase. Le modifiche documentali al Control Center non incrementano l'avanzamento tecnico.
+
+### Prossimo blocco
+1. Verificare i flussi di viaggio/cartoline livello e viaggio, album, mondi, collezioni e shop; tracciare tutti i premi e i dati esportati.
+2. Esaminare tutti i test correlati e confrontare il candidato age-gate con il branch base senza integrare.
+3. Proseguire con PWA/offline, iOS/web, accessibilità, performance e asset/licenze.
+4. Completare inventario e dipendenze prima di pianificare le correzioni.
