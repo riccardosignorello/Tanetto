@@ -776,3 +776,31 @@ Audit in sola lettura. Prossimo blocco: completare tutti i moduli di gioco, mond
 
 ### Punto di ripartenza
 Audit in sola lettura. Prossimo blocco: completare i moduli rimanenti, poi ricerca pubblica su policy e concorrenti e matrice finale di qualità. Nessuna traduzione va riscritta automaticamente senza revisione contestuale e senza una fonte approvata.
+
+
+## Sessione di audit — 2026-11-20, workflow GitHub Actions
+
+### Workflow `tests.yml`
+- Il workflow dichiara `permissions: contents: write` a livello globale e include un passaggio che committa e pusha gli artefatti generati. La scrittura è necessaria solo per il push su branch normali; test e PR dovrebbero avere `contents: read`.
+- Il passaggio usa `GITHUB_REF_NAME` anche su eventi `pull_request`. In quel caso GitHub usa un riferimento del tipo `123/merge`, non un branch scrivibile; se la build genera differenze, `git fetch origin "$GITHUB_REF_NAME"`/push falliscono. Le PR che richiedono aggiornamento di artefatti possono quindi fallire per il workflow, non per il codice.
+- La pipeline modifica i branch con un commit del bot, nonostante il commento dica “non pubblica niente”. Non crea una release, ma modifica il codice/artefatti del branch. Va separato il job di test read-only dal job esplicito di build/sync su push.
+- I log di ogni test vengono scritti in `/tmp/tanetto-test.log` e stampati solo con le prime 20 righe rilevanti; screenshot e log completi non vengono caricati come artefatti. La diagnosi di errori e snapshot è quindi più lenta e alcuni traceback non sono recuperabili.
+- Il job esegue le suite in sequenza; se il passaggio generale fallisce, il successivo test Robolectric viene saltato. I test Android vanno separati in job indipendenti, così un errore browser non impedisce di sapere se i widget/native sono verdi.
+- Le dipendenze Python `playwright` e `pillow` sono installate senza versioni bloccate; la pipeline può cambiare comportamento senza modifiche del repository. Non esiste un job dedicato a vulnerabilità dipendenze/SAST/secret scanning.
+- Il workflow ricostruisce l'app web ma non ricostruisce `fb.js` da `fb_entry.js` (AUD-046). Il controllo delle lingue è presente; i test Firebase Emulator sono pinned, ma non verificano le impostazioni TTL o App Check di produzione.
+
+### Workflow `android.yml`
+- Pubblica automaticamente un APK di prova come GitHub prerelease con tag statico `android-prova`, solo quando cambia il branch `main` in certi percorsi o su dispatch manuale. È chiaramente marcato “non per lo store”, ma resta un download pubblico.
+- In caso di errore pubblica una seconda prerelease statica `android-diagnostica` con le ultime righe del log. Verificare che il log non contenga dati sensibili o variabili d'ambiente; mantenere una redazione esplicita.
+- Il workflow compila un APK di prova, non un AAB release firmato; non è prova della build Play definitiva. Non esegue automaticamente l'intera suite prima della pubblicazione del file di prova.
+- Le GitHub Actions sono referenziate tramite tag major/minor (`@v5`, `@v4`, `@v3`, `@v2`) e non commit SHA. Per una pipeline di release ad alta affidabilità, fissare le action a SHA verificati e aggiornare con bot/review.
+- Le due pipeline non hanno un unico gate di release: test, APK prova, firma AAB, Play Console, regole Firebase, App Check, Data Safety e sito sono ancora processi separati.
+
+### Nuovi elementi nel registro
+| ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
+|---|---|---|---|---|---|
+| AUD-063 | CI/CD/GitHub | Il push artefatti usa `GITHUB_REF_NAME` anche su PR (`123/merge`), con rischio di fallimento e permessi write non necessari | Difetto workflow confermato | Alta | Separare job read-only e sync su branch; testare PR da fork e interne |
+| AUD-064 | CI/CD/supply chain | Log/screenshot non archiviati, dipendenze Python non bloccate, nessun job dedicato SAST/dependency/secret scan | Gap di qualità e sicurezza confermato | Media/Alta | Artifact retention, lock, scansioni e test paralleli |
+
+### Punto di ripartenza
+Audit in sola lettura. Prossimo blocco: completare le restanti aree di prodotto e sito, poi analizzare le dipendenze e le policy esterne. Nessuna modifica ai workflow fino al piano generale, perché vanno rivisti insieme a build, release, branch protection e permessi.
