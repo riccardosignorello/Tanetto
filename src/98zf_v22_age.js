@@ -174,6 +174,7 @@ function ageInit() {
     } else {
       let old = null; try { old = JSON.parse(localStorage.getItem(AGE_KEY) || "null"); } catch (e) { old = null; }
       AGE_VALUE = old || legacy || undefined;
+      ageScrubLocalCopies();
       if (AGE_VALUE && typeof AGE_VALUE === "object") { try { localStorage.setItem(AGE_KEY, JSON.stringify(AGE_VALUE.skip ? { skip: true } : { y: AGE_VALUE.y, m: AGE_VALUE.m })); } catch (e) { AGE_STORAGE_FAILED = true; } }
       if (S && Object.prototype.hasOwnProperty.call(S, "age")) delete S.age;
     }
