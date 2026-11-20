@@ -332,3 +332,24 @@ L'audit master storico stabilisce che prima si completa l'inventario e il piano 
 3. Ricostruzione del funnel invito/cartolina e limiti reali di attribuzione.
 4. Verifica delle fonti di ricavo e test di billing; preparare la lista precisa di dati esterni mancanti, senza bloccare le attività sul repository.
 5. Completare WBS e dipendenze prima di calcolare qualsiasi percentuale.
+
+
+## 14. Checkpoint audit album/mondi/shop — 21/11/2026
+
+- Branch applicativo HEAD prima di questo aggiornamento: `6bb4af9b9ba3d95adfe7a1f090f95d84d1bdd36a`.
+- Branch audit HEAD verificato: `3f68bfe7bdf194aa5bc05bad87ec32c2e983c20c`; dettaglio in `AUDIT/CONTINUATION.md`.
+- Lettura statica eseguita su `work/tanetto-1.0.12`: `97zk_v19_worlds.js`, `97zj_v19_shop.js`, `97zm_v19_goals.js`, `98zi_v24_fix.js`, `98i_v20_growth.js`.
+- Mondi e album assegnano premi lato client direttamente a `S.seeds`/`S.owned`; i claim pagina sono protetti dal registro locale `S.pages`. Non è un finding nuovo: rafforza il collegamento con AUD-030/035/036/070 e conferma che l'integrità economica va progettata come un unico intervento.
+- Il raddoppio del primo acquisto usa `S.firstPack`, marker `localStorage` `tanetto-first-pack` e `S.paidTokens`. Reinstallazione, cambio device, restore e retry non sono stati testati; l'unicità del bonus resta non verificata.
+- I prezzi reali Play guidano il confronto dei pacchetti quando disponibili; il fallback usa dati statici e un indice predefinito. Va verificato che non appaia un claim di convenienza non dimostrato quando i prezzi non sono disponibili.
+- Nessun test runtime/device è stato eseguito. Nessun finding precedente è stato chiuso.
+- Non è stata fatta alcuna modifica applicativa.
+
+### Correzione esplicita sulla disponibilità dei materiali
+- L'accesso GitHub al fork è operativo e scrivibile: non è emerso un blocco tecnico del connettore.
+- Non è corretto affermare che tutto il materiale sia già disponibile. Non sono stati consultati dati reali Play Console, AdMob, campagne/spesa, ricavi e retention; non sono state eseguite prove su device reali; per alcune verifiche serviranno esportazioni o accessi esterni.
+- La decisione PRIV-002 (diario/umore nel backup) resta una decisione strategica da preparare con opzioni e conseguenze, non un blocco all'audit.
+- L'inventario WBS e i pesi non sono completi. Quindi **la percentuale globale complessiva non è ancora calcolabile**. Non equivale a zero avanzamento: significa che il denominatore non è ancora affidabile.
+
+### Ripartenza
+Primo task: tracciare Billing base e restore/import, verificare `creditPack`, `paidTokens`, `firstPack` e registri monotoni; costruire test riproducibili per reinstallazione, cambio device, restore e retry. In parallelo completare inventario tracking/privacy e i flussi cartolina/Play.
