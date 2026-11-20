@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-G+b8cPT1cYewaVgJq7YXsqxxagvf1YMBcFBxTZvPWkA=' 'unsafe-eval' https://apis.google.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.goatcounter.com; media-src 'self' data: blob:; connect-src 'self' data: blob: https://*.googleapis.com https://tanettoapp-pet.firebaseapp.com https://*.goatcounter.com; frame-src 'self' https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-C8gOT0kZTIvnaCCy+xGgKU4eeXvYPnQBp4pJ1RvCTkM=' 'unsafe-eval' https://apis.google.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.goatcounter.com; media-src 'self' data: blob:; connect-src 'self' data: blob: https://*.googleapis.com https://tanettoapp-pet.firebaseapp.com https://*.goatcounter.com; frame-src 'self' https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#F4EFE6">
 <title>Tanetto — a tiny pet for your self-care habits (free app)</title>
@@ -35121,7 +35121,7 @@ const adAgeOpts = () => ({ age: typeof ageAds === "function" ? ageAds() : "child
    ora solo per chi DICHIARA meno di 13 anni. "Preferisco non dirlo" ed eta' non ancora chiesta non bloccano piu' i video:
    ageAds() vale "teen" (TFUA, contenuti PG, mai personalizzata), come per i ragazzi. */
 function adsKid() { try { return ageAds() === "child"; } catch (e) { return true; } }
-const adsOn = () => !!(ADS_UNIT && isNativeApp() && adsPlugin() && !plusActive() && !adsKid());
+const adsOn = () => !!(ADS_UNIT && isNativeApp() && adsPlugin() && !plusActive() && !adsKid() && typeof AGE_READY !== "undefined" && AGE_READY && typeof AGE_VALUE !== "undefined" && AGE_VALUE !== undefined);
 function adsInit() {
   if (!adsOn()) return Promise.resolve(adsSt); if (adsInitP) return adsInitP;
   adsInitAt = Date.now(); adsBack = false;
@@ -43910,7 +43910,7 @@ function ageYears(a) {
   return y - a.y - (m <= a.m ? 1 : 0); /* senza il giorno: nel mese del compleanno si conta l'anno prima (prudente) */
 }
 function ageBand() {
-  const a = S.age; if (!a || typeof a !== "object") return "unknown"; if (a.skip) return "unknown";
+  const a = AGE_VALUE; if (!a || typeof a !== "object") return "unknown"; if (a.skip) return "unknown";
   const n = ageYears(a); if (n == null) return "unknown";
   return n < 13 ? "child" : n < ageConsent() ? "teen" : "adult";
 }
@@ -43923,7 +43923,7 @@ function ageBand() {
    fix 1.0.9 (verifica finale A m3): chi ha detto l'eta' e ha meno di 18 anni non riceve mai il trattamento "adult" (pubblicita'
    personalizzabile), anche dove l'eta' del consenso e' 13 (Stati Uniti, Regno Unito...): sotto i 18 anni almeno "teen"
    (TFUA, contenuti PG, mai personalizzata). L'account resta su ageCloudOk() (eta' del consenso del Paese), come prima. */
-const ageAds = () => { const b = ageBand(); if (b === "unknown") return "teen"; if (b === "adult" && ageYears(S.age) < 18) return "teen"; return b; };
+const ageAds = () => { const b = ageBand(); if (b === "unknown") return "teen"; if (b === "adult" && ageYears(AGE_VALUE) < 18) return "teen"; return b; };
 const ageCloudOk = () => ageBand() === "adult";
 /* modalita' protetta (98zz) e righe di Plus per i piu' piccoli: sotto i 13 anni dichiarati O eta' non detta (come prima della 1.0.11) */
 const ageKid = () => { const b = ageBand(); return b === "child" || b === "unknown"; };
@@ -43962,13 +43962,24 @@ function openAge(after) {
   /* (critica fase 2) il lettore di schermo parte dal titolo della finestra (prima il fuoco restava sulla pagina dietro) */
   try { const h = document.getElementById("agT"); if (h) h.focus({ preventScroll: true }); } catch (e) { /* niente */ }
 }
-function ageSet(a) {
-  S.age = a; save(); ageMirror(a);
-  /* (critica fase 2) al contatore anonimo delle visite va solo "risposto / non detto", mai la fascia d'eta' */
+async function ageSet(a) {
+  try {
+    const p = ageNativePlugin();
+    if (p && typeof p.set === "function") {
+      const choice = a && a.skip ? { skip: true } : { y: a.y, m: a.m };
+      const saved = await p.set(choice);
+      if (!saved || saved.saved !== true) throw new Error("age_store_write_failed");
+      const check = await p.get();
+      if (!check || !check.hasChoice || !check.choice) throw new Error("age_store_verify_failed");
+      a = check.choice;
+    } else {
+      a = a && a.skip ? { skip: true } : { y: a.y, m: a.m };
+      localStorage.setItem(AGE_KEY, JSON.stringify(a));
+    }
+  } catch (e) { AGE_STORAGE_FAILED = true; toast(S.lang === "it" ? "Non è stato possibile salvare la scelta. Riprova." : "Could not save your choice. Please try again."); return; }
+  AGE_VALUE = a; AGE_READY = true; AGE_STORAGE_FAILED = false;
   trackOnce(a && a.skip ? "eta-non-detta" : "eta-risposta");
-  /* pubblicita': le impostazioni cambiano, il video gia' pronto non si usa */
   try { if (typeof adsSt !== "undefined") { adsSt.loaded = false; adsInitP = null; if (S.adsOk && typeof adsInit === "function") adsInit(); } } catch (e) { /* niente */ }
-  /* 113: da bambino (sotto i 13 anni) nessun video: si dimentica anche lo stato del consenso e i nuovi tentativi in attesa */
   try { if (ageAds() === "child") { adsSt = { canRequestAds: false, privacyRequired: false, loaded: false }; clearTimeout(adsRetryT); adsRetryOn = false; } } catch (e) { /* niente */ }
   if (!ageCloudOk()) ageCloudStop();
   closeLayer(); render();
@@ -43987,45 +43998,85 @@ let ageT0 = Date.now(), ageShown = false, ageDismissed = false;
 setInterval(() => {
   try {
     /* (critica fase 2) la risposta e' del telefono: torna anche dopo "Ricomincia da capo", un ripristino o un trasferimento */
-    ageFromMirror();
+
     /* (critica fase 2) chiusa senza rispondere (tasto indietro, un'altra finestra): non la si ripropone in questa sessione,
        la si richiede al prossimo avvio. Intanto nessun video con premio (come per i bambini, 113). */
-    if (ageShown && S.age === undefined && !document.querySelector(".agebox")) { ageShown = false; ageDismissed = true; ageAfter = null; }
+    if (ageShown && AGE_VALUE === undefined && !document.querySelector(".agebox")) { ageShown = false; ageDismissed = true; ageAfter = null; }
     /* (window.__TEST_NOAGE: solo i test automatici vecchi, che non riguardano l'eta', la saltano) */
-    if (window.__TEST_NOAGE || ageDismissed || S.age !== undefined || !S.pet || layer.innerHTML || (typeof tutOn !== "undefined" && tutOn) || Date.now() - ageT0 < 2500) return;
+    if (!AGE_READY || window.__TEST_NOAGE || ageDismissed || AGE_VALUE !== undefined || !S.pet || layer.innerHTML || (typeof tutOn !== "undefined" && tutOn) || Date.now() - ageT0 < 2500) return;
     openAge();
   } catch (e) { /* niente */ }
 }, 1200);
 
 /* ---------- (critica fase 2) l'eta' resta davvero solo su questo telefono ----------
-   Prima S.age finiva anche nel backup online (Firebase), nella copia su file e nel codice di trasferimento, mentre la
+   Prima AGE_VALUE finiva anche nel backup online (Firebase), nella copia su file e nel codice di trasferimento, mentre la
    schermata dice "Resta solo su questo telefono" (e la scheda Sicurezza dei dati di Play dice che non esce dal telefono).
    Ora: 1) copie, trasferimenti e backup online si fanno senza "age" (anche la firma della copia e' calcolata senza);
    2) una seconda copia della risposta, solo locale (AGE_KEY), la riporta dopo un ripristino o "Ricomincia da capo". */
 const AGE_KEY = "tanetto-eta";
-function ageMirror(a) { try { if (a && typeof a === "object") localStorage.setItem(AGE_KEY, JSON.stringify(a)); } catch (e) { /* niente */ } }
-function ageFromMirror() {
-  if (S.age !== undefined) return;
-  let a = null; try { a = JSON.parse(localStorage.getItem(AGE_KEY) || "null"); } catch (e) { a = null; }
-  if (a && typeof a === "object" && (a.skip === true || (Number.isInteger(a.y) && Number.isInteger(a.m) && a.m >= 1 && a.m <= 12))) { S.age = a; save(); }
+let AGE_VALUE, AGE_READY = false, AGE_STORAGE_FAILED = false, ageInitP = null;
+function ageNativePlugin() {
+  try { const C = window.Capacitor; if (C && C.Plugins && C.Plugins.TanettoAge) return C.Plugins.TanettoAge; if (C && C.registerPlugin) return C.registerPlugin("TanettoAge"); } catch (e) { /* browser or unavailable bridge */ }
+  return null;
 }
-const ageHidden = (fn) => function (...a) {
-  const had = S && Object.prototype.hasOwnProperty.call(S, "age"); const v = had ? S.age : undefined;
-  if (had) delete S.age;
-  try { return fn.apply(this, a); } finally { if (had) S.age = v; } /* la parte sincrona (JSON e firma) e' gia' fatta qui */
-};
-if (typeof packState === "function") packState = ageHidden(packState);
-if (typeof saveBackup === "function") saveBackup = ageHidden(saveBackup);
-/* 1.0.10: la copia locale vince sempre (l'eta' non si cambia piu': uno stato modificato non la sovrascrive) */
-(() => { let m = null; try { m = JSON.parse(localStorage.getItem(AGE_KEY) || "null"); } catch (e) { m = null; }
-  const ok = m && typeof m === "object" && (m.skip === true || (Number.isInteger(m.y) && Number.isInteger(m.m) && m.m >= 1 && m.m <= 12));
-  if (ok) { if (JSON.stringify(S.age) !== JSON.stringify(m)) { S.age = m; save(); } } else if (S.age !== undefined) ageMirror(S.age); })();
-
+function ageScrubRaw(raw) {
+  try { const o = JSON.parse(raw); if (!o || typeof o !== "object" || Array.isArray(o) || !Object.prototype.hasOwnProperty.call(o, "age")) return raw; delete o.age; return JSON.stringify(o); }
+  catch (e) { return raw; } // Never destroy an unreadable recovery copy.
+}
+function ageScrubLocalCopies() {
+  try { const keys = [KEY, ...Array.from({ length: SNAP_N }, (_, i) => SNAP_KEY(i + 1)), ...brokenKeys()]; keys.forEach((k) => { const raw = localStorage.getItem(k); if (raw == null) return; const clean = ageScrubRaw(raw); if (clean !== raw) localStorage.setItem(k, clean); }); localStorage.removeItem(AGE_KEY); }
+  catch (e) { AGE_STORAGE_FAILED = true; return false; }
+  return true;
+}
+function ageInit() {
+  if (ageInitP) return ageInitP;
+  ageInitP = (async () => {
+    const legacy = S && S["age"] && typeof S["age"] === "object" ? S["age"] : null;
+    if (S && Object.prototype.hasOwnProperty.call(S, "age")) delete S.age;
+    try { if (typeof snapT !== "undefined" && snapT) { clearTimeout(snapT); snapT = null; } } catch (e) { /* niente */ }
+    const p = ageNativePlugin();
+    if (!p && typeof isNativeApp === "function" && isNativeApp()) throw new Error("native_age_plugin_unavailable");
+    if (p && typeof p.get === "function" && typeof p.set === "function") {
+      const result = await p.get(); AGE_VALUE = result && result.hasChoice && result.choice ? result.choice : undefined;
+      // Never migrate a legacy or restored backup age to a new device: ask again.
+      if (!ageScrubLocalCopies()) throw new Error("age_legacy_scrub_failed");
+    } else {
+      let old = null; try { old = JSON.parse(localStorage.getItem(AGE_KEY) || "null"); } catch (e) { old = null; }
+      AGE_VALUE = old || legacy || undefined;
+      ageScrubLocalCopies();
+      if (AGE_VALUE && typeof AGE_VALUE === "object") { try { localStorage.setItem(AGE_KEY, JSON.stringify(AGE_VALUE.skip ? { skip: true } : { y: AGE_VALUE.y, m: AGE_VALUE.m })); } catch (e) { AGE_STORAGE_FAILED = true; } }
+      if (S && Object.prototype.hasOwnProperty.call(S, "age")) delete S.age;
+    }
+    AGE_READY = true; AGE_STORAGE_FAILED = false; save();
+    if (typeof A !== "undefined" && A.uid && !ageCloudOk() && typeof ageCloudStop === "function") ageCloudStop();
+    return true;
+  })().catch(() => { AGE_STORAGE_FAILED = true; AGE_READY = false; ageInitP = null; setTimeout(() => { if (!AGE_READY) ageInit(); }, 2500); return false; });
+  return ageInitP;
+}
+let ageCloudExitPermit = false;
+// Defense in depth: a legacy tab or restore must never reintroduce age into serialized state.
+const _saveAgeClean = save;
+save = function (...args) { if (S && Object.prototype.hasOwnProperty.call(S, "age")) delete S.age; return _saveAgeClean.apply(this, args); };
+if (typeof packState === "function") { const _packStateAgeClean = packState; packState = function (...args) { if (S && Object.prototype.hasOwnProperty.call(S, "age")) delete S.age; return _packStateAgeClean.apply(this, args); }; }
+if (typeof saveBackup === "function") { const _saveBackupAgeClean = saveBackup; saveBackup = function (...args) { if (S && Object.prototype.hasOwnProperty.call(S, "age")) delete S.age; return _saveBackupAgeClean.apply(this, args); }; }
+ageInit();
+if (typeof fbLoad === "function") {
+  const _fbLoadAgeGate = fbLoad;
+  fbLoad = function (...args) {
+    return ageInit().then(() => {
+      if (!AGE_READY || (!ageCloudOk() && !ageCloudExitPermit)) throw new Error("age_cloud_blocked");
+      return _fbLoadAgeGate.apply(this, args);
+    });
+  };
+}
 /* ---------- account e backup online: solo per gli adulti ---------- */
 function ageCloudStop() {
   try {
     if (typeof signedIn === "function" && signedIn()) {
-      (typeof fbLoad === "function" ? fbLoad() : Promise.resolve()).then(() => window.TanFB && window.TanFB.out && window.TanFB.out()).catch(() => {});
+      if (typeof fbLoad === "function") {
+        ageCloudExitPermit = true;
+        fbLoad().then(() => window.TanFB && window.TanFB.out && window.TanFB.out()).catch(() => {}).finally(() => { ageCloudExitPermit = false; });
+      }
       const p = typeof gsi === "function" ? gsi() : null; if (p && p.signOut) p.signOut().catch(() => {});
       A = { freq: A.freq || "week" }; saveA(); setTimeout(() => toast(ageT().cloudOff), 400);
     }
@@ -44037,13 +44088,13 @@ document.addEventListener("click", (ev) => {
   if (ageCloudOk()) return;
   ev.stopImmediatePropagation(); ev.preventDefault();
   /* (critica fase 2) chi non l'ha detta (anche "Preferisco non dirlo") la puo' dire adesso; chi ha gia' risposto no */
-  if (S.age === undefined || (S.age && S.age.skip)) { const id = b.id; openAge(() => { if (ageCloudOk()) { const x = document.getElementById(id); if (x) x.click(); else render(); } else toast(ageT().cloudNo); }); return; }
+  if (AGE_VALUE === undefined || (AGE_VALUE && AGE_VALUE.skip)) { const id = b.id; openAge(() => { if (ageCloudOk()) { const x = document.getElementById(id); if (x) x.click(); else render(); } else toast(ageT().cloudNo); }); return; }
   toast(ageT().cloudNo);
 }, true);
 if (typeof acctCard === "function") {
   const _acctCardAge = acctCard;
   acctCard = function () {
-    const h = _acctCardAge(); if (ageCloudOk() || S.age === undefined || (S.age && S.age.skip)) return h;
+    const h = _acctCardAge(); if (ageCloudOk() || AGE_VALUE === undefined || (AGE_VALUE && AGE_VALUE.skip)) return h;
     /* niente inviti all'account (ne' "accedi di nuovo"): solo la riga chiara sui dati che restano sul telefono */
     const i = h.indexOf("</h3>"); if (i < 0 || (typeof signedIn === "function" && signedIn())) return h;
     return h.slice(0, i + 5) + `<p class="small">${esc(ageT().cloudNo)}</p></div>`;
@@ -44051,7 +44102,7 @@ if (typeof acctCard === "function") {
 }
 if (typeof acctNudgeDue === "function") { const _acctNudgeDueAge = acctNudgeDue; acctNudgeDue = function () { return ageCloudOk() && _acctNudgeDueAge(); }; }
 /* gia' collegato e minore (per esempio dopo il ripristino): il backup online si spegne, i dati restano */
-setTimeout(() => { if (S.age !== undefined && !ageCloudOk()) ageCloudStop(); }, 1500);
+setTimeout(() => { if (AGE_VALUE !== undefined && !ageCloudOk()) ageCloudStop(); }, 1500);
 
 /* ---------- chat: promemoria di sicurezza ---------- */
 if (typeof openChat === "function") {
