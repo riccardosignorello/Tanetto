@@ -43,7 +43,7 @@ function ageYears(a) {
   return y - a.y - (m <= a.m ? 1 : 0); /* senza il giorno: nel mese del compleanno si conta l'anno prima (prudente) */
 }
 function ageBand() {
-  const a = S.age; if (!a || typeof a !== "object") return "unknown"; if (a.skip) return "unknown";
+  const a = AGE_VALUE; if (!a || typeof a !== "object") return "unknown"; if (a.skip) return "unknown";
   const n = ageYears(a); if (n == null) return "unknown";
   return n < 13 ? "child" : n < ageConsent() ? "teen" : "adult";
 }
@@ -56,7 +56,7 @@ function ageBand() {
    fix 1.0.9 (verifica finale A m3): chi ha detto l'eta' e ha meno di 18 anni non riceve mai il trattamento "adult" (pubblicita'
    personalizzabile), anche dove l'eta' del consenso e' 13 (Stati Uniti, Regno Unito...): sotto i 18 anni almeno "teen"
    (TFUA, contenuti PG, mai personalizzata). L'account resta su ageCloudOk() (eta' del consenso del Paese), come prima. */
-const ageAds = () => { const b = ageBand(); if (b === "unknown") return "teen"; if (b === "adult" && ageYears(S.age) < 18) return "teen"; return b; };
+const ageAds = () => { const b = ageBand(); if (b === "unknown") return "teen"; if (b === "adult" && ageYears(AGE_VALUE) < 18) return "teen"; return b; };
 const ageCloudOk = () => ageBand() === "adult";
 /* modalita' protetta (98zz) e righe di Plus per i piu' piccoli: sotto i 13 anni dichiarati O eta' non detta (come prima della 1.0.11) */
 const ageKid = () => { const b = ageBand(); return b === "child" || b === "unknown"; };
@@ -96,7 +96,7 @@ function openAge(after) {
   try { const h = document.getElementById("agT"); if (h) h.focus({ preventScroll: true }); } catch (e) { /* niente */ }
 }
 function ageSet(a) {
-  S.age = a; save(); ageMirror(a);
+  S.age = a; save();
   /* (critica fase 2) al contatore anonimo delle visite va solo "risposto / non detto", mai la fascia d'eta' */
   trackOnce(a && a.skip ? "eta-non-detta" : "eta-risposta");
   /* pubblicita': le impostazioni cambiano, il video gia' pronto non si usa */
@@ -120,7 +120,7 @@ let ageT0 = Date.now(), ageShown = false, ageDismissed = false;
 setInterval(() => {
   try {
     /* (critica fase 2) la risposta e' del telefono: torna anche dopo "Ricomincia da capo", un ripristino o un trasferimento */
-    ageFromMirror();
+
     /* (critica fase 2) chiusa senza rispondere (tasto indietro, un'altra finestra): non la si ripropone in questa sessione,
        la si richiede al prossimo avvio. Intanto nessun video con premio (come per i bambini, 113). */
     if (ageShown && S.age === undefined && !document.querySelector(".agebox")) { ageShown = false; ageDismissed = true; ageAfter = null; }
@@ -136,24 +136,41 @@ setInterval(() => {
    Ora: 1) copie, trasferimenti e backup online si fanno senza "age" (anche la firma della copia e' calcolata senza);
    2) una seconda copia della risposta, solo locale (AGE_KEY), la riporta dopo un ripristino o "Ricomincia da capo". */
 const AGE_KEY = "tanetto-eta";
-function ageMirror(a) { try { if (a && typeof a === "object") localStorage.setItem(AGE_KEY, JSON.stringify(a)); } catch (e) { /* niente */ } }
-function ageFromMirror() {
-  if (S.age !== undefined) return;
-  let a = null; try { a = JSON.parse(localStorage.getItem(AGE_KEY) || "null"); } catch (e) { a = null; }
-  if (a && typeof a === "object" && (a.skip === true || (Number.isInteger(a.y) && Number.isInteger(a.m) && a.m >= 1 && a.m <= 12))) { S.age = a; save(); }
+let AGE_VALUE, AGE_READY = false, AGE_STORAGE_FAILED = false, ageInitP = null;
+function ageNativePlugin() {
+  try { const C = window.Capacitor; if (C && C.Plugins && C.Plugins.TanettoAge) return C.Plugins.TanettoAge; if (C && C.registerPlugin) return C.registerPlugin("TanettoAge"); } catch (e) { /* browser or unavailable bridge */ }
+  return null;
 }
-const ageHidden = (fn) => function (...a) {
-  const had = S && Object.prototype.hasOwnProperty.call(S, "age"); const v = had ? S.age : undefined;
-  if (had) delete S.age;
-  try { return fn.apply(this, a); } finally { if (had) S.age = v; } /* la parte sincrona (JSON e firma) e' gia' fatta qui */
-};
-if (typeof packState === "function") packState = ageHidden(packState);
-if (typeof saveBackup === "function") saveBackup = ageHidden(saveBackup);
-/* 1.0.10: la copia locale vince sempre (l'eta' non si cambia piu': uno stato modificato non la sovrascrive) */
-(() => { let m = null; try { m = JSON.parse(localStorage.getItem(AGE_KEY) || "null"); } catch (e) { m = null; }
-  const ok = m && typeof m === "object" && (m.skip === true || (Number.isInteger(m.y) && Number.isInteger(m.m) && m.m >= 1 && m.m <= 12));
-  if (ok) { if (JSON.stringify(S.age) !== JSON.stringify(m)) { S.age = m; save(); } } else if (S.age !== undefined) ageMirror(S.age); })();
-
+function ageScrubRaw(raw) {
+  try { const o = JSON.parse(raw); if (!o || typeof o !== "object" || Array.isArray(o) || !Object.prototype.hasOwnProperty.call(o, "age")) return raw; delete o.age; return JSON.stringify(o); }
+  catch (e) { return raw; } // Never destroy an unreadable recovery copy.
+}
+function ageScrubLocalCopies() {
+  try { const keys = [KEY, ...Array.from({ length: SNAP_N }, (_, i) => SNAP_KEY(i + 1)), ...brokenKeys()]; keys.forEach((k) => { const raw = localStorage.getItem(k); if (raw == null) return; const clean = ageScrubRaw(raw); if (clean !== raw) localStorage.setItem(k, clean); }); localStorage.removeItem(AGE_KEY); }
+  catch (e) { AGE_STORAGE_FAILED = true; }
+}
+function ageInit() {
+  if (ageInitP) return ageInitP;
+  ageInitP = (async () => {
+    const legacy = S && S.age && typeof S.age === "object" ? S.age : null;
+    if (S && Object.prototype.hasOwnProperty.call(S, "age")) delete S.age;
+    try { if (typeof snapT !== "undefined" && snapT) { clearTimeout(snapT); snapT = null; } } catch (e) { /* niente */ }
+    const p = ageNativePlugin();
+    if (p && typeof p.get === "function" && typeof p.set === "function") {
+      const result = await p.get(); AGE_VALUE = result && result.hasChoice && result.choice ? result.choice : undefined;
+      // Never migrate a legacy or restored backup age to a new device: ask again.
+      ageScrubLocalCopies();
+    } else {
+      let old = null; try { old = JSON.parse(localStorage.getItem(AGE_KEY) || "null"); } catch (e) { old = null; }
+      AGE_VALUE = old || legacy || undefined;
+      if (AGE_VALUE && typeof AGE_VALUE === "object") { try { localStorage.setItem(AGE_KEY, JSON.stringify(AGE_VALUE.skip ? { skip: true } : { y: AGE_VALUE.y, m: AGE_VALUE.m })); } catch (e) { AGE_STORAGE_FAILED = true; } }
+      if (S && Object.prototype.hasOwnProperty.call(S, "age")) delete S.age;
+    }
+    AGE_READY = true; AGE_STORAGE_FAILED = false; save(); return true;
+  })().catch(() => { AGE_STORAGE_FAILED = true; AGE_READY = false; ageInitP = null; setTimeout(() => { if (!AGE_READY) ageInit(); }, 2500); return false; });
+  return ageInitP;
+}
+ageInit();
 /* ---------- account e backup online: solo per gli adulti ---------- */
 function ageCloudStop() {
   try {
