@@ -616,3 +616,31 @@ Audit in sola lettura. Prossimo blocco: verificare service worker, manifest, CSP
 
 ### Punto di ripartenza
 Audit in sola lettura. Prossimo blocco: completare SEO e sito live, controllare i flussi di installazione/aggiornamento/offline, quindi passare alle aree ancora non analizzate e alla ricerca esterna delle policy correnti. Le correzioni di press kit, bundle e pagine web saranno incluse nel piano unico.
+
+
+## Sessione di audit — 2026-11-20, plugin nativi e regole di backup Android
+
+### Plugin nativi: controlli effettivi
+- `AdsPlugin.java` è una buona difesa in profondità: rilegge l'età dal file nativo no-backup a ogni inizializzazione/caricamento/visualizzazione, blocca bambini e scelta mancante, imposta trattamento CHILD/TEEN, TFUA, rating G/PG e UMP prima dell'SDK. Usa ID pubblicitari di test solo in build debug. La scelta skip viene classificata teen, mentre una scelta ancora assente resta pending e non avvia gli annunci.
+- `BillingPlugin.java` gestisce prodotti, acquisti, query degli acquisti posseduti, acknowledge degli abbonamenti e consume dei pacchetti. Non effettua verifica server-side dei token né ha un ledger remoto; questo resta collegato ad AUD-032/AUD-035/AUD-040. Non risulta un timeout esplicito per le callback di connessione/query, da testare in condizioni di rete anomala.
+- `GoogleSignInPlugin.java` usa Android Credential Manager e restituisce ID token/email al JavaScript; Firebase Auth esegue poi la verifica. Il controllo di età è nel flusso JavaScript/Firebase, non nel plugin nativo.
+- `GrowthPlugin.java` legge Install Referrer e calcola SHA-256 di ANDROID_ID con prefisso dell'app. Il commento dice che viene invocato solo da adulti, ma i metodi nativi `referrer()` e `device()` non controllano autonomamente il deposito età. Il gate è quindi solo JavaScript; un errore o un percorso alternativo potrebbe ottenere referrer/hash anche senza età adulta. Da rafforzare con un controllo nativo prima di esporre identificatori.
+- `AgeStorePlugin.set()` valida e scrive atomicamente, ma non rifiuta una seconda scrittura quando esiste già una scelta valida. L'interfaccia JavaScript la tratta come one-time; il plugin nativo, fonte di verità, non impone la stessa regola. È un hardening da valutare: consentire sovrascrittura solo in caso di file corrotto e recovery esplicito.
+- `SharePlugin.java` limita il FileProvider alla cartella `cache/condivisi` e usa URI temporanei con grant; bene. I file di condivisione possono accumularsi se il nome cambia e non c'è una pulizia/limite esplicito; le scritture MediaStore non eliminano la riga pending in ogni ramo di errore. Da testare con molte condivisioni e spazio insufficiente.
+- `WidgetPlugin.java` limita il payload a 4.000 caratteri; `WidgetSnap.java` filtra campi e stringhe prima di renderizzare. I widget hanno descrizioni accessibili e aggiornamenti su ora/lingua; test Robolectric presenti. Va verificato il comportamento dopo backup/restore, reboot, cambio fuso e rimozione del widget.
+
+### Backup Android: una correzione importante alla valutazione dell'orologio
+- `backup_rules.xml` e `data_extraction_rules.xml` includono esplicitamente l'intera directory WebView Local Storage, oltre a `tanetto_widget.xml`. Il file nativo dell'età è escluso perché si trova in `noBackupFilesDir`.
+- Di conseguenza, `tanetto-clock` è incluso nel backup Android: non è escluso come lo sono le copie manuali. Questo rende AUD-039 un rischio concreto, non soltanto teorico.
+- Il valore salvato contiene anche `bootCount` e `elapsedRealtime` del vecchio telefono. Il codice considera valida l'ancora se il boot count coincide e il tempo monotono corrente è maggiore: il solo numero di avvii non identifica univocamente un dispositivo. Su un nuovo telefono con lo stesso BOOT_COUNT e un elapsedRealtime maggiore, l'ancora del vecchio telefono potrebbe essere trattata come valida e spostare l'orologio interno. La soluzione più semplice da valutare è escludere `tanetto-clock` dal backup o associare l'ancora a un identificatore casuale conservato in `noBackupFilesDir`.
+- La copia Android include anche tutto lo stato applicativo in localStorage, compresi i registri giornalieri/economici. Il ripristino del sistema operativo non passa dal parser di importazione manuale; occorre verificare che il bootstrap convalidi e riconcili i registri dopo Auto Backup e device-to-device transfer.
+
+### Nuovi elementi nel registro
+| ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
+|---|---|---|---|---|---|
+| AUD-052 | Privacy/inviti/plugin nativi | `GrowthPlugin.device/referrer` non verifica l'età nel codice nativo; dipende interamente dal gate JS | Gap defense-in-depth confermato | Media/Alta | Test chiamata diretta con child/teen/skip/unknown e blocco nativo |
+| AUD-053 | Età/plugin nativi | `AgeStorePlugin.set()` consente di sovrascrivere una scelta già valida | Gap di enforcement nativo confermato | Media | Rendere immutabile salvo recovery di store corrotto e testare retry |
+| AUD-054 | Backup/orologio | Backup Android include `tanetto-clock`; boot count non è un identificatore univoco tra device | Rischio cross-device concreto | Alta | Escludere clock dal backup o legarlo a UUID no-backup; test device-to-device |
+
+### Punto di ripartenza
+Audit in sola lettura. Prossimo blocco: completare review delle classi native, build variants, dipendenze, manifest merge, SDK privacy e prove su device; poi completare le funzioni core rimanenti. La configurazione Play/Firebase e la verifica dei dati di produzione resteranno in una sola checklist finale per l'utente.
