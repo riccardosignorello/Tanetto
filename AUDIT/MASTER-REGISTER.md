@@ -914,3 +914,37 @@ Audit in sola lettura. La decisione su backup dei minori è bloccante: va presa 
 
 ### Punto di ripartenza
 Audit in sola lettura. Trattare AUD-030 e AUD-070 come un unico intervento di integrità economica: non correggere singole righe senza riprogettare la transazione e la matrice di provenienza/spesa dei Tanì.
+
+
+## Sessione di audit — 2026-11-20, diagnosi dei fallimenti CI del candidato agegate-fix
+
+I dati seguenti provengono dal job storico `136454007442`, eseguito sul branch `work/tanetto-1.0.12-agegate-fix` a un commit precedente all'ultimo build artefatti. Non equivalgono a un risultato CI dell'HEAD attuale.
+
+### Classificazione puntuale dei fallimenti
+
+| Test | Evidenza nel log | Diagnosi provvisoria | Tipo |
+|---|---|---|---|
+| `t_110_decisions.py` | 6 controlli: salvataggio età adulta, trasferimento con età inventata, prevalenza della scelta locale, scelta skip | Diverse asserzioni sembrano ancora basate sul vecchio campo `S.age`; confrontare ciascuna con `AGE_VALUE` e il plugin nativo. Non aggiornare i test alla cieca: prima verificare il comportamento reale del deposito nativo | Probabile test legacy da riallineare, con verifica funzionale necessaria |
+| `t_110_story.py` | Traceback, ma il wrapper CI non conserva lo stack completo | Causa non determinabile dai log pubblicati; recuperare traceback integrale e riprodurre | Non classificato |
+| `t_111_audience.py` | Un solo NO: “età mai chiesta” si aspetta rewarded video e adsOn attivo, ma il plugin non inizializza/carica/mostra | L'età pending deve restare fail-closed; è diverso dalla scelta esplicita “Preferisco non dirlo”, che viene salvata come `skip` e trattata come teen per gli annunci non personalizzati. Il test sta confondendo pending e skip | Aspettativa test da correggere, non regressione di sicurezza |
+| `t_111_events.py` | Con evento: 24 fps, 26,4 style/s, 26,2 layout/s, 41,4 CPU ms/s; senza: 24 fps, 15 style/s, 15 layout/s, 28,8 CPU ms/s | Le decorazioni stagionali aggiungono circa 11,4 operazioni stile e 11,2 layout al secondo nel benchmark. Ottimizzare i tween/letture e ridurre il lavoro a riposo; ripetere su device reali | Problema prestazionale da riprodurre/ottimizzare |
+| `t_111_icons.py` | 5 lingue falliscono a 360 px: IT (Quadrifoglio, Arcobaleno, Mongolfiera); DE (Christbaumkugel); ES (Globo aerostático); FR (Champignon, Montgolfière); NL (Paddenstoel, Regenboog, Luchtballon, Sneeuwvlok) | Le etichette si spezzano o non rispettano la soglia minima di 9,5 px. Correggere layout/etichette in contesto, non ridurre indiscriminatamente il font | Difetto UX/localizzazione confermato |
+| `t_111_week.py` | Traceback senza stack completo | Causa non determinabile; recuperare log completo e riprodurre | Non classificato |
+| `t_113_kids_noads.py` | Quattro NO soltanto per `age="none"`; lo stato pending non mostra i video | Come `t_111_audience`: il test interpreta “nessuna scelta ancora” come skip. Il plugin nativo blocca correttamente lo stato pending. Mantenere la protezione e correggere il test | Aspettativa test da correggere |
+| `t_b1_minors.py` | La scheda Privacy non spiega che la scelta età non può essere cambiata per teen e adult | Il testo `v110AgeT()[6]` non viene inserito in `psAgeCard()`; la scelta è persistente ma l'utente non riceve una spiegazione chiara | Lacuna UX confermata |
+| `t_b2_money.py` | Il test vede ancora “A launch gift!” quando si aspetta la finestra di ripristino | `askRestore()` è asincrona; il test avvia la Promise ma aspetta solo 1,5 secondi fissi. Il backup Firebase può richiedere più tempo. Attendere il selettore della finestra o la conclusione della Promise. Verificare comunque che il prompt di ripristino non venga perso dietro il regalo iniziale | Probabile test flaky/race da distinguere da problema UX |
+
+### Nuovi elementi nel registro
+| ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
+|---|---|---|---|---|---|
+| AUD-071 | UX/privacy/età | La scheda profilo non mostra il testo localizzato che spiega che la scelta dell'età non è modificabile | Lacuna confermata | Media | Inserire testo in tutte le lingue e verificare accessibilità |
+| AUD-072 | UI/localizzazione | Etichette icone spezzate a 360 px in IT/DE/ES/FR/NL | Difetto visuale confermato dal test | Media | Revisione layout e traduzioni su 320/360/390 px |
+| AUD-073 | Performance/animazioni | Gli eventi stagionali aumentano in modo sensibile le operazioni stile/layout a riposo | Benchmark fallito | Media/Alta | Profiling e riduzione lavoro per frame; test su device Android lenti e medi |
+| AUD-074 | Test età/ads | Due test confondono età pending con scelta esplicita skip e si aspettano annunci quando il plugin deve bloccare | Aspettativa test errata | Media | Separare casi pending, skip, child, teen, adult |
+| AUD-075 | Test backup/restore | Test di ripristino usa attesa fissa 1,5 s su funzione asincrona e legge ancora il regalo iniziale | Flaky test probabile; UX da verificare | Media | Attendere stato/selector e verificare che il restore prompt sia sempre mostrato |
+| AUD-076 | CI/diagnostica | Traceback di `t_110_story` e `t_111_week` non disponibili nel log recuperato | Gap di osservabilità | Media | Salvare log integrali e riprodurre prima di classificare |
+
+### Nota importante
+- I 190 controlli della suite browser/nativa risultano verdi; ciò non cancella i fallimenti delle suite Python generali.
+- Non tutti i test falliti indicano bug del prodotto: alcuni hanno aspettative obsolete dopo la migrazione del deposito età, altri sono difetti reali di UI/performance, altri ancora sono test asincroni fragili. La correzione deve rispettare il comportamento sicuro del prodotto, non forzare il codice per far passare un test sbagliato.
+- Il test `t_b2_money` che fallisce non dimostra che il Plus mensile non sia classificato: nel candidato il wrapper in `98zk` esiste e M-06 risulta verde. Il NO osservato è quello del dialogo di ripristino.
