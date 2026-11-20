@@ -61,7 +61,7 @@ Il registro master contiene i dettagli e le prove; questa sezione è solo un ind
 - I contenuti social già programmati per le prossime due settimane non vanno modificati. La nuova strategia partirà dopo l'ultimo contenuto già programmato.
 - Budget IA massimo noto: €200/mese. Windsor.ai collegato a `sc-domain:tanetto.app`.
 
-- Audit Android plugin: SharePlugin può lasciare file/record MediaStore pendenti e non ha limite Base64; GrowthPlugin può perdere referrer dopo 3 tentativi; WidgetPlugin/ReviewPlugin restituiscono solo richiesta/attempt, non esito finale. Dettagli AUD-077–080.
+- Audit Android plugin: SharePlugin può lasciare file/record MediaStore pendenti e non ha limite Base64; GrowthPlugin può perdere referrer dopo 3 tentativi; WidgetPlugin/ReviewPlugin restituiscono solo richiesta/attempt, non esito finale; il widget usa wall-clock anziché clock sicuro. Dettagli AUD-077–081.
 
 ## Prossime attività da completare (in ordine)
 1. Proseguire audit di tutti i moduli sorgente non ancora coperti: shop/billing e restore, backup, account, notifiche, widget, sharing, PWA/offline, iOS/web, accessibilità, performance, localizzazione, eventi, mondi, personaggi e contenuti.
