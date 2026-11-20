@@ -78,6 +78,23 @@ const AGE_T = {
   tr: { T: "Yaşın", P: "Doğduğun ayı ve yılı yaz: yaşına uygun içerik ve reklamları göstermek için kullanırız. Bu bilgi yalnızca bu telefonda kalır.", month: "Ay", year: "Yıl", go: "Devam", skip: "Söylememeyi tercih ederim", note: "Bunu yalnızca bir kez soruyoruz.", cloudNo: "Yaşına göre çevrimiçi yedekleme kullanılamıyor: ilerlemen bu telefonda kalır. Yine de bir kopyasını dosyaya kaydedebilirsin.", cloudOff: "Bu telefonda çevrimiçi yedekleme kapatıldı. İlerlemen burada kalır.", money: "Tanì oyun parasıdır, gerçek para değildir. Paketler gerçek paraya mal olur (fiyat düğmenin üstünde yazar) ve yalnızca Google Play ile ödenir.", adult: "Bir şey satın almadan önce mutlaka bir yetişkine sor.", chatSafe: "Unutma: burada ya da internette hiçbir yere tam adını, adresini, okulunu veya telefon numaranı yazma." }
 };
 const ageT = () => AGE_T[S.lang] || AGE_T.en;
+/* Browser fallback: unlike Android noBackupFilesDir, browser storage cannot be guaranteed excluded from device backups. */
+const AGE_BROWSER_P = {
+  it: "Inserisci mese e anno di nascita: ci serve per mostrarti contenuti e pubblicità adatti alla tua età. Nel browser viene salvata nella memoria locale; le impostazioni di backup del dispositivo potrebbero includerla.",
+  en: "Enter your month and year of birth: we use it to show you content and ads that suit your age. In a browser it is stored locally; device backup settings may include it.",
+  de: "Gib Monat und Jahr deiner Geburt ein: Damit zeigen wir dir passende Inhalte und Werbung. Im Browser wird die Angabe lokal gespeichert; Gerätesicherungen können sie je nach Einstellung einschließen.",
+  es: "Escribe tu mes y año de nacimiento: los usamos para mostrar contenido y anuncios adecuados para tu edad. En el navegador se guarda localmente; las copias de seguridad del dispositivo podrían incluirla.",
+  fr: "Indique ton mois et ton année de naissance : nous les utilisons pour adapter les contenus et les publicités. Dans un navigateur, ces données sont stockées localement ; les sauvegardes de l’appareil peuvent les inclure.",
+  pt: "Informe o mês e o ano em que você nasceu: usamos esses dados para mostrar conteúdo e anúncios adequados à sua idade. No navegador, ficam armazenados localmente; backups do dispositivo podem incluí-los.",
+  ja: "生まれた年と月を入力してください。年齢に合った内容と広告を表示するために使います。ブラウザー内に保存され、端末のバックアップに含まれる場合があります。",
+  ko: "태어난 연도와 월을 입력해 주세요. 나이에 맞는 콘텐츠와 광고를 보여 주는 데 사용해요. 브라우저에 로컬로 저장되며 기기 백업에 포함될 수 있어요.",
+  zh: "请填写出生年份和月份，以便显示适合你年龄的内容和广告。信息会保存在浏览器本地，设备备份设置可能会将其包含在内。",
+  zht: "請填寫出生年份和月份，以便顯示適合你年齡的內容和廣告。資訊會儲存在瀏覽器本機，裝置備份設定可能會將其包含在內。",
+  ru: "Укажи месяц и год рождения: мы используем их, чтобы показывать подходящие по возрасту материалы и рекламу. В браузере данные хранятся локально; резервная копия устройства может их включать.",
+  pl: "Wpisz miesiąc i rok urodzenia: używamy ich, aby wyświetlać treści i reklamy odpowiednie do twojego wieku. W przeglądarce dane są przechowywane lokalnie; kopia zapasowa urządzenia może je obejmować.",
+  nl: "Vul je geboortemaand en -jaar in: zo tonen we inhoud en advertenties die bij je leeftijd passen. In een browser worden ze lokaal opgeslagen; back-ups van het apparaat kunnen ze bevatten.",
+  tr: "Doğduğun ayı ve yılı yaz: yaşına uygun içerik ve reklamları göstermek için kullanırız. Tarayıcıda yerel olarak saklanır; cihaz yedeklemeleri bu bilgiyi içerebilir."
+};
 
 /* ---------- la schermata neutra ---------- */
 let ageAfter = null;
@@ -86,7 +103,7 @@ function openAge(after) {
   let months = []; try { const f = new Intl.DateTimeFormat(loc(), { month: "long" }); months = Array.from({ length: 12 }, (_, i) => f.format(new Date(2001, i, 15))); } catch (e) { months = Array.from({ length: 12 }, (_, i) => String(i + 1)); }
   const y0 = new Date().getFullYear(); const years = Array.from({ length: 101 }, (_, i) => y0 - i);
   layer.innerHTML = `<div class="overlay agewrap" role="dialog" aria-modal="true" aria-labelledby="agT"><div class="box card agebox"><div class="agepet" aria-hidden="true">${petSVG(S.pet || "germo", "felice", S.hat, typeof stage === "function" && S.pet ? stage() : 0, "")}</div>
-    <h2 id="agT" tabindex="-1">${esc(t.T)}</h2><p>${esc(t.P)}</p>
+    <h2 id="agT" tabindex="-1">${esc(t.T)}</h2><p>${esc(isNativeApp() ? t.P : (AGE_BROWSER_P[S.lang] || AGE_BROWSER_P.en))}</p>
     <div class="agerow"><label class="agefld"><span>${esc(t.month)}</span><select id="ageM" required><option value="" selected></option>${months.map((m, i) => `<option value="${i + 1}">${esc(m)}</option>`).join("")}</select></label>
     <label class="agefld"><span>${esc(t.year)}</span><select id="ageY" required><option value="" selected></option>${years.map((y) => `<option value="${y}">${y}</option>`).join("")}</select></label></div>
     <button class="btn block" id="ageGo" type="button" disabled>${esc(t.go)}</button><button class="link" id="ageSkip" type="button">${esc(t.skip)}</button>
