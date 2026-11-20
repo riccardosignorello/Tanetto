@@ -702,3 +702,10 @@ Audit in sola lettura. Prossimo blocco: verificare dipendenze/SDK aggiornati e p
 
 ### Punto di ripartenza
 Audit in sola lettura. Prossimo blocco: completare i moduli di gioco, negozio, mondi e contenuti; rivedere le traduzioni e i flussi di backup; poi fare la matrice dei test e il piano unico. Non considerare verde una CI finché tutte le suite, incluse quelle nuove, non passano o hanno un'eccezione documentata e accettata.
+
+
+### Integrazione AUD-017 — cancellazione account e documenti residui
+- `TanFB.remove()` elimina `backups/{uid}` e poi chiama `deleteUser()`. Se Google/Firebase richiede una riautenticazione, il backup è già stato cancellato e l'account resta temporaneamente attivo; l'utente deve autenticarsi di nuovo e ripetere la cancellazione. Il commento sorgente dice “senza perdere nulla”, ma non è letteralmente vero: il backup è già eliminato. La pagina deve spiegare lo stato parziale in modo esplicito.
+- Esiste anche `reviewers/{uid}`, creato solo manualmente dallo sviluppatore per gli account di revisione Play; le regole impediscono al client di cancellarlo e `TanFB.remove()` non lo rimuove. È un documento interno di entitlement, non il backup dell'utente, ma resta associato all'UID cancellato e va incluso nella procedura amministrativa di pulizia.
+- Non risultano altri documenti Firestore legati all'UID ordinario: gli inviti usano codice e hash dispositivo, non Firebase Auth. La retention degli inviti resta separata e dipende dalla TTL esterna.
+- Azione futura: distinguere chiaramente “backup già eliminato” da “account ancora da eliminare”, permettere reautenticazione e completamento, e avere una procedura amministrativa per eliminare anche eventuali record `reviewers/{uid}` quando appropriato.
