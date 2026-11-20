@@ -1,13 +1,13 @@
-"""1.0.10 (113): regole Google Play "Families" (answer/9893335): ai bambini niente video con premio (i video con premio di
-AdMob non si chiudono dopo 5 secondi).
-1.0.11 (18/11/2026): Tanetto esce da Families (pubblico 13+): "Preferisco non dirlo" ed eta' mai chiesta NON bloccano piu' i
-video (pulsante presente, al modulo arriva "teen": TFUA, mai personalizzata); chi dichiara meno di 13 anni resta senza.
-1) child (sotto i 13 anni): nessuna offerta di video in tutta l'app (Casa,
-   regalo del giorno, negozio dei Tanì, "ti mancano X Tanì", Profilo, ogni scheda), nessuna chiamata al modulo dei video
-   (init / load / show / privacy), nessun "Nessuna pubblicità disponibile", niente "Scelte sulla pubblicità".
-2) teen e adult: come prima (pulsanti, testi, video mostrato e premio dato).
-3) eta' non detta e poi detta (adulto): i video tornano; detta da bambino: restano spenti.
-4) testi: informativa, scheda Privacy e Plus in 14 lingue; parti native (AdsPlugin.java)."""
+"""1.0.10 (113): regole Google Play "Families" (answer/9893335): ai bambini niente video con premio.
+1.0.11 (18/11/2026): dopo l'uscita da Families, chi sceglie esplicitamente "Preferisco non dirlo" puo' vedere video teen
+non personalizzati; chi non ha ancora risposto resta pending e non attiva l'SDK finche' non sceglie; sotto i 13 anni niente video.
+1) child e pending: nessuna offerta in tutta l'app, nessuna chiamata al modulo video (init/load/show/privacy), nessun toast,
+   niente "Scelte sulla pubblicita'".
+2) skip: i video con premio restano disponibili solo su scelta dell'utente, sempre non personalizzati; nessuna statistica,
+   account, backup online, condivisione esterna o offerta commerciale.
+3) teen e adult: come prima (pulsanti, testi, video mostrato e premio dato).
+4) pending e poi adulto: i video tornano; dichiarata eta' da bambino: restano spenti.
+5) testi: informativa, scheda Privacy e Plus in 14 lingue; parti native (AdsPlugin.java e AgeStorePlugin.java)."""
 import json, sys, os, re
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import lib110 as T

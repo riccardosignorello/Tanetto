@@ -34,10 +34,10 @@ openGift = function (...a) {
   return r;
 };
 
-/* 3) G2-10 (decisione del 16/11/2026): l'eta' si inserisce una volta sola, con una conferma, e poi non si cambia piu'
-      (nemmeno con "Ricomincia da capo": la copia locale AGE_KEY la riporta). Prima di salvarla l'app mostra mese, anno ed
-      eta' e chiede "E' giusto?": "Si', e' giusto" salva, "Correggi" torna alla scelta con i valori di prima.
-      "Preferisco non dirlo" resta com'e' (protezioni da bambino; si puo' dire piu' tardi, una volta sola). */
+/* 3) G2-10 (decisione del 16/11/2026): l'eta' si inserisce una volta sola, con una conferma, e poi non si cambia piu'.
+       Android la conserva nel deposito nativo no-backup, anche dopo "Ricomincia da capo"; il Web usa AGE_KEY locale.
+       Prima di salvarla l'app mostra mese, anno ed eta' e chiede conferma. "Preferisco non dirlo" puo' essere sostituito
+       in seguito da una risposta, una sola volta; una data di nascita gia' salvata resta immutabile. */
 const V110_AGEC = {
   it: ["È giusto?", "Nascita", "Età", "Controlla bene: dopo non si potrà più cambiare.", "Sì, è giusto", "Correggi", "Non si può più cambiare."],
   en: ["Is this right?", "Born", "Age", "Please check: you won't be able to change it later.", "Yes, that's right", "Change it", "It can't be changed."],

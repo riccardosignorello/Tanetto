@@ -1,17 +1,13 @@
 """1.0.11 (18/11/2026): pubblico dai 13 anni in su (Play Console: 13-15, 16-17, 18+), modalita' protetta per chi risulta
 bambino (ageKid(): sotto i 13 anni, "Preferisco non dirlo", eta' mai chiesta).
-1.0.11 (18/11/2026, uscita da Families): "Preferisco non dirlo" resta protetto ma consente video teen non personalizzati; eta' non ancora data = pending, senza SDK fino alla risposta.
-con premio ci sono (ageAds() = "teen": TFUA, mai personalizzata); solo chi dichiara meno di 13 anni resta senza video.
-1) Modalita' protetta completa, provata per child / skip / mai chiesta (telefono finto, moduli finti che contano le chiamate):
-   niente video e niente modulo degli annunci (quindi niente SDK e niente ID pubblicita'), niente statistiche (nessuna
-   richiesta a GoatCounter), niente account ne' backup online, niente condivisione fuori dall'app (foto, cartoline, record,
-   invito, condivisione del sistema), niente offerte (prova gratuita di Plus, "primo acquisto", "conviene di piu'", Plus che si
-   apre da solo, richiesta di recensione).
-2) Ragazzi e adulti: tutto come prima (condivisione, invito, prova gratuita): cosi' la prova non e' cieca.
-3) Eta' non detta e poi detta da adulto: tutto torna.
-4) Testi in 14 lingue: informativa (app e pagina pubblica), condizioni d'uso, testo breve della privacy, schermata dell'eta'
-   neutra (nessuna eta' richiesta scritta), nessun "per tutte le eta'", data 18/11/2026.
-Nessun dato personale: nomi e testi di prova inventati."""
+1.0.12: distingue la risposta esplicita "Preferisco non dirlo" (video teen disponibili, mai personalizzati) dall'eta' ancora
+non comunicata (pending: nessuna chiamata all'SDK e nessun video finche' la persona non risponde o salta la domanda).
+1) Protezioni complete per child / skip / pending: niente statistiche, account o backup online, condivisione fuori dall'app,
+   offerte o pressioni all'acquisto; solo skip consente i video teen non personalizzati, scelti volontariamente.
+2) Child e pending: niente video e nessuna chiamata al modulo degli annunci (quindi niente SDK o ID pubblicita').
+3) Ragazzi e adulti: tutto come prima (condivisione, invito, prova gratuita): cosi' la prova non e' cieca.
+4) Skip e poi eta' detta da adulto: tutto torna. Testi in 14 lingue, informativa pubblica e schermata dell'eta'.
+5) Nessun dato personale: nomi e testi di prova inventati. Privacy aggiornata al 21/11/2026."""
 import json, sys, os, re, html as H
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import lib110 as T
