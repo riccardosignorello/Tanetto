@@ -848,3 +848,10 @@ Audit in sola lettura. La decisione su backup dei minori è bloccante: va presa 
 | ID | Area | Osservazione | Stato | Gravità provvisoria | Prossimo controllo |
 |---|---|---|---|---|---|
 | AUD-068 | GDPR/dati particolari | Backup cloud dell'intero stato può includere diario e umore con dati relativi alla salute; base art. 9 e consenso specifico non dimostrati dal solo codice | Rischio legale da valutare | Critica | Parere privacy legale e scelta architetturale prima di mantenere il diario nel backup Firebase |
+
+
+### Correzione di precisione AUD-044 — diagnostica JavaScript non ancora confermata
+- Nel ramo `work/tanetto-1.0.12` è presente in `98x_v20_secure.js` un wrapper che sanifica `reportErr(msg,line)` *se* la funzione esiste già, ma nel giro di ricerca effettuato non è stata trovata la funzione emissora originale né un listener `window.onerror/unhandledrejection` che la richiami. Non va quindi dichiarato come fatto che Tanetto invii errori JavaScript a GoatCounter finché non si individua il punto di definizione nel bundle generato o in un altro branch.
+- La privacy source `3zzg_v21_privacy.js` dichiara invece in modo esplicito che Google AdMob può trattare diagnostica del servizio pubblicitario (crash/performance) e posizione approssimativa derivata dall'IP. Questa raccolta SDK va distinta da eventuali errori JavaScript raccolti direttamente da Tanetto.
+- Le note `DATA_SAFETY_111.md` e `PLAY_DATA_SAFETY_111.md` sono documenti incrementali (“il resto resta come 1.0.10”), non una dichiarazione completa e autosufficiente. La frase “nessun dato viene usato per la pubblicità” va riferita esplicitamente ai dati invito/analytics gestiti da Tanetto, perché AdMob tratta dati per fornire annunci.
+- Azione: nel piano generale cercare il simbolo `reportErr` nel bundle effettivamente distribuito e nei branch; se non esiste, eliminare il wrapper morto e non dichiarare una raccolta inesistente. Se esiste, documentare payload, gate età, opt-out e categoria Play corretti.
