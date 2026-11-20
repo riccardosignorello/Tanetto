@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-bEFa2ezwg74FNZMB/sio57O/N0EAEm0zpCRww/owkN4=' 'unsafe-eval' https://apis.google.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.goatcounter.com; media-src 'self' data: blob:; connect-src 'self' data: blob: https://*.googleapis.com https://tanettoapp-pet.firebaseapp.com https://*.goatcounter.com; frame-src 'self' https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-CWIkSYlMN9G5OamRmjwlx1PFN3US15dBiH5OJ5DAyts=' 'unsafe-eval' https://apis.google.com https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.goatcounter.com; media-src 'self' data: blob:; connect-src 'self' data: blob: https://*.googleapis.com https://tanettoapp-pet.firebaseapp.com https://*.goatcounter.com; frame-src 'self' https://tanettoapp-pet.firebaseapp.com https://accounts.google.com https://apis.google.com https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#F4EFE6">
 <title>Tanetto — a tiny pet for your self-care habits (free app)</title>
@@ -23872,30 +23872,47 @@ if (V26_MISS.length) throw new Error("1.0.10 testi: manca " + V26_MISS.join(", "
 Object.keys(V26T).forEach((l) => { const t = T[l]; if (t && t.v12 && Array.isArray(t.v12.backP) && t.v12.backP.length > 2) { const s2 = V26T[l].wb.backP2; t.v12.backP[2] = (n) => s2.split("{n}").join(n); } });
 if (V26_MISS.length) throw new Error("1.0.10 testi: manca " + V26_MISS.join(", "));
 
-/* =================== 1.0.10 (110): informativa, backup automatico di Android ===================
-   La parte "Quali dati" dice che i dati restano sul telefono: e' vero, ma se nel telefono e' acceso il backup di Android
-   (data_extraction_rules.xml lo permette, per non perdere i progressi cambiando telefono) Google ne tiene una copia
-   cifrata nell'account Google della persona. Lo si dice, in 14 lingue (critica indipendente 1.0.10, punto 11). */
+/* =================== 1.0.10/1.0.12: informativa, backup automatico di Android ===================
+   Il backup Android include i dati dell'app ammessi dalle regole di backup, per non perdere i progressi.
+   Il mese e l'anno di nascita sono conservati separatamente in getNoBackupFilesDir(): non entrano nei nuovi backup Android,
+   nel trasferimento dispositivo-dispositivo o nel backup online. I backup creati da versioni precedenti possono ancora
+   contenere la vecchia copia fino a quando Google non li sostituisce o li elimina. La distinzione e' esplicita in 14 lingue. */
 const V110_BACKUP = {
-  it: " Se sul telefono è attivo il backup di Android, una copia cifrata di questi dati (compresa l'età) finisce anche nel backup del tuo account Google, come per tutte le app: la gestisce Google e puoi spegnerla dalle impostazioni del telefono.",
-  en: " If Android backup is turned on on your phone, an encrypted copy of this data (including your age) is also kept in your Google account's backup, as for every app: Google manages it and you can turn it off in your phone's settings.",
-  de: " Wenn auf deinem Handy die Android-Sicherung eingeschaltet ist, landet eine verschlüsselte Kopie dieser Daten (auch dein Alter) wie bei jeder App in der Sicherung deines Google-Kontos: Google verwaltet sie, und du kannst sie in den Einstellungen deines Handys ausschalten.",
-  es: " Si en tu teléfono está activada la copia de seguridad de Android, una copia cifrada de estos datos (incluida tu edad) también se guarda en la copia de seguridad de tu cuenta de Google, como con todas las apps: la gestiona Google y puedes desactivarla en los ajustes del teléfono.",
-  fr: " Si la sauvegarde Android est activée sur ton téléphone, une copie chiffrée de ces données (y compris ton âge) est aussi conservée dans la sauvegarde de ton compte Google, comme pour toutes les apps : Google la gère et tu peux la désactiver dans les réglages du téléphone.",
-  pt: " Se o backup do Android estiver ativado no seu celular, uma cópia criptografada desses dados (incluindo sua idade) também fica no backup da sua conta Google, como acontece com todos os apps: quem cuida dela é o Google, e você pode desativá-la nas configurações do celular.",
-  ja: "スマートフォンでAndroidのバックアップがオンになっている場合、ほかのアプリと同じように、これらのデータ（年齢を含む）の暗号化されたコピーがGoogleアカウントのバックアップにも保存されます。管理はGoogleが行い、スマートフォンの設定からオフにできます。",
-  ko: " 휴대폰에서 Android 백업이 켜져 있으면, 다른 앱과 마찬가지로 이 데이터(나이 포함)의 암호화된 사본이 Google 계정 백업에도 저장돼요. Google이 관리하며 휴대폰 설정에서 끌 수 있어요.",
-  zh: "如果你的手机开启了 Android 备份，这些数据（包括年龄）的加密副本也会像所有应用一样保存在你的 Google 账号备份中：由 Google 管理，你可以在手机设置中关闭。",
-  zht: "如果你的手機開啟了 Android 備份，這些資料（包括年齡）的加密副本也會像所有 App 一樣儲存在你的 Google 帳戶備份中：由 Google 管理，你可以在手機設定中關閉。",
-  ru: " Если на телефоне включено резервное копирование Android, зашифрованная копия этих данных (включая возраст), как и у всех приложений, хранится и в резервной копии твоего аккаунта Google: ею управляет Google, и её можно отключить в настройках телефона.",
-  pl: " Jeśli w telefonie jest włączona kopia zapasowa Androida, zaszyfrowana kopia tych danych (także wieku), jak w przypadku każdej aplikacji, trafia też do kopii zapasowej Twojego konta Google: zarządza nią Google, a wyłączyć ją możesz w ustawieniach telefonu.",
-  nl: " Als Android-back-up op je telefoon aanstaat, wordt een versleutelde kopie van deze gegevens (ook je leeftijd), zoals bij elke app, ook bewaard in de back-up van je Google-account: Google beheert die en je kunt hem uitzetten in de instellingen van je telefoon.",
-  tr: " Telefonunda Android yedeklemesi açıksa, bu verilerin (yaşın dahil) şifreli bir kopyası, tüm uygulamalarda olduğu gibi Google hesabının yedeğinde de saklanır: Google yönetir ve telefonunun ayarlarından kapatabilirsin."
+  it: " Se sul telefono è attivo il backup di Android, una copia cifrata dei dati dell'app ammessi al backup (esclusi il mese e l'anno di nascita) viene inclusa nel backup del tuo account Google. La scelta dell'età è conservata separatamente e non entra nei nuovi backup. Un backup creato con una versione precedente potrebbe contenere la copia dell'età salvata allora; al primo avvio dopo l'aggiornamento Tanetto elimina la vecchia copia dal dispositivo, ma quella nel backup precedente resta finché Google non sostituisce o elimina quel backup.",
+  en: " If Android backup is turned on, an encrypted copy of the app data eligible for backup (excluding your birth month and year) is kept in your Google account's backup. The age choice is stored separately and is not included in new backups. An older backup created before this change may still contain the age copy saved by the previous version. On first launch after updating, Tanetto removes the old on-device copy; the copy in the older backup remains until Google replaces or deletes that backup.",
+  de: " Wenn auf deinem Handy die Android-Sicherung eingeschaltet ist, wird eine verschlüsselte Kopie der für die Sicherung zugelassenen App-Daten (ohne Geburtsmonat und -jahr) in der Sicherung deines Google-Kontos gespeichert. Die Altersangabe wird separat gespeichert und ist nicht in neuen Sicherungen enthalten. Eine frühere Sicherung kann noch die damals gespeicherte Alterskopie enthalten. Beim ersten Start nach dem Update löscht Tanetto die alte Kopie auf dem Gerät; die Kopie in der älteren Sicherung bleibt, bis Google diese Sicherung ersetzt oder löscht.",
+  es: " Si en tu teléfono está activada la copia de seguridad de Android, una copia cifrada de los datos de la app incluidos en la copia (sin el mes ni el año de nacimiento) también se guarda en tu cuenta de Google. La edad se guarda por separado y no se incluye en las nuevas copias. Una copia creada con una versión anterior aún podría contener la edad guardada entonces. Al abrir Tanetto por primera vez tras la actualización, se elimina la copia antigua del dispositivo; la copia anterior seguirá ahí hasta que Google la sustituya o la elimine.",
+  fr: " Si la sauvegarde Android est activée sur ton téléphone, une copie chiffrée des données de l'app incluses dans la sauvegarde (sans le mois ni l'année de naissance) est conservée dans ton compte Google. Le choix de l'âge est stocké séparément et n'est pas inclus dans les nouvelles sauvegardes. Une sauvegarde créée avec une ancienne version peut encore contenir l'ancienne copie de l'âge. Au premier lancement après la mise à jour, Tanetto supprime l'ancienne copie de l'appareil ; celle de l'ancienne sauvegarde reste jusqu'à ce que Google remplace ou supprime cette sauvegarde.",
+  pt: " Se o backup do Android estiver ativado, uma cópia criptografada dos dados do app incluídos no backup (sem o mês e o ano de nascimento) fica na sua conta Google. A escolha da idade é armazenada separadamente e não entra nos novos backups. Um backup criado com uma versão anterior ainda pode conter a cópia da idade salva naquela época. Na primeira abertura após a atualização, Tanetto remove a cópia antiga do dispositivo; a cópia no backup anterior permanece até que o Google substitua ou exclua esse backup.",
+  ja: "スマートフォンでAndroidのバックアップがオンの場合、バックアップ対象のアプリデータ（出生月と出生年を除く）の暗号化されたコピーがGoogleアカウントに保存されます。年齢の選択は別に保存され、新しいバックアップには含まれません。以前のバージョンで作成されたバックアップには、その時点の年齢情報が残っている場合があります。更新後の初回起動時にTanettoは端末内の古いコピーを削除しますが、以前のバックアップ内のコピーはGoogleがそのバックアップを置き換えるか削除するまで残ります。",
+  ko: "휴대폰에서 Android 백업이 켜져 있으면 백업 대상 앱 데이터(태어난 달과 연도 제외)의 암호화된 사본이 Google 계정 백업에 저장돼요. 나이 선택은 별도로 저장되며 새 백업에는 포함되지 않아요. 이전 버전에서 만든 백업에는 당시 저장된 나이 정보가 남아 있을 수 있어요. 업데이트 후 처음 실행하면 Tanetto가 기기에 남은 이전 사본을 삭제하지만, 이전 백업의 사본은 Google이 해당 백업을 교체하거나 삭제할 때까지 남을 수 있어요.",
+  zh: "如果你的手机开启了 Android 备份，应用中纳入备份的数据（不包括出生月份和年份）的加密副本会保存在你的 Google 账号备份中。年龄选择会单独保存，不会放入新的备份。使用旧版本创建的备份可能仍包含当时保存的年龄信息。更新后首次启动 Tanetto 时，应用会删除设备上的旧副本；旧备份中的副本会保留，直到 Google 替换或删除该备份。",
+  zht: "如果你的手機開啟了 Android 備份，應用程式中納入備份的資料（不包括出生月份和年份）的加密副本會儲存在你的 Google 帳戶備份中。年齡選擇會另外儲存，不會放入新的備份。使用舊版本建立的備份可能仍包含當時儲存的年齡資料。更新後首次啟動 Tanetto 時，App 會刪除裝置上的舊副本；舊備份中的副本會保留，直到 Google 取代或刪除該備份。",
+  ru: " Если на телефоне включено резервное копирование Android, зашифрованная копия данных приложения, разрешённых для резервного копирования (без месяца и года рождения), хранится в резервной копии аккаунта Google. Выбор возраста хранится отдельно и не включается в новые копии. Резервная копия, созданная в предыдущей версии, может содержать сохранённые тогда сведения о возрасте. При первом запуске после обновления Tanetto удаляет старую копию с устройства; копия в прежней резервной копии останется, пока Google не заменит или не удалит её.",
+  pl: " Jeśli w telefonie jest włączona kopia zapasowa Androida, zaszyfrowana kopia danych aplikacji objętych kopią (bez miesiąca i roku urodzenia) trafia do kopii zapasowej Twojego konta Google. Wiek jest przechowywany osobno i nie trafia do nowych kopii. Kopia utworzona we wcześniejszej wersji może nadal zawierać zapisany wtedy wiek. Przy pierwszym uruchomieniu po aktualizacji Tanetto usuwa starą kopię z urządzenia; kopia w starszym backupie pozostaje, dopóki Google go nie zastąpi lub nie usunie.",
+  nl: " Als Android-back-up op je telefoon aanstaat, wordt een versleutelde kopie van de appgegevens die voor back-up in aanmerking komen (zonder geboortemaand en -jaar) bewaard in de back-up van je Google-account. De leeftijdskeuze wordt apart opgeslagen en staat niet in nieuwe back-ups. Een back-up uit een eerdere versie kan de toen opgeslagen leeftijd nog bevatten. Bij de eerste start na de update verwijdert Tanetto de oude kopie van het apparaat; de kopie in de oudere back-up blijft staan totdat Google die back-up vervangt of verwijdert.",
+  tr: " Telefonunda Android yedeklemesi açıksa, yedeklemeye uygun uygulama verilerinin (doğum ayı ve yılı hariç) şifreli bir kopyası Google hesabının yedeğinde saklanır. Yaş seçimi ayrı yerde tutulur ve yeni yedeklere dahil edilmez. Önceki bir sürümle oluşturulmuş bir yedek, o zaman kaydedilen yaş bilgisini hâlâ içerebilir. Güncellemeden sonraki ilk açılışta Tanetto cihazdaki eski kopyayı siler; eski yedekteki kopya Google bu yedeği değiştirene veya silene kadar kalabilir."
+};
+const V110_BACKUP_OFF = {
+  it: " Puoi disattivare il backup di Android dalle impostazioni del telefono.",
+  en: " You can turn Android backup off in your phone's settings.",
+  de: " Du kannst die Android-Sicherung in den Einstellungen deines Handys ausschalten.",
+  es: " Puedes desactivar la copia de seguridad de Android en los ajustes del teléfono.",
+  fr: " Tu peux désactiver la sauvegarde Android dans les réglages de ton téléphone.",
+  pt: " Você pode desativar o backup do Android nas configurações do celular.",
+  ja: "Androidのバックアップはスマートフォンの設定からオフにできます。",
+  ko: "Android 백업은 휴대폰 설정에서 끌 수 있어요.",
+  zh: "你可以在手机设置中关闭 Android 备份。",
+  zht: "你可以在手機設定中關閉 Android 備份。",
+  ru: "Резервное копирование Android можно отключить в настройках телефона.",
+  pl: "Kopię zapasową Androida możesz wyłączyć w ustawieniach telefonu.",
+  nl: "Je kunt Android-back-ups uitschakelen in de instellingen van je telefoon.",
+  tr: "Android yedeklemesini telefonunun ayarlarından kapatabilirsin."
 };
 Object.keys(V110_BACKUP).forEach((l) => {
   const t = T[l]; const P = t && t.privDoc; if (!P || P.v110) return;
   /* P[0] = in breve, P[1] = titolare, P[2] = "Quali dati" */
-  if (typeof P[2] === "string" && !P[2].includes(V110_BACKUP[l].trim().slice(0, 20))) P[2] = P[2] + V110_BACKUP[l];
+  if (typeof P[2] === "string" && !P[2].includes(V110_BACKUP[l].trim().slice(0, 20))) P[2] = P[2] + V110_BACKUP[l] + V110_BACKUP_OFF[l];
   P.v110 = 1;
 });
 
@@ -27632,7 +27649,7 @@ document.addEventListener("pointerdown", (ev) => {
 
 /* =================== VERSIONE 5: giochi di benessere, condivisione, informative =================== */
 const OWNER_NAME = "", OWNER_EMAIL = "tanettoapp@gmail.com";
-const PRIVACY_DATE = "2026-11-18"; /* 1.0.11 (18/11): pubblico dai 13 anni in su e modalita' protetta (3zzn_v111_audience.js), paragrafo "Invita un amico" (3zzm_n111_texts.js); 1.0.10: titolare con il nome dello sviluppatore (16/11), interruttore delle statistiche e condizioni d'uso aggiornate (3zzk_v26_texts.js); 113 (17/11): niente video con premio sotto i 13 anni e a chi non dice l'eta' */
+const PRIVACY_DATE = "2026-11-21"; /* 1.0.12 (21/11): chiarito che mese e anno di nascita sono esclusi dai backup Android e online; scelta conservata nel deposito nativo no-backup. 1.0.11 (18/11): pubblico 13+, modalita' protetta e inviti adulti; 1.0.10: titolare, statistiche e condizioni; 113: niente video sotto i 13 anni. */
 let pendingGoals = [], exprTimer = null;
 
 function fadeLayer() {
@@ -43919,15 +43936,14 @@ function ageBand() {
   const n = ageYears(a); if (n == null) return "unknown";
   return n < 13 ? "child" : n < ageConsent() ? "teen" : "adult";
 }
-/* per la pubblicita'. 1.0.11 (18/11/2026): Tanetto esce dal programma Google Play Families, pubblico di destinazione solo 13+
-   (13-15, 16-17, 18+): chi non ha detto l'eta' ("Preferisco non dirlo" o domanda non ancora fatta) non e' piu' trattato come un
-   bambino per la pubblicita' ma come "teen" (TFUA, contenuti PG, mai personalizzata): i video con premio ci sono. Chi dichiara
-   meno di 13 anni ("child") resta com'era: niente video, niente SDK, niente UMP (97zn adsKid, AdsPlugin.java).
+/* per la pubblicita'. 1.0.11 (18/11/2026): pubblico di destinazione 13+ (13-15, 16-17, 18+).
+   La risposta esplicita "Preferisco non dirlo" resta "unknown" per le altre protezioni, ma per gli annunci vale "teen"
+   (TFUA, contenuti PG, mai personalizzata): i video con premio sono disponibili. La domanda non ancora risposta e' diversa:
+   AGE_VALUE resta undefined e adsOn() blocca ogni chiamata all'SDK finche' la persona non risponde o sceglie di non dirlo.
+   Chi dichiara meno di 13 anni ("child") resta senza video, SDK e UMP (97zn adsKid, AdsPlugin.java).
    Tutto il resto NON cambia: per ageBand, ageCloudOk (account e backup online), le note "Chiedi a un adulto" e la modalita'
-   protetta (ageKid, 98zz) chi non ha detto l'eta' resta "unknown".
-   fix 1.0.9 (verifica finale A m3): chi ha detto l'eta' e ha meno di 18 anni non riceve mai il trattamento "adult" (pubblicita'
-   personalizzabile), anche dove l'eta' del consenso e' 13 (Stati Uniti, Regno Unito...): sotto i 18 anni almeno "teen"
-   (TFUA, contenuti PG, mai personalizzata). L'account resta su ageCloudOk() (eta' del consenso del Paese), come prima. */
+   protetta (ageKid, 98zz), skip e pending restano "unknown".
+   fix 1.0.9: chi ha meno di 18 anni non riceve mai il trattamento "adult" per la pubblicita' personalizzabile. */
 const ageAds = () => { const b = ageBand(); if (b === "unknown") return "teen"; if (b === "adult" && ageYears(AGE_VALUE) < 18) return "teen"; return b; };
 const ageCloudOk = () => ageBand() === "adult";
 /* modalita' protetta (98zz) e righe di Plus per i piu' piccoli: sotto i 13 anni dichiarati O eta' non detta (come prima della 1.0.11) */
@@ -44047,10 +44063,9 @@ setInterval(() => {
 }, 1200);
 
 /* ---------- (critica fase 2) l'eta' resta davvero solo su questo telefono ----------
-   Prima AGE_VALUE finiva anche nel backup online (Firebase), nella copia su file e nel codice di trasferimento, mentre la
-   schermata dice "Resta solo su questo telefono" (e la scheda Sicurezza dei dati di Play dice che non esce dal telefono).
-   Ora: 1) copie, trasferimenti e backup online si fanno senza "age" (anche la firma della copia e' calcolata senza);
-   2) una seconda copia della risposta, solo locale (AGE_KEY), la riporta dopo un ripristino o "Ricomincia da capo". */
+   Copie, trasferimenti e backup online non contengono "age". Nell'app Android la scelta vive nel file nativo
+   getNoBackupFilesDir() (escluso da backup automatico e trasferimento dispositivo-dispositivo); il Web usa AGE_KEY
+   come deposito locale di ripiego. Android non mantiene una copia dell'eta' in Local Storage o nello stato esportabile. */
 const AGE_KEY = "tanetto-eta";
 let AGE_VALUE, AGE_READY = false, AGE_STORAGE_FAILED = false, AGE_STORAGE_RECOVERY = false, ageInitP = null;
 function ageNativePlugin() {
@@ -44546,7 +44561,8 @@ function psAgeCard() {
   const told = a && !a.skip && a.y; const btn = !told ? `<button class="btn ghost small" id="psAge" type="button">${esc(w.ageBtn)}</button>` : "";
   /* mai risposto (finestra chiusa senza scegliere): non "hai preferito non dirla", ma la stessa spiegazione della domanda */
   const txt = told ? ageKidNoAd(w.ageYes) : a && a.skip ? w.ageNo : (typeof ageT === "function" && ageT().P) || w.ageNo; /* 113: sotto i 13 anni anche "niente video" */
-  return `<div class="card stack-s psage"><h3>${esc(w.ageT)}</h3><p class="small muted">${esc(txt)}</p>${btn}</div>`;
+  const lock = told && typeof v110AgeT === "function" ? `<p class="small muted v110agelock">${esc(v110AgeT()[6])}</p>` : "";
+  return `<div class="card stack-s psage"><h3>${esc(w.ageT)}</h3><p class="small muted">${esc(txt)}</p>${btn}${lock}</div>`;
 }
 /* Acquisti e Plus: Tanetto Plus (scoprire, gestire, ripristinare) e i Tanì */
 function psBuyCards(plusEl) {
@@ -47048,10 +47064,10 @@ openGift = function (...a) {
   return r;
 };
 
-/* 3) G2-10 (decisione del 16/11/2026): l'eta' si inserisce una volta sola, con una conferma, e poi non si cambia piu'
-      (nemmeno con "Ricomincia da capo": la copia locale AGE_KEY la riporta). Prima di salvarla l'app mostra mese, anno ed
-      eta' e chiede "E' giusto?": "Si', e' giusto" salva, "Correggi" torna alla scelta con i valori di prima.
-      "Preferisco non dirlo" resta com'e' (protezioni da bambino; si puo' dire piu' tardi, una volta sola). */
+/* 3) G2-10 (decisione del 16/11/2026): l'eta' si inserisce una volta sola, con una conferma, e poi non si cambia piu'.
+       Android la conserva nel deposito nativo no-backup, anche dopo "Ricomincia da capo"; il Web usa AGE_KEY locale.
+       Prima di salvarla l'app mostra mese, anno ed eta' e chiede conferma. "Preferisco non dirlo" puo' essere sostituito
+       in seguito da una risposta, una sola volta; una data di nascita gia' salvata resta immutabile. */
 const V110_AGEC = {
   it: ["È giusto?", "Nascita", "Età", "Controlla bene: dopo non si potrà più cambiare.", "Sì, è giusto", "Correggi", "Non si può più cambiare."],
   en: ["Is this right?", "Born", "Age", "Please check: you won't be able to change it later.", "Yes, that's right", "Change it", "It can't be changed."],
@@ -47083,7 +47099,14 @@ function v110AgeConfirm(a) {
 }
 const _ageSetV110 = ageSet;
 ageSet = function (a, ...r) {
-  if (a && !a.skip && a.y && !v110AgeOk && v110AgeConfirm(a)) return;
+  const current = typeof AGE_VALUE !== "undefined" ? AGE_VALUE : null;
+  if (current && !current.skip && current.y &&
+      (!a || a.skip || a.y !== current.y || a.m !== current.m)) {
+    try { toast(v110AgeT()[6]); } catch (e) { /* niente */ }
+    return;
+  }
+  const sameSavedChoice = current && !current.skip && a && !a.skip && a.y === current.y && a.m === current.m;
+  if (a && !a.skip && a.y && !v110AgeOk && !sameSavedChoice && v110AgeConfirm(a)) return;
   v110AgeOk = false; v110AgeWant = null; return _ageSetV110.call(this, a, ...r);
 };
 document.addEventListener("click", (ev) => {
@@ -47098,15 +47121,6 @@ function v110AgeKeep() { try { return typeof ageInit === "function" ? ageInit() 
 /* L'eta' resta nel deposito locale del telefono: ripristinare i progressi non la modifica. */
 if (typeof restoreFrom === "function") { const _a = restoreFrom; restoreFrom = function (...a) { const r = _a.apply(this, a); v110AgeKeep(); return r; }; }
 if (typeof applyCloud === "function") { const _a = applyCloud; applyCloud = function (...a) { const r = _a.apply(this, a); v110AgeKeep(); return r; }; }
-/* scheda "La tua eta'" nel Profilo: chi l'ha detta legge anche che non si cambia piu' */
-if (typeof psAgeCard === "function") {
-  const _psAgeCardV110 = psAgeCard;
-  psAgeCard = function (...a) {
-    const h = _psAgeCardV110.apply(this, a); const age = typeof AGE_VALUE !== "undefined" ? AGE_VALUE : S.age; if (!h || !age || age.skip || !age.y) return h;
-    return h.replace(/(<div class="card stack-s psage">[\s\S]*?)(<\/div>)/, `$1<p class="small muted v110agelock">${esc(v110AgeT()[6])}</p>$2`);
-  };
-}
-
 /* =================== 4) Controllo finale 1.0.10: piccole cose ===================
    a) "Memoria del telefono piena" (M-08): l'avviso arriva dopo quello dell'azione, resta 7 secondi senza essere coperto
       e si ripete al massimo ogni 10 minuti finche' il salvataggio non riesce di nuovo. */
@@ -48752,7 +48766,7 @@ function e111Win(ev, ph, lit) {
   if (ev.k === "lanterns") {
     /* lucine del villaggio sulle colline e lanterne che salgono */
     if (night || eve) [[50, 114], [64, 118], [98, 110], [118, 116], [130, 112]].forEach(([x, y]) => { o += `<circle cx="${x}" cy="${y}" r="2.6" fill="#FFC56B" opacity=".35"/><rect x="${x - 1}" y="${y - 1}" width="2" height="2" rx=".4" fill="#FFE2A0"/>`; });
-    [[48, 96, 1.5], [74, 74, 1.2], [98, 104, 1.6], [116, 64, 1.1], [128, 90, 1.35]].forEach(([x, y, s], i) => { o += `<g class="e1rise" data-y="${y}" data-i="${i}">${e111SkyLan(x, y, s, night || eve)}</g>`; });
+    [[48, 96, 1.5], [74, 74, 1.2], [116, 64, 1.1]].forEach(([x, y, s], i) => { o += `<g class="e1rise" data-y="${y}" data-i="${i}">${e111SkyLan(x, y, s, night || eve)}</g>`; });
   } else if (ev.k === "xmas") {
     const sn = night ? ["#B9C6DE", "#9FB0CE"] : ["#FBFDFF", "#E1EAF3"];
     o += `<path d="M34 110 C52 102 70 108 92 103 C112 99 126 104 138 102 L138 128 L34 128 Z" fill="${sn[1]}"/><path d="M34 118 C58 108 82 116 106 110 C120 107 132 111 138 113 L138 128 L34 128 Z" fill="${sn[0]}"/>`;
@@ -48926,7 +48940,7 @@ ambientExtra = function (root, q) {
        cosi' GSAP non alterna letture e scritture (niente ricalcoli a catena quando la stanza si ridisegna) */
     root.querySelectorAll(".e1sw, .e1rise, .e1snow, .e1kite, .e1pass, .e1shoot, .e1petal").forEach((el) => { G.getProperty(el, "x"); });
     q(".e1sw").forEach((g) => { const i = +g.dataset.i || 0; const a = 2.2 + (i % 2) * 0.8; ambient.push(G.fromTo(g, { rotation: -a }, { rotation: a, svgOrigin: g.dataset.o, duration: 2.6 + i * 0.45, repeat: -1, yoyo: true, ease: "sine.inOut" })); });
-    q(".e1rise").forEach((g) => { const i = +g.dataset.i || 0, y = +g.dataset.y || 90; ambient.push(e111Loop(g, { y: 138 - y }, { y: 34 - y }, 15 + (i % 3) * 3.5, ((i * 0.37) % 1))); ambient.push(G.to(g, { x: i % 2 ? 4 : -4, duration: 3 + (i % 3), repeat: -1, yoyo: true, ease: "sine.inOut" })); });
+    q(".e1rise").forEach((g) => { const i = +g.dataset.i || 0, y = +g.dataset.y || 90; ambient.push(e111Loop(g, { y: 138 - y }, { y: 34 - y }, 17 + (i % 3) * 3.5, ((i * 0.37) % 1))); });
     q(".e1snow").forEach((g) => { const i = +g.dataset.i || 0, y = +g.dataset.y || 80; ambient.push(e111Loop(g, { y: 38 - y }, { y: 132 - y }, 7 + (i % 4) * 1.4, ((i * 0.29) % 1))); ambient.push(G.to(g, { x: i % 2 ? 5 : -5, duration: 1.8 + (i % 3) * 0.6, repeat: -1, yoyo: true, ease: "sine.inOut" })); });
     q(".e1kite").forEach((g) => { ambient.push(G.to(g, { y: -4, x: 3, duration: 2.6, repeat: -1, yoyo: true, ease: "sine.inOut" })); ambient.push(G.fromTo(g, { rotation: -3 }, { rotation: 4, svgOrigin: g.dataset.o, duration: 1.9, repeat: -1, yoyo: true, ease: "sine.inOut" })); });
     q(".e1pass").forEach((g) => { const x = +g.dataset.x || 110; ambient.push(e111Loop(g, { x: 18 - x }, { x: 160 - x }, 26, 0.62)); ambient.push(G.to(g, { y: -5, duration: 2.2, repeat: -1, yoyo: true, ease: "sine.inOut" })); });
