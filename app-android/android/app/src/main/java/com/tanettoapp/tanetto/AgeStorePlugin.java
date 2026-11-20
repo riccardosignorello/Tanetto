@@ -93,8 +93,9 @@ public class AgeStorePlugin extends Plugin {
                     out.flush();
                     out.getFD().sync();
                 }
-                if (target.exists() && !target.delete()) throw new IllegalStateException("age_store_replace");
-                if (!temp.renameTo(target)) throw new IllegalStateException("age_store_commit");
+                // POSIX rename on Android replaces the previous file atomically.
+                // A failed write therefore leaves the last valid choice intact.
+                android.system.Os.rename(temp.getAbsolutePath(), target.getAbsolutePath());
 
                 JSObject result = new JSObject();
                 result.put("saved", true);
