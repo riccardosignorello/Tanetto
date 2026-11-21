@@ -298,3 +298,58 @@ Il codice non decide da solo la base giuridica né dimostra la conformità. PRIV
 
 ### Stato delle fonti
 Queste fonti rafforzano il piano di verifica, ma non chiudono alcun task: non abbiamo consultato Play Console, configurazione AdMob/UMP, contratti SDK, dati Firebase di produzione o un parere legale. Claude deve registrare esattamente cosa può provare dal repository e cosa richiede accesso o revisione esterna.
+
+
+## 14. WBS preliminare di deliverable — da convalidare e atomizzare sul codice
+
+Questa WBS trasforma le 14 aree del Control Center in risultati verificabili. È una baseline di pianificazione: Claude deve scomporre ulteriormente le voci quando più componenti hanno dipendenze o acceptance criteria diversi. I pesi non sono assegnati in questa fase perché richiedono stima comparativa del perimetro reale.
+
+| ID WBS | Area | Deliverable verificabile | Dipendenze principali | Criterio di uscita |
+|---|---|---|---|---|
+| WBS-GOV-01 | GOV | Baseline repository/branch | Nessuna | HEAD, tree, diff, branch relation, CI e working tree registrati |
+| WBS-GOV-02 | GOV | Inventario unico e deduplicato | WBS-GOV-01 | Tutti gli AUD e task esistenti mappati; nessun ID perso |
+| WBS-GOV-03 | GOV | Decision log e checkpoint | WBS-GOV-02 | Ogni decisione, owner, reversibilità e ripartenza documentati |
+| WBS-AUD-01 | AUD-F | Mappa completa feature e flussi | WBS-GOV-01 | Ogni funzione, ruolo, stato, errore, edge case e piattaforma mappati |
+| WBS-AUD-02 | AUD-F | Matrice finding→feature→test | WBS-AUD-01 | Tutti gli AUD classificati con evidenza e test richiesto |
+| WBS-ENG-01 | ENG | Architettura e dipendenze | WBS-GOV-01 | Moduli, bootstrap, stato, build, API e confini JS/native/backend documentati |
+| WBS-ENG-02 | ENG | Strategia migrazioni e compatibilità | WBS-ENG-01 | Schema versioning, migrazioni, restore e rollback definiti |
+| WBS-SEC-01 | SEC | Threat model e superfici d'attacco | WBS-ENG-01 | Asset, attaccanti, trust boundaries, mitigazioni e rischio residuo approvati |
+| WBS-SEC-02 | SEC | Auth, Firebase, App Check e rules | WBS-SEC-01 | Tutti gli endpoint/rules classificati; test negativi; deploy riproducibile |
+| WBS-SEC-03 | SEC | Supply chain, secrets e signing | WBS-SEC-01 | Nessun segreto/keystore improprio; permessi minimi; scansioni e firma verificate |
+| WBS-PRIV-01 | PRIV | Data map completa | WBS-AUD-01 | Ogni dato ha fonte, scopo, destinazione, base, accesso, retention e cancellazione |
+| WBS-PRIV-02 | PRIV | Policy età/consenso per mercato | WBS-PRIV-01 | Matrice mercati/fonti ufficiali/decisioni e fallback sicuro, con review legale |
+| WBS-PRIV-03 | PRIV | Backup, export, restore e cancellazione | WBS-PRIV-01 | Ogni copia locale/cloud è spiegata, controllata, testata e riflessa nell'informativa |
+| WBS-PRIV-04 | PRIV | Decisione diario/umore cloud | WBS-PRIV-01 | Opzioni, conseguenze e decisione owner documentate; task collegati sbloccati |
+| WBS-ECON-01 | ECON | Modello contabile Tanì | WBS-ENG-01 | Saldi/bucket/spese/premi/registri definiti con invarianti e casi limite |
+| WBS-ECON-02 | ECON | Ledger premi e progressi | WBS-ECON-01 | Premi giochi/mondi/album/referral idempotenti e non duplicabili dopo restore |
+| WBS-ECON-03 | ECON | Billing Play e entitlement | WBS-ECON-01 | Purchase lifecycle, pending, verify, grant, acknowledge/consume, refund/revoke testati |
+| WBS-ECON-04 | ECON | Import e migrazione economica | WBS-ECON-01 | Import malevolo/legacy/cross-device non crea valuta e non perde acquisti legittimi |
+| WBS-UX-01 | UX | Journey e information architecture | WBS-AUD-01 | Onboarding, navigazione, task primari, stati vuoti/errore e ritorno definiti |
+| WBS-UX-02 | UX | Accessibilità e responsive | WBS-UX-01 | Tastiera/touch/screen reader/contrasto/font/reduced motion e viewport verificati |
+| WBS-UX-03 | UX | Localizzazione e contenuti sensibili | WBS-UX-01 | Stringhe e layout verificati; testi legali/safety approvati da madrelingua qualificati |
+| WBS-GAME-01 | GAME | Bilanciamento e progressione | WBS-ECON-01, WBS-AUD-01 | Curve, premi, cap, probabilità e progressione simulati e coerenti |
+| WBS-GAME-02 | GAME | Giochi, viaggi, album, eventi e personaggi | WBS-GAME-01 | Flussi end-to-end e restore testati; roadmap personaggi approvata dopo UX/brand |
+| WBS-PLAT-01 | PLAT | Plugin Android e lifecycle | WBS-ENG-01 | Ogni plugin ha contract, error handling, cleanup, permission e test nativo |
+| WBS-PLAT-02 | PLAT | Clock, notifiche, widget e offline | WBS-PLAT-01 | Cambio ora/fuso, reboot, offline, restore e permessi gestiti con semantica corretta |
+| WBS-PLAT-03 | PLAT | Matrice piattaforme e release build | WBS-PLAT-01, WBS-SEC-03 | Build debug/release, R8, App Check, install/upgrade e compatibilità verificati |
+| WBS-QA-01 | QA | CI deterministica e osservabile | WBS-GOV-01 | Test PR read-only, log/artifact, timeout, retry e workflow sicuri |
+| WBS-QA-02 | QA | Matrice test automatizzati | WBS-AUD-02 | Ogni requisito critico ha test unit/integration/E2E e copertura negativa |
+| WBS-QA-03 | QA | Validazione reale | WBS-QA-02, WBS-PLAT-03 | Device, Play sandbox, Firebase, backup, accessibility e release smoke test completati |
+| WBS-WEB-01 | WEB | Integrazione sito/app e SEO | WBS-GOV-01 | Diff main/rel-111, route /app, pagine pubbliche, canonical, sitemap e hreflang validati |
+| WBS-WEB-02 | WEB | Performance, sicurezza e legal pages | WBS-WEB-01 | Lighthouse/headers/CSP/consent/deletion/privacy testati e contenuti coerenti |
+| WBS-BRAND-01 | BRAND | Posizionamento e brand audit | WBS-UX-01, WBS-GAME-02 | Pubblico, promessa, tono, personaggi e identità valutati con criteri e ricerca |
+| WBS-GROW-01 | GROW | Analytics e attribution | WBS-PRIV-01, WBS-QA-02 | Eventi e funnel testati end-to-end; paid/organic/referral distinti |
+| WBS-GROW-02 | GROW | Metriche, unit economics e canali | WBS-GROW-01 | Retention, activation, LTV netto, CAC, payback e piano canali definiti su dati reali |
+| WBS-GROW-03 | GROW | Esperimenti e community | WBS-BRAND-01, WBS-GROW-02 | Esperimenti preregistrati, budget approvato, stop-loss e calendario protetto |
+| WBS-REL-01 | REL | Release candidate e rollback | WBS-QA-03, WBS-PRIV-02, WBS-ECON-03 | Checklist store/legale/build/support/monitoring/rollback superata e autorizzata |
+| WBS-REL-02 | REL | Operations e manutenzione | WBS-REL-01 | Ownership, alert, supporto, costi, incident response e aggiornamenti definiti |
+
+### Regole per trasformare la WBS in un piano eseguibile
+
+- Claude deve dividere una riga in task più piccoli se non può essere verificata con un unico criterio.
+- Ogni task atomico deve avere un solo risultato osservabile e una prova ripetibile.
+- Ogni task deve avere priorità P0/P1/P2/P3, dipendenze, effort range e owner (Claude, proprietario, Google/terza parte, professionista).
+- I pesi 1–5 si assegnano solo dopo la scomposizione e motivazione; non gonfiare i pesi per favorire una percentuale.
+- Le attività continuative (marketing/community/monitoraggio) vanno in milestone/cicli separati, non dichiarate “finite per sempre”.
+- Una milestone release può essere 100% mentre il programma ecosistema continua: le due misure non vanno fuse.
+
