@@ -252,3 +252,49 @@ Enumerazione GitHub del branch applicativo dopo il checkpoint documentale di que
 - File e dimensioni possono cambiare: rifare l'enumerazione sul commit esatto di lavoro.
 
 Questa enumerazione rende più chiaro il perimetro, ma **non autorizza a dichiarare completato l'audit teorico**: restano da completare la lettura mirata dei moduli non coperti, la matrice feature→test→finding, la validazione delle fonti esterne e le decisioni del proprietario.
+
+
+## 13. Fonti ufficiali esterne da verificare prima di chiudere la teoria
+
+Le fonti seguenti sono state consultate il 21/11/2026 come base di ricerca. Claude deve riaprire le pagine aggiornate, registrare data/versione e applicabilità concreta; non sono un parere legale.
+
+### Google Play Families, audience e advertising
+- [Families Policies — Google Play](https://support.google.com/googleplay/android-developer/answer/9893335)
+- [Manage target audience and app content settings](https://support.google.com/googleplay/android-developer/answer/9867159)
+- [Ads policy](https://support.google.com/googleplay/android-developer/answer/9857753)
+
+Punti da verificare sul caso Tanetto:
+- la dichiarazione effettiva Target Audience & Content in Play Console e se include gruppi considerati bambini;
+- se l'app ha audience mista, neutral age screen e trattamento degli utenti di età sconosciuta;
+- versione effettiva dell'SDK ads e certificazione Families Self-Certified, se applicabile;
+- formato e comportamento degli annunci rewarded mostrati a child/unknown: la policy Families pone vincoli specifici anche sugli annunci opt-in/rewarded che interferiscono con il normale uso e non sono chiudibili dopo 5 secondi;
+- contenuto, placement, incentivi, cross-promotion e distinzione chiara tra valuta virtuale e denaro reale;
+- coerenza tra policy, age gate JS, controlli nativi, UMP, Data Safety e privacy policy.
+
+Non concludere che il modello rewarded attuale sia conforme o non conforme senza verificare target dichiarato, SDK, versione e flusso reale. Se l'app dichiara di non essere destinata ai bambini, verificare che contenuto, listing, marketing, funzioni e dichiarazioni siano coerenti.
+
+### Google Play Billing — verifica e consegna acquisti
+- [Fight fraud and abuse](https://developer.android.com/google/play/billing/security)
+- [Integrate the Google Play Billing Library](https://developer.android.com/google/play/billing/integrate)
+- [Developer payload / purchase verification](https://developer.android.com/google/play/billing/developer-payload)
+
+Indicazione tecnica rilevante: Google raccomanda, quando l'architettura lo consente, di inviare il purchaseToken a un backend sicuro, verificarlo tramite Google Play Developer API, usare il token univoco per impedire elaborazioni duplicate, concedere entitlement solo per stato PURCHASED e gestire pending separatamente; consume/acknowledge server-side offre protezione aggiuntiva. La soluzione Tanetto deve comparare questo modello con un'alternativa offline-first, quantificando costi, dipendenze, failure modes e rischio residuo. Non implementare un backend soltanto per seguire una raccomandazione senza valutare il costo e la necessità, ma non dichiarare equivalente la deduplicazione locale.
+
+### Account deletion e trasparenza dati
+- [User Data policy — Google Play](https://support.google.com/googleplay/android-developer/answer/10144311)
+
+Verificare che la cancellazione sia facilmente avviabile in app e tramite risorsa web esterna, che rimuova i dati associati all'account salvo retention legittima e chiaramente comunicata, e che i link Play Console siano corretti. Distinguere account Firebase, backup cloud, copie locali, Android Auto Backup, acquisti/subscription Play e dati trattenuti per obblighi legittimi.
+
+### GDPR — età e dati relativi alla salute
+- [Regolamento (UE) 2016/679 — EUR-Lex](https://eur-lex.europa.eu/eli/reg/2016/679/)
+
+Verificare almeno:
+- art. 8: per servizi della società dell'informazione offerti direttamente a minori e quando il trattamento si basa sul consenso dell'art. 6(1)(a), la soglia UE è 16 anni, salvo che lo Stato membro stabilisca una soglia inferiore non sotto i 13; la matrice va fatta paese per paese e non sostituita con un valore fisso;
+- art. 9: dati relativi alla salute rientrano nelle categorie particolari; individuare se diario/umore/progressi possano rivelare dati relativi alla salute e quale condizione dell'art. 9(2) sia applicabile;
+- art. 7: prova del consenso e facilità di revoca, quando il trattamento si basa sul consenso;
+- minimizzazione, trasparenza, limitazione della conservazione, sicurezza, diritti e cancellazione per ogni flusso.
+
+Il codice non decide da solo la base giuridica né dimostra la conformità. PRIV-002 e la revisione professionale restano gate espliciti.
+
+### Stato delle fonti
+Queste fonti rafforzano il piano di verifica, ma non chiudono alcun task: non abbiamo consultato Play Console, configurazione AdMob/UMP, contratti SDK, dati Firebase di produzione o un parere legale. Claude deve registrare esattamente cosa può provare dal repository e cosa richiede accesso o revisione esterna.
