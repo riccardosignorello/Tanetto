@@ -384,3 +384,15 @@ Primo task: tracciare Billing base e restore/import, verificare `creditPack`, `p
 - Il test non è stato eseguito in questo blocco. La lettura non lo rende VERIFIED.
 - HEAD app verificato prima dell'aggiornamento: `10a8b6871f057767a1be6cde52aa40e5bfc14552`; HEAD audit: `60c9e260e4b258544e56e68382082e7c6a97fbb9`. Report aggiornato in `docs/PROGRESS_AND_ESTIMATE_2026-11-21.md`.
 
+
+
+## 15. Proposta strategica per handoff Claude — 21/11/2026
+
+È stata aggiunta la proposta ragionata dell'assistente in `docs/CLAUDE_EXECUTION_BLUEPRINT_2026-11-21.md` (branch applicativo). Il documento:
+- distingue completamento teorico, pratico e dipendenze esterne/proprietario;
+- raggruppa AUD-001–AUD-090 in epic senza cancellare gli ID;
+- propone priorità, dipendenze, architetture da valutare, criteri di accettazione e deliverable per Claude;
+- chiede a Claude di criticare indipendentemente la proposta prima di applicarla;
+- non autorizza release, merge sull'originale, spese o decisioni riservate al proprietario.
+
+Il documento è una proposta supplementare, non modifica automaticamente lo stato dei task e non certifica alcun avanzamento tecnico. Il MASTER CONTROL CENTER resta la fonte unica per stati e percentuali; il registro audit resta la fonte delle evidenze storiche. Claude deve verificare HEAD e CI correnti prima di usare qualunque SHA o stato riportato nei checkpoint.
