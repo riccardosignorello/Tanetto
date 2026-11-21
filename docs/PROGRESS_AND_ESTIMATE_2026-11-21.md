@@ -109,3 +109,12 @@ Traduzione prudente: **circa 4–8 settimane di lavoro equivalente full-time** p
 - Fix: preservare acquisti legittimi cross-device senza usare stringhe arbitrarie come attestazione; valutare ledger verificabile e test anti-perdita dati.
 
 Nessuna patch applicativa eseguita.
+
+
+## Verifica copertura test esistente — 21/11/2026
+
+- Letto `tests/t110/t_b2_money.py`: esiste già un test browser/mock per due telefoni con lo stesso account e ripristino dopo un acquisto di pacchetto; verifica che il backup più recente non venga sovrascritto e che il saldo acquistato resti utilizzabile. Questo riduce il rischio di duplicare test già presenti, ma non copre tutti i casi di AUD-011.
+- Non sono presenti nel test letto casi specifici per 10 token arbitrari importati, token duplicati/non autentici, oltre 200 token, consumo fallito persistente, reinstallazione/cambio account Play, refund/revoca o gara fra callback e restore. La mancanza in questo singolo file è un gap osservato, non una dichiarazione sull'intero repository: va completata la ricerca nelle altre suite.
+- Non ho eseguito `t_b2_money.py`: la lettura del test non è un esito di test.
+- Stato WBS invariato: globale non calcolabile finché l'inventario atomico e i pesi non sono completati.
+- HEAD app attuale dopo i checkpoint documentali: `10a8b6871f057767a1be6cde52aa40e5bfc14552`; HEAD audit attuale: `60c9e260e4b258544e56e68382082e7c6a97fbb9`.
