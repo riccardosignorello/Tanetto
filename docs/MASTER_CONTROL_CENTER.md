@@ -353,3 +353,17 @@ L'audit master storico stabilisce che prima si completa l'inventario e il piano 
 
 ### Ripartenza
 Primo task: tracciare Billing base e restore/import, verificare `creditPack`, `paidTokens`, `firstPack` e registri monotoni; costruire test riproducibili per reinstallazione, cambio device, restore e retry. In parallelo completare inventario tracking/privacy e i flussi cartolina/Play.
+
+
+## 12. Checkpoint stato e stima — 21/11/2026
+
+- HEAD applicativo verificato: `d0616d8a00e76c6919834306e41e120ad301e823`.
+- HEAD audit verificato: `3f68bfe7bdf194aa5bc05bad87ec32c2e983c20c`.
+- CI run 66 ricontrollata via API: ancora `in_progress`, commit testato `9c3c75910f6ebae8e78c4cac7c607674b6cf05a1`, bloccata allo step `Prove 1.0.11`; non è verde né fallita e non copre l'HEAD corrente.
+- `src/97o_billing.js` letto: confermato il perimetro AUD-011 (dedupe locale max 200 token, consume retry, Plus e regalo mensile locali); nessuna doppia erogazione è stata riprodotta. Plugin Java nativo e test Play reali ancora aperti.
+- `src/97zn_v19_ads.js` letto: rewarded opt-in max 5/die e gate obiettivo; coerenza età/UMP/revoca/plugin nativo da verificare. Timer ricorrente 5s da misurare, non classificato come bug.
+- Percentuale globale ancora **NON CALCOLABILE**: WBS atomica completa, deduplicazione, pesi e stati non sono ancora pronti. Non usare stime storiche ritirate.
+- Stima provvisoria registrata: 160–290 ore equivalenti concentrate (4–8 settimane full-time) per audit, correzioni, QA e release-readiness, esclusi tempi esterni e crescita continuativa. Non è una promessa di calendario; aggiornare dopo WBS completa.
+- Report dettagliato: `docs/PROGRESS_AND_ESTIMATE_2026-11-21.md`.
+- Nessuna modifica applicativa, merge o release in questo blocco.
+
