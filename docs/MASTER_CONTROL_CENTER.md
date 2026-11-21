@@ -376,3 +376,11 @@ Primo task: tracciare Billing base e restore/import, verificare `creditPack`, `p
 - Il registro specialistico è aggiornato sul branch audit; report applicativo aggiornato in `docs/PROGRESS_AND_ESTIMATE_2026-11-21.md`.
 - Prossimo controllo: testare il caso AUD-090, poi analizzare migrazione/ledger completo e i flussi account/import/export. Nessuna patch applicativa.
 
+
+
+## 14. Verifica test economici — 21/11/2026
+
+- Letto `tests/t110/t_b2_money.py`: copre già uno scenario mock di due telefoni e restore dopo acquisto; non duplicare questo caso. Restano da cercare/testare casi token arbitrari importati, oltre 200 token, consume fallito, refund/revoca e concorrenza.
+- Il test non è stato eseguito in questo blocco. La lettura non lo rende VERIFIED.
+- HEAD app verificato prima dell'aggiornamento: `10a8b6871f057767a1be6cde52aa40e5bfc14552`; HEAD audit: `60c9e260e4b258544e56e68382082e7c6a97fbb9`. Report aggiornato in `docs/PROGRESS_AND_ESTIMATE_2026-11-21.md`.
+
