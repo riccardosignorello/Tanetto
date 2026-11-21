@@ -396,3 +396,11 @@ Primo task: tracciare Billing base e restore/import, verificare `creditPack`, `p
 - non autorizza release, merge sull'originale, spese o decisioni riservate al proprietario.
 
 Il documento è una proposta supplementare, non modifica automaticamente lo stato dei task e non certifica alcun avanzamento tecnico. Il MASTER CONTROL CENTER resta la fonte unica per stati e percentuali; il registro audit resta la fonte delle evidenze storiche. Claude deve verificare HEAD e CI correnti prima di usare qualunque SHA o stato riportato nei checkpoint.
+
+
+### Integrazioni alla proposta Claude — 21/11/2026
+- La proposta ora include una mappa esplicita di tutti gli ID AUD esistenti (AUD-001–032 e AUD-034–090; AUD-033 è storicamente assente), verificata meccanicamente sul documento.
+- Aggiunta una WBS preliminare con deliverable per tutte le 14 aree, dipendenze e criteri di uscita; i pesi restano da calibrare e approvare dopo scomposizione atomica.
+- Enumerato il perimetro del branch: 217 elementi in `src/`, 34 elementi in `tests/t110/`, 15 file Java nativi, 2 workflow e 11 elementi in `tools/`. È un conteggio del tree, non attestazione di audit completo.
+- Aggiunte fonti ufficiali da riaprire e verificare: Google Play Families/Ads/Target Audience, Google Play Billing security/integration, Google Play User Data e GDPR su EUR-Lex. Nessuna conclusione di conformità è stata dichiarata.
+- Commit documentale proposta: `147e937435a78dc03bebc6c9770e8258fdca1625`; commit Control Center corrente da verificare nuovamente prima del prossimo blocco.
