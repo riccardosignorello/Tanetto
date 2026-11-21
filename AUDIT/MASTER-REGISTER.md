@@ -1089,3 +1089,16 @@ Audit in sola lettura. Prima di modificare il flusso, verificare il comportament
 
 ### Punto di ripartenza
 Continuare l'audit dei moduli funzionali (viaggi, giochi, eventi, album, progressi, shop) e verificare i flussi di condivisione associati; nessuna patch applicativa prima della chiusura dell'inventario e del piano coordinato.
+
+
+## AUD-090 — Import economico: token arbitrari aumentano il tetto dei Tanì
+
+- **Area:** ECON / SEC / import-export
+- **Stato:** comportamento statico confermato; sfruttabilità e impatto pratico da riprodurre su runtime. Non equivale a una frode Play dimostrata.
+- **Gravità provvisoria:** Media (integrità dell'economia locale; rivalutare in base a premi trasferibili e modello server).
+- **Evidenza:** `src/98x_v20_secure.js`, funzioni `secStrict()` e `secSanitizeImport()`; costante `SEC_PACK_NEW = 4000`. Per import non firmati, `secStrict()` conta token distinti non vuoti in `o.paidTokens` che non sono presenti sul dispositivo corrente e concede fino a 10 token × 4.000 Tanì di capacità aggiuntiva, senza verificare che i token siano purchase token autentici o siano stati acquistati da Google Play. La successiva `econSanitize()` in `src/98e_v20_econ.js` usa anch'essa il solo conteggio di stringhe in `paidTokens` per il limite, ma il valore seeds è già stato limitato da `secStrict()`.
+- **Riproduzione statica da trasformare in test:** preparare un export non firmato con 10 stringhe arbitrarie distinte in `paidTokens` e un saldo molto elevato; importarlo su un dispositivo senza quei token. Verificare che il sanitizzatore ammetta fino a 40.000 Tanì aggiuntivi (oltre al budget attività/oggetti) rispetto a una copia identica senza token.
+- **Conseguenza:** il controllo anti-manomissione per import non firmati può essere aggirato entro un tetto noto, senza prova d'acquisto. Non dimostra accesso a prodotti Play, denaro o dati di altri utenti; è una debolezza della plausibility guard locale.
+- **Correzione da progettare:** non trattare stringhe importate come prova di acquisto. Valutare ledger server verificabile o, nell'architettura offline, un meccanismo di migrazione che preservi gli acquisti senza concedere crediti arbitrari; non rimuovere il margine prima di una strategia anti-perdita dati.
+- **Dipendenze/test:** test unitario su 0/1/10/11 token, duplicati, token già presenti sul dispositivo, backup firmato/non firmato, restore cloud, oltre 200 token, acquisto reale e consumo fallito. Verificare anche che il fix non azzeri i pacchetti legittimi al cambio dispositivo.
+
