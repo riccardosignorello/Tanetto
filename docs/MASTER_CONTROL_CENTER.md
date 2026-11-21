@@ -367,3 +367,12 @@ Primo task: tracciare Billing base e restore/import, verificare `creditPack`, `p
 - Report dettagliato: `docs/PROGRESS_AND_ESTIMATE_2026-11-21.md`.
 - Nessuna modifica applicativa, merge o release in questo blocco.
 
+
+
+## 13. Integrazione audit Billing/import — 21/11/2026
+
+- Individuato e letto il plugin nativo corretto: `app-android/android/app/src/main/java/com/tanettoapp/tanetto/BillingPlugin.java` (BillingClient, owned queries, acknowledge, consume, pending/tardivi). La deduplicazione e il ledger non sono server-side nel plugin; la logica resta in JS e nello stato locale/backup. AUD-011 resta aperto.
+- Letti `src/98x_v20_secure.js` e `src/98e_v20_econ.js`: aggiunto AUD-090 nel registro audit. Il sanitizzatore di import non firmati concede fino a 10 × 4.000 Tanì di tetto aggiuntivo contando stringhe arbitrarie in `paidTokens`; comportamento statico confermato, riproduzione runtime/impatti da verificare. Gravità provvisoria Media; non è prova di frode Play.
+- Il registro specialistico è aggiornato sul branch audit; report applicativo aggiornato in `docs/PROGRESS_AND_ESTIMATE_2026-11-21.md`.
+- Prossimo controllo: testare il caso AUD-090, poi analizzare migrazione/ledger completo e i flussi account/import/export. Nessuna patch applicativa.
+
