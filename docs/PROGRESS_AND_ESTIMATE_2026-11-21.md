@@ -90,3 +90,22 @@ Traduzione prudente: **circa 4–8 settimane di lavoro equivalente full-time** p
 3. Verificare flusso età/consenso/rewarded tra JS e Java.
 4. Chiudere account, backup, cancellazione, import/export e referral.
 5. Completare inventario delle feature e deduplicare tutti gli AUD nel WBS operativo.
+
+
+## Aggiornamento successivo — plugin nativo Billing e import economy
+
+### Plugin nativo letto: `app-android/android/app/src/main/java/com/tanettoapp/tanetto/BillingPlugin.java`
+- Implementa Google Play BillingClient, `enablePendingPurchases` per one-time products e auto service reconnection.
+- `purchaseJson()` restituisce prodotti, purchase token, orderId, stato purchased/pending/unknown, acknowledged, autoRenewing, time e quantity.
+- `owned()` usa `queryPurchasesAsync` per SUBS o INAPP e restituisce solo gli acquisti restituiti da Google Play.
+- `acknowledge()` e `consume()` delegano correttamente le operazioni al BillingClient e propagano gli errori.
+- Il plugin non implementa un ledger persistente/server-side: la deduplicazione e l'accredito restano nel JS e nello stato locale/backup. Questo conferma che AUD-011 va affrontato end-to-end, non con una patch isolata al plugin.
+- `onPurchasesUpdated()` inoltra gli acquisti tardivi via listener quando non c'è una chiamata di acquisto attiva; la gestione JS li passa a `handlePurchases()`.
+- La lettura statica non verifica Play Console, ordini reali, refund/revoche, né comportamento su device.
+
+### Nuovo finding AUD-090
+- In `src/98x_v20_secure.js`, `secStrict()` usa fino a 10 stringhe arbitrarie importate in `paidTokens` come sostituto di pacchetti acquistati su un dispositivo nuovo: ogni token distinto non presente sul device contribuisce `SEC_PACK_NEW = 4000` al tetto di Tanì. Non viene verificato che tali stringhe siano purchase token autentici.
+- Il comportamento è confermato dal codice; la riproduzione runtime e la valutazione d'impatto restano aperte. È registrato come AUD-090, gravità provvisoria Media, non come frode Play dimostrata.
+- Fix: preservare acquisti legittimi cross-device senza usare stringhe arbitrarie come attestazione; valutare ledger verificabile e test anti-perdita dati.
+
+Nessuna patch applicativa eseguita.
