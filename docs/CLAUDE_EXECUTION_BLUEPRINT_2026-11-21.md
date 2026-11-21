@@ -155,15 +155,14 @@ Questa è una mappa di lavoro, non una riclassificazione automatica dei finding.
 
 | Epic | Finding collegati |
 |---|---|
-| Governance, CI, supply chain, release | AUD-002, 005, 007–009, 015, 020, 024, 046, 051, 055–056, 063–064, 076, 082–083 |
-| Età, ads, minori, consenso e condivisione | AUD-001, 006, 012, 014, 023, 041, 052–053, 069, 071, 074, 089 |
-| Privacy, backup, import/export, account deletion | AUD-016–019, 029, 035–037, 039–040, 042–044, 065–068, 085 |
-| Economia, Billing, premi e restore | AUD-011, 030–032, 034–036, 040, 059, 070, 090 |
-| Referral, clock e anti-abuso | AUD-003, 013, 021–022, 038–039, 054, 078, 081, 084–085 |
-| Android plugin, notifiche e UX nativa | AUD-034, 052–054, 077–081, 086–088 |
-| UX, accessibilità, localizzazione, performance, safety | AUD-025–028, 057, 060–062, 072–073 |
-| Web, SEO, contenuti, brand e growth | AUD-010, 045, 047–050, 061–062, 078 |
-| Growth/economia/privacy commerciale | GROW-002–008; integrare AUD-014, 023, 028, 044, 049–050, 060, 062, 065–069 |
+| Governance, CI, supply chain, release | AUD-002, AUD-004, AUD-005, AUD-007, AUD-008, AUD-009, AUD-015, AUD-020, AUD-024, AUD-046, AUD-051, AUD-055, AUD-056, AUD-063, AUD-064, AUD-076, AUD-082, AUD-083 |
+| Età, ads, minori, consenso e condivisione | AUD-001, AUD-006, AUD-012, AUD-014, AUD-023, AUD-041, AUD-052, AUD-053, AUD-069, AUD-071, AUD-074, AUD-089 |
+| Privacy, backup, import/export, account deletion | AUD-016, AUD-017, AUD-018, AUD-019, AUD-029, AUD-035, AUD-036, AUD-037, AUD-039, AUD-040, AUD-042, AUD-043, AUD-044, AUD-065, AUD-066, AUD-067, AUD-068, AUD-085 |
+| Economia, Billing, premi e restore | AUD-011, AUD-030, AUD-031, AUD-032, AUD-034, AUD-035, AUD-036, AUD-040, AUD-059, AUD-070, AUD-090 |
+| Referral, clock e anti-abuso | AUD-003, AUD-013, AUD-021, AUD-022, AUD-038, AUD-039, AUD-054, AUD-078, AUD-081, AUD-084, AUD-085 |
+| Android plugin, notifiche e UX nativa | AUD-034, AUD-052, AUD-053, AUD-054, AUD-077, AUD-078, AUD-079, AUD-080, AUD-081, AUD-086, AUD-087, AUD-088 |
+| UX, accessibilità, localizzazione, performance, safety | AUD-025, AUD-026, AUD-027, AUD-028, AUD-057, AUD-058, AUD-060, AUD-061, AUD-062, AUD-072, AUD-073, AUD-075 |
+| Web, SEO, contenuti, brand e growth | AUD-010, AUD-045, AUD-047, AUD-048, AUD-049, AUD-050, AUD-061, AUD-062 |
 
 Controllo di copertura obbligatorio: ogni ID da AUD-001 a AUD-090, inclusa l'assenza storica di AUD-033 e il nuovo AUD-090, deve essere esplicitamente classificato come aperto, risolto e verificato, smentito, duplicato/accorpato, deferred o bloccato. Nessun ID scompare dal registro.
 
@@ -238,3 +237,18 @@ La proposta dell'assistente è di usare Claude non come semplice revisore che pr
 La velocità si ottiene eliminando ripetizioni, accorpando cause comuni e lavorando in blocchi coerenti; **non** abbassando la qualità dei test, saltando le verifiche esterne o dichiarando risolto ciò che non è stato provato.
 
 Il risultato atteso non è “molti commit” né “100% dichiarato”: è un prodotto coerente, affidabile, sicuro, comprensibile, sostenibile e realmente pronto per la milestone di rilascio autorizzata.
+
+
+## 12. Baseline repository enumerata — 21/11/2026
+
+Enumerazione GitHub del branch applicativo dopo il checkpoint documentale di questa proposta:
+- `src/`: 217 elementi (sorgenti HTML/CSS/JS, localizzazioni e moduli applicativi).
+- `tests/t110/`: 34 file tra suite Python/JS, helper e script di esecuzione.
+- Plugin nativi Android: 15 file Java.
+- `.github/workflows/`: 2 workflow (`android.yml`, `tests.yml`).
+- `tools/`: 11 elementi di tooling e sottocartelle.
+- Il conteggio è una fotografia del tree, non prova che tutti i file siano stati letti o verificati.
+- La suite contiene aree esplicite per safety/crisi, minori, denaro, accessibilità, prodotto, performance, legal/native, sito, plugin e regole; Claude deve mappare ogni test al requisito che copre e identificare i gap senza duplicare test esistenti.
+- File e dimensioni possono cambiare: rifare l'enumerazione sul commit esatto di lavoro.
+
+Questa enumerazione rende più chiaro il perimetro, ma **non autorizza a dichiarare completato l'audit teorico**: restano da completare la lettura mirata dei moduli non coperti, la matrice feature→test→finding, la validazione delle fonti esterne e le decisioni del proprietario.
